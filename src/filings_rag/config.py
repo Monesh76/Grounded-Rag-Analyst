@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     sec_timeout_seconds: float = Field(default=30.0, gt=0)
     filings_per_company: int = Field(default=3, ge=1)
 
+    # --- Chunking (P2) ---
+    chunk_min_tokens: int = Field(default=500, gt=0)
+    chunk_max_tokens: int = Field(default=800, gt=0)
+    chunk_overlap_ratio: float = Field(default=0.15, ge=0, lt=1)
+
     data_dir: Path = Path("data")
 
     @property

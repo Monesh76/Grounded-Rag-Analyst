@@ -38,6 +38,21 @@ class ParsedFiling(BaseModel):
     sections: list[Section]
 
 
+class Chunk(BaseModel):
+    # Deterministic id (ticker_fiscalyear_item_index), e.g. "AAPL_2025_7_3": makes
+    # citations self-describing and re-running the loader idempotent (upsert by id).
+    id: str
+    doc_id: str  # accession number of the filing this chunk came from
+    ticker: str
+    company: str
+    fiscal_year: int
+    item: str
+    section_title: str
+    page: int  # approximate: the page the section started on, not this chunk specifically
+    chunk_index: int
+    text: str
+
+
 class ManifestEntry(FilingRef):
     raw_path: str
     sha256: str  # hash of the raw HTML, so a re-download can be checked against it
