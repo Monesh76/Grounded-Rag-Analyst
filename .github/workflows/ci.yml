@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      # Same image as docker-compose.yml so CI matches local runs.
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: filings
+          POSTGRES_PASSWORD: filings
+          POSTGRES_DB: filings
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U filings -d filings"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://filings:filings@localhost:5432/filings
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install Python 3.12 and dependencies
+        run: |
+          uv python install 3.12
+          uv sync --locked
+
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test
