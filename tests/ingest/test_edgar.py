@@ -7,12 +7,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from filings_rag.ingest.edgar import (
-    EdgarClient,
-    RateLimiter,
-    latest_per_fiscal_year,
-    parse_10k_rows,
-)
+from filings_rag.ingest.edgar import EdgarClient, latest_per_fiscal_year, parse_10k_rows
 from filings_rag.ingest.models import Company
 
 USER_AGENT = "FilingsRAG Test test@example.com"
@@ -52,27 +47,10 @@ def make_client(
     )
 
 
-# --- rate limiter ---
-
-
-def test_rate_limiter_spaces_calls() -> None:
-    clock = FakeClock()
-    limiter = RateLimiter(max_per_second=8, clock=clock, sleep=clock.sleep)
-    for _ in range(3):
-        limiter.wait()
-    assert clock.sleeps == [pytest.approx(0.125), pytest.approx(0.125)]
-
-
-def test_rate_limiter_does_not_sleep_when_calls_are_slow() -> None:
-    clock = FakeClock()
-    limiter = RateLimiter(max_per_second=8, clock=clock, sleep=clock.sleep)
-    limiter.wait()
-    clock.now += 1.0  # plenty of time passes between requests
-    limiter.wait()
-    assert clock.sleeps == []
-
-
 # --- client setup and HTTP behavior ---
+# (RateLimiter and the retry loop itself are tested directly in test_http_retry.py;
+# the tests below cover EdgarClient's own logic: filing selection, caching, and that
+# it actually uses the shared retry helper end to end.)
 
 
 @pytest.mark.parametrize("user_agent", [None, "", "FilingsRAG no-email"])

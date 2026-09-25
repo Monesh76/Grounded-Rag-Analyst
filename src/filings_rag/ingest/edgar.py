@@ -15,40 +15,11 @@ from typing import Any
 import httpx
 
 from filings_rag.config import Settings
+from filings_rag.http_retry import RateLimiter, request_with_retry
 from filings_rag.ingest.models import Company, FilingRef
 
 SUBMISSIONS_BASE = "https://data.sec.gov/submissions/"
 ARCHIVES_BASE = "https://www.sec.gov/Archives/edgar/data/"
-
-# 429 = too many requests, 5xx = server trouble. Both are usually temporary.
-RETRYABLE_STATUS = {429, 500, 502, 503, 504}
-
-
-class RateLimiter:
-    """Ensures at least 1/max_per_second seconds between calls to `wait()`.
-
-    A fixed gap between requests is enough here because we download one file at a
-    time; a token bucket would only matter if we allowed bursts or concurrency.
-    `clock` and `sleep` are injectable so tests can use a fake clock.
-    """
-
-    def __init__(
-        self,
-        max_per_second: float,
-        clock: Callable[[], float] = time.monotonic,
-        sleep: Callable[[float], None] = time.sleep,
-    ) -> None:
-        self._interval = 1.0 / max_per_second
-        self._clock = clock
-        self._sleep = sleep
-        self._next_allowed = float("-inf")
-
-    def wait(self) -> None:
-        now = self._clock()
-        if now < self._next_allowed:
-            self._sleep(self._next_allowed - now)
-            now = self._next_allowed
-        self._next_allowed = now + self._interval
 
 
 class EdgarClient:
@@ -141,30 +112,19 @@ class EdgarClient:
     # --- internals ---
 
     def _get(self, url: str) -> httpx.Response:
-        """GET with rate limiting and retries (exponential backoff: 1s, 2s, 4s, ...)."""
-        for attempt in range(self._max_attempts):
-            is_last = attempt == self._max_attempts - 1
-            self._limiter.wait()
-            try:
-                response = self._http.get(url)
-            except httpx.TransportError:  # timeouts, dropped connections
-                if is_last:
-                    raise
-                self._sleep(self._backoff_seconds * 2**attempt)
-                continue
-            if response.status_code in RETRYABLE_STATUS and not is_last:
-                self._sleep(self._retry_delay(response, attempt))
-                continue
-            response.raise_for_status()  # 404 etc. aren't retried: they won't fix themselves
-            return response
-        raise AssertionError("unreachable")
+        """GET with rate limiting and retries (exponential backoff: 1s, 2s, 4s, ...).
 
-    def _retry_delay(self, response: httpx.Response, attempt: int) -> float:
-        # If SEC says how long to wait, do that; otherwise back off exponentially.
-        retry_after = response.headers.get("Retry-After", "")
-        if retry_after.isdigit():
-            return float(retry_after)
-        return self._backoff_seconds * 2**attempt
+        The rate-limit wait happens inside `send`, so it applies before every
+        attempt, retries included -- a retry is still a request SEC has to serve.
+        """
+
+        def send() -> httpx.Response:
+            self._limiter.wait()
+            return self._http.get(url)
+
+        return request_with_retry(
+            send, self._max_attempts, self._backoff_seconds, sleep=self._sleep
+        )
 
 
 def parse_10k_rows(table: dict[str, list[Any]], company: Company) -> list[FilingRef]:
