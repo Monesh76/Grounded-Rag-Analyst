@@ -93,3 +93,41 @@ def test_name_fallback_requires_short_block() -> None:
 
 def test_no_headings_returns_empty_list() -> None:
     assert parse_filing_html("<html><body><p>Nothing relevant here.</p></body></html>") == []
+
+
+def test_heading_inside_single_row_layout_table_is_detected() -> None:
+    # Real-world case (seen in Amazon's 10-K): the heading itself is a table used
+    # purely for two-column layout, not a data table -- one content row, "Item 7."
+    # in one cell and the title in the other, plus an empty spacer row for widths.
+    html = """
+    <html><body>
+    <table><tr><td></td><td></td></tr></table>
+    <table>
+      <tr><td style="width:1%"></td><td style="width:9%"></td></tr>
+      <tr><td>Item&#160;7.</td><td>Management's Discussion and Analysis</td></tr>
+    </table>
+    <p>Revenue grew 11% year over year.</p>
+    </body></html>
+    """
+    sections = parse_filing_html(html)
+    assert len(sections) == 1
+    assert sections[0].item == "7"
+    assert "Revenue grew 11%" in sections[0].text
+
+
+def test_multi_row_table_with_item_like_rows_is_not_treated_as_headings() -> None:
+    # A table-of-contents built as a real <table> (not the fixture's cover page) with
+    # one row per item must stay data, not spawn a "heading" per row.
+    html = """
+    <html><body>
+    <table>
+      <tr><td>Item 1.</td><td>Business</td><td>3</td></tr>
+      <tr><td>Item 1A.</td><td>Risk Factors</td><td>5</td></tr>
+    </table>
+    <p>Item 1. Business</p>
+    <p>We build things.</p>
+    </body></html>
+    """
+    sections = parse_filing_html(html)
+    assert [s.item for s in sections] == ["1"]
+    assert "3" not in sections[0].text

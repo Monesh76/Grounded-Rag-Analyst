@@ -14,11 +14,16 @@ are not treated as headings -- see `_match_heading` for why.
 """
 
 import re
+import warnings
 from dataclasses import dataclass, field
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Tag, XMLParsedAsHTMLWarning
 
 from filings_rag.ingest.models import Section
+
+# Real 10-Ks often carry an XML/iXBRL prolog even though the document is genuine
+# (X)HTML we want parsed as HTML; bs4's heuristic mistakes that for a pure-XML file.
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 # Elements whose own text we might treat as one block. A tag only becomes a leaf
 # block if it has no *nested* tag from this set -- otherwise its child owns the text,
@@ -121,9 +126,18 @@ def _extract_blocks(soup: BeautifulSoup) -> list[_Block]:
             page += 1
 
         if el.name == "table":
-            text = _table_to_markdown(el)
-            if text:
-                blocks.append(_Block(text=text, page=page, is_table=True))
+            rows = _table_rows(el)
+            single_row_text = " ".join(rows[0]) if len(rows) == 1 else None
+            # Many filers lay out real headings as a one-row, two-cell table --
+            # "Item 7." in one cell, the title in the other -- rather than a <p>/<div>.
+            # Only treat a table as a heading candidate when it has exactly one
+            # content row (after dropping empty spacer cells); a multi-row table is
+            # always data (this is what keeps the table of contents from matching,
+            # since it has one row per item).
+            if single_row_text and _match_heading(single_row_text):
+                blocks.append(_Block(text=single_row_text, page=page))
+            elif rows:
+                blocks.append(_Block(text=_rows_to_markdown(rows), page=page, is_table=True))
         elif el.name in BLOCK_TAGS and not el.find(BLOCK_TAGS + ("table",)):
             text = el.get_text(" ", strip=True)
             if text:
@@ -134,20 +148,27 @@ def _extract_blocks(soup: BeautifulSoup) -> list[_Block]:
     return blocks
 
 
-def _table_to_markdown(table: Tag) -> str:
-    """Render a table as pipe-separated rows.
-
-    This is deliberately lossy (empty spacer cells, common in 10-K tables, are
-    dropped, so columns don't line up like a strict grid) -- good enough to give
-    an LLM the numbers in context, not meant for programmatic column math.
-    """
+def _table_rows(table: Tag) -> list[list[str]]:
+    """Return each row's non-empty cell texts. Empty spacer cells (common in 10-K
+    tables, used only to set column widths) are dropped, so a row that's purely
+    layout comes back as an empty list and doesn't count as content."""
     rows = []
     for tr in table.find_all("tr"):
         cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
         cells = [c for c in cells if c]
         if cells:
-            rows.append("| " + " | ".join(cells) + " |")
-    return "\n".join(rows)
+            rows.append(cells)
+    return rows
+
+
+def _rows_to_markdown(rows: list[list[str]]) -> str:
+    """Render table rows as pipe-separated lines.
+
+    This is deliberately lossy (columns don't line up like a strict grid) --
+    good enough to give an LLM the numbers in context, not meant for
+    programmatic column math.
+    """
+    return "\n".join("| " + " | ".join(row) + " |" for row in rows)
 
 
 def _match_heading(text: str) -> tuple[str, str] | None:

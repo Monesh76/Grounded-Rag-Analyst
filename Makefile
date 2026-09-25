@@ -1,4 +1,4 @@
-.PHONY: setup test lint format
+.PHONY: setup test lint format ingest
 
 setup:  ## Install Python 3.12 + all deps into .venv
 	uv sync
@@ -13,3 +13,6 @@ lint:  ## Lint and check formatting (no changes)
 format:  ## Auto-fix lint issues and format code
 	uv run ruff check --fix .
 	uv run ruff format .
+
+ingest:  ## Download + parse the 10 companies' 10-Ks (needs SEC_USER_AGENT in .env)
+	uv run python -m filings_rag.ingest

@@ -1,8 +1,9 @@
 # Secrets
 .env
 
-# Raw SEC filings (large, re-downloadable)
+# Raw SEC filings and parsed output (large, reproducible via `make ingest`)
 data/raw/
+data/parsed/
 
 # Python
 .venv/
