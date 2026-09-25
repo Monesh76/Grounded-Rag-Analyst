@@ -38,6 +38,24 @@ class Settings(BaseSettings):
     chunk_max_tokens: int = Field(default=800, gt=0)
     chunk_overlap_ratio: float = Field(default=0.15, ge=0, lt=1)
 
+    # --- Embedding (P2) ---
+    # Hosted: Voyage AI. Chosen as Anthropic's recommended embedding partner, with a
+    # finance-tuned model that fits this project's domain.
+    voyage_api_key: str | None = None
+    voyage_model: str = "voyage-finance-2"
+    # PLACEHOLDER -- verify against https://docs.voyageai.com/docs/pricing before
+    # trusting the cost estimate `make load` prints; pricing changes over time.
+    voyage_price_per_million_tokens: float = 0.12
+    voyage_batch_size: int = Field(default=100, gt=0)
+    voyage_max_requests_per_second: float = Field(default=4.0, gt=0)
+    voyage_max_attempts: int = Field(default=4, ge=1)
+    voyage_backoff_seconds: float = Field(default=1.0, ge=0)
+    voyage_timeout_seconds: float = Field(default=60.0, gt=0)
+
+    # Local: sentence-transformers, runs on CPU, no API cost.
+    local_embedding_model: str = "BAAI/bge-small-en-v1.5"
+    local_embedding_batch_size: int = Field(default=32, gt=0)
+
     data_dir: Path = Path("data")
 
     @property
