@@ -6,6 +6,9 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "pydantic-settings>=2.4",
     "psycopg[binary]>=3.2",
+    "httpx>=0.28.1",
+    "beautifulsoup4>=4.15.0",
+    "lxml>=6.1.3",
 ]
 
 [dependency-groups]
@@ -31,7 +34,7 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra --strict-markers"
+addopts = "-ra --strict-markers --import-mode=importlib"
 markers = [
     "integration: needs a running Postgres (docker compose up -d db)",
 ]
