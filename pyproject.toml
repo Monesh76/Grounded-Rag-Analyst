@@ -46,6 +46,9 @@ extend-immutable-calls = ["fastapi.Depends"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers --import-mode=importlib"
+# evals/ lives at the repo root (alongside src/), not inside the installed
+# package, so it isn't importable without this: tests exercise it directly.
+pythonpath = ["."]
 markers = [
     "integration: needs a running Postgres (docker compose up -d db)",
 ]
