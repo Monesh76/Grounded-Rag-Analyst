@@ -131,3 +131,64 @@ def test_multi_row_table_with_item_like_rows_is_not_treated_as_headings() -> Non
     sections = parse_filing_html(html)
     assert [s.item for s in sections] == ["1"]
     assert "3" not in sections[0].text
+
+
+def test_running_header_repeat_is_a_continuation_not_a_new_section() -> None:
+    # Real-world case (seen in Bank of America's and Goldman Sachs' 10-Ks): the
+    # section heading repeats as a running header on every page of a long
+    # section. Without treating a same-item repeat as a continuation, each page
+    # restarts a fresh section and the keep-the-longest dedup would discard all
+    # but a single page's worth of the real content.
+    html = """
+    <html><body>
+    <p>Item 7. Management's Discussion and Analysis</p>
+    <p>Page one content about revenue growth.</p>
+    <p>Item 7. Management's Discussion and Analysis</p>
+    <p>Page two content about operating expenses.</p>
+    <p>Item 7. Management's Discussion and Analysis</p>
+    <p>Page three content about liquidity.</p>
+    <p>Item 8. Financial Statements</p>
+    <p>See accompanying statements.</p>
+    </body></html>
+    """
+    sections = parse_filing_html(html)
+    item_7 = by_item(sections, "7")
+    assert "revenue growth" in item_7.text
+    assert "operating expenses" in item_7.text
+    assert "liquidity" in item_7.text
+    # The repeated header itself shouldn't leak into the body text.
+    assert item_7.text.count("Management's Discussion and Analysis") == 0
+
+
+def test_long_canonical_title_matches_via_fallback_without_item_prefix() -> None:
+    # Real-world case: a heading using the full canonical title with no "Item 7"
+    # prefix at all (distinct from the short-name fallback already covered
+    # elsewhere in this file).
+    html = (
+        "<html><body>"
+        "<p>Management's Discussion and Analysis of Financial Condition "
+        "and Results of Operations</p>"
+        "<p>Revenue increased due to strong demand.</p>"
+        "</body></html>"
+    )
+    sections = parse_filing_html(html)
+    assert len(sections) == 1
+    assert sections[0].item == "7"
+    assert "Revenue increased" in sections[0].text
+
+
+def test_short_name_fallback_does_not_match_an_unrelated_subsection() -> None:
+    # Real-world case: Bank of America's MD&A has a subsection literally titled
+    # "Business Segment Operations" -- must not be mistaken for Item 1 (whose
+    # fallback name is just "Business") since it's a different topic entirely.
+    html = (
+        "<html><body>"
+        "<p>Item 1. Business</p>"
+        "<p>We design, manufacture and sell products.</p>"
+        "<p>Business Segment Operations</p>"
+        "<p>This subsection is about internal segment reporting, not Item 1.</p>"
+        "</body></html>"
+    )
+    sections = parse_filing_html(html)
+    assert [s.item for s in sections] == ["1"]
+    assert "internal segment reporting" in sections[0].text  # fell through as body

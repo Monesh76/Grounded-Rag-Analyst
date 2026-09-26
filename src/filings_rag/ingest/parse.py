@@ -65,6 +65,7 @@ _CANONICAL_TITLES = {item: title for _, item, title in _KNOWN_SECTIONS}
 # Only treated as a heading if short -- a real name-only heading is just a few words,
 # not a full sentence that happens to start with those words.
 _MAX_FALLBACK_HEADING_LENGTH = 100
+_STARTSWITH_SAFE_MIN_LENGTH = 20
 
 _PAGE_BREAK_BEFORE_RE = re.compile(r"page-break-before\s*:\s*always", re.IGNORECASE)
 _PAGE_BREAK_AFTER_RE = re.compile(r"page-break-after\s*:\s*always", re.IGNORECASE)
@@ -82,6 +83,7 @@ class _RawSection:
     item: str
     title: str
     page: int
+    heading_text: str  # the raw block text that started this section
     body_parts: list[str] = field(default_factory=list)
 
     @property
@@ -102,11 +104,26 @@ def parse_filing_html(html: str | bytes) -> list[Section]:
     raw_by_item: dict[str, list[_RawSection]] = {}
     current: _RawSection | None = None
     for block in blocks:
-        heading = None if block.is_table else _match_heading(block.text)
+        heading_text = block.text.strip()
+        heading = None if block.is_table else _match_heading(heading_text)
         if heading:
+            if current is not None and current.heading_text == heading_text:
+                # A running header repeating verbatim on every page of a long
+                # section (seen in Bank of America's and Goldman Sachs' filings)
+                # -- without this check, each page would restart a fresh section,
+                # fragmenting one long section into many one-page ones, of which
+                # the keep-the-longest dedup below would only keep a single page.
+                # Matched on the exact heading text, not just the item number: a
+                # short cross-reference stub followed by the real content under a
+                # *differently worded* heading for the same item (PLAN.md's other
+                # bank-filing case) must still be treated as separate candidates.
+                continue
             item, title = heading
             current = _RawSection(
-                item=item, title=title or _CANONICAL_TITLES.get(item, ""), page=block.page
+                item=item,
+                title=title or _CANONICAL_TITLES.get(item, ""),
+                page=block.page,
+                heading_text=heading_text,
             )
             raw_by_item.setdefault(item, []).append(current)
         elif current is not None:
@@ -181,6 +198,17 @@ def _match_heading(text: str) -> tuple[str, str] | None:
         normalized = _normalize(text)
         for name, item, title in _KNOWN_SECTIONS:
             if normalized == name:
+                return item, title
+            # A long, distinctive name (the full canonical title, roughly) is
+            # also matched as a prefix -- a real filer's block is sometimes the
+            # short name alone ("Risk Factors") and sometimes the full title
+            # ("...Discussion and Analysis of Financial Condition and Results of
+            # Operations"). A short, generic name (e.g. "business") stays
+            # exact-match only: prefix-matching it risks misfiring on an
+            # unrelated subsection that happens to start with the same common
+            # word (seen for real: Bank of America has an MD&A subsection
+            # literally titled "Business Segment Operations").
+            if len(name) >= _STARTSWITH_SAFE_MIN_LENGTH and normalized.startswith(name):
                 return item, title
 
     return None
