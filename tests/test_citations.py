@@ -1,4 +1,4 @@
-from filings_rag.generate.citations import validate_citations
+from filings_rag.generate.citations import find_citation_ids, validate_citations
 from filings_rag.retrieve.models import RetrievalResult
 
 
@@ -58,6 +58,15 @@ def test_no_citations_returns_text_unchanged_and_no_sources() -> None:
     assert result.text == "Not found in the filings."
     assert result.sources == []
     assert result.has_invalid_citations is False
+
+
+def test_find_citation_ids_returns_all_ids_including_duplicates_and_invalid() -> None:
+    text = "[c:a] then [c:b] then [c:a] again, and [c:fake]"
+    assert find_citation_ids(text) == ["a", "b", "a", "fake"]
+
+
+def test_find_citation_ids_empty_for_no_citations() -> None:
+    assert find_citation_ids("Not found in the filings.") == []
 
 
 def test_source_carries_full_chunk_metadata() -> None:

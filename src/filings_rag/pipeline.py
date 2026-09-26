@@ -1,10 +1,16 @@
 """ask(question, settings) -> Answer: retrieve, gate on evidence quality,
 generate with citations, validate, return. The one entry point the API (and
-the eval harness, later) calls -- nothing downstream duplicates this logic.
+the eval harness) calls -- nothing downstream duplicates this logic.
+
+ask() is a thin wrapper over ask_detailed(), which also returns what was
+retrieved and the LLM's raw (pre-validation) text -- the API doesn't need
+those, but the eval harness does, to measure Recall@k/MRR against retrieval
+and citation precision against the model's *unvalidated* output.
 """
 
 import time
 from collections.abc import Callable
+from dataclasses import dataclass
 
 from filings_rag.config import Settings
 from filings_rag.db import get_connection
@@ -18,12 +24,29 @@ from filings_rag.retrieve.rerank import Reranker
 from filings_rag.retrieve.search import search
 
 
+@dataclass
+class AskResult:
+    answer: Answer
+    retrieved: list[RetrievalResult]  # empty if the evidence gate refused first
+    raw_answer_text: str | None  # the LLM's own text before citation validation;
+    # None if the LLM was never called (evidence gate refused)
+
+
 def ask(
     question: str,
     settings: Settings,
     llm: LLMProvider | None = None,
     retrieve: Callable[[str], list[RetrievalResult]] | None = None,
 ) -> Answer:
+    return ask_detailed(question, settings, llm=llm, retrieve=retrieve).answer
+
+
+def ask_detailed(
+    question: str,
+    settings: Settings,
+    llm: LLMProvider | None = None,
+    retrieve: Callable[[str], list[RetrievalResult]] | None = None,
+) -> AskResult:
     """`llm` and `retrieve` are injectable for testing (a fake LLM, a fake
     retrieval function returning canned chunks) -- each defaults to the real
     thing built from `settings` when not given."""
@@ -45,7 +68,7 @@ def ask(
         # is too weak to plausibly answer -- deterministic, and saves the cost of
         # a call that would likely need to refuse anyway.
         if not results or results[0].score < settings.evidence_gate_threshold:
-            return _refusal(settings, start)
+            return AskResult(answer=_refusal(settings, start), retrieved=[], raw_answer_text=None)
 
         system = build_system_prompt(settings.refusal_text)
         user = build_user_message(question, results)
@@ -63,12 +86,13 @@ def ask(
         # lack of any citations should still mark it ungrounded.
         text = response.text.strip()
         if text.startswith(settings.refusal_text):
-            return _refusal(
+            refusal = _refusal(
                 settings,
                 start,
                 tokens=response.input_tokens + response.output_tokens,
                 cost_usd=response.cost_usd,
             )
+            return AskResult(answer=refusal, retrieved=results, raw_answer_text=response.text)
 
         citations = validate_citations(response.text, results)
         # Conservative: a model that cited even one fabricated id is treated as
@@ -78,7 +102,7 @@ def ask(
         # claim is also not grounded.
         grounded = not citations.has_invalid_citations and bool(citations.sources)
 
-        return Answer(
+        answer = Answer(
             answer=citations.text,
             sources=citations.sources,
             grounded=grounded,
@@ -86,6 +110,7 @@ def ask(
             tokens=response.input_tokens + response.output_tokens,
             cost_usd=response.cost_usd,
         )
+        return AskResult(answer=answer, retrieved=results, raw_answer_text=response.text)
     finally:
         if owns_conn and conn is not None:
             conn.close()

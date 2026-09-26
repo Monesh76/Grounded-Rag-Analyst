@@ -4,7 +4,7 @@ canned function, so no DB, embedder, reranker or real LLM is ever touched.
 
 from filings_rag.config import get_settings
 from filings_rag.generate.models import LLMResponse
-from filings_rag.pipeline import ask
+from filings_rag.pipeline import ask, ask_detailed
 from filings_rag.retrieve.models import RetrievalResult
 
 
@@ -155,3 +155,39 @@ def test_passes_question_and_chunk_context_to_the_llm() -> None:
     assert "Not found in the filings." in system
     assert "What was Apple's revenue?" in user
     assert "[c:AAPL_2024_7_0]" in user
+
+
+def test_ask_detailed_exposes_retrieved_chunks_and_raw_llm_text() -> None:
+    results = [chunk("AAPL_2024_7_0")]
+    llm = FakeLLMProvider("An answer [c:AAPL_2024_7_0] and [c:fabricated].")
+
+    result = ask_detailed("q", settings_with(), llm=llm, retrieve=lambda q: results)
+
+    assert result.retrieved == results
+    assert result.raw_answer_text == "An answer [c:AAPL_2024_7_0] and [c:fabricated]."
+    # The final Answer is still validated (fabricated citation stripped):
+    assert "[c:fabricated]" not in result.answer.answer
+    assert result.answer.grounded is False
+
+
+def test_ask_detailed_has_no_retrieved_or_raw_text_when_evidence_gate_refuses() -> None:
+    llm = FakeLLMProvider("should never be called")
+
+    result = ask_detailed("q", settings_with(), llm=llm, retrieve=lambda q: [])
+
+    assert result.retrieved == []
+    assert result.raw_answer_text is None
+    assert result.answer.answer == "Not found in the filings."
+
+
+def test_ask_detailed_exposes_retrieved_chunks_even_when_llm_itself_refuses() -> None:
+    results = [chunk("real_id")]
+    llm = FakeLLMProvider("Not found in the filings.")
+
+    result = ask_detailed("q", settings_with(), llm=llm, retrieve=lambda q: results)
+
+    # Retrieval still happened and is exposed, even though the model refused --
+    # useful for the eval harness to still measure Recall@k/MRR on this row.
+    assert result.retrieved == results
+    assert result.raw_answer_text == "Not found in the filings."
+    assert result.answer.answer == "Not found in the filings."

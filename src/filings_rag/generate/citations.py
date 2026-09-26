@@ -24,6 +24,14 @@ class CitationResult(BaseModel):
         return bool(self.invalid_ids)
 
 
+def find_citation_ids(text: str) -> list[str]:
+    """All `[c:<id>]` ids mentioned in `text`, in order, duplicates included.
+    Used by the eval harness to measure citation precision against the model's
+    *raw* output before validate_citations() strips anything invalid.
+    """
+    return [m.group(1) for m in _CITATION_RE.finditer(text)]
+
+
 def validate_citations(text: str, retrieved: list[RetrievalResult]) -> CitationResult:
     by_id = {r.id: r for r in retrieved}
     sources: list[Source] = []
