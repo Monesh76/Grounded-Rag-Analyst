@@ -108,6 +108,12 @@ class Settings(BaseSettings):
     evidence_gate_threshold: float = 0.1
     refusal_text: str = "Not found in the filings."
 
+    # --- Tracing (P6) ---
+    # Both unset -> tracing.py is a no-op; make test/CI never need these.
+    langfuse_public_key: str | None = None
+    langfuse_secret_key: str | None = None
+    langfuse_host: str = "https://cloud.langfuse.com"
+
     data_dir: Path = Path("data")
 
     @property

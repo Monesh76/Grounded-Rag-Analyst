@@ -5,13 +5,14 @@ experiment grid) without changing calling code.
 
 import psycopg
 
+from filings_rag import tracing
 from filings_rag.config import Settings
 from filings_rag.embed import Embedder
 from filings_rag.retrieve.dense import dense_search
 from filings_rag.retrieve.filters import extract_filters
 from filings_rag.retrieve.fusion import fuse_results
 from filings_rag.retrieve.keyword import keyword_search
-from filings_rag.retrieve.models import RetrievalResult
+from filings_rag.retrieve.models import Filters, RetrievalResult
 from filings_rag.retrieve.rerank import Reranker
 
 MODES = ("dense", "keyword", "hybrid", "hybrid_rerank")
@@ -33,15 +34,13 @@ def search(
     filters = extract_filters(question)
 
     if mode == "dense":
-        return dense_search(conn, embedder, question, settings.retrieval_dense_top_k, filters)[
-            :top_k
-        ]
+        return _dense(conn, embedder, question, filters, settings)[:top_k]
 
     if mode == "keyword":
-        return keyword_search(conn, question, settings.retrieval_keyword_top_k, filters)[:top_k]
+        return _keyword(conn, question, filters, settings)[:top_k]
 
-    dense_results = dense_search(conn, embedder, question, settings.retrieval_dense_top_k, filters)
-    keyword_results = keyword_search(conn, question, settings.retrieval_keyword_top_k, filters)
+    dense_results = _dense(conn, embedder, question, filters, settings)
+    keyword_results = _keyword(conn, question, filters, settings)
     fused = fuse_results([dense_results, keyword_results], k=settings.retrieval_rrf_k)
 
     if mode == "hybrid":
@@ -52,4 +51,33 @@ def search(
     # Rerank over the full fused pool (up to top-50), not just the final top_k --
     # otherwise reranking could only ever reorder within a list already cut down
     # by fusion, defeating the point of scoring each candidate against the question.
-    return reranker.rerank(question, fused[: settings.retrieval_dense_top_k], top_k=top_k)
+    with tracing.span(settings, "rerank", as_type="span", input={"question": question}) as obs:
+        reranked = reranker.rerank(question, fused[: settings.retrieval_dense_top_k], top_k=top_k)
+        tracing.update(obs, output={"count": len(reranked)})
+    return reranked
+
+
+def _dense(
+    conn: psycopg.Connection,
+    embedder: Embedder,
+    question: str,
+    filters: Filters,
+    settings: Settings,
+) -> list[RetrievalResult]:
+    with tracing.span(
+        settings, "dense-retrieval", as_type="retriever", input={"question": question}
+    ) as obs:
+        results = dense_search(conn, embedder, question, settings.retrieval_dense_top_k, filters)
+        tracing.update(obs, output={"count": len(results)})
+    return results
+
+
+def _keyword(
+    conn: psycopg.Connection, question: str, filters: Filters, settings: Settings
+) -> list[RetrievalResult]:
+    with tracing.span(
+        settings, "keyword-retrieval", as_type="retriever", input={"question": question}
+    ) as obs:
+        results = keyword_search(conn, question, settings.retrieval_keyword_top_k, filters)
+        tracing.update(obs, output={"count": len(results)})
+    return results

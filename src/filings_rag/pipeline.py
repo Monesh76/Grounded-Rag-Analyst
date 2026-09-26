@@ -12,6 +12,7 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from filings_rag import tracing
 from filings_rag.config import Settings
 from filings_rag.db import get_connection
 from filings_rag.embed import get_embedder
@@ -61,59 +62,79 @@ def ask_detailed(
         reranker = Reranker.from_settings(settings)
         retrieve = lambda q: search(conn, embedder, reranker, q, "hybrid_rerank", settings)  # noqa: E731
 
-    try:
-        results = retrieve(question)
+    with tracing.span(settings, "ask", as_type="span", input={"question": question}) as root:
+        try:
+            results = retrieve(question)
 
-        # Evidence gate: refuse without ever calling the LLM if retrieval itself
-        # is too weak to plausibly answer -- deterministic, and saves the cost of
-        # a call that would likely need to refuse anyway.
-        if not results or results[0].score < settings.evidence_gate_threshold:
-            return AskResult(answer=_refusal(settings, start), retrieved=[], raw_answer_text=None)
+            # Evidence gate: refuse without ever calling the LLM if retrieval itself
+            # is too weak to plausibly answer -- deterministic, and saves the cost of
+            # a call that would likely need to refuse anyway.
+            if not results or results[0].score < settings.evidence_gate_threshold:
+                answer = _refusal(settings, start)
+                tracing.update(root, output=answer.answer, metadata={"refused": True})
+                return AskResult(answer=answer, retrieved=[], raw_answer_text=None)
 
-        system = build_system_prompt(settings.refusal_text)
-        user = build_user_message(question, results)
-        response = llm.complete(system, user)
+            system = build_system_prompt(settings.refusal_text)
+            user = build_user_message(question, results)
+            with tracing.span(
+                settings, "generate", as_type="generation", input={"question": question}
+            ) as gen:
+                response = llm.complete(system, user)
+                tracing.update(
+                    gen,
+                    output=response.text,
+                    model=llm.model,
+                    usage_details={
+                        "input": response.input_tokens,
+                        "output": response.output_tokens,
+                    },
+                    metadata={"cost_usd": response.cost_usd},
+                )
 
-        # The prompt asks for exactly the refusal sentence "and nothing else", but
-        # models don't reliably follow that -- observed in practice: a model
-        # judging the evidence insufficient still padded the refusal with an
-        # explanatory paragraph. CLAUDE.md requires the exact string, so this is
-        # enforced here rather than trusted to the prompt: a response that leads
-        # with the refusal is truncated to exactly that string, discarding
-        # whatever the model added after it. A model phrasing the refusal
-        # differently (no trailing period, different casing) won't be caught by
-        # this check and falls through to citation validation instead, where the
-        # lack of any citations should still mark it ungrounded.
-        text = response.text.strip()
-        if text.startswith(settings.refusal_text):
-            refusal = _refusal(
-                settings,
-                start,
+            # The prompt asks for exactly the refusal sentence "and nothing else", but
+            # models don't reliably follow that -- observed in practice: a model
+            # judging the evidence insufficient still padded the refusal with an
+            # explanatory paragraph. CLAUDE.md requires the exact string, so this is
+            # enforced here rather than trusted to the prompt: a response that leads
+            # with the refusal is truncated to exactly that string, discarding
+            # whatever the model added after it. A model phrasing the refusal
+            # differently (no trailing period, different casing) won't be caught by
+            # this check and falls through to citation validation instead, where the
+            # lack of any citations should still mark it ungrounded.
+            text = response.text.strip()
+            if text.startswith(settings.refusal_text):
+                refusal = _refusal(
+                    settings,
+                    start,
+                    tokens=response.input_tokens + response.output_tokens,
+                    cost_usd=response.cost_usd,
+                )
+                tracing.update(root, output=refusal.answer, metadata={"refused": True})
+                return AskResult(answer=refusal, retrieved=results, raw_answer_text=response.text)
+
+            citations = validate_citations(response.text, results)
+            # Conservative: a model that cited even one fabricated id is treated as
+            # ungrounded, not "grounded but slightly wrong" -- silently correcting a
+            # hallucinated citation isn't the same as trusting the rest of the answer.
+            # An answer with no citations at all despite being asked to cite every
+            # claim is also not grounded.
+            grounded = not citations.has_invalid_citations and bool(citations.sources)
+
+            answer = Answer(
+                answer=citations.text,
+                sources=citations.sources,
+                grounded=grounded,
+                latency_ms=(time.monotonic() - start) * 1000,
                 tokens=response.input_tokens + response.output_tokens,
                 cost_usd=response.cost_usd,
             )
-            return AskResult(answer=refusal, retrieved=results, raw_answer_text=response.text)
-
-        citations = validate_citations(response.text, results)
-        # Conservative: a model that cited even one fabricated id is treated as
-        # ungrounded, not "grounded but slightly wrong" -- silently correcting a
-        # hallucinated citation isn't the same as trusting the rest of the answer.
-        # An answer with no citations at all despite being asked to cite every
-        # claim is also not grounded.
-        grounded = not citations.has_invalid_citations and bool(citations.sources)
-
-        answer = Answer(
-            answer=citations.text,
-            sources=citations.sources,
-            grounded=grounded,
-            latency_ms=(time.monotonic() - start) * 1000,
-            tokens=response.input_tokens + response.output_tokens,
-            cost_usd=response.cost_usd,
-        )
-        return AskResult(answer=answer, retrieved=results, raw_answer_text=response.text)
-    finally:
-        if owns_conn and conn is not None:
-            conn.close()
+            tracing.update(
+                root, output=answer.answer, metadata={"grounded": grounded, "refused": False}
+            )
+            return AskResult(answer=answer, retrieved=results, raw_answer_text=response.text)
+        finally:
+            if owns_conn and conn is not None:
+                conn.close()
 
 
 def _refusal(settings: Settings, start: float, tokens: int = 0, cost_usd: float = 0.0) -> Answer:

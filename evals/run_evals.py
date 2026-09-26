@@ -33,6 +33,7 @@ from evals.metrics import (
     recall_at_k,
     refusal_accuracy,
 )
+from filings_rag import tracing
 from filings_rag.config import Settings, get_settings
 from filings_rag.db import get_connection
 from filings_rag.embed import get_embedder
@@ -341,6 +342,7 @@ def main() -> int:
     json_path, md_path = write_results(summary, run_id)
     print(f"Wrote {json_path} and {md_path}")
     print(_to_markdown(summary, run_id))
+    tracing.flush(settings)
     return 0
 
 

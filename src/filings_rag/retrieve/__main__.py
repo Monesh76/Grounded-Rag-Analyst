@@ -7,6 +7,7 @@ retrieval quality by eye.
 import argparse
 import sys
 
+from filings_rag import tracing
 from filings_rag.config import get_settings
 from filings_rag.db import get_connection
 from filings_rag.embed import get_embedder
@@ -29,6 +30,7 @@ def main() -> int:
 
     results = search(conn, embedder, reranker, args.question, args.mode, settings, args.top_k)
     _print_results(results)
+    tracing.flush(settings)
     return 0
 
 

@@ -11,17 +11,26 @@ metadata -- "streams tokens" at the HTTP layer, without ever exposing content
 that hasn't been checked.
 """
 
-from collections.abc import Callable, Iterator
+from collections.abc import AsyncIterator, Callable, Iterator
+from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
+from filings_rag import tracing
 from filings_rag.config import Settings, get_settings
 from filings_rag.generate.models import Answer
 from filings_rag.pipeline import ask as pipeline_ask
 
-app = FastAPI(title="FilingsRAG")
+
+@asynccontextmanager
+async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
+    yield
+    tracing.flush(get_settings())
+
+
+app = FastAPI(title="FilingsRAG", lifespan=_lifespan)
 
 AskFn = Callable[[str, Settings], Answer]
 
