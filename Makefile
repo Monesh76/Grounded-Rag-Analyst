@@ -1,4 +1,4 @@
-.PHONY: setup test lint format ingest load serve eval eval-full
+.PHONY: setup test lint format ingest load serve eval eval-ci eval-full
 
 setup:  ## Install Python 3.12 + all deps into .venv
 	uv sync
@@ -23,8 +23,13 @@ load:  ## Chunk, embed and load parsed filings into Postgres (needs `make ingest
 serve:  ## Run the API locally at http://localhost:8000
 	uv run uvicorn filings_rag.api:app --reload --port 8000
 
-eval:  ## Retrieval-only evals (Recall@6, MRR) -- no LLM call, cheap, safe for CI
+eval:  ## Retrieval-only evals (Recall@6, MRR) -- no LLM call, cheap, safe locally
 	uv run python -m evals.run_evals
+	uv run pytest evals/test_evals.py::test_recall_at_6_meets_threshold -v
+
+eval-ci:  ## Same as `eval`, but against the small committed fixture -- what CI runs on every PR
+	uv run python -m filings_rag.seed_eval_fixture
+	uv run python -m evals.run_evals --golden evals/golden_ci.jsonl --run-id ci-latest
 	uv run pytest evals/test_evals.py::test_recall_at_6_meets_threshold -v
 
 eval-full:  ## Full pipeline evals with LLM judge -- costs money, ask before running

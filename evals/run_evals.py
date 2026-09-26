@@ -325,11 +325,17 @@ def main() -> int:
         "--no-judge", action="store_true", help="Skip DeepEval faithfulness/correctness"
     )
     parser.add_argument("--run-id", default=None)
+    parser.add_argument(
+        "--golden",
+        default=None,
+        help="Path to a golden-set JSONL (default evals/golden.jsonl); "
+        "CI uses evals/golden_ci.jsonl against a small committed fixture",
+    )
     args = parser.parse_args()
 
     config = load_experiment_config(args.config)
     settings = get_settings().model_copy(update=config["settings"])
-    rows = load_golden()
+    rows = load_golden(Path(args.golden)) if args.golden else load_golden()
     kind = "full" if args.full else "retrieval"
     timestamp = f"{datetime.now(UTC):%Y%m%d-%H%M%S}"
     run_id = args.run_id or f"{timestamp}-{config['name']}-{kind}"

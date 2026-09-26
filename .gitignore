@@ -5,6 +5,10 @@
 data/raw/
 data/parsed/
 
+# CI's make eval-ci output against the small fixture -- not a real experiment
+# result worth committing, unlike everything else in results/
+results/ci-latest.*
+
 # Python
 .venv/
 __pycache__/
