@@ -75,6 +75,33 @@ class Settings(BaseSettings):
     retrieval_rerank_top_k: int = Field(default=6, gt=0)
     reranker_model: str = "BAAI/bge-reranker-base"
 
+    # --- Generation (P4) ---
+    # "openrouter" is the default so everyday dev/testing runs cheap; set
+    # llm_provider=claude or openai in .env explicitly for final checks and
+    # production, per PLAN.md's "Claude as default, second provider for
+    # comparison" (openrouter is a third, dev-only path, not a PLAN.md provider).
+    llm_provider: Literal["claude", "openai", "openrouter"] = "openrouter"
+
+    anthropic_api_key: str | None = None
+    anthropic_model: str = "claude-sonnet-5"
+
+    openai_api_key: str | None = None
+    openai_model: str = "gpt-4o-mini"
+
+    # OpenRouter exposes an OpenAI-compatible API, so it reuses the same client
+    # code as the "openai" provider, just pointed at a different base_url/model.
+    openrouter_api_key: str | None = None
+    openrouter_model: str = "anthropic/claude-haiku-4.5"
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
+
+    llm_max_tokens: int = Field(default=1024, gt=0)
+    llm_temperature: float = Field(default=0.0, ge=0)  # deterministic answers, reproducible evals
+
+    # PLACEHOLDER: the reranker score below which we refuse rather than answer.
+    # Tune against evals/golden.jsonl once it exists (P5) rather than guessing further.
+    evidence_gate_threshold: float = 0.1
+    refusal_text: str = "Not found in the filings."
+
     data_dir: Path = Path("data")
 
     @property
