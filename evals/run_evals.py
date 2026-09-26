@@ -12,12 +12,14 @@ faithfulness/correctness -- that's the one that costs money.
 import argparse
 import statistics
 import sys
+import threading
 from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import torch
 import yaml
 from pydantic import BaseModel
 
@@ -41,9 +43,28 @@ from filings_rag.retrieve.models import RetrievalResult
 from filings_rag.retrieve.rerank import Reranker
 from filings_rag.retrieve.search import search
 
+# The embedder and reranker are shared across worker threads below (loading
+# them once, not per-question, is what actually fixes P4's flagged latency
+# issue). Capping torch to one thread per call avoids each inference call
+# spawning its own multi-threaded BLAS kernel -- but that alone isn't enough:
+# confirmed by hand that calling the shared CrossEncoder's .predict() from
+# multiple threads concurrently causes severe thrashing (and, once, an
+# outright segfault) regardless of this setting. _MODEL_LOCK below is what
+# actually fixes it: local-model inference is serialized across workers, while
+# each worker's LLM call (the real bottleneck in eval-full, seconds of network
+# I/O) still runs concurrently, outside the lock.
+torch.set_num_threads(1)
+_MODEL_LOCK = threading.Lock()
+
 GOLDEN_PATH = Path("evals/golden.jsonl")
 RESULTS_DIR = Path("results")
-DEFAULT_RETRIEVAL_CONCURRENCY = 4
+# Retrieval-only is entirely CPU-bound (embedding + reranking, no network) --
+# concurrency doesn't overlap anything here, it only adds thread-scheduling
+# overhead, so this stays sequential by default.
+DEFAULT_RETRIEVAL_CONCURRENCY = 1
+# Full pipeline is dominated by network-bound LLM calls (seconds each), where
+# concurrency genuinely overlaps waiting time across questions; kept modest
+# since each worker still does its own CPU-bound reranking too.
 DEFAULT_FULL_CONCURRENCY = 3
 
 
@@ -105,7 +126,8 @@ def run_retrieval_only(
     def process(row: GoldenRow) -> dict[str, Any]:
         conn = get_connection(settings)
         try:
-            results = search(conn, embedder, reranker, row.question, mode, settings)
+            with _MODEL_LOCK:
+                results = search(conn, embedder, reranker, row.question, mode, settings)
         finally:
             conn.close()
         retrieved = _to_source_tuples(results)
@@ -146,11 +168,19 @@ def run_full(
 
         judge = build_judge(settings)
 
+    def locked_search(conn: Any, question: str) -> list[RetrievalResult]:
+        # Serializes the CPU-bound embed+rerank step across workers; the LLM
+        # call in ask_detailed() below happens outside this function, so it
+        # still runs concurrently across workers.
+        with _MODEL_LOCK:
+            return search(conn, embedder, reranker, question, mode, settings)
+
     def process(row: GoldenRow) -> dict[str, Any]:
         conn = get_connection(settings)
         try:
-            retrieve = lambda q: search(conn, embedder, reranker, q, mode, settings)  # noqa: E731
-            result = ask_detailed(row.question, settings, llm=llm, retrieve=retrieve)
+            result = ask_detailed(
+                row.question, settings, llm=llm, retrieve=lambda q: locked_search(conn, q)
+            )
         finally:
             conn.close()
 
