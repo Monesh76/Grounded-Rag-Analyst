@@ -5,7 +5,7 @@ import pytest
 from pgvector.psycopg import register_vector
 
 from filings_rag.config import get_settings
-from filings_rag.db import get_connection, run_migrations
+from filings_rag.db import get_test_connection, run_migrations
 
 DIMENSIONS = 1024
 
@@ -20,8 +20,10 @@ def unit_vector(index: int) -> list[float]:
 
 @pytest.fixture
 def conn() -> psycopg.Connection:
+    # The separate test database: these tests insert/delete rows and must never
+    # touch the database `make load` populates with real filings.
     try:
-        connection = get_connection(get_settings())
+        connection = get_test_connection(get_settings())
     except psycopg.OperationalError as exc:
         pytest.fail(f"Cannot reach Postgres. Run `docker compose up -d db`.\n{exc}")
     run_migrations(connection)

@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     # Default matches docker-compose.yml so a fresh clone works without a .env.
     database_url: str = "postgresql://filings:filings@localhost:5432/filings"
 
+    # A separate database for integration tests, on the same Postgres instance/
+    # container. Tests must never point at `database_url`: several (test_db.py's
+    # migration tests, in particular) DROP TABLE as part of setup, which would
+    # silently destroy real loaded data if it ran against the same database
+    # `make load` populates -- a mistake this project made once already.
+    test_database_url: str = "postgresql://filings:filings@localhost:5432/filings_test"
+
     # --- SEC EDGAR ingestion ---
     # SEC's fair-access policy requires "Name email" in the User-Agent. Optional here so
     # the rest of the app works without it; the EDGAR client refuses to start if it's missing.

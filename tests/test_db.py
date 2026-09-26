@@ -4,19 +4,21 @@ import psycopg
 import pytest
 
 from filings_rag.config import get_settings
-from filings_rag.db import get_connection, run_migrations
+from filings_rag.db import get_test_connection, run_migrations
 
 pytestmark = pytest.mark.integration
 
 
 @pytest.fixture
 def conn() -> psycopg.Connection:
+    # The separate test database, not settings.database_url: this fixture drops
+    # the chunks table, which must never happen to the database `make load` uses.
     try:
-        connection = get_connection(get_settings())
+        connection = get_test_connection(get_settings())
     except psycopg.OperationalError as exc:
         pytest.fail(f"Cannot reach Postgres. Run `docker compose up -d db`.\n{exc}")
     # Clean slate so the test can see a real first application, not "already applied"
-    # from an earlier run against the same dev database.
+    # from an earlier run against the same test database.
     connection.execute("DROP TABLE IF EXISTS chunks, schema_migrations")
     connection.commit()
     # No outer `with connection:` here: that would make run_migrations' own

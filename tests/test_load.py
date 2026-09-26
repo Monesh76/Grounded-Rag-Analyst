@@ -9,7 +9,7 @@ import psycopg
 import pytest
 
 from filings_rag.config import Settings, get_settings
-from filings_rag.db import get_connection, run_migrations
+from filings_rag.db import get_test_connection, run_migrations
 from filings_rag.ingest.load import load_all
 from filings_rag.ingest.models import FilingRef, Manifest, ManifestEntry, ParsedFiling, Section
 
@@ -41,8 +41,10 @@ FILING = FilingRef(
 
 @pytest.fixture
 def settings(tmp_path: Path) -> Settings:
-    """Real Postgres (via database_url), but manifest/parsed files under tmp_path."""
-    s = get_settings().model_copy(update={"data_dir": tmp_path})
+    """The separate test database (load_all reads settings.database_url, so we
+    point that at test_database_url here), manifest/parsed files under tmp_path."""
+    base = get_settings()
+    s = base.model_copy(update={"data_dir": tmp_path, "database_url": base.test_database_url})
     s.data_dir.mkdir(exist_ok=True)
     s.parsed_dir.mkdir(exist_ok=True)
 
@@ -62,12 +64,13 @@ def clean_chunks_table() -> None:
     # Doesn't assume test_db.py (or anything else) already created the schema --
     # run_migrations is idempotent, so this is safe however the test files are ordered.
     try:
-        conn = get_connection(get_settings())
+        conn = get_test_connection(get_settings())
     except psycopg.OperationalError as exc:
         pytest.fail(f"Cannot reach Postgres. Run `docker compose up -d db`.\n{exc}")
     run_migrations(conn)
-    with conn:
-        conn.execute("DELETE FROM chunks WHERE ticker IN ('TEST', 'GONE')")
+    conn.execute("DELETE FROM chunks WHERE ticker IN ('TEST', 'GONE')")
+    conn.commit()
+    conn.close()
     conn.close()
 
 

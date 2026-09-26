@@ -5,7 +5,9 @@ in order and tracking which ran in a `schema_migrations` table is a dozen lines
 and is easy to read end to end.
 """
 
+import re
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import psycopg
 
@@ -16,6 +18,29 @@ MIGRATIONS_DIR = Path(__file__).resolve().parents[2] / "db" / "migrations"
 
 def get_connection(settings: Settings) -> psycopg.Connection:
     return psycopg.connect(settings.database_url)
+
+
+def get_test_connection(settings: Settings) -> psycopg.Connection:
+    """Connection to the separate test database (see Settings.test_database_url),
+    creating it first if it doesn't exist yet."""
+    _ensure_database_exists(settings.test_database_url)
+    return psycopg.connect(settings.test_database_url)
+
+
+def _ensure_database_exists(database_url: str) -> None:
+    db_name = urlsplit(database_url).path.lstrip("/")
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", db_name):
+        raise ValueError(f"Unexpected database name in test_database_url: {db_name!r}")
+
+    admin_url = database_url.rsplit("/", 1)[0] + "/postgres"
+    with psycopg.connect(admin_url, autocommit=True) as admin_conn:
+        exists = admin_conn.execute(
+            "SELECT 1 FROM pg_database WHERE datname = %s", (db_name,)
+        ).fetchone()
+        if not exists:
+            # CREATE DATABASE can't be parameterized or run inside a transaction;
+            # db_name is validated above, so this is safe to interpolate.
+            admin_conn.execute(f'CREATE DATABASE "{db_name}"')  # noqa: S608
 
 
 def run_migrations(conn: psycopg.Connection, migrations_dir: Path = MIGRATIONS_DIR) -> list[str]:
