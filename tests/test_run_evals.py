@@ -1,7 +1,7 @@
-"""Offline tests for run_evals.py's pure helpers (loading, formatting). The
-orchestration functions (run_retrieval_only/run_full) are exercised for real
-via `make eval`/`make eval-full`, the same pattern as this project's other CLI
-entry points.
+"""Offline tests for run_evals.py's pure helpers (loading, formatting) and for
+run_full's error resilience. The rest of run_retrieval_only/run_full's
+orchestration is exercised for real via `make eval`/`make eval-full`, the same
+pattern as this project's other CLI entry points.
 """
 
 import json
@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 
+import evals.run_evals as run_evals_module
 from evals.run_evals import (
     GoldenRow,
     _mean,
@@ -16,8 +17,11 @@ from evals.run_evals import (
     _to_source_tuples,
     load_experiment_config,
     load_golden,
+    run_full,
     write_results,
 )
+from filings_rag.config import get_settings
+from filings_rag.generate.models import LLMResponse
 from filings_rag.retrieve.models import RetrievalResult
 
 
@@ -162,3 +166,69 @@ def test_markdown_includes_full_mode_metrics() -> None:
     assert "Correctness" in md
     assert "Cost per 1K questions" in md
     assert "$12.50" in md
+
+
+# --- run_full's error resilience ---
+# Real failure mode hit running eval-full for the first time: OpenRouter's
+# in-flight budget limit rejected one request and aborted the entire run,
+# losing every other question's results, since ThreadPoolExecutor.map()
+# re-raises the first exception it sees. process() now catches per-row and
+# returns an error marker instead.
+
+
+class _FakeConn:
+    def close(self) -> None:
+        pass
+
+
+class _FakeLLM:
+    model = "fake-model"
+
+    def complete(self, system: str, user: str) -> LLMResponse:
+        return LLMResponse(
+            text="An answer [c:ok_1].",
+            model=self.model,
+            input_tokens=5,
+            output_tokens=5,
+            cost_usd=0.0,
+        )
+
+
+def _golden_row(id: str, question: str) -> GoldenRow:
+    return GoldenRow(
+        id=id,
+        question=question,
+        type="single_fact",
+        expected_answer="an answer",
+        expected_sources=[{"doc": "AAPL_2025", "section": "7"}],
+        must_refuse=False,
+        verified=True,
+    )
+
+
+def test_run_full_continues_after_one_row_raises(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(run_evals_module, "get_embedder", lambda settings: object())
+    monkeypatch.setattr(
+        run_evals_module.Reranker, "from_settings", staticmethod(lambda settings: object())
+    )
+    monkeypatch.setattr(run_evals_module, "get_connection", lambda settings: _FakeConn())
+    monkeypatch.setattr(run_evals_module, "get_llm_provider", lambda settings: _FakeLLM())
+
+    def fake_search(conn, embedder, reranker, question, mode, settings):
+        if question == "boom":
+            raise RuntimeError("simulated API failure")
+        return [result("AAPL", 2025, "7")]
+
+    monkeypatch.setattr(run_evals_module, "search", fake_search)
+
+    rows = [_golden_row("q1", "boom"), _golden_row("q2", "fine")]
+    summary = run_full(rows, get_settings(), concurrency=1, use_judge=False)
+
+    assert summary["num_questions"] == 2
+    assert summary["num_errors"] == 1
+    assert len(summary["per_row"]) == 2  # the failed row is still reported, not dropped
+    errored = next(r for r in summary["per_row"] if r["id"] == "q1")
+    assert "simulated API failure" in errored["error"]
+    ok = next(r for r in summary["per_row"] if r["id"] == "q2")
+    assert "error" not in ok
+    assert ok["recall"] == 1.0  # the successful row's metrics still computed correctly

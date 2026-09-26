@@ -176,6 +176,16 @@ def run_full(
             return search(conn, embedder, reranker, question, mode, settings)
 
     def process(row: GoldenRow) -> dict[str, Any]:
+        # One question's API error (rate limit, transient outage, ...) must not
+        # abort the whole run and lose every other question's results -- real
+        # failure mode hit while building this: OpenRouter's in-flight budget
+        # limit killed a run partway through with nothing written to disk.
+        try:
+            return _process_row(row)
+        except Exception as exc:  # noqa: BLE001
+            return {"id": row.id, "type": row.type, "error": str(exc)}
+
+    def _process_row(row: GoldenRow) -> dict[str, Any]:
         conn = get_connection(settings)
         try:
             result = ask_detailed(
@@ -225,20 +235,23 @@ def run_full(
 
     per_row = _run_concurrent(process, rows, concurrency)
 
-    answerable_rows = [r for r in per_row if r["recall"] is not None]
-    judged_rows = [r for r in per_row if "faithfulness" in r]
-    latencies = [r["latency_ms"] for r in per_row]
-    total_cost = sum(r["cost_usd"] for r in per_row)
+    errored_rows = [r for r in per_row if "error" in r]
+    ok_rows = [r for r in per_row if "error" not in r]
+    answerable_rows = [r for r in ok_rows if r["recall"] is not None]
+    judged_rows = [r for r in ok_rows if "faithfulness" in r]
+    latencies = [r["latency_ms"] for r in ok_rows]
+    total_cost = sum(r["cost_usd"] for r in ok_rows)
 
     summary = {
         "kind": "full",
         "mode": mode,
         "num_questions": len(rows),
+        "num_errors": len(errored_rows),
         "recall_at_6": _mean(r["recall"] for r in answerable_rows),
         "mrr": _mean(r["mrr"] for r in answerable_rows),
-        "citation_precision": _mean(r["citation_precision"] for r in per_row),
+        "citation_precision": _mean(r["citation_precision"] for r in ok_rows),
         "refusal_accuracy": refusal_accuracy(
-            [(r["must_refuse"], r["actually_refused"]) for r in per_row]
+            [(r["must_refuse"], r["actually_refused"]) for r in ok_rows]
         ),
         "p50_latency_ms": percentile(latencies, 50),
         "p95_latency_ms": percentile(latencies, 95),
@@ -280,6 +293,8 @@ def _to_markdown(summary: dict[str, Any], run_id: str) -> str:
     lines.append(f"| Recall@6 | {summary['recall_at_6']:.3f} |")
     lines.append(f"| MRR | {summary['mrr']:.3f} |")
     if summary["kind"] == "full":
+        if summary.get("num_errors"):
+            lines.append(f"| Errors | {summary['num_errors']} of {summary['num_questions']} |")
         lines.append(f"| Citation precision | {summary['citation_precision']:.3f} |")
         lines.append(f"| Refusal accuracy | {summary['refusal_accuracy']:.3f} |")
         if "faithfulness" in summary:
