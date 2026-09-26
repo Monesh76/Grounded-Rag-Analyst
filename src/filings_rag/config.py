@@ -95,6 +95,10 @@ class Settings(BaseSettings):
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
 
     llm_max_tokens: int = Field(default=1024, gt=0)
+    # DeepEval's judge calls extract structured JSON (claims, verdicts) from the
+    # full retrieved context, which needs more room than a normal answer -- a
+    # real truncated-JSON failure was hit reusing llm_max_tokens for this.
+    judge_max_tokens: int = Field(default=4096, gt=0)
     llm_temperature: float = Field(default=0.0, ge=0)  # deterministic answers, reproducible evals
 
     # PLACEHOLDER: the reranker score below which we refuse rather than answer.

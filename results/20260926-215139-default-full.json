@@ -1,0 +1,382 @@
+{
+  "kind": "full",
+  "mode": "hybrid_rerank",
+  "num_questions": 50,
+  "num_errors": 39,
+  "recall_at_6": 0.0,
+  "mrr": 0.0,
+  "citation_precision": 1.0,
+  "refusal_accuracy": 0.9090909090909091,
+  "p50_latency_ms": 41385.27108298149,
+  "p95_latency_ms": 129183.62960452214,
+  "cost_per_1k_usd": 0.76698,
+  "total_cost_usd": 0.038349,
+  "cache_hits": 46,
+  "cache_misses": 0,
+  "per_row": [
+    {
+      "id": "q001",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q002",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q003",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q004",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q005",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q006",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q007",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q008",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q009",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q010",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q011",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q012",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q013",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q014",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q015",
+      "type": "single_fact",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q016",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q017",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q018",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q019",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q020",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q021",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q022",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q023",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q024",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q025",
+      "type": "numeric_table",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q026",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q027",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q028",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q029",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q030",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q031",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q032",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q033",
+      "type": "risk_narrative",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q034",
+      "type": "comparison",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q035",
+      "type": "comparison",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q036",
+      "type": "comparison",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q037",
+      "type": "comparison",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q038",
+      "type": "comparison",
+      "recall": 0.0,
+      "mrr": 0.0,
+      "citation_precision": 1.0,
+      "must_refuse": false,
+      "actually_refused": true,
+      "refusal_correct": false,
+      "grounded": false,
+      "latency_ms": 4291.58462502528,
+      "tokens": 0,
+      "cost_usd": 0.0,
+      "answer": "Not found in the filings.",
+      "faithfulness": 1.0,
+      "correctness": 0.0
+    },
+    {
+      "id": "q039",
+      "type": "comparison",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q040",
+      "type": "comparison",
+      "error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+    },
+    {
+      "id": "q041",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 11572.457249974832,
+      "tokens": 0,
+      "cost_usd": 0.0,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q042",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 41385.27108298149,
+      "tokens": 6069,
+      "cost_usd": 0.006229,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q043",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 36215.25670797564,
+      "tokens": 5344,
+      "cost_usd": 0.00556,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q044",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 74309.77349996101,
+      "tokens": 5466,
+      "cost_usd": 0.00573,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q045",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 94526.99916705023,
+      "tokens": 4880,
+      "cost_usd": 0.00492,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q046",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 140000.95000001602,
+      "tokens": 6056,
+      "cost_usd": 0.006256,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q047",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 118366.30920902826,
+      "tokens": 3755,
+      "cost_usd": 0.003795,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q048",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 77698.12733400613,
+      "tokens": 0,
+      "cost_usd": 0.0,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q049",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 27107.311250059865,
+      "tokens": 0,
+      "cost_usd": 0.0,
+      "answer": "Not found in the filings."
+    },
+    {
+      "id": "q050",
+      "type": "unanswerable",
+      "recall": null,
+      "mrr": null,
+      "citation_precision": 1.0,
+      "must_refuse": true,
+      "actually_refused": true,
+      "refusal_correct": true,
+      "grounded": false,
+      "latency_ms": 27123.261708999053,
+      "tokens": 5659,
+      "cost_usd": 0.005859,
+      "answer": "Not found in the filings."
+    }
+  ],
+  "faithfulness": 1.0,
+  "correctness": 0.0
+}

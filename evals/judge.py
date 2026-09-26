@@ -45,7 +45,16 @@ class ClaudeJudge(DeepEvalBaseLLM):
 
 
 def build_judge(settings: Settings) -> ClaudeJudge:
-    return ClaudeJudge(ClaudeProvider.from_settings(settings))
+    # Not ClaudeProvider.from_settings(): that uses llm_max_tokens, sized for a
+    # normal answer. The judge needs judge_max_tokens instead -- see its
+    # comment in config.py for the truncated-JSON failure that showed why.
+    if not settings.anthropic_api_key:
+        raise ValueError("ANTHROPIC_API_KEY must be set in .env to use the Claude judge.")
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    provider = ClaudeProvider(client, settings.anthropic_model, settings.judge_max_tokens)
+    return ClaudeJudge(provider)
 
 
 class JudgeScores:
