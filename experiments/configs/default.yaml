@@ -1,0 +1,7 @@
+# Default experiment: current production settings, no overrides.
+# P6 adds the A-E comparison grid (chunking / retrieval mode / model) alongside
+# this one.
+name: default
+description: "Current defaults: hybrid_rerank retrieval, Voyage embeddings, configured LLM provider."
+mode: hybrid_rerank
+settings: {}
