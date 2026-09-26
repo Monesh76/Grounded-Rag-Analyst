@@ -21,3 +21,6 @@ dist/
 .DS_Store
 .vscode/
 .idea/
+
+# Claude Code session artifacts (not project content)
+.claude/

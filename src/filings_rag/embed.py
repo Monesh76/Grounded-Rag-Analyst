@@ -139,3 +139,10 @@ class LocalEmbedder:
             list(texts), batch_size=self._batch_size, show_progress_bar=False
         )
         return vectors.tolist()
+
+
+def get_embedder(settings: Settings) -> Embedder:
+    """Build the Embedder selected by settings.embedder_provider."""
+    if settings.embedder_provider == "voyage":
+        return VoyageEmbedder.from_settings(settings)
+    return LocalEmbedder.from_settings(settings)

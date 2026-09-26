@@ -19,8 +19,13 @@ def conn() -> psycopg.Connection:
     # from an earlier run against the same dev database.
     connection.execute("DROP TABLE IF EXISTS chunks, schema_migrations")
     connection.commit()
-    with connection:
-        yield connection
+    # No outer `with connection:` here: that would make run_migrations' own
+    # `conn.transaction()` calls nested savepoints instead of real commits, so a
+    # later test that intentionally triggers and catches a DB error (leaving the
+    # connection's current transaction aborted) would roll back everything,
+    # migrations included, once this fixture's block exited.
+    yield connection
+    connection.close()
 
 
 def test_applies_migrations_and_tracks_them(conn: psycopg.Connection) -> None:

@@ -1,4 +1,4 @@
-.PHONY: setup test lint format ingest
+.PHONY: setup test lint format ingest load
 
 setup:  ## Install Python 3.12 + all deps into .venv
 	uv sync
@@ -16,3 +16,6 @@ format:  ## Auto-fix lint issues and format code
 
 ingest:  ## Download + parse the 10 companies' 10-Ks (needs SEC_USER_AGENT in .env)
 	uv run python -m filings_rag.ingest
+
+load:  ## Chunk, embed and load parsed filings into Postgres (needs `make ingest` first)
+	uv run python -m filings_rag.ingest.load

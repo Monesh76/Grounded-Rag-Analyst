@@ -7,6 +7,7 @@ values in `.env`.
 
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -39,6 +40,10 @@ class Settings(BaseSettings):
     chunk_overlap_ratio: float = Field(default=0.15, ge=0, lt=1)
 
     # --- Embedding (P2) ---
+    # Which Embedder `get_embedder()` builds. "voyage" is what the chunks table's
+    # embedding column is sized for (vector(1024)); switching to "local" (384 dims)
+    # would need its own column or table -- see docs/decisions/003.
+    embedder_provider: Literal["voyage", "local"] = "voyage"
     # Hosted: Voyage AI. Chosen as Anthropic's recommended embedding partner, with a
     # finance-tuned model that fits this project's domain.
     voyage_api_key: str | None = None
