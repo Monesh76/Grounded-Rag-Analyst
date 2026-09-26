@@ -13,6 +13,8 @@ dependencies = [
     "pgvector>=0.5.0",
     "anthropic>=1.8.0",
     "openai>=3.19.2",
+    "fastapi>=0.141.1",
+    "uvicorn>=0.54.0",
 ]
 
 [dependency-groups]
@@ -35,6 +37,11 @@ target-version = "py312"
 [tool.ruff.lint]
 # E/F: pycodestyle + pyflakes, I: import sorting, UP: modern syntax, B: common bug patterns
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.flake8-bugbear]
+# fastapi.Depends(...) as a default argument is FastAPI's documented dependency-
+# injection idiom, not the mutable-default-argument bug B008 is meant to catch.
+extend-immutable-calls = ["fastapi.Depends"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

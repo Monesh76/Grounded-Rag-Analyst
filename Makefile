@@ -1,4 +1,4 @@
-.PHONY: setup test lint format ingest load
+.PHONY: setup test lint format ingest load serve
 
 setup:  ## Install Python 3.12 + all deps into .venv
 	uv sync
@@ -19,3 +19,6 @@ ingest:  ## Download + parse the 10 companies' 10-Ks (needs SEC_USER_AGENT in .e
 
 load:  ## Chunk, embed and load parsed filings into Postgres (needs `make ingest` first)
 	uv run python -m filings_rag.ingest.load
+
+serve:  ## Run the API locally at http://localhost:8000
+	uv run uvicorn filings_rag.api:app --reload --port 8000
