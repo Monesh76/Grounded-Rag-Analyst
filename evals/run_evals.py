@@ -240,7 +240,9 @@ def run_full(
     answerable_rows = [r for r in ok_rows if r["recall"] is not None]
     judged_rows = [r for r in ok_rows if "faithfulness" in r]
     latencies = [r["latency_ms"] for r in ok_rows]
-    total_cost = sum(r["cost_usd"] for r in ok_rows)
+    generation_cost = sum(r["cost_usd"] for r in ok_rows)
+    judge_cost = judge.total_cost_usd if judge is not None else 0.0
+    total_cost = generation_cost + judge_cost
 
     summary = {
         "kind": "full",
@@ -256,6 +258,8 @@ def run_full(
         "p50_latency_ms": percentile(latencies, 50),
         "p95_latency_ms": percentile(latencies, 95),
         "cost_per_1k_usd": cost_per_1k_questions(total_cost, len(rows)),
+        "generation_cost_usd": generation_cost,
+        "judge_cost_usd": judge_cost,
         "total_cost_usd": total_cost,
         "cache_hits": llm.hits,
         "cache_misses": llm.misses,
@@ -303,6 +307,8 @@ def _to_markdown(summary: dict[str, Any], run_id: str) -> str:
         lines.append(f"| p50 latency (ms) | {summary['p50_latency_ms']:.0f} |")
         lines.append(f"| p95 latency (ms) | {summary['p95_latency_ms']:.0f} |")
         lines.append(f"| Cost per 1K questions | ${summary['cost_per_1k_usd']:.2f} |")
+        lines.append(f"| Generation cost (this run) | ${summary['generation_cost_usd']:.4f} |")
+        lines.append(f"| Judge cost (this run) | ${summary['judge_cost_usd']:.4f} |")
         lines.append(f"| Total cost (this run) | ${summary['total_cost_usd']:.4f} |")
         lines.append(
             f"| LLM cache hits/misses | {summary['cache_hits']}/{summary['cache_misses']} |"

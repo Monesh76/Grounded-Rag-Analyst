@@ -23,19 +23,32 @@ CORRECTNESS_CRITERIA = (
 
 
 class ClaudeJudge(DeepEvalBaseLLM):
-    """Adapts our own ClaudeProvider to DeepEval's judge-model interface."""
+    """Adapts our own ClaudeProvider to DeepEval's judge-model interface.
+
+    Tracks its own total_cost_usd/total_tokens: DeepEval only accrues a
+    metric's cost when the wrapped model is one of its own "native" model
+    integrations (see accrue_token_usage in its source), so a custom
+    DeepEvalBaseLLM's spend is otherwise invisible -- a real gap found only
+    after running eval-full for real and realizing the reported total cost
+    silently excluded every judge call.
+    """
 
     def __init__(self, provider: ClaudeProvider) -> None:
         self._provider = provider  # must be set before super().__init__() calls load_model()
         super().__init__(model=provider.model)
+        self.total_cost_usd = 0.0
+        self.total_tokens = 0
 
     def load_model(self) -> ClaudeProvider:
         return self._provider
 
     def generate(self, prompt: str) -> str:
-        return self._provider.complete(
+        response = self._provider.complete(
             system="You are a careful, precise evaluation assistant.", user=prompt
-        ).text
+        )
+        self.total_cost_usd += response.cost_usd
+        self.total_tokens += response.input_tokens + response.output_tokens
+        return response.text
 
     async def a_generate(self, prompt: str) -> str:
         return self.generate(prompt)

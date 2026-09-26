@@ -155,6 +155,8 @@ def test_markdown_includes_full_mode_metrics() -> None:
         "p50_latency_ms": 500.0,
         "p95_latency_ms": 900.0,
         "cost_per_1k_usd": 12.5,
+        "generation_cost_usd": 0.01,
+        "judge_cost_usd": 0.0525,
         "total_cost_usd": 0.0625,
         "cache_hits": 2,
         "cache_misses": 3,
@@ -166,6 +168,8 @@ def test_markdown_includes_full_mode_metrics() -> None:
     assert "Correctness" in md
     assert "Cost per 1K questions" in md
     assert "$12.50" in md
+    assert "Judge cost" in md
+    assert "$0.0525" in md
 
 
 # --- run_full's error resilience ---
@@ -232,3 +236,38 @@ def test_run_full_continues_after_one_row_raises(monkeypatch: pytest.MonkeyPatch
     ok = next(r for r in summary["per_row"] if r["id"] == "q2")
     assert "error" not in ok
     assert ok["recall"] == 1.0  # the successful row's metrics still computed correctly
+
+
+def test_run_full_includes_judge_cost_in_total(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Real gap found running eval-full for real: the reported total cost only
+    # ever summed generation calls, silently excluding every judge call.
+    monkeypatch.setattr(run_evals_module, "get_embedder", lambda settings: object())
+    monkeypatch.setattr(
+        run_evals_module.Reranker, "from_settings", staticmethod(lambda settings: object())
+    )
+    monkeypatch.setattr(run_evals_module, "get_connection", lambda settings: _FakeConn())
+    monkeypatch.setattr(run_evals_module, "get_llm_provider", lambda settings: _FakeLLM())
+    monkeypatch.setattr(
+        run_evals_module,
+        "search",
+        lambda conn, embedder, reranker, question, mode, settings: [result("AAPL", 2025, "7")],
+    )
+
+    import evals.judge as judge_module
+
+    class _FakeJudge:
+        total_cost_usd = 0.05
+
+    fake_judge = _FakeJudge()
+    monkeypatch.setattr(judge_module, "build_judge", lambda settings: fake_judge)
+    monkeypatch.setattr(
+        judge_module,
+        "score_answer",
+        lambda judge, q, a, e, ctx: judge_module.JudgeScores(faithfulness=1.0, correctness=1.0),
+    )
+
+    rows = [_golden_row("q1", "fine")]
+    summary = run_full(rows, get_settings(), concurrency=1, use_judge=True)
+
+    assert summary["judge_cost_usd"] == 0.05
+    assert summary["total_cost_usd"] >= 0.05
