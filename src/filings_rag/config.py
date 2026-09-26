@@ -112,7 +112,10 @@ class Settings(BaseSettings):
     # Both unset -> tracing.py is a no-op; make test/CI never need these.
     langfuse_public_key: str | None = None
     langfuse_secret_key: str | None = None
-    langfuse_host: str = "https://cloud.langfuse.com"
+    # Field name matches Langfuse's own env var (LANGFUSE_BASE_URL), not a
+    # generic "host" name -- a mismatch here silently defaults to the wrong
+    # region's endpoint and fails with 401, not a clear "not configured" error.
+    langfuse_base_url: str = "https://cloud.langfuse.com"
 
     data_dir: Path = Path("data")
 
