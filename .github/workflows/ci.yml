@@ -5,9 +5,17 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+    # PR comment step needs write access; harmless (and unused) on push-to-main
+    # runs, which have no PR to comment on.
+    permissions:
+      contents: read
+      pull-requests: write
 
     services:
       # Same image as docker-compose.yml so CI matches local runs.
@@ -45,3 +53,37 @@ jobs:
 
       - name: Test
         run: make test
+
+      - name: Retrieval-only eval against the committed fixture
+        run: make eval-ci
+
+      - name: Post eval results as a PR comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('results/ci-latest.md', 'utf8');
+            const marker = '<!-- filings-rag-eval-comment -->';
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.body.includes(marker));
+            const commentBody = `${marker}\n${body}`;
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody,
+              });
+            }
