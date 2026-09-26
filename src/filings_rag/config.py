@@ -61,6 +61,13 @@ class Settings(BaseSettings):
     local_embedding_model: str = "BAAI/bge-small-en-v1.5"
     local_embedding_batch_size: int = Field(default=32, gt=0)
 
+    # --- Retrieval (P3) ---
+    retrieval_dense_top_k: int = Field(default=50, gt=0)
+    retrieval_keyword_top_k: int = Field(default=50, gt=0)
+    retrieval_rrf_k: int = Field(default=60, gt=0)  # reciprocal rank fusion constant
+    retrieval_rerank_top_k: int = Field(default=6, gt=0)
+    reranker_model: str = "BAAI/bge-reranker-base"
+
     data_dir: Path = Path("data")
 
     @property
