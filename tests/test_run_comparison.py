@@ -34,24 +34,28 @@ def test_write_comparison_includes_all_runs(tmp_path, monkeypatch) -> None:
             "chunking": "fixed-512",
             "mode": "dense",
             "model": "anthropic/claude-haiku-4.5",
+            "num_questions": 50,
             "recall_at_6": 0.8,
             "mrr": 0.7,
             "refusal_accuracy": 0.9,
             "p95_latency_ms": 500.0,
-            "cost_per_1k_usd": 1.0,
+            "generation_cost_usd": 0.1,
+            "judge_cost_usd": 0.0,
         },
         {
             "run_name": "e",
             "chunking": "section-aware",
             "mode": "hybrid_rerank",
             "model": "openai/gpt-4o-mini",
+            "num_questions": 50,
             "recall_at_6": 0.9,
             "mrr": 0.8,
             "faithfulness": 0.95,
             "correctness": 0.9,
             "refusal_accuracy": 0.92,
             "p95_latency_ms": 700.0,
-            "cost_per_1k_usd": 2.0,
+            "generation_cost_usd": 0.2,
+            "judge_cost_usd": 2.0,
         },
     ]
     path = write_comparison(summaries)
@@ -60,4 +64,6 @@ def test_write_comparison_includes_all_runs(tmp_path, monkeypatch) -> None:
     assert "| E |" in text
     assert "n/a" in text  # run A wasn't judged (no faithfulness/correctness)
     assert "0.950" in text
+    assert "| A | fixed-512 | dense | anthropic/claude-haiku-4.5 | no |" in text
+    assert "| E | section-aware | hybrid_rerank | openai/gpt-4o-mini | yes |" in text
     assert run_comparison_module.Path("results/comparison.md").exists()
