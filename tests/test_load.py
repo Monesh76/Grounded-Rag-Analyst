@@ -10,7 +10,8 @@ import pytest
 
 from filings_rag.config import Settings, get_settings
 from filings_rag.db import get_test_connection, run_migrations
-from filings_rag.ingest.load import load_all
+from filings_rag.ingest.chunk import chunk_filing_fixed
+from filings_rag.ingest.load import _upsert_sql, load_all
 from filings_rag.ingest.models import FilingRef, Manifest, ManifestEntry, ParsedFiling, Section
 
 pytestmark = pytest.mark.integration
@@ -69,8 +70,8 @@ def clean_chunks_table() -> None:
         pytest.fail(f"Cannot reach Postgres. Run `docker compose up -d db`.\n{exc}")
     run_migrations(conn)
     conn.execute("DELETE FROM chunks WHERE ticker IN ('TEST', 'GONE')")
+    conn.execute("DELETE FROM chunks_fixed512 WHERE ticker IN ('TEST', 'GONE')")
     conn.commit()
-    conn.close()
     conn.close()
 
 
@@ -117,3 +118,22 @@ def test_skips_manifest_entries_missing_parsed_file(settings: Settings, tmp_path
 
     summary = load_all(settings, embedder=FakeEmbedder())
     assert summary["filings_loaded"] == 1  # GONE skipped, TEST loaded
+
+
+def test_loads_into_chunks_fixed512_with_the_fixed_chunker(settings: Settings) -> None:
+    summary = load_all(
+        settings, embedder=FakeEmbedder(), table="chunks_fixed512", chunk_fn=chunk_filing_fixed
+    )
+    assert summary["chunks_loaded"] > 0
+
+    conn = psycopg.connect(settings.database_url)
+    (count,) = conn.execute("SELECT count(*) FROM chunks_fixed512 WHERE ticker = 'TEST'").fetchone()
+    (chunks_count,) = conn.execute("SELECT count(*) FROM chunks WHERE ticker = 'TEST'").fetchone()
+    conn.close()
+    assert count == summary["chunks_loaded"]
+    assert chunks_count == 0  # the production table is untouched
+
+
+def test_upsert_sql_rejects_unknown_table() -> None:
+    with pytest.raises(ValueError, match="Unknown chunk table"):
+        _upsert_sql("drop_all")

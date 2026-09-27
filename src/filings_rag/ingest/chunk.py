@@ -137,3 +137,43 @@ def chunk_filing(filing: FilingRef, sections: list[Section], settings: Settings)
                 )
             )
     return chunks
+
+
+def chunk_section_fixed(section: Section, tokens: int) -> list[str]:
+    """P6 experiment A's baseline: blind fixed-size windows over a section's raw
+    text, ignoring paragraph/table boundaries and overlap entirely -- unlike
+    chunk_section's greedy block-packing, this is deliberately naive, since the
+    point of run A is to measure what section-aware chunking (runs B-E) buys
+    over the simplest thing that could work.
+    """
+    words = section.text.split()
+    words_per_chunk = max(1, round(tokens * 3 / 4))  # inverse of estimate_tokens's ratio
+    return [
+        " ".join(words[i : i + words_per_chunk])
+        for i in range(0, len(words), words_per_chunk)
+        if words[i : i + words_per_chunk]
+    ]
+
+
+def chunk_filing_fixed(
+    filing: FilingRef, sections: list[Section], settings: Settings
+) -> list[Chunk]:
+    chunks: list[Chunk] = []
+    for section in sections:
+        texts = chunk_section_fixed(section, settings.fixed_chunk_tokens)
+        for index, text in enumerate(texts):
+            chunks.append(
+                Chunk(
+                    id=f"{filing.ticker}_{filing.fiscal_year}_{section.item}_{index}",
+                    doc_id=filing.accession_number,
+                    ticker=filing.ticker,
+                    company=filing.company,
+                    fiscal_year=filing.fiscal_year,
+                    item=section.item,
+                    section_title=section.title,
+                    page=section.page or 1,
+                    chunk_index=index,
+                    text=text,
+                )
+            )
+    return chunks

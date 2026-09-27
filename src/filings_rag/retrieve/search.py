@@ -26,6 +26,7 @@ def search(
     mode: str,
     settings: Settings,
     top_k: int | None = None,
+    table: str = "chunks",
 ) -> list[RetrievalResult]:
     if mode not in MODES:
         raise ValueError(f"Unknown retrieval mode {mode!r}; choose one of {MODES}")
@@ -34,13 +35,13 @@ def search(
     filters = extract_filters(question)
 
     if mode == "dense":
-        return _dense(conn, embedder, question, filters, settings)[:top_k]
+        return _dense(conn, embedder, question, filters, settings, table)[:top_k]
 
     if mode == "keyword":
-        return _keyword(conn, question, filters, settings)[:top_k]
+        return _keyword(conn, question, filters, settings, table)[:top_k]
 
-    dense_results = _dense(conn, embedder, question, filters, settings)
-    keyword_results = _keyword(conn, question, filters, settings)
+    dense_results = _dense(conn, embedder, question, filters, settings, table)
+    keyword_results = _keyword(conn, question, filters, settings, table)
     fused = fuse_results([dense_results, keyword_results], k=settings.retrieval_rrf_k)
 
     if mode == "hybrid":
@@ -63,21 +64,24 @@ def _dense(
     question: str,
     filters: Filters,
     settings: Settings,
+    table: str,
 ) -> list[RetrievalResult]:
     with tracing.span(
         settings, "dense-retrieval", as_type="retriever", input={"question": question}
     ) as obs:
-        results = dense_search(conn, embedder, question, settings.retrieval_dense_top_k, filters)
+        results = dense_search(
+            conn, embedder, question, settings.retrieval_dense_top_k, filters, table
+        )
         tracing.update(obs, output={"count": len(results)})
     return results
 
 
 def _keyword(
-    conn: psycopg.Connection, question: str, filters: Filters, settings: Settings
+    conn: psycopg.Connection, question: str, filters: Filters, settings: Settings, table: str
 ) -> list[RetrievalResult]:
     with tracing.span(
         settings, "keyword-retrieval", as_type="retriever", input={"question": question}
     ) as obs:
-        results = keyword_search(conn, question, settings.retrieval_keyword_top_k, filters)
+        results = keyword_search(conn, question, settings.retrieval_keyword_top_k, filters, table)
         tracing.update(obs, output={"count": len(results)})
     return results

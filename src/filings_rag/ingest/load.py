@@ -5,36 +5,50 @@ re-running with an unchanged manifest/parsed output and the same embedder replac
 identical rows rather than duplicating them.
 """
 
+import argparse
 import sys
+from collections.abc import Callable
 
 from pgvector.psycopg import register_vector
 
 from filings_rag.config import Settings, get_settings
 from filings_rag.db import get_connection, run_migrations
 from filings_rag.embed import Embedder, get_embedder
-from filings_rag.ingest.chunk import chunk_filing
-from filings_rag.ingest.models import Manifest, ParsedFiling
+from filings_rag.ingest.chunk import chunk_filing, chunk_filing_fixed
+from filings_rag.ingest.models import Chunk, FilingRef, Manifest, ParsedFiling, Section
+from filings_rag.retrieve.common import CHUNK_TABLES
 
-UPSERT_SQL = """
-INSERT INTO chunks (id, doc_id, ticker, company, fiscal_year, item, section_title,
-                     page, chunk_index, text, embedding)
-VALUES (%(id)s, %(doc_id)s, %(ticker)s, %(company)s, %(fiscal_year)s, %(item)s,
-        %(section_title)s, %(page)s, %(chunk_index)s, %(text)s, %(embedding)s)
-ON CONFLICT (id) DO UPDATE SET
-    doc_id = EXCLUDED.doc_id,
-    ticker = EXCLUDED.ticker,
-    company = EXCLUDED.company,
-    fiscal_year = EXCLUDED.fiscal_year,
-    item = EXCLUDED.item,
-    section_title = EXCLUDED.section_title,
-    page = EXCLUDED.page,
-    chunk_index = EXCLUDED.chunk_index,
-    text = EXCLUDED.text,
-    embedding = EXCLUDED.embedding
-"""
+ChunkFn = Callable[[FilingRef, list[Section], Settings], list[Chunk]]
 
 
-def load_all(settings: Settings, embedder: Embedder | None = None) -> dict:
+def _upsert_sql(table: str) -> str:
+    if table not in CHUNK_TABLES:
+        raise ValueError(f"Unknown chunk table {table!r}; choose one of {CHUNK_TABLES}")
+    return f"""
+    INSERT INTO {table} (id, doc_id, ticker, company, fiscal_year, item, section_title,
+                         page, chunk_index, text, embedding)
+    VALUES (%(id)s, %(doc_id)s, %(ticker)s, %(company)s, %(fiscal_year)s, %(item)s,
+            %(section_title)s, %(page)s, %(chunk_index)s, %(text)s, %(embedding)s)
+    ON CONFLICT (id) DO UPDATE SET
+        doc_id = EXCLUDED.doc_id,
+        ticker = EXCLUDED.ticker,
+        company = EXCLUDED.company,
+        fiscal_year = EXCLUDED.fiscal_year,
+        item = EXCLUDED.item,
+        section_title = EXCLUDED.section_title,
+        page = EXCLUDED.page,
+        chunk_index = EXCLUDED.chunk_index,
+        text = EXCLUDED.text,
+        embedding = EXCLUDED.embedding
+    """  # noqa: S608 -- table comes from our own fixed, validated allow-list
+
+
+def load_all(
+    settings: Settings,
+    embedder: Embedder | None = None,
+    table: str = "chunks",
+    chunk_fn: ChunkFn = chunk_filing,
+) -> dict:
     embedder = embedder or get_embedder(settings)
     conn = get_connection(settings)
     register_vector(conn)  # lets psycopg send/receive python lists as pgvector's type
@@ -43,6 +57,7 @@ def load_all(settings: Settings, embedder: Embedder | None = None) -> dict:
     manifest = Manifest.model_validate_json(settings.manifest_path.read_text())
     filings_loaded = 0
     chunks_loaded = 0
+    upsert_sql = _upsert_sql(table)
 
     for entry in manifest.filings:
         parsed_path = settings.parsed_dir / f"{entry.ticker}_{entry.fiscal_year}.json"
@@ -50,7 +65,7 @@ def load_all(settings: Settings, embedder: Embedder | None = None) -> dict:
             continue  # parsed output is gitignored/regenerable; skip if missing rather than fail
 
         parsed = ParsedFiling.model_validate_json(parsed_path.read_text())
-        chunks = chunk_filing(parsed.filing, parsed.sections, settings)
+        chunks = chunk_fn(parsed.filing, parsed.sections, settings)
         if not chunks:
             continue
 
@@ -60,13 +75,13 @@ def load_all(settings: Settings, embedder: Embedder | None = None) -> dict:
             for c, vector in zip(chunks, vectors, strict=True)
         ]
         with conn.cursor() as cur:
-            cur.executemany(UPSERT_SQL, rows)
+            cur.executemany(upsert_sql, rows)
         conn.commit()
 
         filings_loaded += 1
         chunks_loaded += len(chunks)
 
-    (total_in_db,) = conn.execute("SELECT count(*) FROM chunks").fetchone()
+    (total_in_db,) = conn.execute(f"SELECT count(*) FROM {table}").fetchone()  # noqa: S608
     conn.close()
 
     tokens_used = getattr(embedder, "total_tokens_used", 0)
@@ -80,8 +95,20 @@ def load_all(settings: Settings, embedder: Embedder | None = None) -> dict:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(prog="python -m filings_rag.ingest.load")
+    parser.add_argument(
+        "--fixed",
+        action="store_true",
+        help="Load P6 experiment A's fixed-512-token chunking into chunks_fixed512 "
+        "instead of the production section-aware chunker into chunks",
+    )
+    args = parser.parse_args()
+
     settings = get_settings()
-    summary = load_all(settings)
+    if args.fixed:
+        summary = load_all(settings, table="chunks_fixed512", chunk_fn=chunk_filing_fixed)
+    else:
+        summary = load_all(settings)
 
     print(f"Filings loaded:          {summary['filings_loaded']}")
     print(f"Chunks loaded (this run): {summary['chunks_loaded']}")

@@ -34,6 +34,11 @@ def test_no_match_returns_empty(conn: psycopg.Connection) -> None:
     assert results == []
 
 
+def test_rejects_unknown_table_before_touching_the_database() -> None:
+    with pytest.raises(ValueError, match="Unknown chunk table"):
+        keyword_search(conn=None, question="q", top_k=1, table="drop_all")  # type: ignore[arg-type]
+
+
 def test_applies_metadata_filters(conn: psycopg.Connection) -> None:
     insert_chunk(conn, "match", "net revenue details", unit_vector(0), fiscal_year=2024)
     insert_chunk(conn, "other_year", "net revenue details", unit_vector(1), fiscal_year=2023)

@@ -58,6 +58,17 @@ def test_applies_ticker_filter(conn: psycopg.Connection) -> None:
     assert [r.id for r in results] == ["match"]
 
 
+def test_rejects_unknown_table_before_touching_the_database() -> None:
+    with pytest.raises(ValueError, match="Unknown chunk table"):
+        dense_search(
+            conn=None,  # type: ignore[arg-type]
+            embedder=FixedEmbedder(unit_vector(0)),
+            question="q",
+            top_k=1,
+            table="drop_all",
+        )
+
+
 def test_applies_fiscal_year_filter(conn: psycopg.Connection) -> None:
     insert_chunk(conn, "y2023", "text", unit_vector(0), fiscal_year=2023)
     insert_chunk(conn, "y2024", "text", unit_vector(0), fiscal_year=2024)

@@ -1,5 +1,11 @@
 from filings_rag.config import Settings
-from filings_rag.ingest.chunk import chunk_filing, chunk_section, estimate_tokens
+from filings_rag.ingest.chunk import (
+    chunk_filing,
+    chunk_filing_fixed,
+    chunk_section,
+    chunk_section_fixed,
+    estimate_tokens,
+)
 from filings_rag.ingest.models import FilingRef, Section
 
 FILING = FilingRef(
@@ -127,3 +133,47 @@ def test_chunk_ids_are_deterministic_and_sequential() -> None:
     assert [c.id for c in chunks] == [f"AAPL_2025_1A_{i}" for i in range(len(chunks))]
     assert [c.chunk_index for c in chunks] == list(range(len(chunks)))
     assert all(c.doc_id == FILING.accession_number for c in chunks)
+
+
+# --- chunk_section_fixed / chunk_filing_fixed (P6 experiment A's baseline) ---
+
+
+def test_fixed_chunking_splits_into_roughly_equal_word_windows() -> None:
+    section = Section(item="7", title="MD&A", page=20, text=words(300))
+
+    chunks = chunk_section_fixed(section, tokens=40)
+
+    assert len(chunks) > 1
+    words_per_chunk = round(40 * 3 / 4)
+    for chunk in chunks[:-1]:  # the last window may be shorter
+        assert len(chunk.split()) == words_per_chunk
+
+
+def test_fixed_chunking_preserves_all_words_in_order() -> None:
+    section = Section(item="7", title="MD&A", page=20, text=words(50))
+
+    chunks = chunk_section_fixed(section, tokens=40)
+
+    assert " ".join(chunks).split() == words(50).split()
+
+
+def test_fixed_chunking_ignores_paragraph_boundaries() -> None:
+    # Unlike chunk_section, chunk_section_fixed doesn't respect "\n\n" breaks --
+    # that's the whole point of a blind baseline to compare section-aware
+    # chunking against.
+    section = Section(item="7", title="MD&A", page=20, text=f"{words(20)}\n\n{words(20)}")
+
+    chunks = chunk_section_fixed(section, tokens=200)
+
+    assert len(chunks) == 1
+    assert "\n\n" not in chunks[0]
+
+
+def test_chunk_filing_fixed_uses_fixed_chunk_tokens_setting() -> None:
+    settings = small_settings(fixed_chunk_tokens=40)
+    section = Section(item="1", title="Business", page=3, text=words(100))
+
+    chunks = chunk_filing_fixed(FILING, [section], settings)
+
+    assert len(chunks) > 1
+    assert [c.id for c in chunks] == [f"AAPL_2025_1_{i}" for i in range(len(chunks))]

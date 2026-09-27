@@ -45,6 +45,10 @@ class Settings(BaseSettings):
     chunk_min_tokens: int = Field(default=500, gt=0)
     chunk_max_tokens: int = Field(default=800, gt=0)
     chunk_overlap_ratio: float = Field(default=0.15, ge=0, lt=1)
+    # P6 experiment A's baseline chunk size (see ingest/chunk.py's
+    # chunk_section_fixed) -- kept separate from chunk_max_tokens since the two
+    # strategies are meant to be compared, not share a knob.
+    fixed_chunk_tokens: int = Field(default=512, gt=0)
 
     # --- Embedding (P2) ---
     # Which Embedder `get_embedder()` builds. "voyage" is what the chunks table's

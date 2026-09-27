@@ -6,6 +6,13 @@ from typing import Any
 
 from filings_rag.retrieve.models import Filters, RetrievalResult
 
+# The only two tables dense/keyword search are ever pointed at -- "chunks"
+# (production, section-aware) and "chunks_fixed512" (P6 experiment A's fixed-
+# chunking baseline, same schema). An allow-list, not just internal-only-string
+# trust, since the table name gets interpolated directly into SQL (identifiers
+# can't be parameterized the way values can).
+CHUNK_TABLES = ("chunks", "chunks_fixed512")
+
 
 def filter_conditions(filters: Filters | None) -> tuple[list[str], dict[str, Any]]:
     """SQL condition strings (no WHERE/AND) and their params, for whichever

@@ -7,7 +7,7 @@ accepts ("quotes", -exclude, OR), which is friendlier for a question than
 import psycopg
 from psycopg.rows import dict_row
 
-from filings_rag.retrieve.common import filter_conditions, row_to_result
+from filings_rag.retrieve.common import CHUNK_TABLES, filter_conditions, row_to_result
 from filings_rag.retrieve.models import Filters, RetrievalResult
 
 
@@ -16,7 +16,10 @@ def keyword_search(
     question: str,
     top_k: int,
     filters: Filters | None = None,
+    table: str = "chunks",
 ) -> list[RetrievalResult]:
+    if table not in CHUNK_TABLES:
+        raise ValueError(f"Unknown chunk table {table!r}; choose one of {CHUNK_TABLES}")
     conditions, params = filter_conditions(filters)
     conditions.insert(0, "tsv @@ websearch_to_tsquery('english', %(question)s)")
     params["question"] = question
@@ -26,11 +29,11 @@ def keyword_search(
             f"""
             SELECT id, doc_id, ticker, company, fiscal_year, item, section_title, page, text,
                    ts_rank_cd(tsv, websearch_to_tsquery('english', %(question)s)) AS score
-            FROM chunks
+            FROM {table}
             WHERE {" AND ".join(conditions)}
             ORDER BY score DESC
             LIMIT %(top_k)s
-            """,  # noqa: S608 -- conditions are our own fixed strings, question is parameterized
+            """,  # noqa: S608 -- table/conditions come from our own fixed, validated allow-list
             {"top_k": top_k, **params},
         )
         rows = cur.fetchall()
