@@ -87,6 +87,7 @@ def test_load_experiment_config_defaults_when_no_path_given() -> None:
     config = load_experiment_config(None)
     assert config["name"] == "default"
     assert config["mode"] == "hybrid_rerank"
+    assert config["table"] == "chunks"
     assert config["settings"] == {}
 
 
@@ -96,7 +97,15 @@ def test_load_experiment_config_reads_yaml(tmp_path: Path) -> None:
     config = load_experiment_config(str(path))
     assert config["name"] == "my_experiment"
     assert config["mode"] == "dense"
+    assert config["table"] == "chunks"  # defaulted, since not present in the file
     assert config["settings"] == {}  # defaulted, since not present in the file
+
+
+def test_load_experiment_config_reads_table_override(tmp_path: Path) -> None:
+    path = tmp_path / "exp.yaml"
+    path.write_text("name: a\nmode: dense\ntable: chunks_fixed512\n")
+    config = load_experiment_config(str(path))
+    assert config["table"] == "chunks_fixed512"
 
 
 # --- _to_source_tuples ---
@@ -218,7 +227,7 @@ def test_run_full_continues_after_one_row_raises(monkeypatch: pytest.MonkeyPatch
     monkeypatch.setattr(run_evals_module, "get_connection", lambda settings: _FakeConn())
     monkeypatch.setattr(run_evals_module, "get_llm_provider", lambda settings: _FakeLLM())
 
-    def fake_search(conn, embedder, reranker, question, mode, settings):
+    def fake_search(conn, embedder, reranker, question, mode, settings, table="chunks"):
         if question == "boom":
             raise RuntimeError("simulated API failure")
         return [result("AAPL", 2025, "7")]
@@ -250,7 +259,9 @@ def test_run_full_includes_judge_cost_in_total(monkeypatch: pytest.MonkeyPatch) 
     monkeypatch.setattr(
         run_evals_module,
         "search",
-        lambda conn, embedder, reranker, question, mode, settings: [result("AAPL", 2025, "7")],
+        lambda conn, embedder, reranker, question, mode, settings, table="chunks": [
+            result("AAPL", 2025, "7")
+        ],
     )
 
     import evals.judge as judge_module

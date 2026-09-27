@@ -1,0 +1,6 @@
+# Run C: section-aware chunking + hybrid (dense + keyword, fused) retrieval,
+# no reranking.
+name: c
+mode: hybrid
+table: chunks
+settings: {}

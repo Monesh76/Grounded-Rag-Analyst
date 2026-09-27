@@ -1,0 +1,7 @@
+# Run A (PLAN.md's experiment grid): fixed-512-token chunking + dense retrieval.
+# Points at chunks_fixed512 (P6's fixed-chunking baseline), not production
+# chunks -- see docs/decisions/007.
+name: a
+mode: dense
+table: chunks_fixed512
+settings: {}

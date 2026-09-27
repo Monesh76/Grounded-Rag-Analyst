@@ -1,0 +1,5 @@
+# Run B: section-aware chunking (production chunks) + dense retrieval only.
+name: b
+mode: dense
+table: chunks
+settings: {}

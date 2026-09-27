@@ -1,0 +1,10 @@
+# Run E: same as D (section-aware, hybrid + rerank), but a second, different
+# model via OpenRouter -- openai/gpt-4o-mini instead of the project's default
+# anthropic/claude-haiku-4.5. Both are cheap dev-tier models (P4's choice), so
+# this compares model quality on this task, not price tier.
+name: e
+mode: hybrid_rerank
+table: chunks
+settings:
+  llm_provider: openrouter
+  openrouter_model: openai/gpt-4o-mini

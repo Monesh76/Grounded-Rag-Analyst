@@ -1,0 +1,8 @@
+# Run D: section-aware chunking + hybrid retrieval + rerank, the production
+# default in every other way -- identical to default.yaml, kept as its own
+# file so the A-E grid is five self-contained configs, not four plus "see
+# default.yaml".
+name: d
+mode: hybrid_rerank
+table: chunks
+settings: {}

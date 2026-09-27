@@ -1,4 +1,4 @@
-.PHONY: setup test lint format ingest load serve eval eval-ci eval-full
+.PHONY: setup test lint format ingest load serve eval eval-ci eval-full comparison
 
 setup:  ## Install Python 3.12 + all deps into .venv
 	uv sync
@@ -35,3 +35,6 @@ eval-ci:  ## Same as `eval`, but against the small committed fixture -- what CI 
 eval-full:  ## Full pipeline evals with LLM judge -- costs money, ask before running
 	uv run python -m evals.run_evals --full
 	uv run pytest evals/test_evals.py -v
+
+comparison:  ## Run PLAN.md's A-E experiment grid, write results/comparison.md -- 5x eval-full's cost
+	uv run python -m evals.run_comparison

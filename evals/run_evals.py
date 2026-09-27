@@ -86,9 +86,10 @@ def load_golden(path: Path = GOLDEN_PATH) -> list[GoldenRow]:
 
 def load_experiment_config(path: str | None) -> dict[str, Any]:
     if not path:
-        return {"name": "default", "mode": "hybrid_rerank", "settings": {}}
+        return {"name": "default", "mode": "hybrid_rerank", "table": "chunks", "settings": {}}
     config = yaml.safe_load(Path(path).read_text()) or {}
     config.setdefault("mode", "hybrid_rerank")
+    config.setdefault("table", "chunks")
     config.setdefault("settings", {})
     return config
 
@@ -119,6 +120,7 @@ def run_retrieval_only(
     settings: Settings,
     mode: str = "hybrid_rerank",
     concurrency: int = DEFAULT_RETRIEVAL_CONCURRENCY,
+    table: str = "chunks",
 ) -> dict[str, Any]:
     embedder = get_embedder(settings)
     reranker = Reranker.from_settings(settings) if mode == "hybrid_rerank" else None
@@ -128,7 +130,9 @@ def run_retrieval_only(
         conn = get_connection(settings)
         try:
             with _MODEL_LOCK:
-                results = search(conn, embedder, reranker, row.question, mode, settings)
+                results = search(
+                    conn, embedder, reranker, row.question, mode, settings, table=table
+                )
         finally:
             conn.close()
         retrieved = _to_source_tuples(results)
@@ -159,6 +163,7 @@ def run_full(
     mode: str = "hybrid_rerank",
     concurrency: int = DEFAULT_FULL_CONCURRENCY,
     use_judge: bool = True,
+    table: str = "chunks",
 ) -> dict[str, Any]:
     embedder = get_embedder(settings)
     reranker = Reranker.from_settings(settings)
@@ -174,7 +179,7 @@ def run_full(
         # call in ask_detailed() below happens outside this function, so it
         # still runs concurrently across workers.
         with _MODEL_LOCK:
-            return search(conn, embedder, reranker, question, mode, settings)
+            return search(conn, embedder, reranker, question, mode, settings, table=table)
 
     def process(row: GoldenRow) -> dict[str, Any]:
         # One question's API error (rate limit, transient outage, ...) must not
@@ -341,9 +346,11 @@ def main() -> int:
     run_id = args.run_id or f"{timestamp}-{config['name']}-{kind}"
 
     if args.full:
-        summary = run_full(rows, settings, mode=config["mode"], use_judge=not args.no_judge)
+        summary = run_full(
+            rows, settings, mode=config["mode"], use_judge=not args.no_judge, table=config["table"]
+        )
     else:
-        summary = run_retrieval_only(rows, settings, mode=config["mode"])
+        summary = run_retrieval_only(rows, settings, mode=config["mode"], table=config["table"])
 
     json_path, md_path = write_results(summary, run_id)
     print(f"Wrote {json_path} and {md_path}")

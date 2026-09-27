@@ -22,6 +22,9 @@ _PRICING: dict[str, tuple[float, float]] = {
     "claude-sonnet-5": (3.00, 15.00),
     "gpt-4o-mini": (0.15, 0.60),
     "anthropic/claude-haiku-4.5": (1.00, 5.00),
+    # P6 experiment E's second-provider comparison (OpenRouter's prefixed name
+    # for the same underlying model as "gpt-4o-mini" above).
+    "openai/gpt-4o-mini": (0.15, 0.60),
 }
 
 
