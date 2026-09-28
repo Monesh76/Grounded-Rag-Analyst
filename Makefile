@@ -1,4 +1,4 @@
-.PHONY: setup test lint format ingest load serve eval eval-ci eval-full comparison
+.PHONY: setup test lint format migrate ingest load serve eval eval-ci eval-full comparison
 
 setup:  ## Install Python 3.12 + all deps into .venv
 	uv sync
@@ -13,6 +13,9 @@ lint:  ## Lint and check formatting (no changes)
 format:  ## Auto-fix lint issues and format code
 	uv run ruff check --fix .
 	uv run ruff format .
+
+migrate:  ## Apply pending DB migrations (run once against a fresh database)
+	uv run python -m filings_rag.migrate
 
 ingest:  ## Download + parse the 10 companies' 10-Ks (needs SEC_USER_AGENT in .env)
 	uv run python -m filings_rag.ingest
