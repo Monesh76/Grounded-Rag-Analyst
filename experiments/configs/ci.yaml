@@ -1,0 +1,9 @@
+# What CI's make eval-ci runs: points retrieval at the local-embedder fixture
+# (chunks_local) and switches the embedder itself to local, so embedding the
+# incoming question at query time needs no API key either -- not just the
+# corpus. See docs/decisions/009.
+name: ci
+mode: hybrid_rerank
+table: chunks_local
+settings:
+  embedder_provider: local

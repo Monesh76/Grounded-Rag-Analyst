@@ -108,6 +108,17 @@ def test_load_experiment_config_reads_table_override(tmp_path: Path) -> None:
     assert config["table"] == "chunks_fixed512"
 
 
+def test_ci_config_uses_the_local_embedder_and_local_table() -> None:
+    # A real gap found in CI: dense retrieval embeds the incoming *question* at
+    # query time on every call, not just the corpus once -- so even a fully
+    # pre-embedded corpus still needs a real Voyage key unless the query
+    # embedder is local too. This config is what keeps eval-ci at zero API
+    # calls, genuinely, not just for the corpus. See docs/decisions/009.
+    config = load_experiment_config("experiments/configs/ci.yaml")
+    assert config["table"] == "chunks_local"
+    assert config["settings"]["embedder_provider"] == "local"
+
+
 # --- _to_source_tuples ---
 
 

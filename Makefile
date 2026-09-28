@@ -30,9 +30,9 @@ eval:  ## Retrieval-only evals (Recall@6, MRR) -- no LLM call, cheap, safe local
 	uv run python -m evals.run_evals
 	uv run pytest evals/test_evals.py::test_recall_at_6_meets_threshold -v
 
-eval-ci:  ## Same as `eval`, but against the small committed fixture -- what CI runs on every PR
+eval-ci:  ## Same as `eval`, but against the small committed fixture, local embedder -- what CI runs on every PR, zero API calls
 	uv run python -m filings_rag.seed_eval_fixture
-	uv run python -m evals.run_evals --golden evals/golden_ci.jsonl --run-id ci-latest
+	uv run python -m evals.run_evals --golden evals/golden_ci.jsonl --config experiments/configs/ci.yaml --run-id ci-latest
 	uv run pytest evals/test_evals.py::test_recall_at_6_meets_threshold -v
 
 eval-full:  ## Full pipeline evals with LLM judge -- costs money, ask before running

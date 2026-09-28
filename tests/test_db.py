@@ -32,10 +32,18 @@ def conn() -> psycopg.Connection:
 
 def test_applies_migrations_and_tracks_them(conn: psycopg.Connection) -> None:
     applied = run_migrations(conn)
-    assert applied == ["0001_create_chunks", "0002_create_chunks_fixed512"]
+    assert applied == [
+        "0001_create_chunks",
+        "0002_create_chunks_fixed512",
+        "0003_create_chunks_local",
+    ]
 
     versions = {row[0] for row in conn.execute("SELECT version FROM schema_migrations")}
-    assert versions == {"0001_create_chunks", "0002_create_chunks_fixed512"}
+    assert versions == {
+        "0001_create_chunks",
+        "0002_create_chunks_fixed512",
+        "0003_create_chunks_local",
+    }
 
 
 def test_running_again_is_a_no_op(conn: psycopg.Connection) -> None:

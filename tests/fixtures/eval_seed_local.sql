@@ -1,0 +1,4152 @@
+-- Small local-embedder fixture for CI's `make eval-ci`: the SAME 89 real
+-- chunk rows as tests/fixtures/eval_seed.sql, but embedded with the local
+-- sentence-transformers model (BAAI/bge-small-en-v1.5, 384-dim), not
+-- Voyage -- dense retrieval embeds the incoming question at query time on
+-- every call, so even a pre-embedded corpus still needs a real Voyage API
+-- key for that unless the query embedder is local too. Zero API calls,
+-- genuinely. Regenerate by re-running the block in decision record 009 if
+-- the golden_ci subset changes.
+
+TRUNCATE TABLE chunks_local;
+
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_0', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 0, '| Index to Consolidated Financial Statements | Page |
+| Consolidated Statements of Operations for the years ended September 27, 2025, September 28, 2024 and September 30, 2023 | 29 |
+| Consolidated Statements of Comprehensive Income for the years ended September 27, 2025, September 28, 2024 and September 30, 2023 | 30 |
+| Consolidated Balance Sheets as of September 27, 2025 and September 28, 2024 | 31 |
+| Consolidated Statements of Shareholders’ Equity for the years ended September 27, 2025, September 28, 2024 and September 30, 2023 | 32 |
+| Consolidated Statements of Cash Flows for the years ended September 27, 2025, September 28, 2024 and September 30, 2023 | 33 |
+| Notes to Consolidated Financial Statements | 34 |
+| Reports of Independent Registered Public Accounting Firm | 49 |
+
+Consolidated Statements of Operations for the years ended September 27, 2025, September 28, 2024 and September 30, 2023
+
+29
+
+Consolidated Statements of Comprehensive Income for the years ended September 27, 2025, September 28, 2024 and September 30, 2023
+
+30
+
+Consolidated Balance Sheets as of September 27, 2025 and September 28, 2024
+
+31
+
+Consolidated Statements of Shareholders’ Equity for the years ended September 27, 2025, September 28, 2024 and September 30, 2023
+
+32
+
+Consolidated Statements of Cash Flows for the years ended September 27, 2025, September 28, 2024 and September 30, 2023
+
+33
+
+Notes to Consolidated Financial Statements
+
+34
+
+Reports of Independent Registered Public Accounting Firm
+
+49
+
+All financial statement schedules have been omitted, since the required information is not applicable or is not present in amounts sufficient to require submission of the schedule, or because the information required is included in the consolidated financial statements and accompanying notes.
+
+Apple Inc. | 2025 Form 10-K | 28
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF OPERATIONS
+
+(In millions, except number of shares, which are reflected in thousands, and per-share amounts)
+
+| Years ended |
+| September 27, 2025 | September 28, 2024 | September 30, 2023 |
+| Net sales: |
+| Products | $ | 307,003 | $ | 294,866 | $ | 298,085 |
+| Services | 109,158 | 96,169 | 85,200 |
+| Total net sales | 416,161 | 391,035 | 383,285 |
+| Cost of sales: |
+| Products | 194,116 | 185,233 | 189,282 |
+| Services | 26,844 | 25,119 | 24,855 |
+| Total cost of sales | 220,960 | 210,352 | 214,137 |
+| Gross margin | 195,201 | 180,683 | 169,148 |
+| Operating expenses: |
+| Research and development | 34,550 | 31,370 | 29,915 |
+| Selling, general and administrative | 27,601 | 26,097 | 24,932 |
+| Total operating expenses | 62,151 | 57,467 | 54,847 |
+| Operating income | 133,050 | 123,216 | 114,301 |
+| Other income/(expense), net | ( 321 ) | 269 | ( 565 ) |
+| Income before provision for income taxes | 132,729 | 123,485 | 113,736 |
+| Provision for income taxes | 20,719 | 29,749 | 16,741 |
+| Net income | $ | 112,010 | $ | 93,736 | $ | 96,995 |
+| Earnings per share: |
+| Basic | $ | 7.49 | $ | 6.11 | $ | 6.16 |
+| Diluted | $ | 7.46 | $ | 6.08 | $ | 6.13 |
+| Shares used in computing earnings per share: |
+| Basic | 14,948,500 | 15,343,783 | 15,744,231 |
+| Diluted | 15,004,697 | 15,408,095 | 15,812,547 |
+
+See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 29
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF COMPREHENSIVE INCOME', '[-0.016690,-0.039716,-0.012316,-0.018678,-0.014417,-0.035574,0.013653,-0.063655,0.062315,-0.006162,-0.000985,-0.012063,0.037793,0.016155,0.029829,0.009377,0.001853,-0.116106,0.001422,0.006584,0.061322,-0.030043,0.005488,0.008249,0.052146,0.064559,-0.044494,0.002250,-0.057283,-0.127782,-0.008317,-0.029888,0.025974,-0.025556,0.060221,0.018058,-0.068491,0.050847,-0.040012,0.089883,-0.001526,-0.013459,-0.005571,0.039660,0.039361,-0.016105,0.003928,-0.043233,-0.008886,0.054280,-0.034507,-0.085369,-0.079335,0.030850,-0.012740,0.022904,0.021394,0.029053,-0.001557,0.000685,0.004391,-0.040732,-0.187363,0.016680,0.033863,-0.015513,0.021856,-0.006063,-0.026218,0.009308,-0.023059,-0.011296,0.035458,-0.003742,0.011867,-0.015131,0.057413,-0.065863,-0.093497,-0.015721,0.007829,0.040409,-0.054526,-0.018185,-0.005419,0.022611,0.019345,-0.005631,0.048651,-0.043838,0.009574,-0.048454,0.065784,-0.021964,-0.033666,-0.017068,0.077883,0.020971,-0.003028,0.397354,-0.001600,0.090397,0.033095,-0.070290,-0.029088,0.011865,-0.000592,0.067463,-0.000352,-0.059932,-0.025770,0.018006,0.060874,0.049510,-0.017729,0.062472,0.039225,0.030812,0.025837,-0.010559,0.084705,-0.004699,0.020417,-0.004571,-0.064890,0.001119,0.065323,0.056527,0.030213,-0.019322,0.025198,0.037129,-0.092745,-0.021759,0.033630,-0.011819,0.002228,-0.028634,0.039582,-0.047475,-0.058558,-0.029729,0.007641,-0.062707,-0.009143,0.120617,0.023337,-0.014001,0.026262,-0.020803,-0.073555,0.110780,0.044505,-0.081091,-0.017368,0.003418,0.010969,-0.025297,-0.041523,0.035650,-0.032609,0.010854,-0.076683,0.108159,0.004117,-0.099222,-0.073979,0.042225,0.029197,0.004102,-0.022589,-0.000098,0.045325,-0.001331,0.029057,-0.010838,0.039961,-0.002606,-0.003619,0.027206,0.037731,-0.011208,-0.053144,-0.019521,0.034902,-0.007557,-0.037096,-0.018590,0.035987,0.016744,-0.031893,0.020209,-0.109504,0.120758,-0.023890,-0.036917,-0.012345,-0.017261,0.053081,-0.038517,0.050317,-0.016542,-0.041123,-0.019808,0.035500,-0.023971,-0.017414,0.069965,0.052912,-0.022053,-0.027052,0.018711,0.110127,-0.049413,0.000924,0.053362,0.014991,0.030592,-0.004345,-0.011036,0.009377,-0.010900,-0.006430,-0.287493,-0.006767,0.017845,-0.011108,-0.061174,-0.029509,-0.017138,-0.021294,-0.050271,0.058348,-0.001529,0.083739,0.004367,-0.062199,0.016575,0.038901,0.033034,-0.014308,-0.022242,0.020442,-0.024337,0.028181,-0.059077,0.055157,0.019100,0.001909,0.044176,-0.048660,-0.003126,-0.007377,0.038275,0.069766,-0.028278,-0.011743,0.047452,0.016713,-0.028959,-0.002170,-0.055679,-0.038336,0.008124,0.053292,-0.038723,0.021127,0.058721,0.005881,-0.004284,-0.026449,0.016767,0.037446,0.013013,-0.042018,0.001424,0.024445,0.096123,-0.053465,-0.025683,-0.018196,0.003909,-0.016818,-0.001981,-0.058702,-0.012509,0.048997,-0.007007,-0.045397,0.007729,0.030983,-0.019308,0.007945,-0.056422,0.017212,0.021406,-0.063932,0.020451,0.007968,-0.012715,0.014700,0.014387,-0.007618,0.019638,-0.012297,0.078917,0.042099,0.009078,0.015847,0.045725,0.029882,-0.001079,0.022916,0.014928,-0.053810,-0.030135,0.022541,0.065928,0.056547,-0.258563,-0.027810,-0.009791,-0.018704,0.010380,0.017170,-0.013870,-0.000366,0.033975,0.069407,-0.004585,0.009228,0.032464,-0.075375,0.012581,0.011425,0.072405,-0.020443,0.048003,0.037989,0.067287,-0.054773,0.150999,-0.051941,-0.059255,-0.012711,-0.021131,0.059027,0.011093,0.005199,0.061677,-0.045136,0.051361,0.026140,-0.026460,0.025633,-0.020728,0.057932,0.034271,-0.014336,-0.045588,-0.038259,-0.025048,-0.018770,0.007915,-0.014972,-0.099536,-0.052440,0.017800,-0.033145,0.001252,-0.034068,0.030687,-0.018735,-0.019607,-0.030096,-0.069071,0.042912,-0.026666,-0.041731,-0.021879,0.019620,-0.060239,0.049385,0.033670]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_1', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 1, 'See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 29
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF COMPREHENSIVE INCOME
+
+(In millions)
+
+| Years ended |
+| September 27, 2025 | September 28, 2024 | September 30, 2023 |
+| Net income | $ | 112,010 | $ | 93,736 | $ | 96,995 |
+| Other comprehensive income/(loss): |
+| Change in foreign currency translation, net of tax | ( 267 ) | 395 | ( 765 ) |
+| Change in unrealized gains/losses on derivative instruments, net of tax: |
+| Change in fair value of derivative instruments | 849 | ( 832 ) | 323 |
+| Adjustment for net (gains)/losses realized and included in net income | ( 212 ) | ( 1,337 ) | ( 1,717 ) |
+| Total change in unrealized gains/losses on derivative instruments | 637 | ( 2,169 ) | ( 1,394 ) |
+| Change in unrealized gains/losses on marketable debt securities, net of tax: |
+| Change in fair value of marketable debt securities | 817 | 5,850 | 1,563 |
+| Adjustment for net (gains)/losses realized and included in net income | 414 | 204 | 253 |
+| Total change in unrealized gains/losses on marketable debt securities | 1,231 | 6,054 | 1,816 |
+| Total other comprehensive income/(loss) | 1,601 | 4,280 | ( 343 ) |
+| Total comprehensive income | $ | 113,611 | $ | 98,016 | $ | 96,652 |
+
+See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 30
+
+Apple Inc.
+
+CONSOLIDATED BALANCE SHEETS
+
+(In millions, except number of shares, which are reflected in thousands, and par value)', '[-0.073813,-0.094823,-0.032262,-0.027446,-0.024809,0.005629,-0.004622,0.003159,0.043902,0.022288,0.040075,-0.004905,0.030836,-0.025481,0.029990,0.008934,0.014400,-0.138814,-0.042952,0.031305,0.080983,-0.042060,0.094962,0.024593,0.044521,0.001247,-0.061387,0.012547,-0.044252,-0.152804,0.013113,-0.002825,0.034130,-0.023518,0.048232,-0.003208,-0.091070,0.044191,-0.006800,0.052453,0.013279,-0.004176,0.016724,0.023368,0.030930,-0.013426,-0.005183,-0.034234,0.017372,0.037515,-0.011685,-0.094049,-0.010842,0.055765,-0.028925,0.047721,0.018253,0.024796,0.038728,0.028410,-0.032880,-0.042864,-0.170971,0.036543,0.075238,0.016639,0.017215,-0.018478,-0.021110,-0.011628,0.013288,0.002214,0.022657,0.007475,0.010611,-0.020234,0.054193,-0.043067,-0.099255,0.014727,0.016021,0.017466,-0.056693,-0.010558,0.013259,0.003925,0.015047,-0.005608,0.041190,-0.084259,-0.022468,-0.072050,0.044847,-0.016530,-0.050867,0.002567,0.085611,-0.011248,-0.032874,0.368082,0.042866,0.024625,0.028581,-0.075342,-0.026771,0.002046,0.003133,0.040088,0.012054,-0.014491,-0.014113,0.029144,0.027914,-0.013176,-0.048727,0.055527,0.042085,0.021156,0.050317,-0.021144,0.053931,0.044899,0.013768,0.003083,-0.055366,-0.016412,0.031155,0.077295,0.041417,0.039639,0.056594,0.047632,-0.117011,-0.019910,0.065689,-0.001366,-0.010233,-0.018863,0.068669,-0.016713,-0.045996,-0.009120,-0.018458,-0.041614,-0.009584,0.130077,0.025583,-0.015971,0.041500,-0.008223,-0.047273,0.133737,0.088038,-0.081730,-0.004774,-0.006655,-0.006084,-0.020982,-0.065125,0.003685,0.003447,-0.026924,-0.073473,0.135190,0.042972,-0.072177,-0.046360,0.058688,0.031975,-0.008926,-0.016654,-0.021909,0.017466,-0.036152,0.034180,-0.035925,0.008683,0.008899,-0.019991,-0.007040,0.062886,-0.029026,-0.059533,0.041958,0.050639,0.000732,-0.030289,0.002605,0.016869,0.029419,-0.005127,0.064358,-0.145900,0.111833,-0.020288,-0.039120,-0.004554,-0.003918,0.031665,-0.021411,0.080683,-0.013727,-0.034492,-0.010067,0.004575,-0.028419,-0.027190,0.049400,0.059922,0.017413,-0.014421,0.026624,0.086374,-0.002220,0.000994,0.042556,0.016298,0.026963,0.012125,-0.008149,-0.016946,-0.034290,-0.012579,-0.286758,-0.012652,0.033180,-0.025244,-0.039574,-0.035814,-0.024958,-0.039980,-0.019364,0.002568,-0.003520,0.048544,-0.019537,0.012732,0.036005,0.012740,0.026813,0.005751,0.007535,0.046120,-0.053380,0.015722,-0.061192,0.014719,0.059409,-0.017680,0.064333,-0.030689,-0.000277,-0.027727,0.018815,0.081156,-0.029829,-0.050577,0.013352,0.022049,-0.027808,-0.019797,-0.058555,-0.016136,0.004184,0.038450,-0.037279,-0.013566,0.051263,0.001864,-0.014835,-0.036745,0.027850,0.050700,0.054103,-0.023851,0.021828,0.012327,0.105017,-0.050803,-0.061016,0.001894,0.003902,-0.047233,0.039537,-0.036529,-0.035124,0.028517,-0.016348,-0.034115,0.001393,0.013156,-0.042968,-0.055374,-0.011434,0.001869,0.035547,-0.052075,0.022738,0.026089,-0.014449,0.031749,-0.031508,-0.009393,0.012468,0.049572,0.057621,0.046669,-0.006140,0.021985,0.030339,0.035699,0.008972,0.006117,0.011119,-0.043904,-0.004916,-0.001122,0.033949,0.039515,-0.256391,-0.018162,-0.042436,0.012991,0.000960,0.002501,-0.005391,0.008574,-0.022294,0.075689,-0.044452,-0.000982,0.062296,-0.081688,0.008964,-0.020686,0.088405,-0.030322,0.023769,0.057273,0.051393,-0.007958,0.137707,-0.053013,-0.066073,-0.016563,-0.029430,0.033484,0.048206,0.004059,0.060752,-0.032830,0.019275,0.013988,-0.027659,-0.003066,-0.066985,0.024673,-0.007791,0.012570,-0.044014,-0.023509,-0.027454,0.001386,0.004336,0.014593,-0.043301,-0.047601,0.009894,-0.034334,-0.009088,-0.041966,0.021149,-0.003339,-0.021336,-0.046735,-0.044658,0.030614,-0.021835,-0.045466,-0.004270,0.032195,-0.097208,0.043318,0.006944]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_2', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 2, 'See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 30
+
+Apple Inc.
+
+CONSOLIDATED BALANCE SHEETS
+
+(In millions, except number of shares, which are reflected in thousands, and par value)
+
+| September 27, 2025 | September 28, 2024 |
+| ASSETS: |
+| Current assets: |
+| Cash and cash equivalents | $ | 35,934 | $ | 29,943 |
+| Marketable securities | 18,763 | 35,228 |
+| Accounts receivable, net | 39,777 | 33,410 |
+| Vendor non-trade receivables | 33,180 | 32,833 |
+| Inventories | 5,718 | 7,286 |
+| Other current assets | 14,585 | 14,287 |
+| Total current assets | 147,957 | 152,987 |
+| Non-current assets: |
+| Marketable securities | 77,723 | 91,479 |
+| Property, plant and equipment, net | 49,834 | 45,680 |
+| Other non-current assets | 83,727 | 74,834 |
+| Total non-current assets | 211,284 | 211,993 |
+| Total assets | $ | 359,241 | $ | 364,980 |
+| LIABILITIES AND SHAREHOLDERS’ EQUITY: |
+| Current liabilities: |
+| Accounts payable | $ | 69,860 | $ | 68,960 |
+| Other current liabilities | 66,387 | 78,304 |
+| Deferred revenue | 9,055 | 8,249 |
+| Commercial paper | 7,979 | 9,967 |
+| Term debt | 12,350 | 10,912 |
+| Total current liabilities | 165,631 | 176,392 |
+| Non-current liabilities: |
+| Term debt | 78,328 | 85,750 |
+| Other non-current liabilities | 41,549 | 45,888 |
+| Total non-current liabilities | 119,877 | 131,638 |
+| Total liabilities | 285,508 | 308,030 |
+| Commitments and contingencies |
+| Shareholders’ equity: |
+| Common stock and additional paid-in capital, $ 0.00001 par value: 50,400,000 shares authorized; 14,773,260 and 15,116,786 shares issued and outstanding, respectively | 93,568 | 83,276 |
+| Accumulated deficit | ( 14,264 ) | ( 19,154 ) |
+| Accumulated other comprehensive loss | ( 5,571 ) | ( 7,172 ) |
+| Total shareholders’ equity | 73,733 | 56,950 |
+| Total liabilities and shareholders’ equity | $ | 359,241 | $ | 364,980 |
+
+Common stock and additional paid-in capital, $ 0.00001 par value: 50,400,000 shares authorized; 14,773,260 and 15,116,786 shares issued and outstanding, respectively
+
+See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 31
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF SHAREHOLDERS’ EQUITY
+
+(In millions, except per-share amounts)', '[-0.054421,-0.089586,-0.019375,-0.030585,0.000009,-0.016523,0.015785,-0.021323,0.046308,0.008637,0.017889,-0.022505,0.009536,-0.024455,0.012675,0.014040,0.022466,-0.126034,-0.037802,0.057440,0.061760,-0.054190,0.073532,0.020126,0.039468,0.011709,-0.062227,-0.018904,-0.035089,-0.162950,-0.010668,-0.010371,0.045101,-0.017061,0.039267,0.004466,-0.064343,0.065351,-0.005940,0.045802,0.008775,0.003650,0.024653,0.038665,0.042319,-0.026374,0.009115,-0.046873,0.015198,0.027837,0.045408,-0.112781,-0.033240,0.021197,-0.036953,0.050829,0.016516,0.034109,0.053773,0.056140,-0.013579,-0.060099,-0.126028,0.010003,0.071020,-0.002860,0.004093,-0.005909,-0.033868,-0.014217,0.024664,-0.005998,-0.002574,0.008995,-0.003441,-0.019083,0.060526,-0.048065,-0.082399,-0.022550,-0.013679,0.031985,-0.055607,-0.000402,-0.001338,0.035966,-0.006202,0.010309,0.038732,-0.056597,-0.006568,-0.061790,0.043917,-0.020459,-0.076118,-0.011620,0.073850,0.002604,-0.034132,0.391025,0.036968,0.039210,0.029903,-0.060108,-0.020889,-0.013247,-0.011352,0.020771,0.039338,-0.040206,0.006555,0.006451,0.019888,-0.026309,-0.029957,0.040082,0.041094,0.022023,0.021216,-0.012070,0.057368,-0.007079,0.009655,0.004348,-0.075599,-0.034330,0.031515,0.030301,0.056806,0.014980,0.053279,0.036122,-0.087685,-0.030984,0.049778,-0.005303,-0.007597,-0.030280,0.061901,-0.021137,-0.039724,-0.011188,0.008417,-0.052028,-0.059761,0.140579,0.023918,-0.010302,0.012688,-0.010006,-0.059523,0.112537,0.072280,-0.069673,-0.007338,0.016837,-0.018740,-0.010288,-0.034050,0.028301,0.007895,-0.024221,-0.066720,0.123720,0.021887,-0.105997,-0.034107,0.024375,0.036640,0.002625,-0.022740,-0.019130,-0.005433,0.004207,0.065154,-0.032107,-0.004103,-0.007340,0.013016,0.021725,0.043440,-0.029620,-0.086043,0.022604,0.038277,0.020378,-0.052155,-0.019968,0.021458,0.027181,-0.008150,0.047416,-0.121412,0.141929,-0.067196,-0.030510,0.014283,0.004845,0.013186,-0.000520,0.065607,-0.008461,-0.036696,-0.004261,0.024391,0.001457,-0.041094,0.039959,0.051120,0.008900,0.003865,0.035115,0.058009,-0.020004,-0.008914,0.055567,-0.012678,0.023320,0.026439,-0.026727,0.007620,0.000902,0.003209,-0.285390,0.001575,0.018677,-0.040849,-0.052244,-0.043784,-0.001173,-0.031130,-0.032144,0.021983,-0.010404,0.032662,0.013788,-0.030740,0.031846,0.020142,0.025087,-0.019093,-0.000781,0.061439,-0.054958,-0.006411,-0.074427,0.037786,0.069447,0.003099,0.078195,-0.013198,-0.017024,-0.008345,0.022702,0.061821,-0.044291,-0.029452,0.015901,0.020972,-0.042710,0.005706,-0.062926,-0.026870,-0.013532,0.044741,-0.052980,0.001661,0.049746,-0.008384,-0.041259,-0.056013,0.019530,0.033926,0.041187,-0.021113,0.007479,0.034191,0.119643,-0.050761,-0.036743,0.000510,-0.005884,-0.041442,0.033930,-0.030622,-0.015484,0.035118,-0.003230,-0.049010,-0.018004,0.017265,-0.049601,-0.024903,0.005300,0.001763,0.047225,-0.051981,0.023414,0.014148,-0.010231,0.025133,-0.020721,0.010731,-0.003095,0.046643,0.074344,0.038918,-0.020094,0.063331,0.037885,0.017958,0.005294,-0.009810,0.000416,-0.029464,0.006769,0.030004,0.055051,0.025075,-0.259121,-0.017447,-0.040968,0.024048,0.000252,0.012369,0.015121,-0.003957,0.012185,0.084264,-0.021367,0.014032,0.045086,-0.088710,0.001680,-0.014864,0.108091,-0.047993,0.056675,0.041218,0.028825,-0.025422,0.156182,-0.025960,-0.077353,-0.007660,-0.009835,0.044835,0.054593,0.024606,0.067105,-0.048735,0.033107,0.026679,-0.024749,-0.006029,-0.066101,0.021791,0.017396,-0.020279,-0.017526,-0.038499,-0.040502,0.006382,0.008490,-0.029855,-0.063680,-0.045380,0.022317,-0.047546,-0.000780,-0.055852,0.024911,-0.017022,0.005553,-0.020594,-0.028543,0.046860,-0.010666,-0.040649,-0.002013,0.014633,-0.071145,0.061018,0.058485]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_3', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 3, 'Common stock and additional paid-in capital, $ 0.00001 par value: 50,400,000 shares authorized; 14,773,260 and 15,116,786 shares issued and outstanding, respectively
+
+See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 31
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF SHAREHOLDERS’ EQUITY
+
+(In millions, except per-share amounts)
+
+| Years ended |
+| September 27, 2025 | September 28, 2024 | September 30, 2023 |
+| Total shareholders’ equity, beginning balances | $ | 56,950 | $ | 62,146 | $ | 50,672 |
+| Common stock and additional paid-in capital: |
+| Beginning balances | 83,276 | 73,812 | 64,849 |
+| Common stock issued | 1,498 | 1,423 | 1,346 |
+| Common stock withheld related to net share settlement of equity awards | ( 4,452 ) | ( 3,993 ) | ( 3,521 ) |
+| Share-based compensation | 13,246 | 12,034 | 11,138 |
+| Ending balances | 93,568 | 83,276 | 73,812 |
+| Accumulated deficit: |
+| Beginning balances | ( 19,154 ) | ( 214 ) | ( 3,068 ) |
+| Net income | 112,010 | 93,736 | 96,995 |
+| Dividends and dividend equivalents declared | ( 15,413 ) | ( 15,218 ) | ( 14,996 ) |
+| Common stock withheld related to net share settlement of equity awards | ( 1,655 ) | ( 1,612 ) | ( 2,099 ) |
+| Common stock repurchased | ( 90,052 ) | ( 95,846 ) | ( 77,046 ) |
+| Ending balances | ( 14,264 ) | ( 19,154 ) | ( 214 ) |
+| Accumulated other comprehensive loss: |
+| Beginning balances | ( 7,172 ) | ( 11,452 ) | ( 11,109 ) |
+| Other comprehensive income/(loss) | 1,601 | 4,280 | ( 343 ) |
+| Ending balances | ( 5,571 ) | ( 7,172 ) | ( 11,452 ) |
+| Total shareholders’ equity, ending balances | $ | 73,733 | $ | 56,950 | $ | 62,146 |
+| Dividends and dividend equivalents declared per share or RSU | $ | 1.02 | $ | 0.98 | $ | 0.94 |
+
+See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 32
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF CASH FLOWS
+
+(In millions)', '[-0.043063,-0.083707,-0.045106,-0.027640,-0.036885,-0.015213,0.027124,-0.015963,0.079719,0.023458,0.041131,-0.003880,0.027580,-0.022453,0.012964,0.036626,0.027029,-0.124995,-0.035176,0.038936,0.052717,-0.074924,0.064743,-0.000909,0.049427,-0.006453,-0.093630,-0.014689,-0.042662,-0.172645,-0.016040,-0.020568,0.071496,-0.027493,0.027230,0.006145,-0.080225,0.060764,-0.018042,0.034375,-0.012927,-0.009099,0.031562,0.050829,0.014181,-0.009302,-0.012236,-0.055116,0.006286,0.038807,0.025994,-0.075533,-0.007340,0.056322,-0.040895,0.047176,0.014430,0.016024,0.037007,0.066200,0.013456,-0.051832,-0.153162,-0.002470,0.037423,-0.017341,0.008498,-0.002414,-0.018697,0.015278,0.059651,0.013369,0.036942,0.009853,-0.007140,-0.020606,0.072960,-0.047785,-0.076768,0.007940,0.008806,0.022757,-0.021090,0.010209,0.005893,0.019674,0.026204,-0.002029,0.033375,-0.037481,-0.000519,-0.029777,0.033403,-0.011690,-0.067092,-0.002557,0.064505,-0.001875,-0.054860,0.372032,0.039814,0.046026,-0.004497,-0.072891,0.002873,-0.010422,0.011423,0.014527,0.048448,-0.023697,-0.020088,0.009788,0.057066,-0.023929,-0.011423,0.065342,0.042390,-0.008171,0.024022,-0.029096,0.053738,0.005535,-0.031288,-0.007046,-0.070201,-0.033015,0.068302,0.085400,0.078857,0.027579,0.046033,0.005476,-0.059123,-0.026622,0.059621,0.025740,-0.013826,-0.029811,0.052348,-0.024431,-0.055754,-0.060109,-0.006402,-0.042290,-0.026680,0.105087,0.018776,-0.040850,-0.014514,-0.004325,-0.063822,0.102367,0.035292,-0.079205,-0.018039,0.003525,-0.023458,-0.014717,-0.016379,-0.000767,-0.018716,-0.026284,-0.070786,0.132369,0.054779,-0.090082,-0.034526,0.014309,0.032173,0.018552,0.011133,-0.029151,0.021215,-0.015651,0.034795,-0.015746,-0.004047,-0.021772,-0.015669,0.029715,0.034240,-0.043772,-0.057130,0.013132,0.053681,0.023331,-0.045875,-0.025965,0.014516,0.019990,0.003428,0.022724,-0.145256,0.130460,-0.057036,-0.005566,-0.002839,0.025514,0.016687,0.025349,0.089768,-0.001268,-0.062641,-0.017774,-0.002015,-0.011747,-0.022743,0.072513,0.062616,0.014249,-0.018302,0.064042,0.046768,-0.045345,0.004227,0.018058,-0.001376,0.005258,0.019896,-0.037695,-0.010305,-0.012724,0.024553,-0.271114,-0.032791,0.008805,-0.056013,-0.034576,-0.061188,-0.041307,-0.027619,-0.027137,0.018758,-0.012303,0.049480,0.000961,-0.017307,0.043500,0.013458,0.038061,-0.008223,0.003220,0.046328,-0.048947,0.033415,-0.044503,0.041868,0.081749,0.017322,0.047853,0.015465,0.004052,-0.015378,0.025056,0.084050,-0.014705,-0.004870,0.015303,0.005976,-0.027649,-0.009813,-0.056644,-0.002771,-0.016151,0.015389,-0.036703,0.007274,0.065978,-0.005961,-0.024377,-0.046101,0.023994,0.053877,0.038071,-0.057145,-0.004008,0.030916,0.131585,-0.043751,-0.036157,0.003482,0.022016,-0.038916,0.029168,-0.061033,-0.022512,-0.006647,-0.006119,-0.075100,-0.018773,0.024086,-0.057761,-0.022648,-0.018068,-0.010443,0.037822,-0.027012,0.012788,0.037224,-0.014347,0.038409,-0.034656,0.018231,0.028680,0.056814,0.046529,0.083833,-0.022606,0.051217,0.047465,0.016015,0.018145,-0.003993,-0.007438,-0.027494,-0.012799,0.030278,0.029534,0.027320,-0.283480,-0.017937,-0.052750,0.020007,0.001657,0.010116,-0.018225,-0.007260,-0.035089,0.043509,-0.019767,0.006313,0.052183,-0.077503,0.011996,-0.020613,0.049444,-0.060504,0.049202,0.033039,0.058180,-0.001371,0.137898,-0.039180,-0.078057,-0.005093,-0.034794,0.032090,0.022662,0.013650,0.042074,-0.041554,0.048546,-0.010776,-0.000114,0.027002,-0.052245,0.043514,-0.017941,0.007944,-0.025309,-0.047935,-0.045348,0.029952,-0.002219,-0.013357,-0.005961,-0.047772,0.050587,-0.034011,-0.009288,-0.039914,0.038290,-0.018269,-0.012400,-0.055140,0.007832,0.025354,-0.018945,-0.032337,-0.017443,0.008546,-0.078058,0.073692,0.068579]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_4', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 4, 'See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 32
+
+Apple Inc.
+
+CONSOLIDATED STATEMENTS OF CASH FLOWS
+
+(In millions)
+
+| Years ended |
+| September 27, 2025 | September 28, 2024 | September 30, 2023 |
+| Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances | $ | 29,943 | $ | 30,737 | $ | 24,977 |
+| Operating activities: |
+| Net income | 112,010 | 93,736 | 96,995 |
+| Adjustments to reconcile net income to cash generated by operating activities: |
+| Depreciation and amortization | 11,698 | 11,445 | 11,519 |
+| Share-based compensation expense | 12,863 | 11,688 | 10,833 |
+| Other | ( 89 ) | ( 2,266 ) | ( 2,227 ) |
+| Changes in operating assets and liabilities: |
+| Accounts receivable, net | ( 6,682 ) | ( 3,788 ) | ( 1,688 ) |
+| Vendor non-trade receivables | ( 347 ) | ( 1,356 ) | 1,271 |
+| Inventories | 1,400 | ( 1,046 ) | ( 1,618 ) |
+| Other current and non-current assets | ( 9,197 ) | ( 11,731 ) | ( 5,684 ) |
+| Accounts payable | 902 | 6,020 | ( 1,889 ) |
+| Other current and non-current liabilities | ( 11,076 ) | 15,552 | 3,031 |
+| Cash generated by operating activities | 111,482 | 118,254 | 110,543 |
+| Investing activities: |
+| Purchases of marketable securities | ( 24,407 ) | ( 48,656 ) | ( 29,513 ) |
+| Proceeds from maturities of marketable securities | 40,907 | 51,211 | 39,686 |
+| Proceeds from sales of marketable securities | 12,890 | 11,135 | 5,828 |
+| Payments for acquisition of property, plant and equipment | ( 12,715 ) | ( 9,447 ) | ( 10,959 ) |
+| Other | ( 1,480 ) | ( 1,308 ) | ( 1,337 ) |
+| Cash generated by investing activities | 15,195 | 2,935 | 3,705 |
+| Financing activities: |
+| Payments for taxes related to net share settlement of equity awards | ( 5,960 ) | ( 5,441 ) | ( 5,431 ) |
+| Payments for dividends and dividend equivalents | ( 15,421 ) | ( 15,234 ) | ( 15,025 ) |
+| Repurchases of common stock | ( 90,711 ) | ( 94,949 ) | ( 77,550 ) |
+| Proceeds from issuance of term debt, net | 4,481 | — | 5,228 |
+| Repayments of term debt | ( 10,932 ) | ( 9,958 ) | ( 11,151 ) |
+| Proceeds from/(Repayments of) commercial paper, net | ( 2,032 ) | 3,960 | ( 3,978 ) |
+| Other | ( 111 ) | ( 361 ) | ( 581 ) |
+| Cash used in financing activities | ( 120,686 ) | ( 121,983 ) | ( 108,488 ) |
+| Increase/(Decrease) in cash, cash equivalents, and restricted cash and cash equivalents | 5,991 | ( 794 ) | 5,760 |
+| Cash, cash equivalents, and restricted cash and cash equivalents, ending balances | $ | 35,934 | $ | 29,943 | $ | 30,737 |
+| Supplemental cash flow disclosure: |
+| Cash paid for income taxes, net | $ | 43,369 | $ | 26,102 | $ | 18,679 |
+
+See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 33
+
+Apple Inc.
+
+Notes to Consolidated Financial Statements
+
+Note 1 – Summary of Significant Accounting Policies', '[-0.040590,-0.090495,-0.012599,-0.028858,-0.014888,-0.016575,0.024080,-0.033533,0.040084,0.009141,0.011606,-0.004040,0.007568,-0.023478,0.019603,0.012745,0.018446,-0.134477,-0.044501,0.043820,0.062971,-0.048159,0.091869,0.015473,0.033752,0.013313,-0.049176,-0.006174,-0.029706,-0.158323,-0.003287,-0.000813,0.029393,-0.025342,0.031591,-0.003542,-0.060064,0.069677,-0.029263,0.061407,-0.004993,0.006645,0.021743,0.038153,0.031087,0.000514,-0.006468,-0.039746,0.000502,0.031183,0.017597,-0.105701,-0.038209,0.034380,-0.024056,0.037563,0.010234,0.045579,0.046017,0.010181,-0.019374,-0.069698,-0.143402,0.002866,0.052973,-0.013021,0.013317,-0.000888,-0.004382,-0.009263,0.030053,-0.011528,-0.011268,0.004950,-0.003848,-0.017665,0.060568,-0.039899,-0.086840,0.004163,0.001964,0.021868,-0.037923,0.003279,-0.019869,0.039595,0.003904,0.007285,0.023318,-0.067437,-0.033371,-0.071736,0.038019,-0.032643,-0.062997,-0.008454,0.084829,-0.012698,-0.032711,0.391511,0.041145,0.044489,0.025699,-0.066844,-0.009935,0.003779,-0.011476,0.035832,0.030527,-0.043620,-0.018120,0.002060,0.066453,0.003476,-0.031094,0.067661,0.034901,0.026157,0.015834,-0.000899,0.052262,0.016767,-0.005383,0.007648,-0.091054,-0.039530,0.052070,0.058789,0.050173,0.015076,0.057200,0.049893,-0.113288,-0.026567,0.055033,-0.015913,-0.032974,-0.016087,0.064158,-0.034884,-0.063934,-0.018245,0.000683,-0.060315,-0.053224,0.131036,0.031426,-0.009577,0.016986,-0.028914,-0.041459,0.095461,0.065895,-0.073470,-0.010927,0.007137,0.000449,-0.005767,-0.046427,0.038351,-0.005016,-0.017068,-0.056160,0.097299,0.038545,-0.108761,-0.034018,0.022835,0.035322,-0.008249,-0.019734,-0.022762,0.011293,-0.005033,0.036050,-0.043587,0.009203,-0.018289,0.001913,0.026657,0.055263,-0.016715,-0.074513,0.017210,0.048533,0.015467,-0.052686,-0.001405,0.011630,0.038260,-0.025965,0.045409,-0.124051,0.146947,-0.054231,-0.031261,0.023590,0.012803,0.012063,-0.012185,0.077462,0.001270,-0.040036,-0.026833,-0.000064,-0.000425,-0.043610,0.040936,0.049540,0.024394,0.002948,0.043749,0.082868,-0.018978,0.012822,0.043908,-0.009189,0.038167,0.014602,-0.038809,0.008154,0.014372,0.010076,-0.282500,0.003687,0.030231,-0.036169,-0.033285,-0.049021,-0.007644,-0.037028,-0.022395,0.030065,-0.031528,0.045357,0.003568,0.006113,0.028016,0.025210,0.024230,-0.016839,-0.010157,0.053700,-0.048688,0.001092,-0.063238,0.005225,0.032414,-0.003878,0.063472,-0.009916,-0.018679,-0.011159,0.025129,0.064126,-0.030507,-0.033805,0.010815,0.026108,-0.034882,0.004389,-0.041817,-0.029052,-0.024120,0.057824,-0.060141,0.010504,0.048355,-0.008970,-0.050039,-0.052810,0.014769,0.039552,0.038349,-0.030120,0.006865,0.018186,0.121732,-0.060763,-0.033278,-0.001643,0.000637,-0.051472,0.030748,-0.026944,0.000595,0.043167,-0.014250,-0.048749,-0.019931,0.021338,-0.039651,-0.018084,0.005053,0.027787,0.050453,-0.052748,0.045369,0.012084,-0.007983,0.025192,-0.038837,0.001305,0.008603,0.027236,0.078282,0.041989,-0.034727,0.072428,0.036856,0.012136,0.012556,-0.013105,0.005772,-0.018968,-0.005720,0.038502,0.051147,0.035672,-0.269418,-0.030324,-0.044071,0.010049,-0.000932,0.020072,0.009629,-0.013513,0.017408,0.070043,-0.011209,0.014544,0.062149,-0.059152,0.008942,-0.007916,0.087988,-0.056620,0.047674,0.055693,0.035774,-0.031093,0.151690,-0.032499,-0.084008,-0.015896,-0.027793,0.056603,0.067835,0.001758,0.061140,-0.038228,0.019547,0.020932,-0.012717,-0.008232,-0.053683,0.057599,0.013503,-0.004549,-0.028830,-0.030249,-0.013347,-0.001710,-0.016612,-0.013622,-0.044755,-0.050408,0.016829,-0.035314,0.012178,-0.052574,0.049448,-0.003553,-0.003592,-0.031811,-0.019214,0.024358,-0.019833,-0.035287,-0.001158,-0.016239,-0.065523,0.056168,0.036565]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_5', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 5, 'See accompanying Notes to Consolidated Financial Statements.
+
+Apple Inc. | 2025 Form 10-K | 33
+
+Apple Inc.
+
+Notes to Consolidated Financial Statements
+
+Note 1 – Summary of Significant Accounting Policies
+
+Basis of Presentation and Preparation
+
+The consolidated financial statements include the accounts of Apple Inc. and its wholly owned subsidiaries. The preparation of these consolidated financial statements and accompanying notes in conformity with GAAP requires the use of management estimates. Certain prior period amounts in the notes to consolidated financial statements have been reclassified to conform to the current period’s presentation.
+
+The Company’s fiscal year is the 52- or 53-week period that ends on the last Saturday of September. An additional week is included in the first fiscal quarter every five or six years to realign the Company’s fiscal quarters with calendar quarters, which occurred in the first fiscal quarter of 2023. The Company’s fiscal years 2025 and 2024 spanned 52 weeks each, whereas fiscal year 2023 spanned 53 weeks. Unless otherwise stated, references to particular years, quarters, months and periods refer to the Company’s fiscal years ended in September and the associated quarters, months and periods of those fiscal years.
+
+Recently Adopted Accounting Pronouncements
+
+Segment Reporting
+
+Beginning with the 2025 annual reporting period, the Company adopted the FASB’s ASU No. 2023-07, Segment Reporting (Topic 280): Improvements to Reportable Segment Disclosures (“ASU 2023-07”), which requires the Company to disclose segment expenses that are significant and regularly provided to the Company’s chief operating decision maker (“CODM”). In addition, ASU 2023-07 requires the Company to disclose the title and position of its CODM and how the CODM uses segment profit or loss information in assessing segment performance and deciding how to allocate resources. The Company adopted ASU 2023-07 using a retrospective transition method.
+
+Revenue
+
+The Company records revenue net of taxes collected from customers that are remitted to governmental authorities.
+
+Share-Based Compensation
+
+The Company recognizes share-based compensation expense on a straight-line basis for its estimate of equity awards that will ultimately vest.
+
+Cash Equivalents
+
+All highly liquid investments with maturities of three months or less at the date of purchase are treated as cash equivalents.
+
+Trade Receivables
+
+Trade receivables are stated at transaction price.
+
+Marketable Securities
+
+The cost of securities sold is determined using the specific identification method.
+
+Inventories
+
+Inventories are measured using the first-in, first-out method.
+
+Property, Plant and Equipment
+
+Property, plant and equipment are stated at cost. Depreciation on property, plant and equipment is recognized on a straight-line basis.
+
+Apple Inc. | 2025 Form 10-K | 34
+
+Derivative Instruments
+
+The Company presents derivative assets and liabilities at their gross fair values in the Consolidated Balance Sheets.
+
+Income Taxes
+
+The Company records certain deferred tax assets and liabilities in connection with the minimum tax on certain foreign earnings created by the TCJA.
+
+Leases
+
+The Company combines and accounts for lease and nonlease components as a single lease component for leases of corporate and retail facilities.
+
+Note 2 – Revenue
+
+The Company recognizes revenue at the amount to which it expects to be entitled when control of products or services is transferred to its customers. Control is generally transferred when the Company has a present right to payment and title and the significant risks and rewards of ownership of products or services are transferred to its customers. For most of the Company’s Products net sales, control transfers when products are shipped. For the Company’s Services net sales, control transfers over time as services are delivered. Payment for Products and Services net sales is collected within a short period following transfer of control or commencement of delivery of services, as applicable.', '[-0.048431,-0.039523,-0.014671,0.005907,0.004327,0.005083,0.007550,-0.021709,0.056028,0.010422,0.014917,0.022845,-0.025072,-0.010343,-0.012479,-0.003342,-0.005702,-0.135280,0.014497,0.044264,0.054625,-0.049620,0.039618,0.013299,0.038950,0.044847,-0.023882,-0.011563,-0.039745,-0.168168,-0.004321,-0.045850,0.024249,-0.044272,0.019134,-0.001119,-0.047271,0.049055,-0.021704,0.049974,0.013684,-0.000870,0.011186,-0.002453,0.027766,-0.000267,0.011889,-0.062521,-0.005303,0.026420,0.050315,-0.082239,-0.021247,-0.016180,-0.055388,0.037010,0.040885,0.005891,-0.010340,0.025108,-0.007783,-0.091242,-0.179343,0.025441,0.053805,0.015156,0.024447,-0.008297,-0.060183,0.010250,-0.016389,-0.044740,-0.007382,0.034167,-0.007295,-0.003418,0.040723,-0.053293,-0.039031,-0.021466,-0.005167,0.028214,-0.026466,-0.017706,-0.006477,0.021909,0.044883,-0.036349,0.056456,-0.077567,-0.008035,-0.067574,0.042812,-0.026594,-0.048574,0.001034,0.081299,-0.001727,-0.029876,0.346891,0.024371,0.038771,0.022919,-0.024664,-0.040707,-0.028063,0.003527,0.042652,0.027623,-0.033196,-0.019010,0.028968,0.025437,0.003879,-0.029968,0.043543,0.004495,0.025496,0.050915,-0.022045,0.088456,0.000247,-0.019514,0.027222,-0.099723,-0.037889,0.010709,0.067109,0.036346,0.015504,0.053738,0.023800,-0.108726,-0.023805,0.042876,-0.021763,-0.025313,-0.011449,0.068959,-0.028482,-0.055636,0.008275,0.023129,-0.034004,-0.079905,0.183587,-0.033846,0.025300,-0.004542,-0.005898,-0.025711,0.080554,0.048733,-0.076319,0.023069,0.011420,-0.004798,-0.015150,-0.024055,0.048724,-0.041488,-0.016447,-0.052948,0.094771,0.034440,-0.107029,-0.035747,0.048194,0.053913,-0.009681,-0.026052,-0.019215,0.024858,0.010808,0.042190,-0.021792,-0.002464,0.017763,-0.001238,0.023329,0.072940,-0.042750,-0.054055,-0.009508,0.063232,-0.009793,-0.057469,-0.005551,0.026469,0.023369,-0.028759,0.037098,-0.116864,0.095888,-0.037185,-0.019994,0.017338,-0.000400,0.000499,-0.026029,0.028060,-0.022948,-0.036842,0.035579,0.072527,-0.032375,-0.025774,0.025030,0.058377,0.019484,-0.017468,0.046578,0.057182,-0.014445,-0.017415,0.060683,0.003897,0.011458,-0.020769,0.010501,0.031516,-0.019053,0.001305,-0.310872,0.014573,0.020777,0.010307,-0.019951,-0.022579,-0.016810,-0.040276,-0.008587,-0.006801,-0.035207,0.060270,0.011719,-0.013097,-0.001450,0.013774,0.050228,0.001737,-0.009816,0.037893,-0.059842,0.013273,-0.030669,0.015070,0.044147,-0.027559,0.069498,-0.059718,-0.004562,0.004854,0.012051,0.062992,-0.061376,-0.063352,0.026515,-0.027346,-0.048994,0.005063,-0.052998,-0.036530,-0.005082,0.062856,-0.036765,0.008588,0.015710,-0.025211,-0.009674,-0.030755,0.013516,0.028198,0.065038,-0.000490,0.014875,0.023396,0.064919,-0.045554,-0.032632,-0.030047,-0.001197,-0.041110,0.035388,-0.039293,-0.023024,0.039823,-0.006769,-0.010695,-0.013831,0.005581,-0.047357,-0.020682,0.015791,0.014885,0.013267,-0.076165,0.048507,-0.014808,-0.009283,-0.018953,-0.034399,0.025968,0.035222,0.015768,0.097197,0.034833,-0.031359,0.032937,0.028484,0.015709,-0.000301,0.023180,0.008186,-0.032385,0.010321,0.044673,0.039824,0.028599,-0.285036,-0.034311,0.002347,0.043985,0.024793,-0.018062,-0.009557,-0.009975,-0.002414,0.092950,-0.024132,0.007680,0.084105,-0.066872,0.037012,0.022909,0.131713,-0.021318,0.011249,0.013914,0.039743,-0.048941,0.151779,-0.062136,-0.083019,-0.022523,0.011019,0.057675,0.062587,0.025620,0.102249,-0.035680,0.072079,0.045566,-0.006278,-0.001806,-0.044621,0.060373,0.006176,-0.016815,-0.035891,-0.017979,-0.044808,0.005126,0.034165,0.001939,-0.054864,-0.061819,0.006705,-0.009690,-0.015655,-0.021997,0.024094,0.005892,0.011914,-0.018832,-0.035367,0.046676,-0.043395,-0.004108,-0.002057,0.028278,-0.059216,0.046871,0.051788]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_6', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 6, 'The Company recognizes revenue at the amount to which it expects to be entitled when control of products or services is transferred to its customers. Control is generally transferred when the Company has a present right to payment and title and the significant risks and rewards of ownership of products or services are transferred to its customers. For most of the Company’s Products net sales, control transfers when products are shipped. For the Company’s Services net sales, control transfers over time as services are delivered. Payment for Products and Services net sales is collected within a short period following transfer of control or commencement of delivery of services, as applicable.
+
+The Company records reductions to Products net sales related to future product returns, price protection and other customer incentive programs based on the Company’s expectations and historical experience.
+
+For arrangements with multiple performance obligations, which represent promises within an arrangement that are distinct, the Company allocates revenue to all distinct performance obligations based on their relative stand-alone selling prices (“SSPs”). When available, the Company uses observable prices to determine SSPs. When observable prices are not available, SSPs are established that reflect the Company’s best estimates of what the selling prices of the performance obligations would be if they were sold regularly on a stand-alone basis. The Company’s process for estimating SSPs without observable prices considers multiple factors that may vary depending upon the unique facts and circumstances related to each performance obligation including, where applicable, prices charged by the Company for similar offerings, market trends in the pricing for similar offerings, product-specific business objectives and the estimated cost to provide the performance obligation.
+
+The Company has identified the performance obligations regularly included in arrangements involving the sale of iPhone, Mac and iPad. The first material performance obligation, which represents the substantial portion of the allocated sales price, is the hardware and bundled software delivered at the time of sale. The second material performance obligation is the right to receive certain product-related bundled services, which include iCloud ® , Siri ® and Maps. The Company allocates revenue and any related discounts to all of its performance obligations based on their relative SSPs. Because the Company lacks observable prices for product-related bundled services, the allocation of revenue is based on the Company’s estimated SSPs. Revenue allocated to the delivered hardware and bundled software is recognized when control has transferred to the customer, which generally occurs when the product is shipped. Revenue allocated to product-related bundled services is deferred and recognized on a straight-line basis over the estimated period they are expected to be provided.
+
+For certain long-term service arrangements, the Company has performance obligations for services it has not yet delivered. For these arrangements, the Company does not have a right to bill for the undelivered services. The Company has determined that any unbilled consideration relates entirely to the value of the undelivered services. Accordingly, the Company has not recognized revenue, and does not disclose amounts, related to these undelivered services.', '[0.013685,-0.035326,-0.019257,-0.042699,-0.000420,-0.008655,0.073549,0.009825,0.003339,0.046156,0.042249,0.022939,-0.014271,-0.025632,-0.021948,-0.002595,0.037654,-0.047122,-0.031430,0.027044,0.082032,-0.072934,-0.029270,0.024486,0.062453,0.003023,-0.054501,-0.050852,-0.027305,-0.165022,-0.052182,-0.025300,-0.019741,-0.003339,0.038831,0.002388,-0.047789,0.043351,0.008238,-0.005374,0.017970,0.021545,-0.034039,-0.012210,0.030926,-0.022313,-0.017220,0.014592,-0.030556,-0.003205,-0.004093,0.015196,-0.031802,0.100089,-0.008816,0.059489,0.027809,0.029598,0.009617,0.027311,0.014925,-0.030646,-0.159232,0.031211,0.044258,0.057284,-0.029649,-0.016588,-0.026110,0.041242,-0.025056,0.044564,0.020401,0.041450,0.019783,0.013365,0.061941,0.032549,-0.060241,-0.013395,0.060196,0.028244,-0.021311,0.040046,-0.004543,0.008077,0.045876,-0.041894,0.104263,0.018025,-0.019404,-0.023315,-0.041863,-0.000882,-0.103981,0.007675,0.012104,0.071026,-0.008438,0.343927,0.046529,-0.009317,-0.044625,-0.030294,0.012405,-0.046011,-0.037935,0.064455,-0.040605,0.031827,-0.044955,0.026909,-0.004338,-0.024955,0.021106,0.041357,-0.069329,0.083628,0.038713,-0.091566,0.008972,0.057813,0.011970,0.017493,-0.049656,-0.013566,0.096371,0.101804,-0.006874,-0.002141,0.039037,-0.035635,-0.047743,0.011808,0.085643,-0.022564,0.009138,0.028126,-0.032584,0.009445,-0.004027,0.032433,0.070278,-0.049861,-0.061194,0.149295,0.065787,-0.000294,-0.025159,-0.001801,-0.026191,0.073606,0.009785,-0.038357,-0.045287,-0.007153,0.024802,-0.002338,-0.021483,-0.038768,-0.025686,-0.000192,-0.072683,0.118615,0.017185,-0.128385,0.028589,0.010514,-0.037386,-0.013674,-0.038075,0.022888,0.004412,-0.046839,0.017544,-0.016890,-0.055347,-0.020779,-0.064678,-0.044191,0.003276,-0.005921,-0.020235,-0.034713,0.067788,0.005518,-0.052254,-0.034941,-0.009178,0.015154,-0.061976,-0.001427,-0.069105,0.057863,0.039067,0.017989,-0.040759,0.041684,0.003797,-0.002763,0.054945,0.042692,-0.061005,0.029284,0.036409,0.015798,-0.005975,0.032373,-0.030656,0.040678,-0.001551,0.030079,-0.032210,0.042869,-0.026526,0.062945,-0.017801,0.073918,-0.013616,0.034595,0.013126,0.045889,0.030428,-0.312888,0.030544,-0.005956,-0.019323,0.070719,-0.002207,0.019199,-0.016853,-0.060614,0.017320,0.115985,-0.006831,-0.009530,-0.001214,0.038236,-0.031182,-0.012326,-0.030967,-0.031508,0.016348,-0.100575,0.003921,0.047108,-0.000300,0.046935,-0.036510,0.109509,-0.080036,0.084734,-0.050816,-0.014682,0.068708,-0.008135,-0.027209,0.016530,0.000238,-0.053476,0.011738,0.001969,-0.005490,-0.051028,0.052608,0.045024,-0.012468,0.036051,0.029221,-0.038825,0.032524,-0.021081,0.023296,-0.037037,-0.076974,0.012274,0.023382,0.029376,-0.029283,-0.056787,-0.023000,-0.057191,-0.034968,0.000751,-0.016291,-0.001104,-0.024812,0.059728,-0.037104,0.025968,0.007756,-0.055560,-0.008753,-0.026253,0.043792,-0.056754,-0.003732,0.002271,0.012393,-0.022331,0.010398,-0.023514,0.014407,0.023824,0.064078,0.029544,0.047412,-0.001378,-0.021234,0.066863,0.015316,-0.052325,-0.062168,-0.016764,-0.003809,-0.043859,-0.008742,0.045123,0.004923,-0.281560,-0.012627,-0.010785,0.030719,-0.050651,-0.044782,0.007553,0.007258,-0.032056,0.027710,0.011131,0.024362,0.021058,-0.029720,0.017053,-0.007168,0.103419,-0.044302,0.030958,-0.028642,0.014374,-0.042414,0.167921,0.044155,0.005116,0.002252,-0.042600,0.048349,0.015305,0.019675,0.030123,-0.004712,0.032684,0.035256,-0.052606,0.006364,0.014035,0.011774,0.003229,0.037046,-0.066586,-0.025660,-0.027876,0.005635,0.068747,-0.017320,-0.077541,-0.044197,0.035445,-0.004034,0.004483,-0.041355,0.043014,-0.044217,0.003929,-0.027695,-0.023683,-0.035023,0.008726,-0.045513,0.006112,-0.027055,-0.041259,0.026552,0.044640]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_7', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 7, 'The Company has identified the performance obligations regularly included in arrangements involving the sale of iPhone, Mac and iPad. The first material performance obligation, which represents the substantial portion of the allocated sales price, is the hardware and bundled software delivered at the time of sale. The second material performance obligation is the right to receive certain product-related bundled services, which include iCloud ® , Siri ® and Maps. The Company allocates revenue and any related discounts to all of its performance obligations based on their relative SSPs. Because the Company lacks observable prices for product-related bundled services, the allocation of revenue is based on the Company’s estimated SSPs. Revenue allocated to the delivered hardware and bundled software is recognized when control has transferred to the customer, which generally occurs when the product is shipped. Revenue allocated to product-related bundled services is deferred and recognized on a straight-line basis over the estimated period they are expected to be provided.
+
+For certain long-term service arrangements, the Company has performance obligations for services it has not yet delivered. For these arrangements, the Company does not have a right to bill for the undelivered services. The Company has determined that any unbilled consideration relates entirely to the value of the undelivered services. Accordingly, the Company has not recognized revenue, and does not disclose amounts, related to these undelivered services.
+
+For the sale of third-party products where the Company obtains control of the product before transferring it to the customer, the Company recognizes revenue based on the gross amount billed to customers. The Company considers multiple factors when determining whether it obtains control of third-party products, including evaluating if it can establish the price of the product, retains inventory risk for tangible products or has the responsibility for ensuring acceptability of the product. For third-party applications sold through the App Store, the Company does not obtain control of the product before transferring it to the customer. Therefore, the Company accounts for all third-party application–related sales on a net basis by recognizing in Services net sales only the commission it retains.
+
+Apple Inc. | 2025 Form 10-K | 35
+
+The following table shows disaggregated net sales, as well as the portion of total net sales that was previously deferred, for 2025, 2024 and 2023 (in millions):
+
+| 2025 | 2024 | 2023 |
+| iPhone | $ | 209,586 | $ | 201,183 | $ | 200,583 |
+| Mac | 33,708 | 29,984 | 29,357 |
+| iPad | 28,023 | 26,694 | 28,300 |
+| Wearables, Home and Accessories | 35,686 | 37,005 | 39,845 |
+| Services (1) | 109,158 | 96,169 | 85,200 |
+| Total net sales | $ | 416,161 | $ | 391,035 | $ | 383,285 |
+| Portion of total net sales that was included in deferred revenue as of the beginning of the period | $ | 8,229 | $ | 7,728 | $ | 8,169 |
+
+iPhone
+
+Mac
+
+iPad
+
+Wearables, Home and Accessories
+
+Services (1)
+
+(1) Services net sales include amortization of the deferred value of services bundled in the sales price of certain products.
+
+The Company’s proportion of net sales by disaggregated revenue source was generally consistent for each reportable segment in Note 13, “Segment Information and Geographic Data” for 2025, 2024 and 2023, except in Greater China, where iPhone revenue represented a moderately higher proportion of net sales.', '[-0.029694,-0.050608,-0.005229,-0.035645,0.005064,-0.015428,0.037681,0.008870,0.005263,0.028631,0.041888,0.037801,0.008804,-0.018750,0.017419,-0.004426,0.049165,-0.068935,-0.045393,-0.012036,0.075442,-0.071624,-0.026721,0.033873,0.037644,-0.002495,-0.075839,-0.030863,-0.023858,-0.157260,-0.030424,-0.018039,0.019083,-0.004743,0.041844,-0.012422,-0.059217,0.041830,-0.013671,0.000657,0.033272,0.010500,-0.035609,0.003223,0.029516,-0.014643,-0.015540,-0.016569,-0.032380,-0.008606,0.008262,0.010458,-0.040187,0.062962,-0.006410,0.075944,0.018467,0.060766,0.019688,0.041594,0.027120,-0.041868,-0.150921,0.037286,0.062151,0.026853,-0.040656,-0.042233,-0.026204,0.010792,-0.010979,0.031431,0.027709,0.061071,0.026877,0.016594,0.089138,0.005087,-0.048089,-0.045209,0.045055,0.023423,-0.043822,0.018709,0.015544,-0.006276,0.008628,0.003186,0.052216,0.003242,-0.022045,-0.017367,-0.022835,-0.003636,-0.090120,-0.000948,0.015937,0.056130,-0.035144,0.349786,0.024867,-0.023442,-0.049840,-0.027899,0.023543,-0.066110,-0.034261,0.032120,-0.029713,-0.001811,-0.014711,0.032247,0.027982,-0.017013,0.016765,0.045039,-0.057912,0.075851,0.044766,-0.088216,0.028428,0.077517,0.008124,0.021821,-0.076381,-0.049206,0.060530,0.090660,-0.024801,0.001772,0.035978,-0.047161,-0.054795,0.028161,0.067748,-0.012748,-0.003917,0.029056,-0.005441,0.021042,-0.028564,0.032834,0.050403,-0.019198,-0.014895,0.141514,0.077273,0.027196,-0.021958,0.002959,-0.034095,0.073547,-0.001339,-0.062133,-0.030751,0.003600,-0.007438,-0.017784,-0.031930,-0.008435,-0.005538,-0.019093,-0.066541,0.148476,-0.000100,-0.114805,0.017832,0.025299,-0.031782,-0.003357,-0.024268,0.030916,-0.024291,-0.030703,0.037695,-0.021131,-0.044190,0.010999,-0.068785,-0.040825,0.004571,0.003119,-0.023607,-0.019414,0.081356,-0.010323,-0.027885,-0.004814,0.025191,0.008208,-0.077625,0.010860,-0.081341,0.067679,0.020679,-0.025083,-0.022132,0.040224,0.008286,-0.028997,0.090245,0.032968,-0.053343,0.038963,0.050892,0.033400,-0.034481,0.025724,-0.010372,0.041307,-0.019437,0.015792,-0.017298,0.034205,-0.004956,0.034145,-0.013763,0.044560,-0.026763,0.029777,-0.011030,0.062328,0.053602,-0.329178,0.043487,-0.041577,-0.019538,0.015243,0.010310,0.008577,-0.024100,-0.065631,0.032928,0.088650,0.007742,0.006428,0.034834,0.018042,-0.017990,-0.010637,-0.017173,-0.019060,0.044196,-0.089123,0.024325,0.016643,-0.006269,0.038841,0.009767,0.113965,-0.060228,0.025237,-0.068464,0.001864,0.088251,-0.044610,-0.036280,-0.006367,0.015308,-0.033338,-0.006166,-0.025035,-0.032982,-0.069812,0.073565,0.044773,-0.009276,0.035516,0.019673,-0.049398,0.071260,-0.020079,0.026948,-0.003393,-0.078481,0.002970,0.022720,0.068585,-0.030389,-0.076566,0.018690,-0.044340,-0.029866,0.012557,-0.017800,-0.010310,-0.005633,0.039062,-0.043116,0.010646,0.008233,-0.056093,-0.023836,0.006028,0.029301,-0.033805,-0.045996,0.020108,-0.006438,0.000543,0.009610,0.030218,0.013228,0.031956,0.105949,0.034801,0.006210,-0.007393,-0.023935,0.028467,0.015338,-0.044063,-0.064348,-0.015683,0.035219,-0.034637,0.030264,0.084375,-0.006023,-0.270321,-0.041467,-0.004535,0.022406,-0.037670,-0.043784,0.010308,-0.019303,-0.032870,0.045817,0.004040,0.043586,-0.001690,-0.060982,0.037687,-0.005877,0.110797,-0.038089,0.027810,-0.001865,0.035185,-0.031652,0.163518,0.024438,-0.029824,0.006554,-0.045706,0.061202,0.003373,0.015452,0.033968,-0.024086,0.040313,0.044728,-0.065691,-0.047869,0.022444,0.001346,0.017228,0.014048,-0.038402,-0.016671,-0.049427,0.007611,0.062527,0.021054,-0.055193,-0.033283,0.041705,-0.017199,0.007130,-0.089490,0.031983,-0.048279,-0.000150,-0.022946,-0.009828,-0.004756,0.006226,-0.053444,0.008291,-0.039648,-0.040768,0.054364,0.042502]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_8', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 8, 'iPhone
+
+Mac
+
+iPad
+
+Wearables, Home and Accessories
+
+Services (1)
+
+(1) Services net sales include amortization of the deferred value of services bundled in the sales price of certain products.
+
+The Company’s proportion of net sales by disaggregated revenue source was generally consistent for each reportable segment in Note 13, “Segment Information and Geographic Data” for 2025, 2024 and 2023, except in Greater China, where iPhone revenue represented a moderately higher proportion of net sales.
+
+As of September 27, 2025 and September 28, 2024, the Company had total deferred revenue of $ 13.7 billion and $ 12.8 billion, respectively. As of September 27, 2025, the Company expects 66 % of total deferred revenue to be realized in less than a year, 23 % within one-to-two years, 9 % within two-to-three years and 2 % in greater than three years.
+
+Note 3 – Earnings Per Share
+
+The following table shows the computation of basic and diluted earnings per share for 2025, 2024 and 2023 (net income in millions and shares in thousands):
+
+| 2025 | 2024 | 2023 |
+| Numerator: |
+| Net income | $ | 112,010 | $ | 93,736 | $ | 96,995 |
+| Denominator: |
+| Weighted-average basic shares outstanding | 14,948,500 | 15,343,783 | 15,744,231 |
+| Effect of dilutive share-based awards | 56,197 | 64,312 | 68,316 |
+| Weighted-average diluted shares | 15,004,697 | 15,408,095 | 15,812,547 |
+| Basic earnings per share | $ | 7.49 | $ | 6.11 | $ | 6.16 |
+| Diluted earnings per share | $ | 7.46 | $ | 6.08 | $ | 6.13 |
+
+Approximately 24 million restricted stock units (“RSUs”) were excluded from the computation of diluted earnings per share for 2023 because their effect would have been antidilutive.
+
+Apple Inc. | 2025 Form 10-K | 36
+
+Note 4 – Financial Instruments
+
+Cash, Cash Equivalents and Marketable Securities
+
+The following tables show the Company’s cash, cash equivalents and marketable securities by significant investment category as of September 27, 2025 and September 28, 2024 (in millions):', '[-0.041784,-0.052139,-0.022383,-0.032188,-0.016419,-0.009146,0.021924,0.040781,0.044213,0.000273,0.031205,0.039232,0.032021,0.005146,0.033197,0.002812,0.060022,-0.119149,-0.047803,0.007301,0.079408,-0.068536,-0.011699,0.006059,0.070874,-0.029403,-0.024608,-0.008292,0.003862,-0.133786,-0.013338,0.012589,0.043422,-0.005756,0.065805,-0.009326,-0.080517,0.082100,0.048634,0.034116,-0.006624,-0.034055,-0.011815,0.019295,0.010518,-0.059923,-0.067530,-0.022322,-0.010430,0.022271,0.062535,-0.060242,-0.002364,0.047694,-0.026928,0.006457,-0.020468,-0.004125,0.028630,0.032653,0.009807,-0.066310,-0.151220,0.048382,0.009401,-0.023671,-0.009793,-0.015710,-0.050215,-0.020241,0.034935,0.033690,0.005518,0.020224,0.015284,-0.042435,0.056107,-0.006730,-0.067750,-0.065910,0.003369,0.017960,-0.036644,0.078929,0.002749,0.018414,0.051174,0.005085,0.021846,-0.075665,-0.039978,0.032201,-0.021969,-0.002510,-0.100924,0.002928,0.048357,0.007668,-0.040454,0.346298,0.044610,0.017773,0.022906,-0.052165,-0.017014,-0.006886,-0.025436,0.033428,0.021553,0.054516,-0.007884,-0.001830,0.035756,-0.018911,-0.009959,0.047196,0.000182,0.057817,0.060581,-0.070738,0.027672,0.078830,0.037511,-0.025663,-0.084132,0.024995,0.057122,0.119602,0.020690,0.024010,-0.011632,0.021681,-0.073910,0.008458,0.031094,0.009737,0.037977,0.015551,-0.022318,0.024262,-0.025132,0.016873,0.059678,-0.049317,-0.030047,0.098419,0.015803,0.015094,0.032887,-0.014482,-0.047056,0.096616,0.016320,-0.050895,-0.023185,0.031704,-0.009647,-0.011681,-0.003521,-0.002371,-0.031149,-0.002386,-0.073373,0.106614,0.049991,-0.109702,-0.015674,0.055815,-0.029844,-0.017994,-0.009393,0.002592,-0.016373,0.026235,0.033449,-0.026054,-0.020183,-0.027378,-0.012768,0.010285,0.012002,-0.040087,-0.021672,0.026583,0.039197,0.018834,-0.047210,-0.015153,0.030819,0.014120,-0.015683,0.019263,-0.159884,0.063904,0.043688,-0.020500,-0.007788,-0.014911,0.018462,-0.016427,0.070338,-0.013322,-0.034896,0.006723,0.054966,-0.035876,-0.035804,0.035004,0.024465,0.028263,0.025478,0.041980,0.016684,-0.015511,-0.047583,-0.001730,0.036508,0.012253,-0.039022,0.029056,-0.023375,-0.003992,0.017807,-0.311682,0.006888,0.016493,-0.045585,-0.016788,-0.023441,0.016490,0.005906,-0.015471,0.021351,0.035647,-0.001319,-0.023949,-0.004726,0.043570,-0.010774,-0.024269,0.019204,-0.020219,0.004777,-0.023813,0.022095,-0.020402,0.033975,0.055403,-0.002085,0.084662,-0.071019,0.033204,-0.038153,-0.004667,0.113375,-0.084964,0.011518,0.003353,0.032952,-0.016558,0.003121,-0.067756,-0.054085,-0.043073,0.089621,-0.020235,-0.005681,0.006512,0.009359,-0.060792,0.029800,0.003248,0.044177,0.011459,-0.040145,0.028834,0.025566,0.091014,-0.047830,-0.070438,0.021526,-0.004793,-0.039319,0.001974,-0.045493,-0.036386,0.004258,-0.035622,-0.052427,-0.019577,0.024547,-0.073303,-0.003211,0.004970,0.030436,0.024033,-0.026065,0.044441,0.008396,0.023675,0.012672,-0.045327,0.045400,0.052076,0.036047,0.035687,-0.010998,-0.042099,0.005581,0.040548,-0.016425,-0.048278,-0.020304,-0.015764,-0.014497,-0.022248,-0.016683,0.079178,0.004000,-0.263195,-0.039343,-0.000364,0.015945,0.001490,-0.062861,0.013980,0.045884,-0.006648,0.057321,-0.020605,-0.001515,0.076862,-0.094899,0.079890,-0.023905,0.109437,-0.066935,0.034209,0.054737,0.048681,-0.028638,0.177899,-0.022630,-0.048933,0.004717,-0.044497,0.020966,0.033259,0.010564,0.032974,-0.019622,0.040917,0.044199,-0.028537,-0.006207,-0.023496,-0.012270,0.009360,-0.004946,-0.050702,-0.028311,-0.061856,0.030049,0.083704,0.039358,-0.042171,-0.059097,0.056383,-0.004490,-0.018977,-0.083346,0.023028,-0.037851,-0.023322,-0.044770,-0.033645,0.037821,0.000439,-0.011712,-0.001015,-0.014292,-0.066464,0.038143,0.086531]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_9', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 9, 'Approximately 24 million restricted stock units (“RSUs”) were excluded from the computation of diluted earnings per share for 2023 because their effect would have been antidilutive.
+
+Apple Inc. | 2025 Form 10-K | 36
+
+Note 4 – Financial Instruments
+
+Cash, Cash Equivalents and Marketable Securities
+
+The following tables show the Company’s cash, cash equivalents and marketable securities by significant investment category as of September 27, 2025 and September 28, 2024 (in millions):
+
+| 2025 |
+| Adjusted Cost | Unrealized Gains | Unrealized Losses | Fair Value | Cash and Cash Equivalents | Current Marketable Securities | Non-Current Marketable Securities |
+| Cash | $ | 28,267 | $ | — | $ | — | $ | 28,267 | $ | 28,267 | $ | — | $ | — |
+| Level 1: |
+| Money market funds | 5,272 | — | — | 5,272 | 5,272 | — | — |
+| Mutual funds | 679 | 177 | ( 2 ) | 854 | — | 854 | — |
+| Subtotal | 5,951 | 177 | ( 2 ) | 6,126 | 5,272 | 854 | — |
+| Level 2 (1) : |
+| U.S. Treasury securities | 16,074 | 56 | ( 282 ) | 15,848 | 1,190 | 3,712 | 10,946 |
+| U.S. agency securities | 5,269 | — | ( 149 ) | 5,120 | 251 | 2,456 | 2,413 |
+| Non-U.S. government securities | 6,586 | 111 | ( 424 ) | 6,273 | — | 855 | 5,418 |
+| Certificates of deposit and time deposits | 917 | — | — | 917 | 904 | — | 13 |
+| Commercial paper | 100 | — | — | 100 | 50 | 50 | — |
+| Corporate debt securities | 47,210 | 266 | ( 916 ) | 46,560 | — | 10,623 | 35,937 |
+| Municipal securities | 207 | — | ( 2 ) | 205 | — | 119 | 86 |
+| Mortgage- and asset-backed securities | 24,130 | 126 | ( 1,252 ) | 23,004 | — | 94 | 22,910 |
+| Subtotal | 100,493 | 559 | ( 3,025 ) | 98,027 | 2,395 | 17,909 | 77,723 |
+| Total | $ | 134,711 | $ | 736 | $ | ( 3,027 ) | $ | 132,420 | $ | 35,934 | $ | 18,763 | $ | 77,723 |
+
+Mutual funds
+
+Level 2 (1) :
+
+Total', '[-0.012678,-0.054287,-0.034118,-0.003589,0.022353,-0.025632,0.018478,-0.018167,0.041344,0.013748,0.040483,-0.004552,0.045843,-0.025454,0.046594,-0.044136,0.008762,-0.090658,-0.076663,0.072400,0.091075,-0.019418,0.023562,0.005699,0.066230,0.006492,-0.036300,0.015565,-0.045118,-0.175697,0.009859,-0.048541,0.031410,-0.009738,0.018793,0.025895,-0.085232,0.048149,0.012533,0.021546,-0.053949,0.012225,0.015556,0.022890,-0.009124,-0.025527,-0.055117,-0.032060,0.030032,0.029427,0.035167,-0.042830,0.024168,0.054581,-0.000343,-0.012512,0.010520,0.043715,0.027386,0.023788,-0.033178,-0.025515,-0.139590,-0.016905,0.019722,0.017788,0.044157,-0.029307,0.013095,0.003257,0.031279,0.022073,-0.038653,0.013219,0.011659,-0.003059,0.013345,-0.013433,-0.042782,-0.016923,-0.024218,-0.001276,-0.025189,0.013621,-0.006787,0.007592,0.040940,-0.000715,0.027541,-0.036152,-0.029202,-0.003111,0.040949,-0.035687,-0.031040,-0.005740,0.052223,0.042098,-0.075866,0.351153,0.072859,0.043053,-0.037733,-0.035747,-0.011916,0.020419,-0.014756,0.028855,0.045451,-0.044460,-0.005752,-0.009876,0.039942,-0.010249,-0.007744,0.018750,0.057156,0.023213,0.068216,-0.040606,-0.002721,0.003456,0.007575,0.017471,-0.062806,0.002233,-0.005419,0.050338,0.048098,0.022493,0.043240,-0.047459,-0.069112,0.006182,0.080954,0.025542,-0.035546,-0.031210,0.034547,-0.001549,-0.058527,0.003962,0.016062,-0.047939,-0.048342,0.083248,0.017486,0.002011,-0.000659,0.012446,-0.069982,0.005074,0.038528,-0.071762,-0.050125,0.018530,-0.032100,0.011337,-0.064910,-0.017600,0.006891,-0.040006,-0.052079,0.126580,0.020345,-0.068256,-0.027038,0.051305,-0.008877,-0.010653,-0.005468,-0.010789,-0.008103,-0.002130,0.033801,-0.024720,-0.033135,-0.024137,-0.041990,-0.006809,0.018581,-0.062426,-0.065765,-0.017171,0.037556,0.048711,-0.049439,0.011073,0.008901,0.050496,-0.003477,0.013891,-0.202519,0.100102,-0.057748,-0.015120,0.015828,-0.012239,-0.026131,-0.024055,0.086904,-0.012703,-0.020978,0.034362,-0.009296,-0.033496,-0.014431,0.001543,0.061804,0.049463,-0.018499,0.043720,-0.015793,-0.009259,-0.000980,0.056981,0.026102,0.003751,-0.000230,-0.007584,0.034315,0.024787,-0.025113,-0.318988,-0.022178,-0.004591,-0.045238,-0.037254,-0.059663,-0.017197,-0.034101,-0.040157,0.051476,0.012449,0.058170,-0.071070,0.043591,0.034045,-0.004243,-0.016407,-0.012416,-0.002171,0.028507,-0.041143,0.049090,-0.053274,0.021526,0.067663,0.019160,0.087962,-0.055131,-0.018310,-0.025773,0.003331,0.089666,-0.035787,0.005650,0.022778,0.022008,-0.041756,0.011509,-0.027249,-0.037309,-0.048470,0.045378,-0.034972,-0.015984,0.027682,-0.001858,0.005230,-0.002048,0.028413,0.091542,0.065632,-0.019914,0.001334,0.048193,0.142181,-0.067498,-0.049810,-0.000968,-0.002215,-0.033802,0.016263,-0.058387,0.009508,-0.004458,-0.013323,-0.066672,-0.028244,0.025998,-0.063471,0.021118,0.018085,0.047062,0.039434,-0.040045,0.032244,0.001886,-0.004104,0.034131,-0.032624,0.018580,0.036066,0.055314,0.050788,0.050232,-0.042305,0.076145,0.061535,-0.008900,0.029058,0.023536,-0.033123,-0.015550,-0.091120,0.053350,0.108803,-0.027880,-0.264789,-0.047932,0.021061,0.018586,0.028854,-0.006812,-0.011943,-0.027620,-0.036991,0.048396,-0.004152,0.007093,0.075987,-0.056097,0.027159,-0.030011,0.082655,-0.051490,0.070353,0.037287,0.049735,0.009204,0.174711,-0.007804,-0.085307,-0.019450,-0.004731,0.027643,0.043796,-0.001840,0.043172,-0.062251,0.013480,0.015414,-0.001637,0.007279,-0.022221,0.046914,0.011508,-0.040469,-0.022895,-0.005469,-0.029604,-0.011621,0.050038,0.022867,-0.018750,-0.036497,0.057896,-0.014039,0.022396,-0.069759,0.017216,-0.002591,0.004575,-0.031843,-0.019544,0.017874,0.024713,-0.029431,-0.018259,-0.012287,-0.060303,0.057978,0.062374]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_10', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 10, 'Mutual funds
+
+Level 2 (1) :
+
+Total
+
+| 2024 |
+| Adjusted Cost | Unrealized Gains | Unrealized Losses | Fair Value | Cash and Cash Equivalents | Current Marketable Securities | Non-Current Marketable Securities |
+| Cash | $ | 27,199 | $ | — | $ | — | $ | 27,199 | $ | 27,199 | $ | — | $ | — |
+| Level 1: |
+| Money market funds | 778 | — | — | 778 | 778 | — | — |
+| Mutual funds | 515 | 105 | ( 3 ) | 617 | — | 617 | — |
+| Subtotal | 1,293 | 105 | ( 3 ) | 1,395 | 778 | 617 | — |
+| Level 2 (1) : |
+| U.S. Treasury securities | 16,150 | 45 | ( 516 ) | 15,679 | 212 | 4,087 | 11,380 |
+| U.S. agency securities | 5,431 | — | ( 272 ) | 5,159 | 155 | 703 | 4,301 |
+| Non-U.S. government securities | 17,959 | 93 | ( 484 ) | 17,568 | 1,158 | 10,810 | 5,600 |
+| Certificates of deposit and time deposits | 873 | — | — | 873 | 387 | 478 | 8 |
+| Commercial paper | 1,066 | — | — | 1,066 | 28 | 1,038 | — |
+| Corporate debt securities | 65,622 | 270 | ( 1,953 ) | 63,939 | 26 | 16,027 | 47,886 |
+| Municipal securities | 412 | — | ( 7 ) | 405 | — | 190 | 215 |
+| Mortgage- and asset-backed securities | 24,595 | 175 | ( 1,403 ) | 23,367 | — | 1,278 | 22,089 |
+| Subtotal | 132,108 | 583 | ( 4,635 ) | 128,056 | 1,966 | 34,611 | 91,479 |
+| Total (2)(3) | $ | 160,600 | $ | 688 | $ | ( 4,638 ) | $ | 156,650 | $ | 29,943 | $ | 35,228 | $ | 91,479 |
+
+Mutual funds
+
+Level 2 (1) :
+
+Total (2)(3)
+
+(1) The valuation techniques used to measure the fair values of the Company’s Level 2 financial instruments, which generally have counterparties with high credit ratings, are based on quoted market prices or model-driven valuations using significant inputs derived from or corroborated by observable market data.
+
+(2) As of September 28, 2024, cash and cash equivalents included $ 2.6 billion held in escrow and restricted from general use. These restricted cash and cash equivalents were designated to settle the Company’s obligation related to the State Aid Decision (refer to Note 7, “Income Taxes”).
+
+(3) As of September 28, 2024, current marketable securities included $ 13.2 billion held in escrow and restricted from general use. These restricted marketable securities were designated to settle the Company’s obligation related to the State Aid Decision (refer to Note 7, “Income Taxes”).
+
+Apple Inc. | 2025 Form 10-K | 37
+
+As of September 27, 2025, 80 % of the Company’s non-current marketable debt securities other than mortgage- and asset-backed securities had maturities between 1 and 5 years, 15 % between 5 and 10 years, and 5 % greater than 10 years. As of September 27, 2025, 13 % of the Company’s non-current mortgage- and asset-backed securities had maturities between 1 and 5 years, 14 % between 5 and 10 years, and 73 % greater than 10 years.', '[-0.029376,-0.119144,-0.078218,-0.003644,0.000704,0.007148,0.020418,-0.021832,0.012080,-0.021221,0.083541,-0.018404,0.030377,-0.017473,0.027940,-0.032536,-0.020543,-0.067666,-0.060868,0.049368,0.101447,-0.048282,0.020677,-0.025981,0.065943,0.002500,-0.023542,-0.027138,-0.039842,-0.189185,0.024493,-0.024577,-0.033638,0.006861,0.000698,0.014404,-0.047625,0.013948,0.038554,0.007446,0.002901,-0.026760,0.013397,-0.008350,0.034986,-0.049411,-0.059261,0.007079,-0.001936,0.048374,-0.033626,-0.014702,-0.039026,0.065540,0.013567,0.021025,0.017170,0.062141,0.011664,0.019855,0.005150,0.010929,-0.163488,-0.021910,-0.016975,0.022587,0.050584,-0.022748,0.031331,0.006276,0.049083,0.040221,0.014650,-0.028755,0.020154,-0.053699,0.020606,-0.016429,-0.005714,0.026013,-0.079160,0.025674,-0.009009,-0.021634,-0.040655,0.006637,0.057951,-0.003819,0.015803,-0.004400,0.003840,-0.032043,0.021695,-0.020073,-0.021722,0.011262,0.009874,0.030392,-0.016025,0.392829,0.067911,-0.043345,0.007213,-0.003676,0.022160,-0.005463,-0.005897,-0.025468,0.029248,-0.006211,-0.031531,0.003784,0.024910,-0.047771,-0.033575,0.027498,0.021174,0.020842,0.040250,0.019342,0.034368,-0.000085,0.022537,-0.025030,-0.050420,-0.051678,0.015610,0.033016,0.066354,0.047784,0.003343,0.002520,-0.105886,-0.005146,0.015621,0.005981,-0.012334,0.001313,0.035560,0.022468,-0.010241,0.016692,-0.011933,-0.049337,-0.031489,0.157701,0.035034,-0.002806,-0.009404,0.019542,-0.039579,0.040412,-0.001503,-0.085804,0.025673,0.060774,-0.004948,-0.018080,-0.029414,-0.050982,-0.007327,-0.041922,-0.073874,0.072894,0.051103,-0.088063,-0.070514,-0.000921,0.002169,0.001429,0.029431,-0.006728,0.000383,-0.013402,0.040640,-0.011866,-0.081339,-0.071993,-0.033766,0.019498,0.037658,-0.033398,-0.032260,-0.007476,-0.030610,0.028312,-0.076020,-0.015312,0.010667,0.034572,-0.060202,0.040387,-0.127977,0.090658,-0.021500,0.024413,-0.024064,0.076304,-0.035641,-0.020387,0.126367,-0.006576,-0.012387,0.019828,-0.034847,0.009836,-0.055735,-0.006872,0.026056,-0.000153,0.042687,-0.009133,0.006138,0.023096,0.003331,0.037968,0.031575,-0.017890,0.008438,0.051652,0.035147,-0.026159,-0.029174,-0.305400,-0.007217,-0.006101,-0.030857,0.008832,-0.014840,-0.003069,-0.017888,-0.036864,0.041316,-0.005298,0.011664,-0.057500,0.006375,0.024440,0.027805,-0.055520,-0.016214,-0.029890,-0.011623,0.003032,0.051881,-0.030686,0.003152,0.087122,0.065081,0.061233,-0.060526,-0.035286,-0.041386,0.051830,0.005530,-0.027295,0.039615,0.004629,-0.011211,0.025112,0.006985,-0.060396,-0.038017,-0.060733,0.026196,-0.018588,-0.023221,-0.037976,0.015740,0.025826,0.011880,-0.023824,0.020642,0.010169,-0.028419,-0.002094,-0.011120,0.104245,-0.068277,-0.079372,-0.031623,0.005662,-0.006575,0.004359,-0.041723,0.037161,-0.036690,0.017972,-0.073313,0.000100,-0.034048,-0.040739,0.010951,-0.012004,-0.026162,0.015968,-0.027170,0.014975,0.031865,-0.026186,0.074626,-0.041173,0.005078,0.060212,-0.052100,0.052454,0.040630,-0.054682,0.056394,0.033456,0.010147,0.046254,0.030067,-0.042997,-0.050144,-0.040848,0.054057,0.048242,-0.027941,-0.276854,-0.026994,0.021216,-0.005320,0.039137,-0.020822,0.067037,0.020888,-0.012024,0.031037,0.010351,0.051192,0.094185,-0.013636,-0.024060,-0.043468,0.057546,-0.025167,0.096173,0.049347,0.064894,0.012196,0.162586,0.023926,-0.046603,-0.048502,-0.027860,0.000007,0.096526,0.033356,0.064708,0.024383,0.030137,-0.003324,0.017863,-0.009922,-0.004254,0.043368,0.036176,-0.021372,0.043977,0.004171,0.001402,0.030339,0.040981,-0.036408,0.035418,-0.076348,0.042186,0.007164,0.019200,-0.001189,0.023141,0.030178,-0.012552,-0.006362,-0.032392,0.002108,0.050800,-0.018699,-0.029602,0.009778,-0.007774,0.039914,0.048776]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_11', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 11, '(3) As of September 28, 2024, current marketable securities included $ 13.2 billion held in escrow and restricted from general use. These restricted marketable securities were designated to settle the Company’s obligation related to the State Aid Decision (refer to Note 7, “Income Taxes”).
+
+Apple Inc. | 2025 Form 10-K | 37
+
+As of September 27, 2025, 80 % of the Company’s non-current marketable debt securities other than mortgage- and asset-backed securities had maturities between 1 and 5 years, 15 % between 5 and 10 years, and 5 % greater than 10 years. As of September 27, 2025, 13 % of the Company’s non-current mortgage- and asset-backed securities had maturities between 1 and 5 years, 14 % between 5 and 10 years, and 73 % greater than 10 years.
+
+The Company’s investments in marketable debt securities have been classified and accounted for as available-for-sale. The Company classifies marketable debt securities as either current or non-current based on each instrument’s underlying maturity.
+
+Derivative Instruments and Hedging
+
+The Company may use derivative instruments to partially offset its business exposure to foreign exchange and interest rate risk. However, the Company may choose not to hedge certain exposures for a variety of reasons including accounting considerations or the prohibitive economic cost of hedging particular exposures. There can be no assurance the hedges will offset more than a portion of the financial impact resulting from movements in foreign exchange or interest rates.
+
+All derivative instruments are recorded in the Consolidated Balance Sheets at fair value. The accounting treatment for derivative gains and losses is based on intended use and hedge designation.
+
+Gains and losses arising from amounts that are included in the assessment of cash flow hedge effectiveness are initially deferred in accumulated other comprehensive income/(loss) and subsequently reclassified into earnings when the hedged transaction affects earnings, and in the same line item in the Consolidated Statements of Operations. Gains and losses arising from amounts that are included in the assessment of fair value hedge effectiveness are recognized in the Consolidated Statements of Operations line item to which the hedge relates along with offsetting losses and gains related to the change in value of the hedged item.
+
+For derivative instruments designated as cash flow and fair value hedges, amounts excluded from the assessment of hedge effectiveness are recognized on a straight-line basis over the life of the hedge in the Consolidated Statements of Operations line item to which the hedge relates. Changes in the fair value of amounts excluded from the assessment of hedge effectiveness are recognized in other comprehensive income/(loss).
+
+Gains and losses arising from changes in the fair values of derivative instruments that are not designated as accounting hedges are recognized in the Consolidated Statements of Operations.
+
+The Company classifies cash flows related to derivative instruments in the same section of the Consolidated Statements of Cash Flows as the items being hedged, which are generally classified as operating activities.
+
+Foreign Exchange Rate Risk
+
+To protect gross margins from fluctuations in foreign exchange rates, the Company may use forwards, options or other instruments, and may designate these instruments as cash flow hedges. The Company generally hedges portions of its forecasted foreign currency exposure associated with revenue and inventory purchases, typically for up to 12 months.', '[-0.032166,-0.045100,-0.045124,-0.040020,-0.003224,0.001339,0.016797,-0.017710,0.029508,0.009025,0.031448,0.000512,0.016226,-0.028828,0.008568,0.000479,-0.016229,-0.045777,-0.014072,0.049088,0.043181,-0.048369,0.003577,0.010259,0.068415,0.014903,-0.050402,0.008292,-0.059995,-0.177722,0.008644,-0.055382,-0.007005,-0.001449,0.004507,0.006695,-0.072858,0.013591,0.000088,0.003148,-0.030418,0.007603,-0.022841,0.022542,-0.014491,-0.032988,-0.035107,-0.025099,-0.010041,0.020813,0.006947,-0.026996,-0.003217,0.057226,-0.026825,0.046417,0.006561,0.039314,0.015472,0.054162,0.010790,-0.048339,-0.180019,-0.005586,0.034973,0.000748,0.045883,0.014256,-0.012090,-0.011430,0.034864,0.018284,-0.021390,0.045586,0.044751,0.006261,0.040036,-0.043354,-0.015471,-0.026401,0.010369,0.013889,-0.035633,-0.020733,-0.024892,0.000428,0.032512,-0.005082,0.071822,-0.030222,-0.000011,-0.027014,0.017428,-0.021419,-0.073356,0.019319,0.032339,0.014614,-0.048008,0.355567,0.010134,0.027575,-0.024463,-0.010544,-0.009230,-0.008917,-0.018983,0.021494,0.058417,-0.032216,0.003048,0.069444,0.051535,0.014160,-0.011838,0.028457,-0.030391,0.043507,0.059190,-0.019830,0.032175,0.026105,0.021544,0.023655,-0.064131,0.042342,-0.013305,0.066960,0.043542,0.008271,0.016436,-0.063995,-0.077531,0.024498,0.048929,0.031104,-0.045878,-0.023618,0.051635,-0.026149,-0.074514,-0.003676,-0.005844,-0.062512,-0.062504,0.106072,0.047483,0.010012,-0.003640,-0.009245,-0.045445,0.078309,0.034164,-0.069678,-0.027333,-0.005817,-0.022265,0.001807,-0.058315,-0.004963,-0.017236,-0.040154,-0.070248,0.173880,0.031493,-0.073409,-0.016632,0.061457,0.001817,0.010273,0.025963,-0.003432,0.009485,-0.038721,0.017188,-0.033656,-0.045209,-0.042464,-0.024060,-0.018451,0.036753,-0.046718,-0.073587,0.003543,0.041342,0.025845,-0.049698,-0.028647,0.025195,-0.006470,-0.023169,0.025672,-0.102720,0.104503,-0.002079,-0.013022,-0.030739,0.003578,-0.027845,0.002660,0.049504,0.023433,0.003381,0.022627,0.037379,-0.005526,-0.010291,-0.015606,-0.008887,0.013207,-0.024530,0.057602,0.029116,-0.017804,0.007355,0.059973,0.012371,-0.002187,-0.008686,0.002064,0.015354,0.023213,0.042928,-0.344634,-0.033076,-0.016018,-0.023751,-0.001214,-0.054862,-0.025356,-0.017345,-0.060960,0.020035,0.019583,0.044347,-0.047542,0.032730,0.080871,-0.019914,0.021185,-0.023386,-0.012903,0.032874,-0.050244,0.020883,-0.065356,0.003919,0.057504,0.008108,0.093803,-0.117681,-0.027062,-0.055799,0.034376,0.057221,-0.024917,0.009056,-0.012093,0.012686,-0.004670,0.001657,-0.060969,-0.034845,0.002985,0.044510,-0.011836,-0.049471,0.002584,-0.055117,0.036707,-0.001503,-0.015440,0.061522,0.057557,-0.014542,-0.000555,0.039851,0.099621,-0.091682,-0.018404,0.004530,0.021065,-0.011920,-0.000555,-0.022489,0.021368,0.001914,0.023142,-0.074821,0.023303,0.005567,-0.082847,-0.058813,-0.015273,0.060253,0.049178,-0.032552,0.042689,0.030777,-0.022085,0.039279,0.002101,0.008066,0.041036,0.079626,0.049072,0.060171,-0.012979,0.036354,0.043966,0.002760,0.013488,-0.004235,-0.030627,-0.020953,-0.066945,0.003427,0.055517,-0.010826,-0.261799,0.029886,0.002885,0.006118,0.033627,-0.019453,0.042717,-0.011030,-0.032954,0.069349,-0.078206,0.044010,0.086584,-0.083788,0.019103,-0.028590,0.088079,-0.048507,0.050103,-0.006214,0.081141,0.010163,0.152069,0.014274,-0.043168,-0.031161,-0.031798,0.035875,-0.004246,-0.016828,0.108684,-0.015238,0.026581,-0.023220,0.002350,-0.007496,-0.036837,0.018289,0.047564,-0.005345,0.000220,0.025374,-0.086256,0.036634,0.038685,0.010527,0.018124,-0.039062,0.010889,-0.029624,0.056551,-0.053271,0.035832,-0.003547,-0.014488,-0.024197,-0.044953,0.076104,0.019444,-0.016946,0.018730,-0.017439,-0.061871,0.081268,0.053971]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_12', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 12, 'Gains and losses arising from changes in the fair values of derivative instruments that are not designated as accounting hedges are recognized in the Consolidated Statements of Operations.
+
+The Company classifies cash flows related to derivative instruments in the same section of the Consolidated Statements of Cash Flows as the items being hedged, which are generally classified as operating activities.
+
+Foreign Exchange Rate Risk
+
+To protect gross margins from fluctuations in foreign exchange rates, the Company may use forwards, options or other instruments, and may designate these instruments as cash flow hedges. The Company generally hedges portions of its forecasted foreign currency exposure associated with revenue and inventory purchases, typically for up to 12 months.
+
+To protect the Company’s foreign currency–denominated term debt or marketable securities from fluctuations in foreign exchange rates, the Company may use forwards, cross-currency swaps or other instruments. The Company designates these instruments as either cash flow or fair value hedges. As of September 27, 2025, the maximum length of time over which the Company is hedging its exposure to the variability in future cash flows for term debt–related foreign currency transactions is 17 years.
+
+The Company may also use derivative instruments that are not designated as accounting hedges to protect gross margins from certain fluctuations in foreign exchange rates, as well as to offset a portion of the foreign currency gains and losses generated by the remeasurement of certain assets and liabilities denominated in non-functional currencies.
+
+Interest Rate Risk
+
+To protect the Company’s term debt or marketable securities from fluctuations in interest rates, the Company may use interest rate swaps, options or other instruments. The Company designates these instruments as either cash flow or fair value hedges.
+
+Apple Inc. | 2025 Form 10-K | 38
+
+The notional amounts of the Company’s outstanding derivative instruments as of September 27, 2025 and September 28, 2024, were as follows (in millions):
+
+| 2025 | 2024 |
+| Derivative instruments designated as accounting hedges: |
+| Foreign exchange contracts | $ | 62,647 | $ | 64,069 |
+| Interest rate contracts | $ | 12,875 | $ | 14,575 |
+| Derivative instruments not designated as accounting hedges: |
+| Foreign exchange contracts | $ | 109,079 | $ | 91,493 |
+
+As of September 27, 2025 and September 28, 2024, the carrying amount of the Company’s current and non-current term debt subject to fair value hedges was $ 12.6 billion and $ 13.5 billion, respectively.
+
+Accounts Receivable
+
+Trade Receivables
+
+As of September 27, 2025, the Company had one customer that represented 10% or more of total trade receivables, which accounted for 12 %. The Company’s third-party cellular network carriers accounted for 34 % and 38 % of total trade receivables as of September 27, 2025 and September 28, 2024, respectively. The Company requires third-party credit support or collateral from certain customers to limit credit risk.
+
+Vendor Non-Trade Receivables', '[-0.036641,-0.061220,-0.028456,-0.024189,-0.016829,-0.013754,0.058269,0.004066,0.070701,0.000167,0.004777,-0.007475,0.020616,-0.040333,-0.019255,-0.024611,-0.017886,-0.072204,-0.014217,0.008819,0.053157,-0.031872,0.038956,-0.014099,0.062489,0.001600,-0.030071,0.013551,-0.053119,-0.193527,0.008749,-0.071409,-0.058531,-0.036390,0.012104,0.033642,-0.050671,0.022942,0.007739,0.038419,-0.039922,0.015202,0.013606,0.020714,0.011809,-0.003858,-0.054758,-0.030680,-0.031771,0.020792,0.026799,-0.035410,0.021859,0.023325,-0.018876,0.043396,0.030516,0.031138,0.024783,0.065129,0.011946,-0.041191,-0.155603,0.036709,-0.006173,0.030423,0.062932,0.031088,-0.019627,-0.017803,0.011504,-0.018525,-0.026807,0.016745,0.080420,-0.014773,0.044384,-0.057907,-0.057270,0.014374,0.049753,-0.010235,-0.055009,-0.045054,0.016969,-0.003654,0.047107,-0.017811,0.043266,-0.071434,-0.001645,-0.025718,0.022422,-0.008339,-0.040443,0.037036,0.048445,0.036490,-0.002304,0.341262,0.051195,0.057895,-0.014122,0.007221,-0.007789,-0.021699,-0.004903,0.023438,0.024430,-0.062447,-0.002611,0.063080,0.044076,-0.015402,-0.057126,-0.002669,-0.056032,0.012673,0.020644,-0.023875,0.022790,0.031294,0.028205,0.033148,-0.083909,0.055115,-0.009018,0.065514,0.018767,0.046341,0.018987,-0.059026,-0.058682,-0.001439,0.018864,0.032496,-0.042890,0.006417,0.054908,0.011569,-0.087252,0.015342,-0.033554,-0.034070,-0.047218,0.095439,0.027923,-0.008493,0.009607,-0.008135,-0.032968,0.057142,0.056805,-0.030936,0.000897,0.002633,-0.014961,0.030909,-0.076426,-0.019993,-0.026916,-0.035165,-0.063302,0.191646,0.008094,-0.070869,-0.006271,0.036395,-0.004540,-0.007300,-0.009366,-0.025058,0.018831,-0.073259,0.083760,-0.015070,0.002399,-0.022922,-0.044940,-0.040496,0.050768,-0.015173,-0.015280,-0.006490,0.049670,0.029436,-0.089184,-0.033629,0.026543,0.004186,-0.052940,0.036285,-0.119092,0.084040,0.026010,-0.026481,-0.003299,0.043906,-0.018552,-0.011316,0.054053,0.058442,0.025320,0.018899,0.008545,-0.009728,0.005906,-0.032575,0.007463,0.005986,-0.025444,0.051787,0.032048,0.008179,-0.023109,0.041642,-0.004035,0.022144,-0.018075,0.028685,0.009825,-0.019157,0.060443,-0.335390,-0.030900,-0.010359,-0.017442,0.029105,-0.031192,-0.015404,-0.026668,-0.057502,0.052260,0.015865,0.017400,-0.060891,-0.019089,0.040306,0.028939,0.012725,-0.003493,0.007623,0.031137,-0.041045,0.021363,-0.046569,0.006264,0.038828,0.010218,0.124042,-0.106776,-0.023353,-0.050452,0.002645,0.033485,0.003921,-0.004262,-0.021600,-0.013724,0.005183,-0.037163,-0.062793,-0.039690,0.023842,0.015488,-0.009811,-0.022424,0.018033,-0.057807,-0.015034,-0.033427,0.007046,0.056930,0.026124,-0.011580,0.005537,0.041858,0.078886,-0.107866,-0.020526,0.016158,-0.028825,-0.036190,0.012099,-0.052162,0.012316,-0.007227,0.022860,-0.034187,0.018975,-0.004108,-0.053294,-0.047623,-0.027057,0.080844,0.019402,-0.024060,0.018704,0.038290,-0.041406,0.036980,-0.012602,0.028589,0.034956,0.064006,0.030256,0.063528,-0.057427,0.004588,0.019516,-0.008635,0.036124,0.006433,-0.010349,-0.052846,-0.024366,0.046553,0.046716,0.027177,-0.246044,0.000615,0.015896,-0.007356,0.046885,-0.012951,0.023625,-0.033631,-0.039484,0.079260,-0.049772,0.010614,0.077110,-0.054342,0.071136,-0.010115,0.070796,-0.048690,0.056847,0.042495,0.058992,-0.005664,0.191287,0.030272,-0.034024,-0.030626,-0.023508,0.010202,0.059153,0.010051,0.089459,-0.013111,0.084458,-0.023003,0.002865,0.007752,-0.044411,0.006084,0.066863,-0.014514,-0.013019,-0.017456,-0.064949,0.019932,0.026493,-0.005276,-0.016637,-0.069077,0.021563,-0.012006,0.054390,-0.038321,0.034032,-0.019214,0.011943,-0.012776,-0.058539,0.087190,-0.021837,0.006839,-0.002655,-0.030725,-0.053302,0.047399,0.025186]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_13', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 13, 'As of September 27, 2025 and September 28, 2024, the carrying amount of the Company’s current and non-current term debt subject to fair value hedges was $ 12.6 billion and $ 13.5 billion, respectively.
+
+Accounts Receivable
+
+Trade Receivables
+
+As of September 27, 2025, the Company had one customer that represented 10% or more of total trade receivables, which accounted for 12 %. The Company’s third-party cellular network carriers accounted for 34 % and 38 % of total trade receivables as of September 27, 2025 and September 28, 2024, respectively. The Company requires third-party credit support or collateral from certain customers to limit credit risk.
+
+Vendor Non-Trade Receivables
+
+The Company has non-trade receivables from certain of its manufacturing vendors resulting from the sale of components to these vendors who manufacture subassemblies or assemble final products for the Company. The Company purchases these components directly from suppliers. The Company does not reflect the sale of these components in products net sales. Rather, the Company recognizes any gain on these sales as a reduction of products cost of sales when the related final products are sold by the Company. As of September 27, 2025, the Company had two vendors that individually represented 10% or more of total vendor non-trade receivables, which accounted for 46 % and 23 %. As of September 28, 2024, the Company had two vendors that individually represented 10% or more of total vendor non-trade receivables, which accounted for 44 % and 23 %.
+
+Note 5 – Property, Plant and Equipment
+
+The following table shows the Company’s gross property, plant and equipment by major asset class and accumulated depreciation as of September 27, 2025 and September 28, 2024 (in millions):
+
+| 2025 | 2024 |
+| Land and buildings | $ | 27,337 | $ | 24,690 |
+| Machinery, equipment and internal-use software | 83,420 | 80,205 |
+| Leasehold improvements | 15,091 | 14,233 |
+| Gross property, plant and equipment | 125,848 | 119,128 |
+| Accumulated depreciation | ( 76,014 ) | ( 73,448 ) |
+| Total property, plant and equipment, net | $ | 49,834 | $ | 45,680 |
+
+Machinery, equipment and internal-use software
+
+Accumulated depreciation
+
+Depreciation expense on property, plant and equipment was $ 8.0 billion, $ 8.2 billion and $ 8.5 billion during 2025, 2024 and 2023, respectively.
+
+Apple Inc. | 2025 Form 10-K | 39
+
+Note 6 – Consolidated Financial Statement Details
+
+The following tables show the Company’s consolidated financial statement details as of September 27, 2025 and September 28, 2024 (in millions):
+
+Other Non-Current Assets
+
+| 2025 | 2024 |
+| Deferred tax assets | $ | 20,777 | $ | 19,499 |
+| Other non-current assets | 62,950 | 55,335 |
+| Total other non-current assets | $ | 83,727 | $ | 74,834 |
+
+Other Current Liabilities
+
+| 2025 | 2024 |
+| Income taxes payable | $ | 13,016 | $ | 26,601 |
+| Accrued distribution and marketing | 8,919 | 7,679 |
+| Other current liabilities | 44,452 | 44,024 |
+| Total other current liabilities | $ | 66,387 | $ | 78,304 |
+
+Accrued distribution and marketing
+
+Note 7 – Income Taxes
+
+European Commission State Aid Decision', '[-0.051603,-0.038789,-0.035815,-0.014117,0.003901,-0.058807,0.028043,0.028965,-0.012492,-0.004150,0.026857,0.022554,0.063680,-0.028053,-0.047395,0.011443,0.029510,-0.096597,-0.007545,0.016912,0.024552,-0.073544,0.005946,0.017882,0.078179,0.010692,-0.059221,-0.040089,-0.087021,-0.148472,-0.022221,-0.027925,0.033653,0.019043,0.050488,0.002620,-0.044360,0.003056,0.034911,0.066738,-0.030548,-0.015184,-0.035205,0.001020,0.006510,-0.083250,-0.000670,-0.002266,0.044791,0.003035,-0.008600,-0.048835,-0.020288,0.055330,-0.022457,0.008163,0.030189,0.028033,0.034433,0.039727,0.053761,-0.044846,-0.180216,0.015845,0.009588,0.009403,-0.018632,0.003439,-0.043409,0.022168,0.002757,-0.009143,-0.049123,-0.018968,0.069616,0.003656,0.029927,-0.043876,-0.030438,-0.008144,0.031769,0.036377,-0.030858,-0.018444,-0.014232,-0.036389,0.007940,0.018687,0.006522,-0.025795,0.026812,0.024731,-0.004454,-0.009669,-0.097133,-0.012576,0.046976,0.001978,-0.022902,0.379464,0.010828,0.052552,-0.001846,-0.016571,0.011823,-0.018067,-0.073672,0.037788,-0.035698,-0.044211,-0.030481,0.030650,0.025372,-0.002348,0.011885,0.054843,-0.004434,0.008284,0.024993,-0.017225,0.065135,0.022847,0.022491,0.013419,-0.050964,0.022270,0.016079,0.063356,0.027315,0.038343,-0.016186,-0.014109,-0.044127,0.045831,0.032687,-0.002048,0.014698,0.010196,-0.041825,0.004843,-0.038262,-0.008941,0.002547,-0.076911,-0.089038,0.048645,0.047310,0.008558,0.018351,-0.011900,-0.038684,0.112712,0.075495,-0.035795,0.007066,0.023040,0.029229,0.009243,-0.057337,0.030166,0.033442,0.011358,-0.056288,0.162615,0.017925,-0.125706,-0.012853,0.030027,0.065075,-0.025007,-0.025909,0.029080,-0.004252,-0.071195,0.058144,0.004494,-0.057718,-0.045290,-0.039310,0.010009,0.004517,0.022978,-0.044333,-0.013291,0.011623,0.014783,-0.043019,-0.008400,-0.009421,0.015546,-0.047332,0.023552,-0.111056,0.118675,0.016646,-0.062197,-0.057554,0.032255,0.021072,-0.039876,0.039067,0.006288,0.004495,0.004265,0.030382,0.025036,0.007197,0.013588,0.028821,0.034233,0.017526,0.021007,0.028803,-0.034175,0.004910,0.061875,-0.002008,0.041026,0.013581,-0.001527,-0.056459,-0.011126,0.072534,-0.331920,0.011201,-0.002368,-0.013935,-0.067605,0.022268,-0.021181,-0.014180,-0.041007,0.052198,0.045461,0.079022,-0.014033,-0.043523,0.037838,0.039558,0.017672,0.046071,-0.034774,-0.008522,-0.068585,0.011565,-0.031383,0.061651,0.060390,0.035194,0.111459,-0.089807,-0.041208,-0.010374,0.059187,0.036896,-0.062936,0.009895,0.041207,0.023127,0.017104,-0.006102,-0.004597,-0.007222,-0.037686,0.016602,-0.002968,-0.017028,0.087565,0.003674,-0.076972,0.016798,0.013636,0.068474,0.010741,-0.040439,0.020848,0.046989,0.040260,-0.029583,-0.050503,0.031439,-0.020312,-0.007157,-0.003096,-0.053479,-0.010337,-0.054743,0.055093,-0.064486,0.010554,0.054033,-0.022415,0.008164,-0.040341,0.029470,0.041052,-0.025574,-0.040996,0.018091,-0.013485,0.002104,-0.003556,0.021004,0.040336,0.022740,0.059925,0.033161,0.005798,-0.032764,0.015968,0.027787,0.007688,0.049967,-0.065049,-0.037843,-0.046649,-0.004166,0.062713,0.009864,-0.262708,-0.031481,-0.041595,-0.025279,-0.007332,0.016508,0.040621,0.021058,-0.012997,0.029724,0.013620,0.030125,0.075871,-0.001009,0.042223,-0.040832,0.046978,-0.024905,0.016868,0.037320,0.050574,-0.023037,0.131697,0.041497,-0.056715,-0.032643,-0.048915,0.040698,0.009568,0.016936,0.012780,-0.021454,0.099423,0.003932,0.013192,-0.006174,0.000619,0.005373,0.040965,-0.001573,-0.058600,-0.026104,-0.015498,0.046277,0.045980,0.046922,-0.028720,-0.084711,0.006726,0.018002,-0.013861,-0.009003,0.030443,-0.026511,-0.057889,-0.015347,-0.043128,-0.007519,-0.009361,-0.009718,-0.048536,-0.028076,-0.104778,0.012803,0.054001]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_14', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 14, 'Accrued distribution and marketing
+
+Note 7 – Income Taxes
+
+European Commission State Aid Decision
+
+On August 30, 2016, the Commission announced its decision that Ireland granted state aid to the Company by providing tax opinions in 1991 and 2007 concerning the tax allocation of profits of the Irish branches of two subsidiaries of the Company (“State Aid Decision”). The State Aid Decision ordered Ireland to calculate and recover additional taxes from the Company for the period June 2003 through December 2014. Irish legislative changes, effective as of January 2015, eliminated the application of the tax opinions from that date forward.
+
+The Company and Ireland appealed the State Aid Decision to the General Court of the Court of Justice of the European Union (“General Court”). On July 15, 2020, the General Court annulled the State Aid Decision. On September 25, 2020, the Commission appealed the General Court’s decision to the European Court of Justice (“ECJ”). On September 10, 2024, the ECJ announced that it had set aside the 2020 judgment of the General Court and confirmed the Commission’s 2016 State Aid Decision. As a result, during the fourth quarter of 2024 the Company recorded a one-time income tax charge of $ 10.2 billion, net, which represented $ 15.8 billion payable to Ireland via release of amounts held in escrow, partially offset by a U.S. foreign tax credit of $ 4.8 billion and a decrease in unrecognized tax benefits of $ 823 million.
+
+Provision for Income Taxes and Effective Tax Rate
+
+The provision for income taxes for 2025, 2024 and 2023, consisted of the following (in millions):
+
+| 2025 | 2024 | 2023 |
+| Federal: |
+| Current | $ | 11,487 | $ | 5,571 | $ | 9,445 |
+| Deferred | ( 1,804 ) | ( 3,080 ) | ( 3,644 ) |
+| Total | 9,683 | 2,491 | 5,801 |
+| State: |
+| Current | 1,680 | 1,726 | 1,570 |
+| Deferred | ( 139 ) | ( 298 ) | ( 49 ) |
+| Total | 1,541 | 1,428 | 1,521 |
+| Foreign: |
+| Current | 8,891 | 25,483 | 8,750 |
+| Deferred | 604 | 347 | 669 |
+| Total | 9,495 | 25,830 | 9,419 |
+| Provision for income taxes | $ | 20,719 | $ | 29,749 | $ | 16,741 |
+
+Foreign pretax earnings were $ 82.0 billion, $ 77.3 billion and $ 72.9 billion in 2025, 2024 and 2023, respectively.
+
+Apple Inc. | 2025 Form 10-K | 40
+
+A reconciliation of the provision for income taxes to the amount computed by applying the statutory federal income tax rate ( 21 % in 2025, 2024 and 2023) to income before provision for income taxes for 2025, 2024 and 2023 is as follows (dollars in millions):', '[-0.072804,-0.033011,-0.005238,-0.020518,0.011375,0.024934,-0.014068,-0.035537,0.010413,0.013862,0.011654,0.002255,-0.044070,0.020874,-0.043645,-0.002126,-0.048742,-0.124019,-0.017561,0.046247,0.090040,-0.033341,-0.029314,0.000530,0.021462,-0.042474,0.030661,-0.022703,-0.042049,-0.186423,0.054268,-0.026455,-0.017811,0.000714,0.036708,-0.048832,0.004511,0.012260,0.014996,0.022165,-0.016638,0.068068,-0.012852,-0.002561,0.040848,0.054176,0.001682,0.009076,0.014347,0.037673,0.027019,-0.031195,0.015784,-0.006382,-0.011142,-0.031949,0.004918,0.009077,0.010970,0.032683,0.007179,-0.046996,-0.201942,0.030737,-0.027007,0.025997,0.011325,-0.040189,-0.025339,-0.039181,-0.005403,0.025583,-0.027313,0.002655,-0.006267,-0.019576,0.110762,0.059109,-0.042611,-0.002038,0.012103,0.059565,-0.016739,-0.000057,0.018518,-0.024915,-0.019322,-0.029144,0.096381,-0.008967,0.024955,-0.018099,-0.046567,0.000176,-0.066261,0.033327,0.001921,0.034624,-0.068665,0.357961,0.031530,0.040094,-0.045312,-0.047277,-0.048945,0.011749,0.016820,0.040554,0.036194,-0.005603,-0.022771,0.033538,0.043213,-0.052146,-0.003687,0.097967,-0.005275,-0.011656,0.006312,0.003648,-0.019545,0.044726,-0.008318,0.013897,-0.006178,0.081279,0.066537,0.051052,0.045406,-0.004644,0.015995,-0.056057,-0.041567,-0.030238,0.043374,0.028547,-0.010593,-0.011171,0.034411,0.055705,0.023147,-0.030870,-0.041296,-0.043775,-0.040713,0.053249,-0.027752,0.010194,-0.042319,0.034255,-0.046287,0.151815,0.046473,-0.059077,-0.032462,0.089347,-0.033409,0.004603,0.042759,0.033183,-0.007316,-0.038931,-0.051498,0.122398,0.020609,-0.120541,-0.087002,0.066798,0.007579,0.015150,0.021991,0.010696,-0.026126,-0.085689,0.088447,-0.005830,0.066364,-0.000736,-0.048859,-0.037522,-0.001933,0.027542,-0.058329,-0.007758,0.015010,0.006008,-0.035454,-0.030191,-0.020633,0.025178,-0.041572,0.070056,-0.064147,0.103125,0.003162,-0.045872,-0.074718,-0.019498,0.029367,0.012760,0.076802,0.029612,-0.023864,-0.008786,0.022250,0.026546,0.024851,-0.026188,0.003318,-0.048330,-0.032158,0.064333,0.046088,-0.063164,0.008185,0.038474,0.044710,-0.004389,-0.057115,-0.009444,0.070694,-0.052802,0.053026,-0.290620,0.043302,0.003539,-0.028801,0.009888,-0.018228,0.006935,-0.000852,-0.026207,0.058751,0.029968,0.041657,-0.016787,0.017604,0.003281,-0.075063,0.045978,-0.063321,0.007893,0.014936,-0.028257,-0.011264,-0.036226,0.061769,0.044180,-0.014737,0.073231,-0.053238,-0.019421,-0.026606,-0.030871,0.111583,-0.023853,-0.062216,0.049300,0.057988,-0.035057,0.003483,0.018050,-0.030649,0.023610,0.001319,-0.045777,-0.028691,0.064666,-0.002166,0.002630,0.003816,-0.011838,0.036540,-0.017944,-0.009079,0.047907,0.045123,0.038195,-0.003964,-0.090762,-0.071611,0.004928,-0.008619,0.027874,-0.020965,-0.000065,-0.053374,0.021924,-0.026258,0.015746,0.002964,-0.029399,0.018554,-0.009307,0.036833,0.017685,-0.032558,0.021755,0.077292,0.012786,0.018652,0.011590,0.010760,0.031637,-0.026376,0.031116,-0.001246,0.004960,-0.000276,-0.001135,0.020554,-0.021794,-0.033915,-0.022637,-0.017813,-0.019174,0.060110,0.025643,-0.003206,-0.268711,0.020961,0.033882,-0.017087,0.067374,0.062445,-0.017185,-0.040999,-0.015405,-0.037805,0.012184,0.049439,0.077517,-0.065865,0.011791,-0.021436,0.051287,-0.040021,0.036544,0.033733,0.095010,0.024682,0.103078,0.052087,-0.008505,-0.037756,-0.048300,0.007107,0.010277,-0.011750,0.005591,0.034226,-0.007961,-0.003991,0.030367,-0.047205,-0.047442,0.050333,-0.026423,0.011022,-0.087502,-0.016911,0.005939,-0.018572,0.072951,0.027073,-0.044412,-0.100118,0.018016,0.043626,-0.038372,-0.035327,0.010474,-0.034688,-0.006886,-0.007409,-0.068255,-0.003347,0.050894,-0.060102,-0.012815,-0.014364,-0.021007,-0.001148,0.040353]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_15', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 15, 'Foreign pretax earnings were $ 82.0 billion, $ 77.3 billion and $ 72.9 billion in 2025, 2024 and 2023, respectively.
+
+Apple Inc. | 2025 Form 10-K | 40
+
+A reconciliation of the provision for income taxes to the amount computed by applying the statutory federal income tax rate ( 21 % in 2025, 2024 and 2023) to income before provision for income taxes for 2025, 2024 and 2023 is as follows (dollars in millions):
+
+| 2025 | 2024 | 2023 |
+| Computed expected tax | $ | 27,873 | $ | 25,932 | $ | 23,885 |
+| Earnings of foreign subsidiaries | ( 8,120 ) | ( 5,311 ) | ( 5,744 ) |
+| Change in valuation allowance | 2,091 | — | — |
+| Research and development credit, net | ( 1,049 ) | ( 1,397 ) | ( 1,212 ) |
+| Impact of the State Aid Decision | ( 486 ) | 10,246 | — |
+| Other | 410 | 279 | ( 188 ) |
+| Provision for income taxes | $ | 20,719 | $ | 29,749 | $ | 16,741 |
+| Effective tax rate | 15.6 | % | 24.1 | % | 14.7 | % |
+
+Change in valuation allowance
+
+Impact of the State Aid Decision
+
+Deferred Tax Assets and Liabilities
+
+As of September 27, 2025 and September 28, 2024, the significant components of the Company’s deferred tax assets and liabilities were as follows (in millions):
+
+| 2025 | 2024 |
+| Deferred tax assets: |
+| Capitalized research and development | $ | 15,041 | $ | 10,739 |
+| Tax credit carryforwards | 8,643 | 8,856 |
+| Accrued liabilities and other reserves | 6,154 | 6,114 |
+| Deferred revenue | 2,953 | 3,413 |
+| Lease liabilities | 2,577 | 2,410 |
+| Other | 3,049 | 3,341 |
+| Total deferred tax assets | 38,417 | 34,873 |
+| Less: Valuation allowance | ( 10,966 ) | ( 8,866 ) |
+| Total deferred tax assets, net | 27,451 | 26,007 |
+| Deferred tax liabilities: |
+| Depreciation | 3,276 | 2,551 |
+| Right-of-use assets | 2,300 | 2,125 |
+| Minimum tax on foreign earnings | 1,217 | 1,674 |
+| Other | 678 | 455 |
+| Total deferred tax liabilities | 7,471 | 6,805 |
+| Net deferred tax assets | $ | 19,980 | $ | 19,202 |
+
+As of September 27, 2025, the Company had $ 4.7 billion in foreign tax credit carryforwards in Ireland and $ 4.0 billion in California R&D credit carryforwards, both of which can be carried forward indefinitely. A valuation allowance has been recorded for the credit carryforwards and a portion of other temporary differences.
+
+Apple Inc. | 2025 Form 10-K | 41
+
+Uncertain Tax Positions
+
+As of September 27, 2025, the total amount of gross unrecognized tax benefits was $ 23.2 billion, of which $ 10.6 billion, if recognized, would impact the Company’s effective tax rate. As of September 28, 2024, the total amount of gross unrecognized tax benefits was $ 22.0 billion, of which $ 10.8 billion, if recognized, would have impacted the Company’s effective tax rate.
+
+The aggregate change in the balance of gross unrecognized tax benefits, which excludes interest and penalties, for 2025, 2024 and 2023 is as follows (in millions):', '[-0.024491,-0.041662,-0.002637,-0.046717,0.056338,0.029569,-0.006102,0.007468,0.047021,-0.003760,0.017040,-0.000109,0.004670,0.005295,-0.012678,0.015949,-0.008512,-0.123895,-0.045610,0.033289,0.078539,-0.037209,0.058536,-0.006803,0.054275,0.024365,-0.032008,0.002219,0.003892,-0.162383,-0.003705,-0.003270,-0.007179,0.010014,0.057799,0.008545,-0.081329,0.018423,0.016745,0.019189,0.009708,-0.000999,-0.012429,0.000171,0.001144,-0.011466,-0.039333,-0.023904,-0.004455,0.059641,0.047333,-0.079171,0.030589,0.007229,0.008749,0.029926,0.015784,0.026230,0.004550,0.045133,-0.052682,-0.028918,-0.177217,0.004042,0.053474,0.020455,-0.003554,-0.034494,-0.003289,0.004828,-0.079758,0.019291,0.019536,-0.023326,0.061604,-0.008042,0.070043,-0.009975,-0.070461,-0.018326,0.029733,0.020279,-0.018144,-0.008113,0.015185,-0.038241,0.031489,-0.014197,0.009612,-0.040733,-0.018738,-0.008126,0.045652,-0.010384,-0.064697,0.008199,0.087684,0.035315,-0.037527,0.355773,0.040355,0.009962,0.010806,-0.063051,-0.012192,-0.002929,-0.024777,0.017217,0.055255,-0.028030,-0.010767,-0.005330,0.032713,-0.013776,-0.043795,0.046610,0.038816,0.044595,0.058489,-0.082227,0.061518,0.061233,0.012386,0.010106,-0.061309,-0.011461,0.049652,0.097309,-0.029722,0.047755,0.032658,-0.041268,-0.074001,-0.011386,0.041869,0.017226,-0.028596,-0.063950,0.010280,0.029714,-0.039562,-0.033397,-0.044842,-0.022208,-0.034776,0.101975,0.020115,0.004653,0.045051,-0.012978,-0.008063,0.113335,0.002053,-0.082196,-0.006021,0.036617,-0.035144,-0.028082,-0.029227,-0.009406,0.014057,-0.022032,-0.085422,0.125099,0.055999,-0.083960,-0.052904,0.039065,-0.005259,0.007298,0.041067,0.005159,0.001943,-0.045857,0.061003,0.001886,0.006848,0.023817,-0.024321,-0.027832,0.110720,-0.039345,-0.051178,0.012125,0.018031,0.013317,-0.053357,0.032578,0.038291,-0.029838,-0.029815,0.067081,-0.153114,0.074592,0.025309,-0.040751,-0.014197,0.004011,0.017093,-0.031570,0.075925,0.019941,0.016874,0.020704,0.004623,-0.073534,0.002298,0.009192,0.018799,0.025003,-0.022826,0.018131,0.043356,-0.025178,-0.015860,0.050171,-0.000289,0.017306,-0.023014,-0.002243,0.005982,-0.046488,0.069995,-0.277954,0.066418,0.009751,0.010028,-0.065402,-0.041615,-0.009365,-0.005588,0.021499,0.042710,-0.008306,0.012751,0.012009,0.066519,0.028239,-0.048686,0.010566,0.007458,-0.001623,0.050723,-0.079080,0.016205,-0.044454,0.049091,0.065028,-0.023079,0.073897,-0.042889,-0.031398,-0.044766,0.008396,0.084997,-0.024696,-0.033456,0.037485,0.088196,0.029896,0.026278,-0.037144,-0.001511,0.015283,-0.010389,-0.076618,-0.001721,0.019618,-0.008630,-0.036142,-0.064833,0.026405,0.029439,0.023793,0.007113,-0.042140,-0.004170,0.080439,-0.036433,-0.078386,-0.012818,-0.033347,-0.069253,0.044931,-0.078596,-0.018257,0.015795,0.006589,-0.072649,-0.035053,0.033434,-0.058857,0.019316,0.015961,-0.000525,0.044350,-0.039447,0.009283,0.025059,0.022336,0.013555,-0.032919,0.017298,0.039639,0.082927,0.043268,0.004983,0.005311,0.002249,0.037602,0.043326,0.008544,-0.001633,-0.051747,-0.009331,0.042245,0.025192,0.035922,-0.016202,-0.302097,-0.035906,-0.013129,-0.019784,0.034476,-0.024634,0.022156,-0.022678,0.008967,0.031037,-0.010430,-0.005560,0.099256,-0.066101,0.076333,-0.040428,0.051655,-0.049401,0.027796,-0.012394,0.044340,-0.033448,0.152124,-0.041251,-0.049469,-0.044825,-0.027580,0.011564,0.063498,-0.008536,0.060327,0.007896,0.009386,0.008999,0.003360,-0.003043,-0.057278,-0.022254,-0.003777,0.037743,-0.050094,-0.004648,0.012249,0.000760,0.026991,0.029461,-0.026821,-0.020925,0.023895,0.008441,0.013392,-0.032878,0.013380,-0.057045,-0.045421,-0.041931,-0.034115,0.065349,0.006006,-0.040643,-0.001412,0.022049,-0.080907,-0.006472,0.026118]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_16', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 16, 'Uncertain Tax Positions
+
+As of September 27, 2025, the total amount of gross unrecognized tax benefits was $ 23.2 billion, of which $ 10.6 billion, if recognized, would impact the Company’s effective tax rate. As of September 28, 2024, the total amount of gross unrecognized tax benefits was $ 22.0 billion, of which $ 10.8 billion, if recognized, would have impacted the Company’s effective tax rate.
+
+The aggregate change in the balance of gross unrecognized tax benefits, which excludes interest and penalties, for 2025, 2024 and 2023 is as follows (in millions):
+
+| 2025 | 2024 | 2023 |
+| Beginning balances | $ | 22,038 | $ | 19,454 | $ | 16,758 |
+| Increases related to tax positions taken during a prior year | 1,971 | 1,727 | 2,044 |
+| Decreases related to tax positions taken during a prior year | ( 71 ) | ( 386 ) | ( 1,463 ) |
+| Increases related to tax positions taken during the current year | 3,795 | 2,542 | 2,628 |
+| Decreases related to settlements with taxing authorities | ( 2,939 ) | ( 1,070 ) | ( 19 ) |
+| Decreases related to expiration of the statute of limitations | ( 1,552 ) | ( 229 ) | ( 494 ) |
+| Ending balances | $ | 23,242 | $ | 22,038 | $ | 19,454 |
+
+The Company is subject to taxation and files income tax returns in the U.S. federal jurisdiction and many state and foreign jurisd ictions. Tax years 2018 and after 2021 for the U.S. federal jurisdiction, and after 2014 in certain major foreign jurisdictions, remain subject to examination. Altho ugh the timing of resolution or closure of examinations is not certain, the Company believes it is reasonably possible that its gross unrecognized tax benefits could decrease as much as $ 6 billion in the next 12 months.
+
+Note 8 – Leases
+
+The Company has lease arrangements for certain equipment and facilities, including corporate, data center, manufacturing and retail space. These leases typically have original terms not exceeding 10 years and generally contain multiyear renewal options, some of which are reasonably certain of exercise.
+
+Payments under the Company’s lease arrangements may be fixed or variable, and variable lease payments are primarily based on purchases of output of the underlying leased assets. Lease costs associated with fixed payments on the Company’s operating leases were $ 2.1 billion for 2025 and $ 2.0 billion for both 2024 and 2023. Lease costs associated with variable payments on the Company’s leases were $ 16.1 billion, $ 13.8 billion and $ 13.9 billion for 2025, 2024 and 2023, respectively.
+
+The Company made fixed cash payments related to operating leases of $ 2.1 billion in 2025 and $ 1.9 billion in both 2024 and 2023. Noncash activities involving right-of-use (“ROU”) assets obtained in exchange for lease liabilities were $ 2.8 billion, $ 1.0 billion and $ 2.1 billion for 2025, 2024 and 2023, respectively.
+
+The following table shows ROU assets and lease liabilities, and the associated financial statement line items, as of September 27, 2025 and September 28, 2024 (in millions):', '[-0.040817,-0.061370,0.007071,0.008350,0.071278,0.015887,0.007102,-0.056772,0.054735,0.011704,0.066105,0.055329,-0.017387,-0.023472,-0.044121,-0.030521,-0.060339,-0.049551,-0.039819,0.032129,0.073055,-0.029587,0.025833,0.028533,0.013891,-0.032524,-0.045500,0.009085,-0.038979,-0.175014,0.009227,-0.022612,0.011525,-0.006117,0.103445,0.031445,-0.060677,0.060777,0.063773,0.001825,0.014720,0.062907,0.004007,-0.013369,-0.013945,-0.052338,-0.002609,0.000181,-0.033618,0.034099,0.045761,-0.084037,0.007431,0.044276,-0.024743,-0.035470,0.013750,-0.001952,-0.009659,0.029034,0.033157,-0.041142,-0.203363,0.004516,0.019067,-0.021958,-0.039435,-0.096331,0.005414,-0.007157,0.030122,0.041550,-0.077571,0.007296,0.076088,0.005245,0.060196,0.037621,-0.035334,-0.018324,0.011901,-0.006959,-0.020284,0.034824,0.042501,-0.060457,0.021734,-0.008722,-0.012126,-0.012531,0.033620,0.047015,0.013671,-0.033948,-0.037616,0.003240,0.038807,0.049548,-0.048398,0.368977,0.045979,0.040003,-0.008472,-0.060980,-0.006060,0.053687,-0.020604,0.039508,0.006253,-0.062263,-0.002652,0.043362,0.051718,0.007527,-0.015868,0.071240,0.041133,-0.012558,0.010285,-0.014727,0.059408,0.015802,0.027923,0.042298,-0.002977,0.050461,0.036542,0.104278,0.005319,0.058758,-0.013906,-0.070149,0.009260,0.002958,0.029000,0.021538,-0.033989,0.054305,0.045887,0.038081,-0.004807,-0.032619,-0.013341,-0.074564,-0.078845,0.109103,-0.019339,0.008146,0.034373,0.020039,-0.024986,0.085025,0.024678,-0.042895,0.001875,-0.012091,-0.047041,-0.038176,-0.061425,0.003191,0.008906,-0.053390,-0.034182,0.104881,0.061487,-0.086898,-0.066541,-0.000493,0.010158,-0.003036,0.033055,0.004342,0.055187,-0.058637,0.071722,0.030095,0.022943,0.029458,-0.062228,-0.004113,-0.004452,-0.022725,-0.052284,-0.038619,-0.000231,0.014768,-0.083001,0.022203,-0.001459,-0.022882,-0.058419,-0.034506,-0.143489,0.041711,0.066676,-0.022669,-0.026492,-0.038602,0.020447,-0.050631,0.038538,-0.027519,-0.015398,0.000802,0.053415,-0.008784,0.022258,0.024252,0.089154,-0.005248,-0.027809,0.014682,0.037276,-0.040325,0.024968,0.019390,0.022761,0.018907,-0.003290,-0.043894,0.019906,-0.025916,0.088785,-0.311593,0.041321,-0.058308,0.046674,-0.000175,-0.035862,-0.006473,0.062360,-0.032671,0.028257,-0.024108,0.008869,-0.015362,0.004576,0.008814,-0.056925,-0.015626,-0.035262,0.008154,-0.012504,0.004241,0.019212,-0.061939,0.010300,0.127288,0.008261,0.044127,-0.063639,-0.033820,-0.005436,0.026022,0.014707,-0.017596,-0.075939,0.068160,0.017797,-0.024196,-0.033276,-0.012901,-0.033353,0.013654,-0.000516,-0.046490,0.045927,0.025844,0.019946,-0.031100,0.035303,0.009086,0.021520,0.034474,-0.001190,0.016955,-0.001174,0.073658,-0.050219,-0.047495,-0.054109,0.005027,-0.014373,0.039007,-0.053815,0.009464,0.021091,0.008720,-0.026701,-0.031374,0.031838,-0.052782,-0.003735,-0.004323,0.022732,0.060553,-0.046471,-0.005297,-0.020270,-0.005202,-0.012926,0.027620,-0.045145,0.032895,-0.010372,0.033541,-0.002597,0.016142,0.003086,0.043857,-0.016273,0.016894,-0.004491,-0.049799,-0.019081,0.029402,-0.028974,0.041460,0.002991,-0.277810,0.008462,-0.058049,-0.010218,0.015325,0.006719,0.000785,0.014710,-0.000209,0.046152,-0.003850,0.047975,0.088714,-0.049004,0.024144,-0.018210,0.077397,-0.030851,0.009960,-0.000105,0.060118,-0.015951,0.137832,0.008008,-0.011021,-0.043792,-0.064675,0.018472,0.062356,0.037201,0.031767,0.016024,0.046023,-0.002134,0.000503,0.011993,-0.036144,0.001045,-0.012351,0.020291,-0.012044,0.004091,0.046116,-0.009586,0.111928,0.009373,-0.016212,-0.045937,0.022174,-0.047396,-0.003005,0.012423,-0.013912,0.000033,-0.005635,-0.046892,-0.037307,-0.042670,0.003889,-0.052749,-0.050854,-0.022889,-0.060911,0.021751,0.004370]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_17', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 17, 'Payments under the Company’s lease arrangements may be fixed or variable, and variable lease payments are primarily based on purchases of output of the underlying leased assets. Lease costs associated with fixed payments on the Company’s operating leases were $ 2.1 billion for 2025 and $ 2.0 billion for both 2024 and 2023. Lease costs associated with variable payments on the Company’s leases were $ 16.1 billion, $ 13.8 billion and $ 13.9 billion for 2025, 2024 and 2023, respectively.
+
+The Company made fixed cash payments related to operating leases of $ 2.1 billion in 2025 and $ 1.9 billion in both 2024 and 2023. Noncash activities involving right-of-use (“ROU”) assets obtained in exchange for lease liabilities were $ 2.8 billion, $ 1.0 billion and $ 2.1 billion for 2025, 2024 and 2023, respectively.
+
+The following table shows ROU assets and lease liabilities, and the associated financial statement line items, as of September 27, 2025 and September 28, 2024 (in millions):
+
+| Lease-Related Assets and Liabilities | Financial Statement Line Items | 2025 | 2024 |
+| Right-of-use assets: |
+| Operating leases | Other non-current assets | $ | 11,205 | $ | 10,234 |
+| Finance leases | Property, plant and equipment, net | 1,033 | 1,069 |
+| Total right-of-use assets | $ | 12,238 | $ | 11,303 |
+| Lease liabilities: |
+| Operating leases | Other current liabilities | $ | 1,579 | $ | 1,488 |
+| Other non-current liabilities | 10,911 | 10,046 |
+| Finance leases | Other current liabilities | 538 | 144 |
+| Other non-current liabilities | 692 | 752 |
+| Total lease liabilities | $ | 13,720 | $ | 12,430 |
+
+Apple Inc. | 2025 Form 10-K | 42
+
+Lease liability maturities as of September 27, 2025, are as follows (in millions):
+
+| Operating Leases | Finance Leases | Total |
+| 2026 | $ | 1,967 | $ | 563 | $ | 2,530 |
+| 2027 | 1,988 | 73 | 2,061 |
+| 2028 | 1,848 | 51 | 1,899 |
+| 2029 | 1,585 | 48 | 1,633 |
+| 2030 | 1,381 | 43 | 1,424 |
+| Thereafter | 5,956 | 801 | 6,757 |
+| Total undiscounted liabilities | 14,725 | 1,579 | 16,304 |
+| Less: Imputed interest | ( 2,235 ) | ( 349 ) | ( 2,584 ) |
+| Total lease liabilities | $ | 12,490 | $ | 1,230 | $ | 13,720 |
+
+The weighted-average remaining lease term related to the Company’s lease liabilities as of September 27, 2025 and September 28, 2024 was 9.8 years and 10.3 years, respectively. The discount rate related to the Company’s lease liabilities as of September 27, 2025 and September 28, 2024 was 3.4 % and 3.1 %, respectively. The discount rates related to the Company’s lease liabilities are generally based on estimates of the Company’s incremental borrowing rate, as the discount rates implicit in the Company’s leases cannot be readily determined.
+
+As of September 27, 2025, the Company had $ 523 million of fixed payment obligations under additional leases, primarily for corporate facilities and retail space, that had not yet commenced. These leases are expected to commence between 2026 and 2027, with lease terms ranging from 1 year to 21 years.
+
+Note 9 – Debt
+
+Commercial Paper', '[-0.018900,-0.045202,-0.006931,-0.059121,0.044603,-0.014806,-0.002771,-0.032794,0.039701,-0.008620,0.021207,0.000259,0.041651,-0.057700,0.024484,-0.044085,0.032806,-0.081377,-0.027088,0.055456,0.027520,-0.053894,0.036230,-0.021024,-0.035112,0.041128,-0.049634,0.010141,-0.011774,-0.156230,-0.038394,0.017957,0.048622,0.050579,0.057148,0.058947,-0.074622,-0.011244,-0.009462,0.053578,0.011360,0.020902,-0.038700,-0.000495,0.017110,-0.037168,-0.000734,0.005696,-0.010458,0.026694,0.076208,-0.067319,-0.007373,0.027052,-0.009184,-0.011684,0.026624,0.032933,0.005641,0.049357,-0.008951,-0.014059,-0.149899,0.015908,0.007715,-0.013965,0.001787,0.002573,-0.037414,0.031003,0.024625,0.003003,-0.069899,-0.030449,0.014039,0.011849,0.054924,-0.003100,-0.044853,-0.040417,0.009492,0.034810,-0.012494,0.067708,-0.019270,-0.027438,-0.009009,-0.050366,0.052423,0.003287,-0.020563,-0.001793,0.063175,-0.000073,-0.029365,0.058812,0.022934,0.018084,-0.034104,0.344814,0.069359,0.022026,0.025434,-0.026094,-0.064824,-0.006210,-0.003293,0.035128,0.030168,-0.014337,-0.027091,-0.013878,0.064772,-0.058224,-0.037456,0.050374,-0.004564,-0.004794,0.045012,-0.030705,0.021632,-0.022383,-0.024003,0.025151,-0.077899,-0.008125,0.043913,0.074107,0.016804,-0.005021,-0.013855,-0.024944,-0.018461,-0.000995,0.046347,0.040913,0.015664,0.042007,0.005110,-0.023258,-0.048795,-0.026564,0.004453,-0.060006,-0.056200,0.110466,0.026969,0.044490,0.041863,-0.038640,-0.024745,0.094592,0.060240,-0.058412,-0.030256,0.017396,0.000116,0.006139,-0.068675,-0.000156,0.006472,-0.033494,-0.053878,0.130460,0.059316,-0.094082,-0.010842,-0.007501,-0.002053,-0.016940,-0.032954,-0.006379,0.036972,-0.007553,0.045004,-0.019025,-0.021197,0.010486,-0.011037,0.015399,-0.033587,0.007258,-0.095650,-0.025935,0.030172,0.009706,-0.087585,-0.012860,0.017216,0.001555,0.003557,-0.005377,-0.093581,0.057591,0.010511,-0.032399,0.023768,0.018569,0.015484,0.022650,0.061021,0.010800,-0.056679,-0.007396,-0.000429,0.002352,0.006836,0.066484,0.015499,0.005538,-0.004498,0.048185,-0.023006,-0.018316,-0.042894,0.062517,-0.021508,0.029583,-0.008760,-0.022022,-0.016471,-0.006225,0.079273,-0.322895,-0.022923,-0.036648,-0.008537,-0.035460,-0.025283,0.037193,-0.002427,-0.070304,0.018410,0.002517,-0.025154,-0.007080,0.036868,0.034548,-0.015664,0.043327,0.011987,-0.051118,0.004075,-0.086969,-0.014534,-0.048063,0.035669,0.129281,0.009539,0.076831,-0.082134,-0.040327,-0.026624,0.111390,0.036197,-0.004743,-0.023385,0.061142,0.045858,-0.029670,-0.005462,-0.010996,-0.074675,-0.011270,0.045240,-0.026723,-0.009943,0.034960,-0.011975,-0.044573,-0.051227,-0.000734,0.016523,0.032095,-0.018471,0.032531,0.027197,0.119066,-0.065655,0.015717,-0.024020,-0.024880,-0.051589,0.003630,-0.083149,0.052241,0.006813,0.003803,-0.105896,0.013332,-0.006797,-0.054915,-0.024340,-0.034678,0.018590,0.050218,-0.041032,0.043364,-0.006995,0.005511,0.047624,-0.010274,-0.011214,0.052902,0.015122,0.118279,0.035800,-0.021195,0.051348,0.058118,-0.041914,0.014320,-0.026857,-0.078234,-0.021352,0.012115,0.016109,0.043158,0.014254,-0.268526,-0.038915,-0.036279,-0.017620,0.007101,-0.041201,0.011270,-0.006252,0.012859,0.041101,0.007710,0.046808,0.043452,-0.028032,0.088150,-0.055174,0.104625,-0.070602,0.046966,-0.033426,0.056643,0.020723,0.122669,-0.041569,-0.062727,-0.021545,-0.042697,0.092599,0.041047,0.041483,-0.017975,0.010269,0.076674,0.021271,0.000198,0.079296,-0.044801,0.042401,-0.028772,0.023358,-0.008053,-0.025133,-0.008096,-0.035687,0.043118,0.003270,-0.032601,-0.047082,0.066372,0.016102,0.032087,-0.052263,0.012509,-0.040388,0.044937,0.008808,-0.022649,0.049311,-0.001188,-0.010960,0.005646,-0.044931,-0.079277,0.044919,0.021569]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_18', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 18, 'The weighted-average remaining lease term related to the Company’s lease liabilities as of September 27, 2025 and September 28, 2024 was 9.8 years and 10.3 years, respectively. The discount rate related to the Company’s lease liabilities as of September 27, 2025 and September 28, 2024 was 3.4 % and 3.1 %, respectively. The discount rates related to the Company’s lease liabilities are generally based on estimates of the Company’s incremental borrowing rate, as the discount rates implicit in the Company’s leases cannot be readily determined.
+
+As of September 27, 2025, the Company had $ 523 million of fixed payment obligations under additional leases, primarily for corporate facilities and retail space, that had not yet commenced. These leases are expected to commence between 2026 and 2027, with lease terms ranging from 1 year to 21 years.
+
+Note 9 – Debt
+
+Commercial Paper
+
+The Company issues unsecured short-term promissory notes pursuant to a commercial paper program. The Company uses net proceeds from the commercial paper program for general corporate purposes, including dividends and share repurchases. As of September 27, 2025 and September 28, 2024, the Company had $ 8.0 billion and $ 10.0 billion of commercial paper outstanding, respectively, with maturities generally less than nine months . The weighted-average interest rate of the Company’s commercial paper was 4.19 % and 5.00 % as of September 27, 2025 and September 28, 2024, respectively. The following table provides a summary of cash flows associated with commercial paper for 2025, 2024 and 2023 (in millions):
+
+| 2025 | 2024 | 2023 |
+| Maturities 90 days or less: |
+| Proceeds from/(Repayments of) commercial paper, net | $ | ( 5,820 ) | $ | 3,960 | $ | ( 1,333 ) |
+| Maturities greater than 90 days: |
+| Proceeds from commercial paper | 5,836 | — | — |
+| Repayments of commercial paper | ( 2,048 ) | — | ( 2,645 ) |
+| Proceeds from/(Repayments of) commercial paper, net | 3,788 | — | ( 2,645 ) |
+| Total proceeds from/(repayments of) commercial paper, net | $ | ( 2,032 ) | $ | 3,960 | $ | ( 3,978 ) |
+
+Apple Inc. | 2025 Form 10-K | 43
+
+Term Debt
+
+The Company has outstanding Notes, which are senior unsecured obligations with interest payable in arrears. The following table provides a summary of the Company’s term debt as of September 27, 2025 and September 28, 2024:
+
+| Maturities (calendar year) | 2025 | 2024 |
+| Amount (in millions) | Effective Interest Rate | Amount (in millions) | Effective Interest Rate |
+| 2013 – 2023 debt issuances: |
+| Fixed-rate 0.000 % – 4.850 % notes | 2025 – 2062 | $ | 86,781 | 0.03 % – 5.75 % | $ | 97,341 | 0.03 % – 6.65 % |
+| 2025 debt issuance: |
+| Fixed-rate 4.000 % – 4.750 % notes | 2028 – 2035 | 4,500 | 4.07 % – 4.83 % | — |
+| Total term debt principal | 91,281 | 97,341 |
+| Unamortized premium/(discount) and issuance costs, net | ( 309 ) | ( 321 ) |
+| Hedge accounting fair value adjustments | ( 294 ) | ( 358 ) |
+| Total term debt | 90,678 | 96,662 |
+| Less: Current portion of term debt | ( 12,350 ) | ( 10,912 ) |
+| Total non-current portion of term debt | $ | 78,328 | $ | 85,750 |
+
+Maturities
+
+(calendar year)
+
+Amount
+
+(in millions)
+
+Amount
+
+(in millions)
+
+2013 – 2023 debt issuances:', '[-0.046519,-0.045085,-0.026877,0.011762,0.005288,-0.023716,-0.024816,-0.033150,0.045384,0.006244,0.015337,0.064031,0.034975,-0.020282,-0.012119,-0.004715,-0.007079,-0.090622,0.000836,0.035341,0.061787,-0.072816,-0.004705,-0.011058,0.021925,-0.003455,-0.092169,-0.012395,-0.063850,-0.156956,0.000163,-0.037689,0.055053,0.018421,0.077904,0.058793,-0.063135,0.006478,0.011955,0.050379,-0.038671,0.020458,0.022563,-0.004393,0.015757,-0.036626,-0.015584,-0.012719,0.009075,0.038688,0.005639,-0.088319,-0.055113,0.014903,-0.029286,-0.003389,0.037834,-0.025742,0.013608,0.034783,0.034356,-0.046623,-0.182787,0.025994,-0.017318,-0.017713,-0.053789,0.002675,-0.029914,0.032823,0.046286,0.006678,-0.049276,0.017981,0.057815,-0.002778,0.072106,-0.014170,-0.030550,-0.040591,0.027496,0.035054,-0.034919,0.031922,-0.026369,-0.027525,0.052136,-0.010045,0.051637,0.017131,0.039071,0.000303,-0.042464,-0.002896,-0.056555,-0.001124,0.011348,0.009750,-0.056321,0.386349,0.019177,0.061259,0.014465,-0.033107,-0.026177,-0.015560,-0.017400,0.038688,0.020127,-0.040372,-0.019638,0.036937,0.089951,-0.021819,0.009753,0.035729,-0.034650,0.007633,0.016975,0.028647,0.028013,0.005421,0.000613,0.013737,-0.065867,0.014399,0.042566,0.065830,0.043587,-0.013028,-0.010705,-0.026549,-0.007520,-0.005457,0.017517,0.036883,-0.028616,0.029748,-0.003568,-0.014954,-0.050752,-0.033253,-0.019308,-0.075380,-0.092411,0.117692,0.052909,0.009171,0.022507,0.007202,-0.066873,0.061559,0.073094,-0.058968,-0.014855,0.000938,-0.000428,0.024655,-0.055609,0.008166,-0.006954,-0.033551,-0.039146,0.140730,0.023882,-0.094287,-0.008880,-0.003664,0.015758,-0.021941,0.003739,-0.037957,0.035925,-0.015819,0.039928,0.024402,0.014850,-0.016475,0.006513,-0.002640,0.008025,0.005851,-0.088585,-0.012259,0.014157,-0.027039,-0.034682,0.005608,0.004028,-0.008166,-0.046293,-0.028046,-0.087218,0.101312,-0.002051,-0.008294,-0.064939,-0.007406,0.049472,-0.061190,0.052047,-0.015773,-0.035486,-0.045544,0.040011,0.045304,0.047561,0.062689,0.033348,-0.025777,0.006272,0.019615,0.007749,-0.063453,0.058817,0.066066,0.019880,0.000276,0.001900,-0.017753,-0.001345,-0.017750,0.064549,-0.307150,-0.013091,0.006756,-0.004298,0.004749,-0.037873,0.040012,0.010541,-0.052154,-0.011944,0.012918,0.016109,-0.015783,-0.043378,0.014107,0.000217,0.018091,0.015838,-0.008897,-0.009670,-0.032393,-0.029334,-0.039839,0.028778,0.140344,0.006731,0.088589,-0.086811,-0.003550,-0.020908,0.058408,0.022589,-0.016863,0.009195,0.071704,-0.001450,0.003559,-0.033847,-0.001761,-0.072652,-0.019843,0.053787,-0.021195,-0.009297,0.045932,-0.015511,-0.004415,0.022817,-0.041697,0.036734,0.021090,-0.028713,0.004708,0.012124,0.120145,-0.042040,-0.006896,0.029897,-0.019245,-0.017059,0.046297,-0.073011,0.069592,0.005063,0.001709,-0.071424,0.028715,0.019746,-0.056335,0.016572,-0.031137,0.023767,0.043562,-0.062506,0.005941,-0.003541,-0.018696,0.051132,-0.006631,0.026642,0.029401,-0.021190,0.055241,0.014018,0.005521,0.010492,0.050904,-0.012654,-0.006827,0.013435,-0.059925,-0.012028,0.005944,-0.000851,0.020432,0.007402,-0.311988,-0.015476,-0.065781,-0.021553,0.018203,0.003416,0.044305,0.005255,0.011712,0.052366,-0.003816,0.064013,0.055116,-0.044922,0.041289,-0.060846,0.036565,-0.039295,0.044596,0.014033,0.033200,-0.012295,0.149063,0.001656,-0.055583,0.011319,-0.044295,0.083554,0.038562,-0.000699,0.004361,0.009036,0.096313,-0.008424,0.001893,0.049903,-0.027874,0.081312,0.008930,-0.010681,-0.011125,-0.022858,0.000907,-0.051092,0.015593,0.004575,-0.019556,-0.028911,0.055930,-0.001031,-0.012283,-0.025650,0.011687,-0.057113,0.029756,-0.023223,-0.018645,0.014978,0.003134,-0.004028,-0.036643,-0.047216,-0.033331,0.047326,0.040663]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_19', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 19, 'Maturities
+
+(calendar year)
+
+Amount
+
+(in millions)
+
+Amount
+
+(in millions)
+
+2013 – 2023 debt issuances:
+
+Fixed-rate 0.000 % – 4.850 % notes
+
+2025 – 2062
+
+0.03 % – 5.75 %
+
+0.03 % – 6.65 %
+
+2025 debt issuance:
+
+Fixed-rate 4.000 % – 4.750 % notes
+
+2028 – 2035
+
+4.07 % – 4.83 %
+
+Total term debt principal
+
+Total term debt
+
+To manage interest rate risk on certain of its U.S. dollar–denominated fixed-rate notes, the Company uses interest rate swaps to effectively convert the fixed interest rates to floating interest rates on a portion of these notes. Additionally, to manage foreign exchange rate risk on certain of its foreign currency–denominated notes, the Company uses cross-currency swaps to effectively convert these notes to U.S. dollar–denominated notes.
+
+The effective interest rates for the Notes include the interest on the Notes, amortization of the discount or premium and, if applicable, adjustments related to hedging.
+
+The future principal payments for the Company’s Notes as of September 27, 2025, are as follows (in millions):
+
+| 2026 | $ | 12,393 |
+| 2027 | 10,078 |
+| 2028 | 9,300 |
+| 2029 | 5,235 |
+| 2030 | 4,972 |
+| Thereafter | 49,303 |
+| Total term debt principal | $ | 91,281 |
+
+As of September 27, 2025 and September 28, 2024, the fair value of the Company’s Notes, based on Level 2 inputs, was $ 80.4 billion and $ 88.4 billion, respectively.
+
+Note 10 – Shareholders’ Equity
+
+Share Repurchase Program
+
+During 2025, the Company repurchased 402 million shares of its common stock for $ 89.3 billion. The Company’s share repurchase programs do not obligate the Company to acquire a minimum amount of shares. Under the programs, shares may be repurchased in privately negotiated or open market transactions, including under plans complying with Rule 10b5-1 under the Exchange Act.
+
+Apple Inc. | 2025 Form 10-K | 44
+
+Shares of Common Stock
+
+The following table shows the changes in shares of common stock for 2025, 2024 and 2023 (in thousands):
+
+| 2025 | 2024 | 2023 |
+| Common stock outstanding, beginning balances | 15,116,786 | 15,550,061 | 15,943,425 |
+| Common stock repurchased | ( 401,672 ) | ( 499,372 ) | ( 471,419 ) |
+| Common stock issued, net of shares withheld for employee taxes | 58,146 | 66,097 | 78,055 |
+| Common stock outstanding, ending balances | 14,773,260 | 15,116,786 | 15,550,061 |
+
+Note 11 – Share-Based Compensation
+
+2022 Employee Stock Plan
+
+The Apple Inc. 2022 Employee Stock Plan (“2022 Plan”) is a shareholder-approved plan that provides for broad-based equity grants to employees, including executive officers, and permits the granting of RSUs, stock grants, performance-based awards, stock options and stock appreciation rights. RSUs granted under the 2022 Plan generally vest over four years , based on continued employment, and are settled upon vesting in shares of the Company’s common stock on a one -for-one basis. All RSUs granted under the 2022 Plan have dividend equivalent rights, which entitle holders of RSUs to the same dividend value per share as holders of common stock. A maximum of approximately 1.3 billion shares were authorized for issuance pursuant to 2022 Plan awards at the time the plan was approved on March 4, 2022.
+
+Restricted Stock Units
+
+A summary of the Company’s RSU activity and related information for 2025 is as follows:', '[-0.048628,-0.097451,0.001958,-0.006077,-0.008818,-0.043259,0.028498,-0.023040,0.052388,0.006254,0.050113,0.035410,0.015960,-0.026056,-0.075566,0.009567,-0.029032,-0.101906,-0.051140,0.064125,0.073073,-0.038484,0.038889,-0.027819,0.078960,-0.020926,-0.032416,-0.024814,-0.082765,-0.174277,-0.002734,-0.026670,0.041202,-0.018922,0.029330,0.051236,-0.097198,0.054659,-0.024223,0.041188,-0.008874,0.012064,0.015332,0.022939,0.040811,-0.028195,-0.030661,-0.031538,0.022860,0.077729,0.021134,-0.052331,-0.038931,0.038637,-0.002607,0.062206,0.017872,0.000843,0.037578,0.059963,0.023972,-0.028180,-0.174400,0.038362,0.012204,0.020368,0.041935,-0.004794,-0.048513,0.016662,0.008472,0.009763,-0.023542,0.028445,0.025909,-0.010784,0.006026,-0.040609,-0.032676,-0.004604,-0.024673,-0.010767,-0.033360,-0.008648,0.017375,-0.013512,0.032589,-0.004967,0.026561,-0.047261,0.016622,0.011251,0.059898,-0.017817,-0.066163,0.007342,0.059561,0.068179,-0.073645,0.334588,0.078759,0.047514,-0.026006,-0.024782,0.036198,-0.059719,-0.051650,0.045786,0.032609,-0.059686,0.002753,0.018235,0.055941,-0.041416,0.003101,0.032376,0.013496,0.006097,0.057648,0.000587,0.064752,0.025507,0.006627,0.045943,-0.038715,0.036270,0.007162,0.046122,-0.008570,0.023557,0.033330,-0.012424,-0.118130,-0.018184,0.061377,0.020723,-0.010884,-0.041853,0.007080,-0.024671,-0.034505,-0.014850,0.023491,-0.054326,-0.088286,0.101911,0.030314,0.017040,0.027849,-0.014051,-0.034332,0.077168,0.038828,-0.105854,-0.012741,0.029695,0.025074,0.002179,-0.039993,0.049224,-0.040965,-0.016647,-0.084554,0.137977,0.044284,-0.107864,-0.001093,0.020539,-0.002537,-0.031236,-0.010682,-0.044390,-0.002076,0.024292,0.092581,0.016108,0.000961,-0.086050,-0.011701,-0.040559,0.029225,-0.020775,-0.045492,0.006363,0.019410,0.003848,-0.048360,-0.013182,0.040566,-0.001832,0.009303,0.011594,-0.124482,0.092092,-0.018995,-0.013502,-0.034147,-0.002017,-0.012853,-0.027617,0.041646,0.016813,-0.021908,-0.038715,0.041177,0.012091,0.019915,0.025204,-0.015086,0.039999,0.007021,0.038618,0.026028,-0.011095,-0.005491,0.012931,0.051345,0.030916,0.007231,-0.010682,0.006457,-0.004068,0.040633,-0.328450,-0.003234,-0.004188,-0.016250,-0.002702,-0.032750,-0.006604,-0.070490,-0.003756,0.022384,-0.036855,0.008582,0.011175,-0.016319,0.043224,-0.012674,-0.002037,0.000950,0.007084,0.032333,-0.061842,0.005069,-0.041172,0.049322,0.083090,0.006140,0.077989,-0.059979,-0.050250,0.000594,0.056578,0.003706,-0.045838,0.009694,0.020268,0.015341,0.020254,-0.006980,-0.031626,0.000844,-0.022304,0.070432,-0.053783,0.004672,-0.041912,-0.025531,-0.011784,-0.075850,0.039758,0.056444,-0.005121,-0.010344,-0.019798,0.036024,0.082510,-0.035740,-0.036926,0.023131,0.024434,-0.044083,0.012821,-0.034218,-0.005414,-0.011564,-0.026803,-0.050695,0.049058,0.040404,-0.047511,-0.034284,0.022426,-0.006044,0.034157,-0.018840,0.006490,-0.009554,-0.033052,0.013925,-0.036164,-0.019216,0.035427,0.045639,0.053445,0.060569,-0.006743,0.031305,0.043238,0.017788,0.015108,0.003471,0.004782,-0.044109,0.002928,0.069796,0.010820,0.016877,-0.268168,-0.031747,-0.055122,0.028222,0.004189,-0.021614,0.010007,0.046394,-0.057727,0.053134,-0.021413,0.004087,0.066233,-0.029548,0.041487,-0.057637,0.073890,-0.015166,0.028422,-0.039254,0.049007,-0.026936,0.172213,-0.002313,-0.056528,-0.037721,0.007996,0.074074,0.072339,0.009757,0.064330,0.013183,0.053620,0.018167,0.018309,0.066848,-0.049090,0.036588,0.009904,0.003382,-0.063883,-0.018229,-0.047414,-0.027169,0.036997,0.001448,-0.026234,-0.041605,0.036625,0.030300,0.002764,-0.049904,0.048424,-0.066868,-0.021345,-0.011262,-0.041219,0.022752,-0.018675,0.004748,-0.015466,0.028125,-0.078682,0.034795,0.015154]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_20', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 20, 'The Apple Inc. 2022 Employee Stock Plan (“2022 Plan”) is a shareholder-approved plan that provides for broad-based equity grants to employees, including executive officers, and permits the granting of RSUs, stock grants, performance-based awards, stock options and stock appreciation rights. RSUs granted under the 2022 Plan generally vest over four years , based on continued employment, and are settled upon vesting in shares of the Company’s common stock on a one -for-one basis. All RSUs granted under the 2022 Plan have dividend equivalent rights, which entitle holders of RSUs to the same dividend value per share as holders of common stock. A maximum of approximately 1.3 billion shares were authorized for issuance pursuant to 2022 Plan awards at the time the plan was approved on March 4, 2022.
+
+Restricted Stock Units
+
+A summary of the Company’s RSU activity and related information for 2025 is as follows:
+
+| Number of RSUs (in thousands) | Weighted-Average Grant-Date Fair Value Per RSU |
+| Balance as of September 28, 2024 | 163,326 | $ | 158.73 |
+| RSUs granted | 73,466 | $ | 226.68 |
+| RSUs vested | ( 76,845 ) | $ | 159.85 |
+| RSUs forfeited | ( 8,373 ) | $ | 183.03 |
+| Balance as of September 27, 2025 | 151,574 | $ | 189.75 |
+
+Number of
+
+RSUs
+
+(in thousands)
+
+Weighted-Average
+
+Grant-Date Fair
+
+Value Per RSU
+
+RSUs forfeited
+
+The weighted-average grant-date fair value of RSUs granted in 2024 and 2023 was $ 173.78 and $ 150.87 , respectively. The Company estimates the grant-date fair value of RSUs based on the closing price of the Company’s common stock on the date of grant.
+
+The total vesting-date fair value of RSUs was $ 17.1 billion, $ 15.8 billion and $ 15.9 billion for 2025, 2024 and 2023, respectively. The majority of RSUs that vested in 2025, 2024 and 2023 were net share settled such that the Company withheld shares with a value equivalent to the employees’ obligation for the applicable income and other employment taxes, and remitted cash to the appropriate taxing authorities. Total payments to taxing authorities for employees’ tax obligations were $ 6.1 billion in 2025 and $ 5.6 billion in both 2024 and 2023.
+
+Share-Based Compensation
+
+The following table shows share-based compensation expense and the related income tax benefit included in the Consolidated Statements of Operations for 2025, 2024 and 2023 (in millions):
+
+| 2025 | 2024 | 2023 |
+| Share-based compensation expense | $ | 12,863 | $ | 11,688 | $ | 10,833 |
+| Income tax benefit related to share-based compensation expense | $ | ( 3,602 ) | $ | ( 3,350 ) | $ | ( 3,421 ) |
+
+As of September 27, 2025, the total unrecognized compensation cost related to outstanding RSUs was $ 21.8 billion, which the Company expects to recognize over a weighted-average period of 2.5 years.
+
+Apple Inc. | 2025 Form 10-K | 45
+
+Note 12 – Commitments, Contingencies and Supply Concentrations
+
+Unconditional Purchase Obligations
+
+The Company has entered into certain off–balance sheet commitments that require the future purchase of goods or services (“unconditional purchase obligations”). The Company’s unconditional purchase obligations primarily consist of supplier arrangements, licensed intellectual property and content, and distribution rights. Future payments under unconditional purchase obligations with a remaining term in excess of one year as of September 27, 2025, are as follows (in millions):', '[-0.041785,-0.058236,-0.063499,-0.038010,0.016691,0.016375,-0.020188,-0.024393,0.038518,0.016769,0.033758,-0.024146,0.001629,-0.043445,0.048482,-0.014610,-0.019100,-0.098764,-0.026889,0.062994,0.029998,-0.028413,0.003225,-0.022311,0.020894,0.008054,-0.080390,-0.002398,-0.058801,-0.104575,0.000183,-0.046062,0.004865,0.038044,-0.011929,-0.009030,-0.042016,0.051057,0.020763,0.063988,-0.022784,0.022694,0.007090,0.036030,0.031342,0.019926,-0.008517,-0.074279,-0.034243,0.054110,0.043736,-0.072869,0.020482,-0.010609,0.010079,0.022311,-0.001071,0.009687,0.030671,0.086440,0.016090,-0.052237,-0.198979,0.014281,0.013969,-0.002016,0.016229,-0.044241,-0.024350,-0.032343,0.054084,0.013184,0.028782,-0.038295,0.013661,0.043237,0.034770,-0.021398,-0.019536,-0.004618,-0.009324,0.012263,-0.007317,0.004030,0.011019,0.031514,0.034946,-0.058226,0.103707,0.007829,0.011639,0.011756,0.043023,-0.037043,-0.031720,0.027593,0.034141,0.050503,-0.079800,0.335162,0.067741,0.047443,-0.006679,-0.067801,0.027419,-0.025219,-0.039868,0.063574,0.072719,-0.061186,0.027411,-0.020236,0.078641,0.024401,-0.006946,0.030998,0.028000,0.093292,0.035963,-0.064146,0.004623,0.001400,-0.024552,0.011233,-0.052508,-0.003175,0.070500,0.072567,0.019079,-0.014070,0.064051,-0.030182,-0.050378,-0.010402,0.059040,0.077635,-0.018173,-0.012235,-0.043831,-0.001004,-0.036481,-0.000352,0.020537,-0.080308,-0.047098,0.094477,0.009088,-0.001380,-0.006097,-0.004610,-0.053924,0.056844,0.027924,-0.089145,-0.031579,0.016667,-0.021201,0.005586,-0.018851,-0.005374,0.008032,-0.066710,-0.091713,0.066863,-0.009407,-0.112167,-0.037234,0.017079,0.023843,0.007231,0.014507,0.010935,0.020631,-0.013985,0.070832,-0.000563,-0.031713,-0.013124,-0.015074,0.000071,0.036614,0.000056,-0.029668,-0.027704,0.041244,0.047850,-0.004605,0.024110,-0.000029,0.019348,0.038655,0.098657,-0.172676,0.049111,-0.027870,-0.030827,-0.021887,0.020255,-0.036551,-0.005117,0.046803,-0.046641,-0.046957,0.022824,0.013393,-0.056499,-0.025174,0.029440,0.009480,0.021312,-0.033084,0.056489,0.016905,-0.030763,-0.007029,0.062595,0.015610,0.020392,0.018255,-0.025756,0.074426,0.048248,0.018542,-0.300495,0.005342,-0.035776,-0.003982,-0.080955,0.019758,0.002423,-0.020084,-0.033870,0.039861,0.047213,0.040868,-0.002024,0.029528,0.043709,-0.025569,0.027091,-0.003306,0.003887,0.039487,-0.050471,0.031480,-0.049888,0.022247,0.062302,0.003935,0.049000,-0.028515,-0.056463,-0.042761,0.009521,0.086828,-0.025823,-0.043403,0.035314,0.008534,-0.036448,0.032732,-0.034210,-0.009451,-0.008184,0.043761,-0.061101,-0.057275,-0.008966,-0.004767,0.026093,-0.017149,0.078649,0.041312,0.070118,-0.030122,-0.007039,0.042653,0.141757,-0.050060,-0.026921,-0.004659,0.010990,-0.015234,0.004101,-0.052362,0.007024,0.054676,0.009472,-0.069042,-0.024611,-0.013923,-0.072381,-0.040716,0.027066,0.006444,0.061623,-0.019308,0.019679,-0.039510,-0.031288,0.017314,-0.036036,-0.006234,0.063799,0.006770,0.050717,0.085611,-0.003132,0.072508,0.054438,-0.016928,0.002555,0.019904,-0.033372,-0.049120,-0.003271,0.046141,0.035356,0.010299,-0.293024,-0.030611,-0.017477,0.002554,0.075976,-0.022674,-0.007215,-0.041536,-0.044040,0.026526,-0.035317,0.012619,0.063648,-0.027196,0.056653,-0.015223,0.130447,-0.070301,-0.000761,-0.012503,0.032249,-0.037494,0.124167,-0.028751,-0.020200,-0.062521,-0.005702,0.019878,0.020706,0.017260,0.031308,-0.066362,0.017962,-0.000886,-0.005159,0.029821,-0.043224,0.017171,0.015037,-0.001565,-0.048075,-0.008645,-0.032409,0.004025,0.047815,-0.022685,-0.061141,0.018343,0.037621,0.020561,-0.007507,-0.041229,0.001497,-0.023307,-0.024695,-0.030477,0.006041,0.023002,-0.042316,-0.005064,-0.018624,0.020491,-0.088061,0.067216,0.047893]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_21', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 21, 'As of September 27, 2025, the total unrecognized compensation cost related to outstanding RSUs was $ 21.8 billion, which the Company expects to recognize over a weighted-average period of 2.5 years.
+
+Apple Inc. | 2025 Form 10-K | 45
+
+Note 12 – Commitments, Contingencies and Supply Concentrations
+
+Unconditional Purchase Obligations
+
+The Company has entered into certain off–balance sheet commitments that require the future purchase of goods or services (“unconditional purchase obligations”). The Company’s unconditional purchase obligations primarily consist of supplier arrangements, licensed intellectual property and content, and distribution rights. Future payments under unconditional purchase obligations with a remaining term in excess of one year as of September 27, 2025, are as follows (in millions):
+
+| 2026 | $ | 4,752 |
+| 2027 | 3,708 |
+| 2028 | 1,981 |
+| 2029 | 1,306 |
+| 2030 | 788 |
+| Thereafter | 773 |
+| Total | $ | 13,308 |
+
+Contingencies
+
+The Company is subject to various legal proceedings and claims that have arisen in the ordinary course of business and that have not been fully resolved. The outcome of litigation is inherently uncertain. In the opinion of management, there was not at least a reasonable possibility the Company may have incurred a material loss, or a material loss greater than a recorded accrual, concerning loss contingencies for asserted legal and other claims.
+
+Concentrations in the Available Sources of Supply of Materials and Product
+
+Although most components essential to the Company’s business are generally available from multiple sources, certain components are currently obtained from single or limited sources. The Company also competes for various components with other participants in the markets for smartphones, personal computers, tablets, wearables and accessories. Therefore, many components used by the Company, including those that are available from multiple sources, are at times subject to industry-wide shortage and significant commodity pricing fluctuations. Restrictions on international trade can increase the cost or limit the availability of the Company’s products and the components and rare earths and other raw materials that go into them.
+
+The Company uses some custom components that are not commonly used by its competitors, and new products introduced by the Company often utilize custom components available from only one source. When a component or product uses new technologies, initial capacity constraints may exist until the suppliers’ yields have matured or their manufacturing capacities have increased. The Company has entered into agreements for the supply of many components; however, the Company may not be able to extend or renew agreements for the supply of components on similar terms, or at all, and may not be successful in obtaining sufficient quantities from its suppliers or in a timely manner, or in identifying and obtaining sufficient quantities from an alternative source. In addition, component suppliers may fail, be subject to consolidation within a particular industry, or decide to concentrate on the production of common components instead of components customized to meet the Company’s requirements, further limiting the Company’s ability to obtain sufficient quantities of components on commercially reasonable terms, or at all.
+
+Substantially all of the Company’s hardware products are manufactured by outsourcing partners that are located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam.
+
+Apple Inc. | 2025 Form 10-K | 46
+
+Note 13 – Segment Information and Geographic Data
+
+The Company manages its business primarily on a geographic basis. The Company’s CEO is its CODM.', '[-0.022028,-0.039095,-0.009446,-0.050121,0.034039,-0.004425,0.034896,0.003462,0.011466,-0.007723,0.021456,-0.006285,0.019373,-0.032087,0.043426,0.015379,0.010127,-0.110163,-0.019922,0.030936,0.058054,-0.086511,0.041896,0.004960,0.052308,0.010494,-0.073182,-0.031996,-0.038899,-0.174886,-0.063356,0.019558,-0.029016,0.017566,0.021939,-0.003901,-0.031542,-0.027083,0.048256,0.016039,-0.000612,0.031200,0.001923,-0.022974,-0.012534,-0.008366,0.015851,-0.013156,0.007351,0.005658,0.034399,0.017336,0.015223,0.044704,-0.018635,0.044138,-0.005021,0.027369,0.079601,0.034427,-0.011368,-0.051456,-0.158551,0.016397,0.020436,0.010424,-0.020013,0.008704,0.011304,0.040058,0.047413,0.028189,-0.034761,0.015764,0.050197,-0.004574,0.038929,0.031526,-0.031678,0.031060,0.022310,0.062020,-0.044401,-0.006411,-0.000286,-0.022141,-0.010038,-0.030679,0.054330,0.009934,-0.068279,-0.005399,-0.004334,0.006681,-0.056785,0.023336,0.050808,0.052072,-0.032317,0.369928,0.003864,0.011017,-0.025574,-0.034056,-0.056510,0.050786,-0.024241,0.045926,-0.007391,-0.033341,0.011844,0.018567,0.073684,-0.010699,-0.002935,0.060164,-0.020454,0.001401,0.046923,-0.057840,-0.015521,0.036992,0.046060,0.016185,-0.035356,-0.007157,0.006483,0.035847,-0.012124,-0.011249,0.054179,-0.106114,-0.041335,-0.003032,0.085012,0.033964,0.014965,0.002230,-0.014461,0.064920,-0.071014,0.012225,-0.014905,-0.051483,-0.043596,0.103319,0.056527,0.008693,-0.024603,-0.034447,-0.074489,0.051142,0.061382,-0.066332,-0.058617,-0.029685,-0.025230,-0.035558,-0.043428,0.020795,0.034506,-0.067775,-0.007227,0.163548,0.018399,-0.108881,-0.012690,0.033203,0.038818,0.009062,-0.036872,0.022021,0.022691,-0.003977,0.063095,0.011748,-0.061103,0.043215,-0.060298,0.008414,0.036962,-0.005187,-0.058503,-0.045834,0.074226,-0.029629,-0.033634,0.031878,0.028665,0.034676,-0.054697,0.064662,-0.088706,0.089052,0.021904,-0.014742,-0.055862,-0.000028,0.023452,-0.018590,0.029535,-0.018034,-0.013381,-0.011401,0.044948,0.016587,0.020303,0.068670,0.006007,0.005260,-0.030750,0.010718,0.006212,-0.009235,0.010870,0.072490,0.031056,0.000407,0.028367,-0.019298,0.003766,0.006407,0.042108,-0.341941,0.034279,-0.021609,-0.022215,-0.023773,-0.009008,-0.025614,-0.012773,-0.051653,0.026484,0.059710,0.006523,-0.019035,0.019579,0.016467,-0.039347,0.017254,0.034252,-0.026740,0.058802,-0.114856,0.066972,-0.056193,0.029297,0.035771,0.013298,0.074438,-0.072658,-0.084634,-0.041748,0.016886,0.077746,0.007766,-0.010140,-0.011817,-0.005159,-0.074200,0.013772,-0.019921,0.003907,-0.029159,0.065403,-0.006628,0.020175,0.034124,-0.022674,-0.033094,0.039223,0.008785,0.054643,0.016928,-0.017415,0.008014,0.005741,0.052613,-0.017288,-0.044452,0.027189,-0.003951,-0.035080,0.005535,0.010387,0.031231,0.002032,-0.004322,-0.043760,0.019564,0.007487,-0.055632,-0.039006,-0.023236,0.065513,0.045733,-0.048648,-0.041419,0.007232,0.008679,0.040537,-0.035479,0.007952,0.086306,0.021869,0.055396,0.058179,-0.001113,0.017590,0.026521,-0.010220,0.002216,-0.017227,-0.030471,-0.004612,-0.012847,0.021299,0.064639,-0.000609,-0.260211,-0.011892,0.007515,-0.018226,-0.011221,-0.028771,0.037788,-0.013218,-0.016748,0.036159,0.010134,0.013486,0.036600,-0.080177,0.058236,-0.009475,0.106132,-0.076108,0.002566,-0.015121,-0.026203,0.022970,0.166551,-0.057310,-0.042191,-0.014365,-0.071713,0.029568,-0.018850,-0.045076,0.062040,-0.032144,0.075501,-0.025093,-0.017351,0.017572,0.007413,-0.005143,-0.011674,0.018354,-0.033821,0.012020,-0.005252,0.031362,0.055750,-0.026679,-0.077324,-0.069970,0.005197,-0.022427,-0.023085,-0.045100,0.057155,-0.003456,-0.027890,-0.042764,-0.012088,0.038592,0.013538,-0.031918,-0.008242,0.002437,-0.076673,0.023023,0.013969]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_22', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 22, 'The Company uses some custom components that are not commonly used by its competitors, and new products introduced by the Company often utilize custom components available from only one source. When a component or product uses new technologies, initial capacity constraints may exist until the suppliers’ yields have matured or their manufacturing capacities have increased. The Company has entered into agreements for the supply of many components; however, the Company may not be able to extend or renew agreements for the supply of components on similar terms, or at all, and may not be successful in obtaining sufficient quantities from its suppliers or in a timely manner, or in identifying and obtaining sufficient quantities from an alternative source. In addition, component suppliers may fail, be subject to consolidation within a particular industry, or decide to concentrate on the production of common components instead of components customized to meet the Company’s requirements, further limiting the Company’s ability to obtain sufficient quantities of components on commercially reasonable terms, or at all.
+
+Substantially all of the Company’s hardware products are manufactured by outsourcing partners that are located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam.
+
+Apple Inc. | 2025 Form 10-K | 46
+
+Note 13 – Segment Information and Geographic Data
+
+The Company manages its business primarily on a geographic basis. The Company’s CEO is its CODM.
+
+The Company’s reportable segments consist of the Americas, Europe, Greater China, Japan and Rest of Asia Pacific. Americas includes both North and South America. Europe includes European countries, as well as India, the Middle East and Africa. Greater China includes China mainland, Hong Kong and Taiwan. Rest of Asia Pacific includes Australia, New Zealand and those Asian countries not included in the Company’s other reportable segments. Although the reportable segments provide similar hardware and software products and similar services, each one is managed separately to better align with the location of the Company’s customers and distribution partners and the unique market dynamics of each geographic region.
+
+The CODM uses segment net sales and operating income information to make certain decisions, such as product and service pricing, and to decide how to allocate resources related to sales activities and marketing investments. Net sales for geographic segments are generally based on the location of customers and sales through the Company’s retail stores located in those geographic locations. Operating income for each segment consists of net sales to third parties, related cost of sales, and operating expenses directly attributable to the segment. The information provided to the CODM for purposes of making decisions and assessing segment performance excludes asset information.
+
+The following tables show information by reportable segment for 2025, 2024 and 2023 (in millions):', '[-0.046291,-0.027636,0.017457,-0.018584,0.017738,-0.005291,0.009063,0.010766,-0.001610,-0.005067,-0.004406,-0.034455,0.027767,-0.003991,0.018248,0.022526,0.031173,-0.097907,0.057806,-0.035561,0.028854,-0.063743,-0.002095,0.018379,0.038527,0.041077,-0.008637,0.024897,-0.018867,-0.201031,-0.037280,0.066866,0.038046,0.023964,0.012097,0.013608,-0.078404,-0.001638,-0.001840,0.011535,0.036843,-0.007824,0.039321,0.051412,-0.025148,0.042868,0.010332,-0.014665,-0.009384,0.000224,0.051558,0.001458,0.030759,0.039934,-0.012264,0.093233,0.042946,0.020108,0.051474,0.025167,0.033648,-0.046344,-0.130739,0.031821,0.068310,0.050733,-0.021156,-0.012461,-0.075500,0.030626,0.021016,-0.024491,-0.013323,0.046746,-0.000865,0.020568,0.046364,0.027827,-0.021046,-0.031827,0.005319,0.003966,-0.028186,-0.027561,-0.002994,-0.040936,0.001073,0.024740,0.035123,-0.002291,-0.083492,0.001120,-0.025655,-0.024069,-0.050054,-0.033473,0.024949,0.019953,-0.037271,0.359081,0.008266,-0.009025,0.025464,-0.015622,-0.043010,0.012434,-0.034840,0.057049,0.031906,0.045285,0.025294,0.043672,-0.002519,0.010296,-0.006486,-0.035482,-0.058556,0.016496,0.009085,-0.059988,-0.016988,0.020938,-0.006872,0.027219,-0.058583,-0.027850,0.029064,0.050753,0.036659,-0.030455,0.005189,-0.037520,-0.085403,0.003454,0.042719,0.013724,0.008027,-0.004247,-0.000712,0.017763,-0.037089,0.038267,0.045997,-0.054976,-0.020285,0.147535,0.001235,0.045268,-0.045778,-0.015384,-0.017756,0.031738,0.004501,-0.049086,-0.011570,0.010500,-0.001522,-0.004846,-0.033711,0.032879,0.023423,0.041662,-0.002831,0.140354,0.023052,-0.103619,-0.025007,0.068226,0.061384,-0.002994,-0.040333,0.035224,0.018088,-0.012752,0.010968,-0.047905,-0.112641,0.013091,-0.031312,0.035002,0.027095,-0.014858,-0.030018,-0.053515,0.059856,-0.029080,-0.030086,0.003478,0.011937,0.003314,-0.048240,0.099277,-0.057230,0.056166,0.037966,-0.052350,-0.022061,0.024172,0.049063,-0.025014,0.010380,0.048976,-0.010301,-0.002876,0.049685,-0.001834,0.019195,0.005054,-0.019487,0.044506,-0.019728,-0.006931,-0.029868,-0.013832,-0.002727,-0.006927,0.036809,-0.000328,-0.010939,0.080292,0.021889,-0.001729,0.003825,-0.359974,0.018931,-0.030010,-0.006606,-0.050278,-0.008052,-0.048903,-0.026877,-0.063718,0.020142,0.077442,-0.026637,-0.009755,0.014009,0.018569,-0.024275,0.038629,0.026587,-0.029351,0.016438,-0.078964,0.063263,-0.055282,0.010331,0.033828,-0.009998,0.100230,-0.134889,0.018806,-0.029768,0.004581,0.065845,-0.001335,0.020948,0.011549,-0.011827,-0.035219,-0.053730,-0.020573,0.015222,-0.059700,0.054914,0.001209,-0.022660,0.035198,-0.082097,-0.052201,0.043317,-0.044968,0.029618,-0.023306,-0.027188,0.012376,0.033996,0.068732,-0.060263,-0.051443,-0.019367,-0.022038,-0.049125,0.006042,-0.039436,0.020265,0.004344,0.028690,-0.014664,0.002785,0.016235,-0.054353,0.020846,-0.004947,0.075749,0.032770,0.004372,0.053103,-0.032985,0.030559,0.013942,-0.023443,0.001587,0.030453,0.029314,0.038496,0.064199,-0.031380,0.011531,0.009041,0.018608,0.001505,0.008084,-0.010924,-0.005681,0.008546,0.003468,0.042093,-0.002710,-0.239271,0.017149,0.014017,0.019597,-0.006237,-0.067429,0.007395,0.019366,0.022742,0.061864,-0.013573,-0.006670,0.019460,-0.073584,0.072911,0.012419,0.134322,-0.033830,0.039289,-0.032867,0.016594,-0.014469,0.181552,-0.014084,-0.064375,-0.000720,-0.014178,0.008974,-0.028202,-0.002091,0.057233,-0.058751,0.075992,0.016121,0.017992,0.035282,-0.003469,-0.020109,0.008757,-0.009207,-0.090215,0.009185,-0.080037,-0.003119,0.068139,-0.019884,-0.069909,-0.067874,0.021280,0.014663,-0.015694,-0.080119,0.025858,-0.012349,-0.047541,-0.070474,-0.011776,0.018483,-0.025180,-0.007870,0.041106,-0.046019,-0.063753,0.057094,0.048090]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_23', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 23, 'The CODM uses segment net sales and operating income information to make certain decisions, such as product and service pricing, and to decide how to allocate resources related to sales activities and marketing investments. Net sales for geographic segments are generally based on the location of customers and sales through the Company’s retail stores located in those geographic locations. Operating income for each segment consists of net sales to third parties, related cost of sales, and operating expenses directly attributable to the segment. The information provided to the CODM for purposes of making decisions and assessing segment performance excludes asset information.
+
+The following tables show information by reportable segment for 2025, 2024 and 2023 (in millions):
+
+| 2025 |
+| Americas | Europe | Greater China | Japan | Rest of Asia Pacific | Corporate | Total |
+| Net sales | $ | 178,353 | $ | 111,032 | $ | 64,377 | $ | 28,703 | $ | 33,696 | $ | — | $ | 416,161 |
+| Cost of sales | ( 95,699 ) | ( 58,617 ) | ( 35,141 ) | ( 13,779 ) | ( 17,724 ) | — | ( 220,960 ) |
+| Research and development | — | — | — | — | — | ( 34,550 ) | ( 34,550 ) |
+| Selling and marketing | ( 10,174 ) | ( 4,676 ) | ( 2,319 ) | ( 969 ) | ( 1,386 ) | — | ( 19,524 ) |
+| General and administrative | — | — | — | — | — | ( 8,077 ) | ( 8,077 ) |
+| Operating income/(loss) | $ | 72,480 | $ | 47,739 | $ | 26,917 | $ | 13,955 | $ | 14,586 | $ | ( 42,627 ) | $ | 133,050 |
+
+Greater
+
+China
+
+| 2024 |
+| Americas | Europe | Greater China | Japan | Rest of Asia Pacific | Corporate | Total |
+| Net sales | $ | 167,045 | $ | 101,328 | $ | 66,952 | $ | 25,052 | $ | 30,658 | $ | — | $ | 391,035 |
+| Cost of sales | ( 89,587 ) | ( 55,197 ) | ( 37,519 ) | ( 11,744 ) | ( 16,305 ) | — | ( 210,352 ) |
+| Research and development | — | — | — | — | — | ( 31,370 ) | ( 31,370 ) |
+| Selling and marketing | ( 9,802 ) | ( 4,341 ) | ( 2,351 ) | ( 854 ) | ( 1,291 ) | — | ( 18,639 ) |
+| General and administrative | — | — | — | — | — | ( 7,458 ) | ( 7,458 ) |
+| Operating income/(loss) | $ | 67,656 | $ | 41,790 | $ | 27,082 | $ | 12,454 | $ | 13,062 | $ | ( 38,828 ) | $ | 123,216 |
+
+Greater
+
+China', '[0.009485,-0.020893,0.049314,0.022802,0.061164,0.000264,0.000702,0.040397,0.016096,-0.009827,0.031932,0.009835,0.046031,0.007558,-0.027627,0.008466,0.038091,-0.079628,0.063717,0.012541,0.068074,-0.050150,-0.033326,0.013949,0.053042,0.051411,-0.023630,0.039360,-0.069431,-0.154113,-0.014658,0.008852,0.124217,-0.006312,0.025975,0.030157,-0.075803,0.004322,-0.010983,0.004478,0.026127,0.002096,0.023244,0.065690,-0.011636,0.003685,-0.001527,-0.036513,-0.040744,0.012863,-0.018156,-0.032936,-0.005909,0.047166,-0.010988,0.030558,0.024909,0.025332,0.017066,0.025302,0.017142,-0.042704,-0.177136,0.003709,-0.017892,0.042300,-0.005336,0.018461,-0.012799,0.004032,-0.014113,-0.019465,-0.016876,0.025957,-0.025853,-0.033850,0.012456,-0.022027,-0.025567,-0.032549,-0.016526,0.041690,0.010804,0.006221,0.007525,-0.040784,0.056521,0.015388,0.020275,-0.001959,0.010636,0.012286,-0.079673,-0.030036,-0.087818,-0.007376,0.008988,0.071435,-0.011902,0.386028,0.038343,-0.027337,0.018851,-0.068442,0.000073,0.007903,-0.052593,0.055430,0.011039,0.055200,-0.050152,0.028098,-0.002707,-0.042311,-0.025927,0.024997,-0.003803,0.035734,0.003070,-0.056852,0.015039,0.017122,0.002006,0.050109,-0.044449,-0.006839,0.055721,0.064352,0.061665,0.022462,-0.035906,-0.044529,-0.070301,-0.001526,0.027898,-0.036755,0.022888,-0.001091,-0.025679,0.017128,-0.016743,0.027549,-0.003808,-0.063181,-0.055087,0.160111,-0.021901,0.013049,-0.003495,-0.021190,0.004529,0.066720,0.033156,-0.053275,-0.028759,0.005649,0.021686,0.007026,-0.046310,-0.029593,-0.022105,0.010790,-0.041061,0.150610,0.015231,-0.058875,-0.014202,0.049815,-0.019562,-0.043653,-0.029084,0.006950,-0.010094,-0.056874,0.053864,-0.016565,-0.037000,0.028033,-0.016831,0.020856,0.044541,0.016150,-0.013154,-0.049085,-0.006563,-0.020207,-0.085135,0.005147,-0.030403,0.013945,-0.051236,0.020407,-0.035653,0.021586,0.013167,-0.047467,-0.026082,0.036243,0.040997,-0.051195,0.053980,0.009732,-0.022867,-0.033874,0.018624,-0.005361,0.007461,0.019211,0.008858,0.030378,0.010238,0.038394,-0.018646,0.023088,0.033725,-0.005546,0.070231,0.010208,-0.024574,0.094156,-0.030288,-0.025988,-0.027162,-0.337987,0.004820,-0.007798,-0.015945,0.010814,0.028547,-0.034194,0.008841,-0.017026,0.056008,0.062635,-0.017135,-0.058282,0.013171,0.029941,-0.015601,-0.003885,0.023305,-0.030915,-0.007454,-0.009642,0.058740,-0.039731,0.003499,0.073893,-0.005602,0.076611,-0.111426,0.054149,-0.009110,0.062320,0.012554,-0.005494,0.006148,0.065465,-0.038490,-0.030850,-0.048004,-0.040246,-0.054791,-0.059690,-0.000486,0.000513,-0.007514,0.024188,-0.020486,-0.005877,0.095773,-0.055427,0.038391,-0.031929,-0.022198,0.062467,0.027160,0.021795,-0.072877,0.001154,-0.055257,-0.050304,-0.000338,0.041324,-0.051713,0.024899,0.026167,0.041009,-0.076764,0.026235,0.001014,-0.039290,0.065296,-0.048180,0.003118,-0.007404,-0.019118,0.022272,-0.005764,-0.010073,0.004108,-0.052818,0.022698,0.064571,0.003663,-0.019791,0.023177,-0.031958,-0.045497,0.036752,-0.030947,-0.002835,0.021803,-0.033913,-0.031613,-0.025125,-0.009150,0.027814,0.000446,-0.280761,-0.008170,-0.028841,0.060727,0.038619,-0.092945,0.017056,-0.001436,0.004364,0.036926,0.040416,0.037069,0.027347,-0.064920,0.039921,-0.021790,0.073024,-0.001648,0.074228,0.031063,0.024760,0.002177,0.181035,0.029630,-0.023832,-0.006430,-0.026574,-0.003291,0.023527,0.033894,0.059086,-0.022180,0.108530,0.007924,0.004550,0.002222,0.045260,-0.002786,0.035835,0.005554,-0.057748,-0.014350,-0.048120,-0.019227,0.090083,0.016240,-0.021876,-0.059887,0.011370,0.035319,-0.013413,-0.022863,0.025588,-0.052959,-0.000319,-0.043762,-0.030314,-0.018045,-0.019111,0.001787,-0.006273,-0.065388,-0.077474,0.005155,0.037730]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_24', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 24, 'Greater
+
+China
+
+| 2023 |
+| Americas | Europe | Greater China | Japan | Rest of Asia Pacific | Corporate | Total |
+| Net sales | $ | 162,560 | $ | 94,294 | $ | 72,559 | $ | 24,257 | $ | 29,615 | $ | — | $ | 383,285 |
+| Cost of sales | ( 92,394 ) | ( 54,101 ) | ( 39,787 ) | ( 11,542 ) | ( 16,313 ) | — | ( 214,137 ) |
+| Research and development | — | — | — | — | — | ( 29,915 ) | ( 29,915 ) |
+| Selling and marketing | ( 9,658 ) | ( 4,095 ) | ( 2,444 ) | ( 827 ) | ( 1,236 ) | — | ( 18,260 ) |
+| General and administrative | — | — | — | — | — | ( 6,672 ) | ( 6,672 ) |
+| Operating income/(loss) | $ | 60,508 | $ | 36,098 | $ | 30,328 | $ | 11,888 | $ | 12,066 | $ | ( 36,587 ) | $ | 114,301 |
+
+Greater
+
+China
+
+Apple Inc. | 2025 Form 10-K | 47
+
+The following tables show net sales for 2025, 2024 and 2023 and long-lived assets as of September 27, 2025 and September 28, 2024 for countries that individually accounted for 10% or more of the respective totals, as well as aggregate amounts for the remaining countries (in millions):
+
+| 2025 | 2024 | 2023 |
+| Net sales: |
+| U.S. | $ | 151,790 | $ | 142,196 | $ | 138,573 |
+| China (1) | 64,377 | 66,952 | 72,559 |
+| Other countries | 199,994 | 181,887 | 172,153 |
+| Total net sales | $ | 416,161 | $ | 391,035 | $ | 383,285 |
+
+China (1)
+
+| 2025 | 2024 |
+| Long-lived assets: |
+| U.S. | $ | 40,274 | $ | 35,664 |
+| China (1) | 3,617 | 4,797 |
+| Other countries | 5,943 | 5,219 |
+| Total long-lived assets | $ | 49,834 | $ | 45,680 |
+
+China (1)
+
+(1) China includes Hong Kong and Taiwan.
+
+Apple Inc. | 2025 Form 10-K | 48
+
+Report of Independent Registered Public Accounting Firm
+
+To the Shareholders and the Board of Directors of Apple Inc.
+
+Opinion on the Financial Statements
+
+We have audited the accompanying consolidated balance sheets of Apple Inc. (the “Company”) as of September 27, 2025 and September 28, 2024, the related consolidated statements of operations, comprehensive income, shareholders’ equity and cash flows for each of the three years in the period ended September 27, 2025, and the related notes (collectively referred to as the “financial statements”). In our opinion, the financial statements present fairly, in all material respects, the financial position of the Company at September 27, 2025 and September 28, 2024, and the results of its operations and its cash flows for each of the three years in the period ended September 27, 2025, in conformity with U.S. generally accepted accounting principles (“GAAP”).
+
+We also have audited, in accordance with the standards of the Public Company Accounting Oversight Board (United States) (“PCAOB”), the Company’s internal control over financial reporting as of September 27, 2025, based on criteria established in Internal Control – Integrated Framework issued by the Committee of Sponsoring Organizations of the Treadway Commission (2013 framework) and our report dated October 31, 2025 expressed an unqualified opinion thereon.
+
+Basis for Opinion', '[-0.000684,-0.040024,0.030402,-0.004214,0.078122,-0.001283,-0.048525,0.024735,0.031504,-0.002676,0.006519,-0.025428,0.080040,-0.005086,-0.020661,0.017460,0.024557,-0.127416,-0.014277,-0.029466,0.020593,-0.045028,0.040738,-0.004850,0.035953,0.004830,-0.041393,-0.027212,-0.008069,-0.144557,-0.027042,0.010802,0.020148,-0.006980,0.021346,-0.041228,-0.073220,-0.030732,-0.031488,-0.023198,0.047675,0.007172,0.027752,0.003000,0.032679,0.007011,-0.046132,-0.040376,-0.022932,0.022706,0.001801,-0.030436,-0.029986,0.053062,-0.017885,0.020371,0.016105,0.020072,-0.004275,0.049275,0.016414,-0.067584,-0.153355,-0.006685,0.013168,0.018158,-0.005960,0.024531,-0.027570,-0.011111,-0.001978,-0.025635,0.003696,0.061173,-0.027425,-0.043134,0.050597,-0.022183,-0.082673,-0.055831,0.037532,-0.006247,-0.040339,-0.030996,0.006636,-0.022168,0.014476,0.033305,-0.038215,-0.036076,-0.029283,0.017832,0.001234,0.030040,-0.090205,-0.029585,0.079496,0.079807,-0.049758,0.382440,0.042517,0.000927,0.022050,-0.078029,-0.002341,0.007283,-0.044439,0.031785,0.024058,0.070727,-0.020047,-0.026809,0.031053,-0.026614,-0.002088,0.003527,0.050738,0.046287,0.006167,-0.063836,0.050938,0.040535,0.021309,-0.003265,-0.043704,-0.035003,0.006386,0.102618,0.048393,-0.001821,0.034223,0.008751,-0.095453,-0.002493,0.031273,-0.030587,-0.022277,-0.020928,0.029938,0.043687,-0.041284,0.025305,-0.000118,-0.088122,-0.032035,0.082122,0.052552,-0.047852,0.022919,-0.007003,0.023405,0.072929,0.065537,-0.053829,0.001612,0.056301,0.037223,0.040187,-0.051216,-0.013488,0.012240,0.017255,-0.084860,0.107859,0.075474,-0.108332,-0.016481,0.004878,0.002245,-0.028412,0.014005,0.001066,-0.015195,-0.021662,0.102338,-0.032570,-0.007607,-0.020115,-0.057229,0.035030,0.078793,0.024694,-0.037906,-0.018159,-0.029546,-0.020328,-0.022185,0.060514,-0.037760,0.007802,-0.041678,0.072648,-0.121713,0.095695,-0.002253,-0.043612,-0.021267,-0.000992,0.064606,-0.055867,0.101265,-0.078642,-0.033853,-0.046218,0.004868,-0.027980,-0.026099,0.049370,0.021109,0.037185,0.024239,0.024793,0.086232,0.014065,-0.030247,0.039079,0.019094,0.007519,-0.009049,0.027859,-0.009538,-0.018996,-0.029843,-0.289210,-0.001048,0.012612,-0.013196,-0.014980,-0.006939,-0.023347,-0.001018,0.045274,0.097052,-0.022285,0.013277,-0.006880,0.058695,-0.013628,-0.028691,0.003870,0.044406,-0.006036,0.051453,0.010214,0.033069,-0.046568,0.045386,-0.001444,0.000134,0.083586,-0.014254,0.003118,0.006465,0.034565,0.036431,-0.031011,0.016988,0.078576,0.078123,0.003876,-0.054468,-0.079249,-0.005058,-0.009811,0.023839,-0.018038,0.019367,0.007091,-0.018403,-0.042797,0.029246,-0.026457,0.045629,0.015359,-0.016778,0.033923,0.001845,0.049758,-0.007705,-0.031423,-0.011321,-0.042934,0.010089,0.018350,-0.059297,-0.020767,0.029178,0.023387,-0.071347,0.000750,0.020590,-0.003275,0.025342,-0.051894,0.003825,0.020838,-0.018084,0.016863,0.002731,-0.028053,0.008589,-0.030276,-0.008033,0.042582,0.005802,-0.010900,0.009112,0.022172,-0.001756,0.031210,-0.041719,0.010154,0.031907,0.017460,-0.017851,-0.034766,-0.033956,0.034024,0.052164,-0.306868,-0.030083,-0.038172,-0.006978,-0.039954,-0.019530,0.018986,0.009043,0.049401,0.068217,-0.031336,-0.000624,0.037386,-0.041768,0.056240,-0.050077,0.025965,-0.036097,0.065451,0.100565,0.026304,-0.013511,0.153842,0.014428,-0.011018,-0.051496,-0.049106,-0.017494,0.015621,0.004895,0.020871,-0.055792,0.041006,-0.030253,0.004694,0.017070,-0.026773,0.014246,0.010126,0.018024,0.000492,-0.014466,-0.033361,0.028048,0.062060,0.030058,-0.049360,-0.070280,0.033883,-0.003684,-0.005006,-0.041830,0.051587,-0.044839,-0.041473,0.017398,0.012020,0.042340,0.015034,-0.033420,0.050234,-0.017635,-0.128903,0.015945,0.062321]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_25', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 25, 'We have audited the accompanying consolidated balance sheets of Apple Inc. (the “Company”) as of September 27, 2025 and September 28, 2024, the related consolidated statements of operations, comprehensive income, shareholders’ equity and cash flows for each of the three years in the period ended September 27, 2025, and the related notes (collectively referred to as the “financial statements”). In our opinion, the financial statements present fairly, in all material respects, the financial position of the Company at September 27, 2025 and September 28, 2024, and the results of its operations and its cash flows for each of the three years in the period ended September 27, 2025, in conformity with U.S. generally accepted accounting principles (“GAAP”).
+
+We also have audited, in accordance with the standards of the Public Company Accounting Oversight Board (United States) (“PCAOB”), the Company’s internal control over financial reporting as of September 27, 2025, based on criteria established in Internal Control – Integrated Framework issued by the Committee of Sponsoring Organizations of the Treadway Commission (2013 framework) and our report dated October 31, 2025 expressed an unqualified opinion thereon.
+
+Basis for Opinion
+
+These financial statements are the responsibility of the Company’s management. Our responsibility is to express an opinion on the Company’s financial statements based on our audits. We are a public accounting firm registered with the PCAOB and are required to be independent with respect to the Company in accordance with the U.S. federal securities laws and the applicable rules and regulations of the Securities and Exchange Commission and the PCAOB.
+
+We conducted our audits in accordance with the standards of the PCAOB. Those standards require that we plan and perform the audit to obtain reasonable assurance about whether the financial statements are free of material misstatement, whether due to error or fraud. Our audits included performing procedures to assess the risks of material misstatement of the financial statements, whether due to error or fraud, and performing procedures that respond to those risks. Such procedures included examining, on a test basis, evidence regarding the amounts and disclosures in the financial statements. Our audits also included evaluating the accounting principles used and significant estimates made by management, as well as evaluating the overall presentation of the financial statements. We believe that our audits provide a reasonable basis for our opinion.
+
+Critical Audit Matter
+
+The critical audit matter communicated below is a matter arising from the current period audit of the financial statements that was communicated or required to be communicated to the audit committee and that: (1) relates to accounts or disclosures that are material to the financial statements and (2) involved our especially challenging, subjective, or complex judgments. The communication of the critical audit matter does not alter in any way our opinion on the financial statements, taken as a whole, and we are not, by communicating the critical audit matter below, providing a separate opinion on the critical audit matter or on the account or disclosure to which it relates.', '[0.001528,-0.046333,-0.021600,-0.077249,-0.002426,0.004575,0.014610,-0.036810,0.057196,0.044868,-0.007367,-0.003786,-0.010403,-0.026494,0.020773,0.001540,-0.014253,-0.098801,-0.014486,0.025047,0.034569,-0.018616,0.025661,0.014017,0.039552,0.050051,-0.042682,-0.035281,-0.055920,-0.129757,-0.035900,-0.037902,0.040012,-0.042257,0.053831,-0.035155,-0.073317,0.044917,0.005154,0.010336,0.008185,-0.026050,0.003244,-0.004292,0.020554,-0.009640,0.011179,-0.034817,0.001775,0.046166,-0.016785,-0.054496,-0.045600,0.009013,-0.032303,0.047011,0.028832,0.028900,0.034382,-0.000794,0.026495,-0.041175,-0.203276,0.017071,0.020385,0.034155,-0.002526,-0.042523,-0.072445,-0.008991,-0.029159,-0.049634,0.016370,0.020129,-0.004204,0.014081,0.078715,-0.025053,-0.080333,-0.003642,-0.030641,0.035646,-0.006927,-0.013463,0.000954,0.047120,-0.015942,-0.000398,0.063127,-0.045740,0.026929,-0.076170,0.013870,-0.009938,-0.026064,-0.010783,0.067452,0.017529,-0.054708,0.395344,0.020277,0.077019,0.006009,-0.035534,-0.023997,-0.029892,0.052268,0.070097,0.039405,-0.020064,0.020369,-0.004955,0.026442,-0.015408,0.004089,0.080696,-0.015077,0.018023,0.050670,-0.019043,0.072814,0.040067,0.024961,0.009987,-0.057465,-0.043340,0.028374,0.036842,0.045736,0.035974,0.024587,0.018906,-0.066091,-0.027674,0.030542,-0.026088,-0.053455,0.006744,0.061846,-0.018796,-0.084661,-0.017679,-0.020916,-0.040161,-0.067603,0.112497,0.004528,-0.003744,0.013264,-0.001209,-0.022716,0.091637,0.008962,-0.080729,-0.023574,-0.001233,-0.048714,-0.022933,-0.005471,0.038524,-0.034130,-0.001933,-0.048435,0.098045,0.005126,-0.063663,-0.055956,0.028020,0.039954,0.040921,-0.028533,-0.025411,0.029208,-0.000977,-0.002322,-0.051675,0.020919,0.020869,-0.000207,-0.017367,0.086432,-0.023556,-0.077641,0.024292,0.082514,0.035924,-0.035826,-0.035163,0.047317,0.020887,-0.008040,0.021646,-0.119297,0.141595,-0.039522,-0.050989,0.029551,0.018872,0.001047,-0.033547,0.009904,0.016123,-0.011795,0.023416,0.096260,0.020842,-0.028600,0.026313,0.020510,0.044241,-0.012416,0.045043,0.048321,-0.002745,0.016380,0.021272,0.010811,0.053228,-0.011882,-0.041788,0.015288,-0.011625,0.024562,-0.307300,-0.031963,-0.002369,0.018241,-0.032784,-0.023138,-0.016455,-0.020627,-0.105709,-0.004163,0.022981,0.092028,-0.004173,-0.016222,0.010234,0.024595,0.014731,-0.024834,-0.049025,0.038029,-0.066547,0.005571,-0.044633,0.032593,0.066815,0.008873,0.067772,-0.065297,-0.017572,0.024934,0.015159,0.033640,-0.021426,-0.066374,0.066073,0.009961,-0.019018,-0.008409,-0.074114,-0.013837,0.001065,0.025092,-0.044034,0.003225,0.010295,-0.030333,-0.023935,-0.039639,0.012863,-0.002895,0.025336,-0.026302,-0.013023,0.025869,0.060631,-0.062444,-0.005495,-0.014572,-0.023914,-0.017358,0.030730,-0.021631,-0.018162,0.040772,0.004124,-0.029032,0.005411,0.034778,0.029072,0.001603,-0.034389,0.040440,-0.001578,-0.099891,0.043630,0.016115,0.008734,-0.016282,-0.029059,0.002441,0.030816,0.062968,0.093157,0.047011,0.002259,0.030433,0.016348,0.035433,-0.002163,-0.010440,0.005491,-0.002697,-0.052229,0.001225,0.044147,0.016767,-0.225892,-0.046030,-0.030113,0.008762,-0.006925,-0.013205,-0.025656,0.004312,0.039806,0.081682,0.017652,-0.001225,0.062539,-0.078666,0.056684,0.015877,0.090232,-0.029912,0.064856,0.004446,0.064261,-0.018859,0.166557,-0.066376,-0.037658,-0.064048,0.028531,0.059990,0.014905,-0.026946,0.093062,-0.026612,0.034827,0.040671,-0.008122,-0.003766,-0.043891,0.025297,0.012633,-0.013324,-0.053128,-0.016938,-0.012164,-0.032939,-0.000520,0.019121,-0.107280,-0.029786,0.054612,-0.043165,0.029717,-0.033378,0.039241,-0.012251,0.005951,-0.017136,-0.056148,0.041627,0.000516,-0.033461,-0.009151,0.016620,-0.032028,0.063361,0.062273]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_26', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 26, 'The critical audit matter communicated below is a matter arising from the current period audit of the financial statements that was communicated or required to be communicated to the audit committee and that: (1) relates to accounts or disclosures that are material to the financial statements and (2) involved our especially challenging, subjective, or complex judgments. The communication of the critical audit matter does not alter in any way our opinion on the financial statements, taken as a whole, and we are not, by communicating the critical audit matter below, providing a separate opinion on the critical audit matter or on the account or disclosure to which it relates.
+
+| Uncertain Tax Positions |
+| Description of the Matter | As discussed in Note 7 to the financial statements, the Company is subject to income taxes in the U.S. and numerous foreign jurisdictions. As of September 27, 2025, the total amount of gross unrecognized tax benefits was $23.2 billion, of which $10.6 billion, if recognized, would impact the Company’s effective tax rate. In accounting for some of the uncertain tax positions, the Company uses significant judgment in the interpretation and application of GAAP and complex domestic and international tax laws. Auditing management’s evaluation of whether an uncertain tax position is more likely than not to be sustained and the measurement of the benefit of various tax positions can be complex, involves significant judgment, and is based on interpretations of tax laws. |
+
+As discussed in Note 7 to the financial statements, the Company is subject to income taxes in the U.S. and numerous foreign jurisdictions. As of September 27, 2025, the total amount of gross unrecognized tax benefits was $23.2 billion, of which $10.6 billion, if recognized, would impact the Company’s effective tax rate. In accounting for some of the uncertain tax positions, the Company uses significant judgment in the interpretation and application of GAAP and complex domestic and international tax laws.
+
+Auditing management’s evaluation of whether an uncertain tax position is more likely than not to be sustained and the measurement of the benefit of various tax positions can be complex, involves significant judgment, and is based on interpretations of tax laws.
+
+Apple Inc. | 2025 Form 10-K | 49
+
+| How We Addressed the Matter in Our Audit | We tested controls relating to the evaluation of uncertain tax positions, including controls over management’s assessment as to whether tax positions are more likely than not to be sustained, management’s process to measure the benefit of its tax positions that qualify for recognition, and the related disclosures. We evaluated the Company’s assessment of which tax positions are more likely than not to be sustained and the related measurement of the amount of tax benefit that qualifies for recognition. Our audit procedures included, among others, reading and evaluating management’s assumptions and analysis, and, as applicable, the Company’s communications with taxing authorities, that detailed the basis and technical merits of the uncertain tax positions. We involved our tax subject matter resources in assessing the technical merits of certain of the Company’s tax positions based on our knowledge of relevant tax laws and experience with related taxing authorities. In addition, we evaluated the Company’s disclosure in relation to these matters included in Note 7 to the financial statements. |
+
+We tested controls relating to the evaluation of uncertain tax positions, including controls over management’s assessment as to whether tax positions are more likely than not to be sustained, management’s process to measure the benefit of its tax positions that qualify for recognition, and the related disclosures.', '[-0.015333,-0.063317,-0.032870,-0.035655,0.027122,0.019684,0.052592,-0.022024,0.039398,0.038589,0.024741,0.022104,-0.034010,0.007613,0.005928,0.005486,-0.025715,-0.064299,0.026003,0.052035,0.085008,-0.021572,0.056808,0.024716,0.053846,-0.028554,-0.033830,-0.002991,-0.038991,-0.193400,-0.013769,-0.018394,0.015246,-0.037171,0.045540,-0.016549,-0.033119,0.028075,0.022254,0.000993,0.030262,0.033294,-0.021919,-0.030579,0.018830,-0.033503,0.058460,-0.044427,-0.036743,0.000624,-0.001440,-0.058059,0.034368,0.031074,-0.017388,0.011483,0.055563,0.001661,0.044774,-0.007705,0.013257,-0.015366,-0.215459,-0.023023,0.010470,-0.036648,-0.061460,-0.012433,-0.043122,-0.020703,0.014746,-0.048829,-0.057555,0.016873,0.064173,-0.052244,0.083537,0.011006,-0.094483,-0.007616,0.013511,0.036763,0.000328,0.000705,0.008991,0.006457,0.032509,-0.037533,0.048419,-0.037480,0.017847,-0.009908,-0.024807,-0.030466,-0.045216,-0.022008,0.077143,0.011056,-0.060923,0.351899,0.050507,0.015111,-0.021739,-0.033642,-0.015816,0.003684,0.001674,0.036938,0.037523,-0.021106,-0.018666,0.035588,-0.026035,-0.002419,-0.034506,0.100655,0.061937,0.022710,0.028363,-0.031704,0.041647,0.092757,0.031600,0.032707,-0.001093,0.015607,0.031414,0.078365,0.028563,0.012007,0.064488,-0.053332,-0.010851,-0.008619,0.077062,-0.004531,-0.069528,0.043752,0.053364,0.032652,0.001730,-0.028821,-0.049155,-0.055978,-0.061503,0.150942,-0.033451,-0.038590,-0.004798,0.010908,0.023542,0.072983,0.022202,-0.054310,-0.010989,-0.035649,-0.054160,-0.045259,-0.019634,0.011593,-0.004100,-0.037155,-0.011257,0.139850,0.029527,-0.076452,-0.066460,-0.004045,0.036922,-0.004305,0.011571,0.004668,0.068679,-0.020073,0.013496,-0.047344,-0.025946,-0.003842,-0.073200,-0.012593,0.051354,-0.012990,-0.031918,0.023607,0.040206,0.015826,-0.028616,-0.003936,0.017377,0.015691,-0.015314,0.024799,-0.113624,0.110075,0.004898,-0.046437,0.031301,0.014868,-0.048505,-0.023311,0.020849,0.000271,-0.064986,0.055889,0.044161,-0.014120,-0.004487,-0.001873,0.048148,0.028840,-0.034564,0.001191,-0.003607,-0.011337,0.013408,0.025044,0.044312,0.039290,0.007675,-0.037670,0.013574,-0.035209,0.039744,-0.322948,0.018553,-0.023725,0.050822,0.037609,-0.021705,0.004579,0.033593,-0.042771,0.029387,0.040702,0.014987,-0.018811,-0.015119,0.012018,-0.048699,-0.031259,-0.033190,-0.039472,0.015130,-0.017414,0.028289,-0.065550,0.016206,0.131468,-0.007214,0.035938,-0.041880,-0.026515,0.035549,0.006255,0.052015,-0.010838,-0.096006,0.057290,0.049899,-0.019395,0.032686,-0.029955,0.023041,0.000245,-0.027676,-0.048021,0.031622,-0.005814,-0.011549,-0.028678,-0.037237,-0.007778,0.040329,0.054898,0.014840,0.027223,0.042590,0.054036,-0.024875,-0.051465,-0.041760,-0.008690,-0.074292,0.022802,0.016323,-0.030321,0.003890,0.009471,-0.000020,-0.014410,0.050346,-0.010246,0.009642,-0.009401,0.056462,0.007758,-0.111933,0.018676,0.006485,-0.005522,-0.030522,-0.026492,-0.025765,0.065174,0.045908,0.088938,0.025304,0.023989,0.001043,0.009135,0.000213,-0.001983,-0.042430,-0.036260,-0.020338,-0.044399,-0.049800,0.032994,-0.046664,-0.242106,-0.016928,-0.027628,0.032005,-0.032928,0.004398,-0.038035,0.013415,-0.013080,0.055303,-0.001145,-0.012628,0.053044,-0.053682,0.045769,0.029277,0.061604,-0.042456,0.024417,0.001145,0.093564,-0.005316,0.163608,-0.003252,0.023513,-0.091125,-0.042204,0.009817,0.048890,-0.014426,0.073046,-0.013595,0.050625,0.013036,-0.043501,-0.001352,-0.008215,0.022661,-0.033471,0.002426,-0.037578,0.037437,-0.014448,-0.042066,0.062529,0.042482,-0.069034,-0.050387,0.035936,-0.062870,0.007284,0.008619,0.021387,0.003695,-0.033895,-0.019313,-0.030696,-0.020923,0.024879,-0.009025,-0.034476,0.058771,-0.030186,-0.017995,0.037815]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_27', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 27, 'We tested controls relating to the evaluation of uncertain tax positions, including controls over management’s assessment as to whether tax positions are more likely than not to be sustained, management’s process to measure the benefit of its tax positions that qualify for recognition, and the related disclosures.
+
+We evaluated the Company’s assessment of which tax positions are more likely than not to be sustained and the related measurement of the amount of tax benefit that qualifies for recognition. Our audit procedures included, among others, reading and evaluating management’s assumptions and analysis, and, as applicable, the Company’s communications with taxing authorities, that detailed the basis and technical merits of the uncertain tax positions. We involved our tax subject matter resources in assessing the technical merits of certain of the Company’s tax positions based on our knowledge of relevant tax laws and experience with related taxing authorities. In addition, we evaluated the Company’s disclosure in relation to these matters included in Note 7 to the financial statements.
+
+/s/ Ernst & Young LLP
+
+We have served as the Company’s auditor since 2009.
+
+San Jose, California
+
+October 31, 2025
+
+Apple Inc. | 2025 Form 10-K | 50
+
+Report of Independent Registered Public Accounting Firm
+
+To the Shareholders and the Board of Directors of Apple Inc.
+
+Opinion on Internal Control Over Financial Reporting
+
+We have audited Apple Inc.’s internal control over financial reporting as of September 27, 2025, based on criteria established in Internal Control – Integrated Framework issued by the Committee of Sponsoring Organizations of the Treadway Commission (2013 framework) (the “COSO criteria”). In our opinion, Apple Inc. (the “Company”) maintained, in all material respects, effective internal control over financial reporting as of September 27, 2025, based on the COSO criteria.
+
+We also have audited, in accordance with the standards of the Public Company Accounting Oversight Board (United States) (“PCAOB”), the consolidated balance sheets of the Company as of September 27, 2025 and September 28, 2024, the related consolidated statements of operations, comprehensive income, shareholders’ equity and cash flows for each of the three years in the period ended September 27, 2025, and the related notes and our report dated October 31, 2025 expressed an unqualified opinion thereon.
+
+Basis for Opinion
+
+The Company’s management is responsible for maintaining effective internal control over financial reporting and for its assessment of the effectiveness of internal control over financial reporting included in the accompanying Management’s Annual Report on Internal Control over Financial Reporting. Our responsibility is to express an opinion on the Company’s internal control over financial reporting based on our audit. We are a public accounting firm registered with the PCAOB and are required to be independent with respect to the Company in accordance with the U.S. federal securities laws and the applicable rules and regulations of the Securities and Exchange Commission and the PCAOB.
+
+We conducted our audit in accordance with the standards of the PCAOB. Those standards require that we plan and perform the audit to obtain reasonable assurance about whether effective internal control over financial reporting was maintained in all material respects.
+
+Our audit included obtaining an understanding of internal control over financial reporting, assessing the risk that a material weakness exists, testing and evaluating the design and operating effectiveness of internal control based on the assessed risk, and performing such other procedures as we considered necessary in the circumstances. We believe that our audit provides a reasonable basis for our opinion.
+
+Definition and Limitations of Internal Control Over Financial Reporting', '[-0.030090,-0.032525,-0.014407,-0.033055,0.015944,0.004602,0.049983,-0.002261,0.018861,0.009286,-0.000687,0.032831,-0.031858,0.007376,0.015320,0.021426,-0.031452,-0.092018,-0.013454,0.023523,0.007825,-0.058616,0.032500,0.016239,0.019057,0.012279,-0.050030,-0.022374,-0.071980,-0.147749,-0.002984,-0.078842,0.046815,-0.036461,0.030135,0.011585,-0.076924,0.021169,0.030285,-0.019207,0.050359,-0.022582,-0.017395,-0.017593,-0.001177,-0.003300,0.038227,-0.037874,-0.070801,0.060476,-0.013989,-0.054295,0.001196,0.008649,-0.002922,0.033679,0.040564,0.000492,0.002544,0.003698,0.013602,-0.038704,-0.195513,0.001354,0.017949,0.046662,-0.033704,-0.031958,-0.039202,-0.007069,0.006035,-0.032690,-0.004286,0.017430,0.032683,0.015905,0.107042,0.036611,-0.061365,-0.030950,-0.007586,0.032466,0.001798,0.028013,0.028966,0.049204,0.018634,-0.006131,0.063737,-0.004256,0.012928,-0.006993,-0.000510,-0.010645,-0.020417,-0.017065,0.080541,0.067479,-0.068512,0.388337,0.050155,0.037603,-0.040211,-0.076505,-0.036794,-0.009638,0.018979,0.032046,0.039101,-0.024042,0.027827,0.029822,0.022036,-0.014451,-0.014642,0.090518,-0.013138,0.026096,0.034055,-0.059799,0.063081,0.050779,0.024628,0.008385,-0.024966,0.001477,0.056062,0.062801,0.043926,0.017463,0.019822,-0.058291,-0.051801,-0.011346,0.024110,-0.013625,-0.079076,0.036209,0.097272,-0.013199,-0.046732,-0.039579,0.025328,-0.050751,-0.048078,0.116255,-0.008145,-0.008829,0.003109,-0.002042,0.006604,0.109123,-0.005165,-0.085724,-0.037162,-0.032446,-0.032944,0.024618,0.009752,0.037748,-0.026859,0.023089,-0.055044,0.118020,0.012327,-0.104563,-0.064593,0.027468,0.015147,0.016605,-0.012121,-0.031232,0.019459,0.001749,-0.022534,-0.050869,-0.025004,0.037669,-0.050239,0.023394,0.035590,-0.030399,-0.044876,0.050303,0.089376,0.021610,-0.035295,-0.026052,-0.009390,0.040202,-0.049350,0.019465,-0.138840,0.116983,-0.013443,-0.049043,0.035964,0.022871,-0.016692,-0.010648,-0.010301,0.013691,-0.016214,0.041968,0.062666,-0.029429,-0.000872,0.048180,0.098102,0.033282,-0.037799,0.023274,0.009291,-0.004200,0.031511,0.024204,-0.016690,0.051653,-0.018036,-0.021864,0.039672,0.023056,0.041214,-0.312546,-0.004199,-0.019940,0.056721,-0.025858,-0.046904,0.000318,-0.004820,-0.065039,-0.012688,-0.011993,0.025212,-0.012540,0.011887,0.021628,-0.049134,0.042108,-0.042008,-0.038080,0.015612,-0.021509,0.010493,-0.007297,0.047074,0.073140,-0.019574,0.067742,-0.056175,0.006389,0.036521,-0.024433,0.057869,0.008968,-0.072442,0.038234,0.035936,-0.046011,-0.016182,-0.042829,0.018660,0.027917,-0.004503,-0.055477,-0.008205,-0.000529,-0.005591,-0.004814,-0.018012,-0.013964,-0.027528,0.044911,-0.015163,0.010201,-0.033173,0.026557,-0.057313,-0.084874,-0.047190,-0.002041,-0.015616,0.024129,-0.003841,-0.032801,0.016285,0.033925,-0.027079,-0.032179,0.061277,-0.007738,-0.009021,0.008816,0.034586,0.020240,-0.076690,0.035219,0.003218,-0.002551,-0.038233,0.005305,-0.007954,0.024568,0.081650,0.070703,0.007966,-0.027540,0.019771,0.013624,0.013893,0.055970,-0.032092,-0.006512,-0.018449,-0.064897,-0.024009,0.057990,0.028381,-0.232034,0.003305,-0.039655,0.015129,-0.024171,-0.034203,-0.037456,0.019587,0.014085,0.057437,0.000838,-0.009008,0.076202,-0.080539,0.037500,0.002905,0.056476,-0.047845,0.059725,-0.018599,0.051012,-0.001074,0.175545,-0.043316,0.015635,-0.031168,-0.020232,0.007363,0.006478,-0.041235,0.109291,-0.002775,0.036181,0.033803,0.025230,0.006540,-0.032921,0.026290,-0.003209,0.038263,-0.003757,0.003802,-0.029567,-0.065267,0.061567,0.029521,-0.045016,0.008425,0.073026,-0.051361,0.011901,-0.039293,0.005660,0.012396,-0.005157,-0.033204,-0.067361,-0.030506,-0.016416,-0.036316,-0.063543,0.021340,-0.008591,-0.003373,0.076274]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('AAPL_2025_8_28', '0000320193-25-000079', 'AAPL', 'Apple', 2025, '8', 'Financial Statements and Supplementary Data', 30, 28, 'We conducted our audit in accordance with the standards of the PCAOB. Those standards require that we plan and perform the audit to obtain reasonable assurance about whether effective internal control over financial reporting was maintained in all material respects.
+
+Our audit included obtaining an understanding of internal control over financial reporting, assessing the risk that a material weakness exists, testing and evaluating the design and operating effectiveness of internal control based on the assessed risk, and performing such other procedures as we considered necessary in the circumstances. We believe that our audit provides a reasonable basis for our opinion.
+
+Definition and Limitations of Internal Control Over Financial Reporting
+
+A company’s internal control over financial reporting is a process designed to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with generally accepted accounting principles. A company’s internal control over financial reporting includes those policies and procedures that (1) pertain to the maintenance of records that, in reasonable detail, accurately and fairly reflect the transactions and dispositions of the assets of the company; (2) provide reasonable assurance that transactions are recorded as necessary to permit preparation of financial statements in accordance with generally accepted accounting principles, and that receipts and expenditures of the company are being made only in accordance with authorizations of management and directors of the company; and (3) provide reasonable assurance regarding prevention or timely detection of unauthorized acquisition, use, or disposition of the company’s assets that could have a material effect on the financial statements.
+
+Because of its inherent limitations, internal control over financial reporting may not prevent or detect misstatements. Also, projections of any evaluation of effectiveness to future periods are subject to the risk that controls may become inadequate because of changes in conditions, or that the degree of compliance with the policies or procedures may deteriorate.
+
+/s/ Ernst & Young LLP
+
+San Jose, California
+
+October 31, 2025
+
+Apple Inc. | 2025 Form 10-K | 51', '[0.020290,-0.046081,-0.006818,-0.015298,0.001131,-0.016337,0.062973,-0.003217,0.019746,0.009062,-0.018768,-0.044707,-0.016217,-0.001049,-0.018952,0.011899,-0.029345,-0.110498,0.054668,0.057345,-0.002789,-0.043721,-0.047700,-0.009779,0.046282,0.034203,-0.004499,-0.050561,-0.087277,-0.139641,-0.029688,-0.058107,0.001307,0.002796,-0.026619,-0.026571,-0.080682,0.024741,0.034076,0.002975,0.039962,-0.016007,0.024554,-0.068502,-0.028256,-0.010432,0.020354,-0.034362,-0.036732,0.083907,-0.004053,-0.010867,0.000110,0.032974,-0.012440,0.038885,0.042146,-0.006635,0.026627,-0.030623,0.043895,-0.022186,-0.156419,-0.015314,-0.028726,0.077078,-0.002519,-0.007358,0.014193,-0.008402,-0.010444,-0.062467,-0.025730,0.055379,0.028904,-0.017309,0.042038,0.001901,-0.054688,0.010679,0.000578,0.024002,0.010823,-0.017852,-0.064459,0.054991,0.007711,-0.005810,0.103984,0.001828,0.027686,-0.047905,-0.012308,-0.003806,0.011281,-0.049958,0.037084,0.044465,-0.059760,0.363883,0.066957,0.007850,-0.036376,-0.044072,-0.036325,-0.025101,0.083078,0.063274,0.009269,-0.035243,-0.018854,-0.014953,-0.004971,-0.037813,-0.018584,0.051995,-0.052950,-0.005877,0.061412,-0.045492,0.044201,0.020151,0.056774,0.005295,-0.027020,-0.026610,-0.002047,0.054517,0.063698,-0.007996,-0.010024,-0.028719,-0.043809,-0.027071,0.027791,-0.034621,-0.075477,0.081135,0.082560,0.007951,-0.067116,-0.018101,-0.020782,-0.085811,-0.055495,0.102080,-0.005024,0.005511,-0.021944,-0.078038,0.011737,0.068403,0.021300,-0.065619,-0.019260,-0.051690,-0.015450,0.039544,0.021883,0.028124,-0.046139,0.000391,-0.025306,0.122172,-0.022970,-0.066919,-0.060407,0.036649,0.018188,-0.011824,-0.044176,-0.048222,-0.001285,-0.022807,0.020459,-0.029692,-0.015995,0.018560,-0.043073,0.035738,0.035774,-0.052115,-0.053390,0.061084,0.085346,0.002141,-0.027858,0.016549,0.054475,0.040066,-0.069024,0.063767,-0.083863,0.081723,-0.062818,-0.031489,0.021415,0.035092,-0.006299,-0.050186,-0.000549,0.039367,0.006242,0.019689,0.054023,0.027171,0.012873,0.018226,0.017483,-0.001612,-0.050465,0.017000,0.000954,0.022189,0.043612,0.038683,-0.060924,0.091686,-0.002577,-0.024631,0.062037,0.009900,0.017353,-0.301398,-0.016599,-0.008426,0.023400,0.012488,-0.022580,0.002105,-0.027944,-0.119233,-0.046729,0.010607,0.039578,-0.064880,-0.032045,-0.028510,-0.029122,0.011185,-0.034268,-0.053518,-0.011010,-0.012367,0.056912,-0.025588,0.073388,0.046515,-0.012253,0.079432,-0.146927,0.077752,0.032679,-0.033490,0.020178,-0.007708,-0.081893,0.039207,0.009091,-0.076263,0.014057,-0.076718,0.014589,0.058315,-0.007493,-0.069288,-0.012267,0.023641,-0.037986,-0.007770,0.005862,-0.037901,-0.027985,0.038928,0.026701,-0.016010,0.064455,0.025032,-0.054863,-0.029073,-0.010441,-0.038980,0.011438,0.036505,-0.010556,0.028482,0.033356,0.039108,0.005446,0.040980,0.020287,0.034775,0.018038,-0.002615,0.079060,-0.004683,-0.099645,0.005022,0.033585,-0.030944,-0.041012,0.008461,-0.020064,0.059438,0.013731,0.066762,0.043467,-0.029990,0.040806,-0.022668,0.004830,0.076397,0.018665,0.020742,-0.019332,-0.060082,-0.018926,0.021064,-0.017852,-0.231742,-0.042871,-0.041755,0.056460,-0.008474,-0.004053,-0.003626,0.059224,-0.016937,0.059841,-0.013506,-0.038600,0.055749,-0.014670,0.018298,0.001090,0.048427,-0.011160,0.031513,-0.000987,0.025173,0.018175,0.162551,0.015742,0.021849,-0.006641,0.032562,-0.013011,0.015746,-0.045020,0.108374,-0.000323,0.061265,0.025374,0.052312,-0.001446,-0.008945,0.092957,0.052048,-0.006930,-0.048622,-0.041144,0.018177,-0.063466,0.040806,0.006220,-0.049447,0.030776,0.013449,-0.006842,0.001550,0.021755,-0.002448,-0.009599,0.047831,0.029958,-0.024069,-0.009206,0.022171,-0.002967,-0.029917,0.033685,0.011611,0.021134,0.069850]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_0', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 0, 'The following is Management’s discussion and analysis of the financial condition and results of operations (“MD&A”) of JPMorganChase for the year ended December 31, 2025. The MD&A is included in both JPMorganChase’s Annual Report for the year ended December 31, 2025 (“Annual Report”) and its Annual Report on Form 10-K for the year ended December 31, 2025 (“2025 Form 10-K” or “Form 10-K”) filed with the Securities and Exchange Commission (“SEC”). Refer to the Glossary of terms and acronyms on pages 320–327 for definitions of terms and acronyms used throughout the Annual Report and the 2025 Form 10-K.
+
+This Form 10-K contains forward-looking statements within the meaning of the Private Securities Litigation Reform Act of 1995. These forward-looking statements are based on the current beliefs and expectations of JPMorganChase’s management, speak only as of the date of this Form 10-K and are subject to significant risks and uncertainties. Refer to Forward-looking Statements on page 160 and Part 1, Item 1A: Risk Factors in this Form 10-K on pages 9–31 for a discussion of certain of those risks and uncertainties and the factors that could cause JPMorganChase’s actual results to differ materially because of those risks and uncertainties. There is no assurance that actual results will be in line with any outlook information set forth herein, and the Firm does not undertake to update any forward-looking statements.
+
+| INTRODUCTION |
+
+JPMorgan Chase & Co. (NYSE: JPM), a financial holding company incorporated under Delaware law in 1968, is a leading financial services firm based in the United States of America (“U.S.”), with operations worldwide. JPMorganChase had $4.4 trillion in assets and $362.4 billion in stockholders’ equity as of December 31, 2025. The Firm is a leader in investment banking, financial services for consumers and small businesses, commercial banking, financial transaction processing and asset management. Under the J.P. Morgan and Chase brands, the Firm serves millions of customers, predominantly in the U.S., and many of the world’s most prominent corporate, institutional and government clients globally.
+
+JPMorganChase’s principal bank subsidiary is JPMorgan Chase Bank, National Association (“JPMorgan Chase Bank, N.A.”), a national banking association with U.S. branches in 48 states and Washington, D.C. JPMorganChase’s principal non-bank subsidiary is J.P. Morgan Securities LLC (“J.P. Morgan Securities”), a U.S. broker-dealer. The bank and non-bank subsidiaries of JPMorganChase operate nationally as well as through overseas branches and subsidiaries, representative offices and subsidiary foreign banks. The Firm’s principal operating subsidiaries outside the U.S. are J.P. Morgan Securities plc and J.P. Morgan SE (“JPMSE”), which are subsidiaries of JPMorgan Chase Bank, N.A. and are based in the United Kingdom (“U.K.”) and Germany, respectively.
+
+For management reporting purposes, the Firm has three reportable business segments – Consumer & Community Banking (“CCB”), Commercial & Investment Bank (“CIB”) and Asset & Wealth Management (“AWM”) – with the remaining activities in Corporate. The Firm''s consumer business segment is CCB, and the Firm''s wholesale business segments are CIB and AWM. Refer to Business Segment & Corporate Results on pages 62–82 and Note 32 for a description of the Firm’s reportable business segments and the products and services that they provide to their respective client bases, as well as a description of Corporate activities.', '[-0.024873,-0.019613,0.013623,0.010986,-0.002093,-0.014071,0.017419,0.000581,0.003753,-0.045642,0.019232,0.047782,-0.023802,-0.053579,-0.020117,-0.018057,-0.023352,-0.082351,-0.007506,0.040936,0.059372,-0.054260,0.038789,-0.005510,0.057709,-0.004859,-0.049317,-0.010825,-0.078779,-0.152156,-0.005468,-0.080662,0.062421,-0.032857,0.037528,0.011093,-0.039439,0.024477,-0.022945,-0.012191,-0.009696,-0.023204,0.053121,-0.020799,-0.011693,-0.009096,-0.017255,-0.018224,-0.038880,-0.025273,0.004674,-0.076926,0.035769,0.068527,0.006773,0.048269,0.000904,0.049770,-0.000245,0.044939,0.035351,0.000247,-0.206362,0.019166,-0.011212,0.015232,0.020802,0.042481,0.002220,0.024746,0.018172,-0.027880,-0.037863,-0.000829,-0.031020,-0.023329,0.090922,-0.026026,-0.045962,0.075370,-0.046092,0.004935,-0.023789,-0.043171,-0.050117,0.022160,0.004680,0.009113,0.051623,0.034419,-0.004060,0.030122,0.016208,0.031464,-0.015646,0.019031,0.004329,0.013807,0.004055,0.374942,0.029086,0.079526,0.035349,-0.068674,-0.011503,-0.027940,0.009948,0.017203,0.051303,-0.042134,0.025414,-0.035301,0.096307,-0.002777,-0.006029,-0.059357,0.042657,0.002747,-0.003186,0.003412,0.053536,0.034234,0.006215,-0.010157,-0.086081,-0.001696,0.031698,0.093042,0.006314,0.024624,0.016960,0.020812,-0.115418,-0.008556,0.039147,-0.044418,-0.061085,-0.012609,0.020645,-0.006312,-0.064158,-0.015402,-0.030209,-0.053046,-0.098878,0.121073,-0.003739,-0.037531,-0.006303,-0.014778,-0.013401,0.108894,0.021440,-0.082074,-0.028230,0.018416,-0.040176,0.015951,0.005673,-0.017438,0.004034,-0.036932,-0.053759,0.127254,0.037451,-0.107756,-0.031178,-0.030930,0.047777,-0.020005,0.017717,0.004328,0.028037,-0.059093,0.020492,0.030345,0.010634,-0.025565,-0.019453,-0.017654,0.035892,-0.014579,-0.047600,-0.028433,0.000407,0.004992,-0.068245,0.027069,0.005163,0.012671,-0.059110,0.023588,-0.068273,0.085478,-0.027245,-0.022868,-0.001402,0.045946,-0.008413,-0.067459,0.009641,0.009372,-0.010357,-0.029021,0.016041,-0.004097,0.038007,0.009985,0.050597,0.002845,-0.053874,-0.010454,0.002534,0.046758,0.017031,0.039002,-0.007037,0.034099,-0.042275,-0.080977,0.007000,0.036882,0.056677,-0.331829,-0.009087,-0.028929,0.016454,-0.037788,-0.039282,-0.016668,-0.027436,-0.022345,0.067015,-0.007377,0.019649,-0.062702,-0.009196,0.029774,0.014461,-0.008156,0.014716,-0.060211,0.001996,-0.015143,-0.001751,-0.019085,0.016462,0.077402,0.051598,0.049848,-0.038948,-0.062260,0.025988,0.046543,0.025202,-0.059596,-0.042834,0.064083,-0.033311,0.019245,0.031796,-0.044031,-0.048396,-0.056885,0.023834,-0.006580,-0.002717,0.009721,0.039946,0.008150,0.035488,-0.011955,0.013238,-0.006828,-0.001090,0.064852,0.032579,0.062390,-0.067631,0.039901,-0.005729,-0.016527,-0.007583,0.034143,0.029256,-0.014039,0.022090,-0.025933,-0.028577,0.020189,0.050971,0.012074,-0.043786,-0.038081,0.043491,-0.001997,-0.062369,0.070611,0.012337,-0.054943,-0.043111,-0.047222,0.005625,0.072281,0.011553,0.072761,0.053644,-0.042751,0.012649,0.051160,0.010114,0.016505,-0.067652,-0.026805,-0.021234,-0.008810,-0.005147,0.019288,-0.002292,-0.274770,0.004737,0.026966,0.019230,0.003803,0.022171,0.056047,0.006561,-0.039041,0.037063,0.025243,0.037108,0.076092,-0.059327,-0.000830,-0.030348,0.057154,0.006089,0.060266,0.056366,0.029418,0.025067,0.154681,0.012256,-0.002451,0.004053,0.013687,0.038240,0.038307,-0.015151,0.093639,0.058176,0.061820,-0.053456,0.044846,-0.017280,-0.025274,0.084423,0.016211,-0.002868,0.015698,-0.005975,0.001158,-0.019993,0.088211,-0.027355,0.001738,-0.035554,-0.009081,0.004064,0.010528,-0.011078,0.020753,-0.026942,-0.025523,-0.033069,0.028044,-0.018644,0.020965,-0.000348,-0.000180,-0.001555,-0.084958,0.006967,0.002333]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_1', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 1, 'For management reporting purposes, the Firm has three reportable business segments – Consumer & Community Banking (“CCB”), Commercial & Investment Bank (“CIB”) and Asset & Wealth Management (“AWM”) – with the remaining activities in Corporate. The Firm''s consumer business segment is CCB, and the Firm''s wholesale business segments are CIB and AWM. Refer to Business Segment & Corporate Results on pages 62–82 and Note 32 for a description of the Firm’s reportable business segments and the products and services that they provide to their respective client bases, as well as a description of Corporate activities.
+
+The Firm’s website is www.jpmorganchase.com. JPMorganChase makes available on its website, free of charge, annual reports on Form 10-K, quarterly reports on Form 10-Q and current reports on Form 8-K pursuant to Section 13(a) or Section 15(d) of the Securities Exchange Act of 1934, as soon as reasonably practicable after it electronically files or furnishes such material to the U.S. Securities and Exchange Commission (the “SEC”) at www.sec.gov. JPMorganChase makes new and important information about the Firm available on its website at https://www.jpmorganchase.com, including on the Investor Relations section of its website at https://www.jpmorganchase.com/ir. Information on the Firm''s website, including documents on the website that are referenced in this Form 10-K, is not incorporated by reference into this 2025 Form 10-K or the Firm’s other filings with the SEC.
+
+| 46 | JPMorgan Chase & Co./2025 Form 10-K |
+
+46
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| EXECUTIVE OVERVIEW |
+
+This executive overview of the MD&A highlights selected information and does not contain all of the information that is important to readers of the Firm’s 2025 Form 10-K. For a complete description of the trends and uncertainties, as well as the risks and critical accounting estimates affecting the Firm, the 2025 Form 10-K should be read in its entirety.
+
+| Financial performance of JPMorganChase |
+| Year ended December 31, (in millions, except per share data and ratios) |
+| 2025 | 2024 | Change |
+| Selected income statement data |
+| Noninterest revenue | $ | 87,004 | $ | 84,973 | 2% |
+| Net interest income | 95,443 | 92,583 | 3 |
+| Total net revenue | 182,447 | 177,556 | 3 |
+| Total noninterest expense | 95,640 | 91,797 | 4 |
+| Pre-provision profit | 86,807 | 85,759 | 1 |
+| Provision for credit losses | 14,212 | 10,678 | 33 |
+| Net income | 57,048 | 58,471 | (2) |
+| Diluted earnings per share | 20.02 | 19.75 | 1 |
+| Selected ratios and metrics |
+| Return on common equity | 17 | % | 18 | % |
+| Return on tangible common equity | 20 | 22 |
+| Book value per share | $ | 126.99 | $ | 116.07 | 9 |
+| Tangible book value per share | 107.56 | 97.3 | 11 |
+| Capital ratios - Standardized (a)(b) |
+| CET1 capital | 14.6 | % | 15.7 | % |
+| Tier 1 capital | 15.5 | 16.8 |
+| Total capital | 17.4 | 18.5 |
+| Memo: |
+| NII excluding Markets (c) | $ | 92,591 | $ | 92,419 | — |
+| NIR excluding Markets (c) | 57,208 | 58,167 | (2) |
+| Markets (d) | 35,782 | 30,007 | 19 |
+| Total net revenue - managed basis | $ | 185,581 | $ | 180,593 | 3% |
+
+Return on tangible common equity
+
+Capital ratios - Standardized (a)(b)
+
+Total capital
+
+NII excluding Markets (c)', '[0.001847,-0.066755,-0.011054,0.054571,0.011514,-0.009190,0.013156,0.007007,-0.003655,-0.027802,-0.004030,0.019517,-0.018057,-0.012983,0.021261,-0.012005,0.037867,-0.075553,0.037648,0.051408,0.059970,-0.077924,0.066176,0.015081,0.040960,0.024853,-0.022968,0.025525,-0.088178,-0.126203,-0.024005,-0.054499,0.068444,-0.017968,0.078572,-0.009400,-0.029837,0.053061,-0.028512,-0.019685,-0.015354,0.011969,0.066843,0.025103,-0.043963,0.011664,0.020360,0.020703,-0.007709,-0.026768,0.039787,-0.075978,0.010438,0.036924,-0.021994,0.054360,0.006809,0.059208,0.028936,0.013273,0.055978,0.029050,-0.172729,-0.005805,-0.028152,0.077365,-0.029496,0.020944,-0.000841,0.003912,0.003437,-0.063346,-0.063083,0.023030,-0.024214,-0.055568,0.073295,0.014129,-0.077349,0.038059,-0.081726,0.017634,-0.019247,-0.065344,-0.019465,0.030572,0.008110,0.009790,0.052406,0.023891,0.015760,-0.002399,-0.020046,0.008909,-0.048962,-0.035237,0.035942,0.003568,-0.001146,0.362727,0.011369,0.016911,0.058900,-0.069374,-0.014483,-0.032271,0.001234,0.067351,0.076645,0.001468,-0.016673,-0.006689,0.092167,0.021211,-0.000585,0.024394,0.003764,0.043609,0.019968,-0.000989,0.037957,0.004846,0.016041,-0.017986,-0.091783,-0.035851,0.032412,0.028691,0.055003,0.043301,-0.025015,0.039158,-0.110222,-0.004006,-0.043411,-0.049620,-0.041159,-0.011049,0.042564,0.007160,-0.046143,-0.021482,-0.031002,-0.078106,-0.080604,0.130239,-0.028963,0.010314,-0.038511,-0.007228,-0.006160,0.126211,0.035226,-0.113746,0.007376,0.024298,-0.029838,0.038040,-0.026627,-0.007157,-0.023857,0.000611,-0.018290,0.158929,0.038056,-0.103440,-0.054219,0.051164,0.038583,-0.026430,0.000362,0.036560,-0.010393,-0.026862,0.029848,-0.019544,-0.050397,0.006264,0.012174,0.021357,0.032428,-0.013601,-0.040139,-0.052249,-0.026190,-0.003142,-0.080532,0.026295,0.020455,0.027105,-0.070089,0.045225,-0.039794,0.072661,-0.034318,-0.031219,-0.004115,0.002672,-0.020490,-0.047888,0.009984,0.034146,-0.025537,-0.007379,0.041190,-0.007104,0.017922,0.021824,0.047604,-0.051533,-0.011396,0.030777,-0.041115,0.010845,0.010037,0.020462,0.029092,0.040857,-0.044610,-0.004085,0.000742,0.038556,-0.008008,-0.318273,-0.039419,-0.019869,0.030135,-0.023593,-0.002714,-0.018879,-0.004090,0.003453,0.040038,0.021547,-0.007736,-0.110928,-0.043483,0.002452,-0.018912,-0.017616,-0.012176,-0.076379,-0.010810,-0.030708,-0.019909,-0.023873,0.044744,0.105665,0.003873,0.047593,-0.075482,-0.032759,0.007690,0.021203,0.028995,-0.019821,-0.080521,0.026453,-0.027908,0.011295,-0.020790,-0.049842,-0.001792,-0.045529,0.042868,0.026936,-0.038691,0.032853,0.011068,0.022301,0.054891,-0.004810,0.018892,-0.015294,0.006148,0.009486,0.036132,0.065443,-0.049600,0.027748,0.010377,-0.050007,0.005977,0.050043,-0.026384,0.032383,0.033249,0.027910,-0.010899,-0.017872,0.072577,0.002814,-0.014909,-0.038427,0.015062,0.006815,-0.045211,0.030078,-0.002071,-0.002743,-0.028561,-0.033255,0.038403,0.066325,-0.012694,0.064137,0.008861,-0.046790,0.014849,0.017588,-0.035718,0.015163,-0.053321,-0.005038,-0.014405,-0.041824,0.006468,0.042132,-0.049162,-0.247097,-0.021530,-0.025701,-0.019046,0.033028,0.007760,0.031232,0.009386,-0.008283,0.103088,0.045518,-0.020827,0.026002,-0.086470,0.022059,0.019395,0.069851,-0.008180,0.059899,0.048536,0.028101,-0.010467,0.168985,0.042159,-0.041523,-0.030586,0.000270,0.034486,-0.001016,0.022349,0.106777,0.021085,0.099857,-0.019297,0.008473,-0.016432,0.021212,0.028488,0.013037,-0.018419,0.007730,-0.007802,-0.062150,-0.056075,0.064173,0.016909,-0.048062,-0.058801,-0.005209,0.017594,-0.012191,-0.031362,0.005581,0.011105,0.027927,-0.035108,0.025032,-0.049738,-0.000880,0.021709,0.002036,-0.006487,-0.065725,0.074791,0.012397]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_2', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 2, 'Return on tangible common equity
+
+Capital ratios - Standardized (a)(b)
+
+Total capital
+
+NII excluding Markets (c)
+
+NIR excluding Markets (c)
+
+Markets (d)
+
+(a)    As of January 1, 2025, the benefit from the CECL capital transition provision had been fully phased out. For the year ended December 31, 2024, the ratios reflected the CECL capital transition provisions. Refer to Note 27 for additional information.
+
+(b)    As of December 31, 2025, the Advanced risk-based ratios became more binding on the Firm than the Standardized risk-based ratios. Refer to Capital Risk Management on pages 89–99 for additional information.
+
+(c)    NII and NIR refer to net interest income and noninterest revenue, respectively.
+
+(d)    Markets consists of CIB''s Fixed Income Markets and Equity Markets businesses.The Firm assesses the performance of its Markets business on a total net revenue basis, as revenues in NII generally have offsets across other revenue lines, primarily Principal transactions revenue.
+
+Apple Card transaction: On January 7, 2026, JPMorganChase announced that Chase will become the new issuer of Apple Card. The Firm entered into a forward purchase commitment on December 30, 2025 to acquire the Apple credit card portfolio, with an expected closing in approximately 24 months (the “Apple Card transaction”).
+
+Refer to CCB segment results on pages 65–68, Capital Risk Management on pages 89–99 and Notes 4, 13, 27 and 28 for additional information.
+
+Comparisons noted in the sections below are for the full year of 2025 versus the full year of 2024, unless otherwise specified.
+
+Firmwide overview
+
+JPMorganChase reported net income of $57.0 billion for 2025, down 2%, earnings per share of $20.02, ROE of 17% and ROTCE of 20%.
+
+• Total net revenue was $182.4 billion, up 3%, reflecting:
+
+– Net interest income (“NII”) of $95.4 billion, up 3%, driven by higher Markets net interest income, higher revolving balances in Card Services, higher wholesale deposit balances, and the impact of investment securities activity. These factors were largely offset by deposit margin compression and the impact of lower rates. NII excluding Markets was $92.6 billion, flat when compared with the prior year.
+
+– Noninterest revenue (“NIR”) was $87.0 billion, up 2%, reflecting higher Markets noninterest revenue, higher asset management fees in AWM and CCB, higher auto operating lease income, lower net investment securities losses in Treasury and CIO, higher Payments fees, higher investment banking fees, and a $588 million First Republic-related gain recorded in the first quarter of 2025. These increases were predominantly offset by the absence of the $7.9 billion net gain related to Visa shares recorded in the second quarter of 2024, as well as lower card income in the current year.
+
+• Noninterest expense was $95.6 billion, up 4%, driven by higher compensation expense, including higher revenue-related compensation and growth in the number of employees. The increase in expense was also driven by higher brokerage expense and distribution fees, higher auto lease depreciation, and continued investments in technology and marketing, as well as higher occupancy expense. These factors were partially offset by FDIC special assessment accrual releases of $763 million compared with an increase of $725 million in the prior year, as well as the absence of a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation recorded in the second quarter of 2024.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 47 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+47', '[-0.037046,-0.023498,-0.072712,-0.003264,0.006144,-0.005023,0.039039,-0.010142,0.053917,0.017632,0.017376,-0.026155,0.019107,-0.012625,-0.017217,-0.007974,0.006580,-0.078888,-0.026485,0.049984,-0.003434,-0.084219,0.074576,0.023964,0.052536,0.035579,-0.063792,-0.056613,-0.030886,-0.182037,-0.017366,0.023388,0.068064,-0.003536,0.009907,0.011961,-0.043718,0.058246,0.019884,-0.019517,-0.024415,-0.015917,-0.027798,0.040456,0.065369,-0.035805,-0.057980,0.010932,-0.002329,0.027430,0.049661,-0.102777,0.010799,0.064541,-0.044147,0.055387,0.032164,0.057088,0.061550,0.089127,0.044588,-0.001144,-0.196451,-0.017222,0.004903,0.006777,-0.003945,0.014943,-0.035338,0.026287,0.017157,0.013221,-0.015369,-0.000040,-0.035212,-0.007441,0.079048,-0.016809,-0.038179,0.014342,-0.025512,0.020770,-0.035111,-0.023479,-0.029968,0.023097,-0.005075,-0.020530,0.054019,-0.028020,-0.019631,-0.029525,0.018090,-0.029824,-0.034967,-0.031726,0.049534,-0.015367,0.031289,0.373078,0.070746,0.016686,-0.014104,-0.017267,-0.011433,-0.061592,0.040213,0.040715,0.088692,0.003670,0.023000,-0.003852,0.050426,-0.068716,0.010688,0.013145,0.014758,0.012261,0.080221,0.041576,0.006447,0.090202,-0.017092,-0.013841,-0.081444,0.002462,0.019312,0.047848,0.022912,-0.002546,0.018125,0.006409,-0.087940,0.015122,0.020961,0.050860,0.009254,-0.016181,0.015589,-0.000656,-0.032855,0.003279,0.032699,-0.026631,-0.067654,0.089654,0.014639,-0.003527,-0.029705,-0.023855,-0.031326,0.046111,-0.013324,-0.085437,-0.016554,0.036881,-0.014619,-0.004873,-0.034527,-0.009957,-0.064436,-0.086143,-0.043229,0.132048,0.020960,-0.095090,-0.049828,0.027695,-0.065591,-0.015166,-0.031766,0.007898,-0.012255,0.001486,0.063842,-0.033788,-0.057910,-0.034249,0.005028,0.013902,-0.024684,-0.035023,-0.027270,0.010168,0.017349,0.055457,-0.103182,-0.024580,0.014098,0.000250,-0.048444,0.028539,-0.123024,0.114120,-0.033554,0.011626,-0.014827,0.008420,0.004432,-0.005816,0.006623,0.006331,0.010920,-0.004582,-0.013782,-0.021468,-0.003504,-0.037221,0.004285,0.064393,0.014349,0.027979,0.007350,0.025148,-0.001023,-0.024052,0.045193,0.034233,-0.008433,0.012737,0.044222,0.039053,0.002773,-0.298143,0.022734,-0.016635,0.023186,0.000678,-0.043452,-0.013336,-0.028146,-0.013561,0.054296,0.005407,0.042357,-0.073188,0.007548,0.042397,-0.009635,-0.002574,-0.007317,-0.040962,0.053537,-0.005904,-0.005979,-0.080345,-0.002903,0.072005,-0.019758,0.047822,-0.083252,-0.004788,0.032206,0.038798,0.041508,-0.040521,-0.019873,0.034075,-0.023330,0.035347,0.002741,-0.078732,-0.029064,-0.026818,0.024675,-0.001362,-0.014311,0.007285,-0.010091,-0.002605,0.045098,0.010530,-0.000426,-0.001255,-0.036773,0.015577,0.049621,0.087386,-0.037911,-0.021400,0.004925,0.035275,-0.029815,-0.018566,-0.016669,0.038522,0.025082,-0.025439,-0.061385,0.064280,0.021907,-0.068613,0.006617,-0.014563,0.042763,0.008023,-0.056823,0.048044,0.045713,-0.014006,0.014665,0.005249,0.015497,0.049184,-0.009611,0.083782,0.057353,-0.015243,0.014882,0.119558,-0.036573,-0.001100,-0.049069,-0.010412,0.034724,-0.031000,0.004616,0.055670,0.024686,-0.275857,-0.019862,-0.010379,-0.006711,0.033652,-0.001186,0.030584,0.002725,-0.051911,0.064677,0.023409,-0.021383,0.061690,-0.050222,-0.003957,-0.025377,0.058743,-0.046133,0.019331,0.056657,0.045564,-0.019445,0.164981,-0.006639,-0.055126,-0.037304,-0.043203,0.001681,0.077642,0.080830,0.049151,0.011520,0.035812,-0.002083,-0.001578,0.007948,-0.043941,-0.001022,-0.029559,-0.008515,0.009934,-0.000260,-0.017002,0.002114,0.047072,-0.018887,-0.072121,-0.051639,0.032284,-0.014337,-0.017509,-0.030285,0.029678,0.001271,0.015453,-0.026530,-0.054145,-0.018046,-0.033522,0.017467,0.005171,0.012852,-0.066018,0.049675,0.068843]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_3', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 3, 'JPMorgan Chase & Co./2025 Form 10-K
+
+47
+
+• The provision for credit losses was $14.2 billion. Net charge-offs were $9.8 billion, up $1.2 billion, predominantly driven by Wholesale and Card Services. The net addition to the allowance for credit losses was $4.4 billion and consisted of $3.3 billion in consumer , which included $2.2 billion related to the Apple Card transaction, and $1.1 billion in wholesale .
+
+In the prior year, the provision was $10.7 billion, net charge-offs were $8.6 billion and the net addition to the allowance for credit losses was $2.0 billion.
+
+• The total allowance for credit losses was $31.2 billion at December 31, 2025. The Firm had an allowance for loan losses to retained loans coverage ratio of 1.83%, compared with 1.87% in the prior year.
+
+Refer to Consolidated Results of Operations and Consolidated Balance Sheets Analysis on pages 51–54 and pages 55–57, respectively, for a further discussion of the Firm''s results, including the provision for credit losses.
+
+Pre-provision profit, ROTCE, TCE, TBVPS, NII and NIR excluding Markets, and total net revenue on a managed basis, are non-GAAP financial measures. Refer to Explanation and Reconciliation of the Firm’s Use of Non-GAAP Financial Measures on pages 59–61 for a further discussion of each of these measures.
+
+• The Firm’s nonperforming assets totaled $10.4 billion at December 31, 2025, up 11%, driven by:
+
+– higher consumer nonaccrual loans, predominantly due to the impact of the wildfires in California in January 2025, as well as higher loans at fair value in CIB, and
+
+– higher wholesale nonaccrual loans, reflecting downgrades to exposures in certain industries, predominantly offset by net portfolio activity and upgrades.
+
+Refer to Wholesale Credit Portfolio and Consumer Credit Portfolio on pages 118–128 and pages 112–117, respectively, for additional information.
+
+• Firmwide average loans of $1.4 trillion were up 6%, predominantly driven by higher loans in CIB and AWM.
+
+• Firmwide average deposits of $2.5 trillion were up 5%, reflecting:
+
+– net inflows related to client-driven activities in Payments and Securities Services, and
+
+– growth in both new accounts and balances in existing accounts in AWM,
+
+partially offset by
+
+– a decrease in CCB primarily driven by increased customer spending.
+
+Refer to Liquidity Risk Management on pages 100–107 for additional information.
+
+Selected capital and other metrics
+
+• CET1 capital was $288.5 billion, and the Standardized and Advanced CET1 ratios were 14.6% and 14.1%, respectively.
+
+• SLR was 5.8%.
+
+• TBVPS grew 10.5%, ending 2025 at $107.56.
+
+• As of December 31, 2025, the Firm had eligible end-of-period High Quality Liquid Assets (“HQLA”) of approximately $915 billion and unencumbered marketable securities with a fair value of approximately $548 billion, resulting in approximately $1.5 trillion of liquidity sources.
+
+Refer to Capital Risk Management and Liquidity Risk Management on pages 89–99 and pages 100–107, respectively, for additional information.
+
+| 48 | JPMorgan Chase & Co./2025 Form 10-K |
+
+48
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Business segment highlights
+
+Selected business metrics for each of the Firm’s lines of business (“LOB”) are presented below for the full year of 2025.', '[-0.052207,-0.059337,-0.047562,0.023078,0.004821,0.007454,-0.014030,0.034065,0.033411,-0.019479,0.037316,-0.012806,0.039648,-0.025673,-0.051654,0.015738,0.026004,-0.113903,-0.022747,0.054692,0.068922,-0.082505,0.087743,-0.001292,0.048681,-0.000917,-0.016065,-0.007183,-0.036858,-0.162755,0.025512,-0.020990,0.041432,-0.006743,0.007379,0.018652,-0.066515,0.033744,-0.000727,-0.006984,-0.016796,-0.019725,0.006122,-0.033263,0.023131,-0.017310,0.003557,-0.030098,0.029639,0.002739,0.011846,-0.102244,0.018233,0.084517,-0.018669,0.021392,-0.030425,0.043452,0.011617,0.009235,-0.005307,-0.027884,-0.190120,-0.045513,0.024095,0.045132,0.010585,0.031841,0.012229,0.028016,0.011154,-0.012962,-0.007237,-0.016552,-0.022533,0.020307,0.105390,-0.013753,-0.060435,0.034073,0.012016,-0.038093,-0.030167,-0.029229,-0.001011,-0.031147,-0.005571,-0.043315,0.016647,0.007028,0.010701,-0.001989,-0.030621,-0.053371,-0.085538,-0.019284,-0.012567,0.008156,-0.005570,0.416831,0.046114,0.042328,0.023489,-0.041698,0.022300,-0.044112,0.031082,0.048127,0.066552,-0.061388,0.028118,-0.013306,0.056449,-0.025064,0.008337,0.026566,0.050252,0.051986,0.002716,0.006807,0.024072,0.070522,0.028698,-0.003472,-0.074813,-0.000243,0.031277,0.083087,0.024852,0.010154,-0.000879,-0.009176,-0.069946,0.006625,0.021357,-0.034244,-0.003353,-0.007975,0.052590,-0.003478,0.001023,0.007902,-0.007552,-0.059448,-0.038734,0.082811,0.035451,0.007555,-0.010573,-0.013183,-0.003252,0.120781,0.039376,-0.114144,-0.016692,0.054700,-0.025676,0.035798,-0.022949,-0.008543,-0.000960,-0.011870,-0.035767,0.098222,0.050447,-0.087838,-0.021632,0.019942,0.052517,-0.008426,-0.009404,-0.010349,-0.004181,-0.056599,0.049998,-0.013403,-0.038670,-0.005889,0.009907,-0.032077,0.003181,0.023368,-0.070975,-0.020035,-0.003165,0.013490,-0.079620,0.016010,-0.021582,-0.009927,-0.050818,0.026658,-0.143338,0.076371,0.001761,0.003521,0.015270,0.037354,-0.026941,-0.023755,0.042925,0.015169,0.031612,-0.013502,-0.008803,-0.020982,-0.011134,0.048995,0.002849,0.015616,-0.007024,0.005344,0.021376,0.078104,0.003903,0.054899,0.042488,0.030520,0.003141,-0.011887,-0.011652,-0.007470,0.070569,-0.306712,-0.015341,0.005301,-0.025746,-0.016378,-0.045632,0.011567,-0.003660,-0.024959,0.040494,-0.038537,-0.009867,-0.027964,0.054376,0.046935,-0.006511,-0.005507,-0.008289,-0.047948,0.003128,-0.023639,0.031981,-0.007606,0.030178,0.062665,0.004183,0.074843,-0.033442,-0.068020,0.006349,0.022112,0.070299,-0.054410,-0.026397,0.021187,0.008441,-0.025863,-0.010956,-0.019629,-0.012686,-0.028902,0.004205,0.014448,-0.068133,0.017484,0.029708,-0.025156,0.036064,-0.009239,0.021210,-0.009983,-0.025344,0.037435,0.004268,0.092966,-0.046689,-0.024160,0.018489,-0.053819,-0.035150,0.033137,-0.055583,0.026759,-0.033395,0.019956,-0.044557,0.027408,0.055531,-0.028015,-0.027845,-0.043374,0.009266,-0.003149,-0.046439,0.017478,-0.004754,0.011414,-0.017668,-0.059744,-0.057135,0.065514,-0.015631,0.062017,0.021941,-0.014312,0.048782,0.062550,0.007557,0.025787,0.005562,-0.050128,-0.016704,-0.000378,0.030655,0.051467,0.016511,-0.283658,-0.028779,-0.032497,-0.048871,0.002918,-0.000461,0.054388,0.022031,0.017109,0.051287,-0.045299,0.011191,0.083664,-0.094881,0.026945,-0.032332,-0.003368,-0.028108,0.074778,0.049941,0.069642,0.027838,0.128900,-0.041316,-0.048835,-0.014263,-0.042663,0.001140,0.075516,0.062826,0.053916,0.052707,0.079561,-0.033387,0.032521,-0.029084,-0.030608,0.037194,-0.019354,0.000996,-0.027930,0.000823,-0.015222,0.004130,0.053845,-0.032605,-0.014318,-0.033990,0.009468,0.038932,-0.005427,-0.008343,0.064074,-0.012846,-0.020205,-0.033444,-0.014721,-0.012460,-0.008762,0.022838,-0.028030,-0.007741,-0.068615,-0.010781,0.039153]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_4', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 4, '48
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Business segment highlights
+
+Selected business metrics for each of the Firm’s lines of business (“LOB”) are presented below for the full year of 2025.
+
+| CCB ROE 32% | • Average deposits down 1%; client investment assets up 17% • Average loans up 1%; Card Services net charge-off rate of 3.31% • Debit and credit card sales volume (a) up 7% • Active mobile customers (b) up 7% |
+| CIB ROE 18% | • Investment Banking fees up 7%;  #1 ranking for Global Investment Banking fees with 8.4% wallet share for the year • Markets revenue up 19%, with Fixed Income Markets up 12% and Equity Markets up 33% • Average Banking & Payments loans (c) flat; average client deposits (d) up 14% |
+| AWM ROE 40% | • Assets under management ("AUM") of $4.8 trillion, up 18% • Average loans up 8%; average deposits up 4% |
+
+CCB
+
+ROE 32%
+
+• Average deposits down 1%; client investment assets up 17%
+
+• Average loans up 1%; Card Services net charge-off rate of 3.31%
+
+• Debit and credit card sales volume (a) up 7%
+
+• Active mobile customers (b) up 7%
+
+CIB
+
+ROE 18%
+
+• Investment Banking fees up 7%;  #1 ranking for Global Investment Banking fees with 8.4% wallet share for the year
+
+• Markets revenue up 19%, with Fixed Income Markets up 12% and Equity Markets up 33%
+
+• Average Banking & Payments loans (c) flat; average client deposits (d) up 14%
+
+AWM
+
+ROE 40%
+
+• Assets under management ("AUM") of $4.8 trillion, up 18%
+
+• Average loans up 8%; average deposits up 4%
+
+(a) Excludes Commercial Card.
+
+(b) Users of all mobile platforms who have logged in within the past 90 days.
+
+(c) On January 1, 2025, $5.6 billion of loans were realigned from Global Corporate Banking to Fixed Income Markets.
+
+(d) Represents client deposits and other third-party liabilities pertaining to the Payments and Securities Services businesses.
+
+Refer to the Business Segment & Corporate Results on pages 62–82 for a detailed discussion of results by business segment.
+
+Credit provided and capital raised
+
+JPMorganChase continues to support consumers, businesses and communities around the globe. The Firm provided new and renewed credit and raised capital for wholesale and consumer clients during 2025, consisting of approximately:
+
+| $3.3 trillion | Total credit provided and capital raised (including loans and commitments) |
+| $280 billion | Credit for consumers |
+| $33 billion | Credit for U.S. small businesses |
+| $2.9 trillion | Credit and capital for corporations and non-U.S. government entities (a) |
+| $76 billion | Credit and capital for nonprofit and U.S. government entities (b) |
+
+$3.3 trillion
+
+Total credit provided and capital raised (including loans and commitments)
+
+$280
+
+billion
+
+Credit for consumers
+
+$33
+
+billion
+
+Credit for U.S. small businesses
+
+$2.9 trillion
+
+Credit and capital for corporations and non-U.S. government entities (a)
+
+$76
+
+billion
+
+Credit and capital for nonprofit and U.S. government entities (b)
+
+(a) Includes Individuals and Individual Entities primarily consisting of Global Private Bank clients within AWM.
+
+(b) Includes states, municipalities, hospitals and universities.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 49 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+49
+
+Recent events
+
+• On December 8, 2025, JPMorganChase announced that Todd A. Combs had resigned from the Firm’s Board of Directors and would join the Firm as the head of the Strategic Investment Group within the Firm’s Security and Resiliency Initiative.
+
+Outlook', '[-0.048675,-0.089361,-0.004836,-0.000006,0.018050,-0.034063,-0.004358,0.028128,0.034219,-0.021126,0.008376,0.018954,-0.028450,0.021458,-0.027177,-0.023389,0.054539,-0.104091,-0.016996,0.062953,0.034660,-0.047312,0.082118,-0.027189,0.080667,0.005440,0.002753,-0.005643,-0.080834,-0.145921,-0.044659,-0.018851,0.057002,0.012328,0.034823,0.021924,-0.069340,0.036752,-0.005048,0.002847,-0.034422,-0.007963,0.025325,-0.021930,0.000323,-0.010805,-0.017327,0.012373,-0.007799,-0.006734,0.005313,-0.060844,-0.021132,0.058528,-0.059577,0.015388,-0.007902,0.041003,0.039350,0.049349,0.031351,-0.001388,-0.188659,-0.006745,0.027244,0.028584,-0.019401,0.003863,-0.026310,-0.013049,0.022492,-0.030950,-0.005916,-0.007748,0.019776,-0.051214,0.066684,-0.020569,-0.045987,0.033130,-0.047500,-0.001733,-0.045631,-0.064950,-0.004015,0.028983,-0.018783,-0.018662,0.067602,0.006596,-0.000429,0.012600,-0.025669,0.005306,-0.025352,-0.038754,-0.015782,-0.017135,0.022001,0.385736,0.004239,0.063868,0.051855,-0.049990,0.027815,-0.034545,0.017530,0.049137,0.083923,0.013163,0.032923,-0.030500,0.088996,-0.023005,-0.019835,0.008518,0.005891,0.012525,0.006055,0.023674,0.024272,0.023762,0.007522,-0.041017,-0.088655,-0.003982,0.050320,0.056924,0.012978,0.043626,-0.018825,0.035598,-0.114226,-0.008216,-0.023100,-0.023952,-0.011477,0.042946,0.018633,0.025816,-0.031968,-0.012355,0.002899,-0.082488,-0.083188,0.129455,-0.008258,0.031172,-0.022399,-0.052926,-0.014674,0.080787,0.033603,-0.052752,0.011848,0.064793,-0.022326,0.053399,-0.017553,-0.019018,-0.005459,-0.001428,-0.043957,0.084921,0.067703,-0.114136,-0.062047,0.004145,0.009676,-0.003658,-0.015669,0.002248,-0.007349,-0.001812,0.071190,-0.003222,0.005686,0.006875,0.022241,-0.027702,0.022430,0.015168,-0.051889,0.008805,-0.022073,0.013242,-0.088754,0.010913,0.004578,0.026795,-0.046295,0.025394,-0.074535,0.046871,-0.018718,-0.001272,-0.033625,0.000007,-0.016161,-0.091609,0.032062,0.025707,0.010854,-0.011688,0.042267,0.008899,-0.010931,0.050915,0.045919,-0.008632,-0.019299,-0.022903,0.012171,0.047213,0.004538,0.013638,0.035137,0.015745,-0.005124,-0.001736,0.023500,0.015187,0.026307,-0.309074,-0.008745,-0.012886,0.007861,-0.026108,0.008276,0.010541,-0.007657,0.026917,0.053965,-0.000547,-0.000804,-0.046390,-0.024051,0.025485,0.015222,-0.052768,-0.000745,-0.033130,0.013930,-0.013966,0.005007,-0.036357,0.066258,0.090671,-0.000892,0.072241,-0.071147,-0.065255,0.014067,0.035263,0.008746,-0.005653,-0.032659,0.057676,-0.022348,0.026937,-0.002220,-0.036746,-0.006057,-0.094862,0.047772,-0.013597,-0.064222,0.016954,0.031725,0.023058,0.030866,-0.007608,-0.029731,-0.019871,-0.005778,0.045034,0.024089,0.036524,-0.056571,-0.006111,0.024558,-0.067699,0.004163,0.056200,-0.031834,0.002375,0.033934,0.013253,-0.064287,0.005258,0.085127,-0.048865,0.030735,-0.056059,-0.000326,0.027107,-0.066793,0.065216,-0.011415,0.005786,0.037201,-0.064832,-0.014980,0.062277,-0.033909,0.037993,0.020527,-0.022231,0.053476,0.061655,-0.015276,-0.009948,-0.042232,-0.023309,-0.040825,-0.054757,0.017897,0.017468,-0.018046,-0.284222,-0.003016,-0.049253,-0.033567,0.021329,0.033802,0.087642,-0.005895,0.005705,0.089493,0.014942,-0.005068,0.079320,-0.114231,0.006260,-0.025990,0.018912,-0.042969,0.054865,0.054087,0.004570,0.015137,0.158347,0.017401,-0.027124,-0.031787,-0.053569,-0.008505,0.060236,0.046014,0.064773,0.048498,0.096640,-0.037837,-0.001907,0.045418,0.024753,0.000545,-0.004895,-0.012384,0.023673,0.001872,-0.022405,0.005554,0.054023,-0.029527,-0.034542,-0.057272,0.043159,0.028204,-0.000589,-0.023922,0.018958,0.040596,-0.011171,-0.025677,0.008347,-0.011379,-0.031621,0.052177,-0.037562,-0.003097,-0.073215,0.040433,0.040105]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_5', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 5, 'JPMorgan Chase & Co./2025 Form 10-K
+
+49
+
+Recent events
+
+• On December 8, 2025, JPMorganChase announced that Todd A. Combs had resigned from the Firm’s Board of Directors and would join the Firm as the head of the Strategic Investment Group within the Firm’s Security and Resiliency Initiative.
+
+Outlook
+
+The statements set forth below are forward-looking statements within the meaning of the Private Securities Litigation Reform Act of 1995. Such forward-looking statements are based on the beliefs and expectations of JPMorganChase’s management, speak only as of the date on which they were made, and are subject to significant risks and uncertainties. Refer to Forward-Looking Statements on page 160 and Part I, Item 1A: Risk Factors on pages 9–31 of this Form 10-K for a further discussion of certain of those risks and uncertainties and the other factors that could cause JPMorganChase’s actual results to differ materially because of those risks and uncertainties. There is no assurance that actual results in 2026 will be in line with the outlook information set forth below, and the Firm does not undertake to update any forward-looking statements.
+
+JPMorganChase’s outlook for full-year 2026 should be viewed against the backdrop of the global and U.S. economies, financial markets activity, the geopolitical environment, the competitive environment, client and customer activity levels, and regulatory and legislative developments in the U.S. and other countries where the Firm does business. Each of these factors will affect the performance of the Firm. The Firm will continue to make appropriate adjustments to its businesses and operations in response to ongoing developments in the business, economic, regulatory and legal environments in which it operates.
+
+The Firm provided the following outlook information on January 13, 2026 in connection with announcing its results for the year and quarter ended December 31, 2025:
+
+Full-year 2026
+
+• Management expects net interest income to be approximately $103 billion and net interest income excluding Markets to be approximately $95 billion, market dependent.
+
+• Management expects adjusted expense to be approximately $105 billion, market dependent.
+
+• Management expects the net charge-off rate in Card Services to be approximately 3.4%.
+
+Net interest income excluding Markets and adjusted expense are non-GAAP financial measures. Refer to Explanation and Reconciliation of the Firm’s Use of Non-GAAP Financial Measures on pages 59–61.
+
+| 50 | JPMorgan Chase & Co./2025 Form 10-K |
+
+50
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| CONSOLIDATED RESULTS OF OPERATIONS |
+
+| Revenue |
+| Year ended December 31, (in millions) |
+| 2025 | 2024 | 2023 |
+| Investment banking fees | $ | 9,615 | $ | 8,910 | $ | 6,519 |
+| Principal transactions | 27,212 | 24,787 | 24,460 |
+| Lending- and deposit-related fees | 9,093 | 7,606 | 7,413 |
+| Asset management fees | 20,327 | 17,801 | 15,220 |
+| Commissions and other fees | 8,539 | 7,530 | 6,836 |
+| Investment securities losses | (57) | (1,021) | (3,180) |
+| Mortgage fees and related income | 1,381 | 1,401 | 1,176 |
+| Card income | 4,720 | 5,497 | 4,784 |
+| Other income (a) | 6,174 | 12,462 | (b) (c) | 5,609 | (d) |
+| Noninterest revenue | 87,004 | 84,973 | 68,837 |
+| Net interest income | 95,443 | 92,583 | 89,267 |
+| Total net revenue | $ | 182,447 | $ | 177,556 | $ | 158,104 |
+
+Other income (a)
+
+(b) (c)
+
+(d)', '[-0.041681,-0.027495,0.004885,-0.005058,0.009698,0.007223,-0.005726,0.019226,0.023975,-0.023054,0.026493,0.033666,-0.006985,-0.053738,-0.025959,-0.012653,0.002942,-0.095211,-0.013797,0.035422,0.083501,-0.038142,0.026222,0.006993,0.054312,0.015910,-0.037601,0.028588,-0.068981,-0.135455,0.009031,-0.091189,0.021693,-0.033051,0.036407,-0.011673,-0.033402,0.028538,-0.023826,0.008845,-0.060067,0.016722,0.043215,-0.026169,-0.008854,-0.015323,-0.024993,-0.017975,-0.025685,-0.033977,-0.007419,-0.083694,0.016517,0.032125,-0.000584,0.010947,0.012406,0.014159,0.021335,0.035055,0.002967,0.021379,-0.211812,-0.001629,-0.004110,0.026140,-0.000223,0.026027,0.020747,0.015723,0.009353,0.036389,-0.062340,-0.000733,-0.005577,-0.036423,0.055631,0.007363,-0.020487,0.051620,-0.035467,0.014775,-0.058867,-0.037942,-0.046640,0.009315,-0.026884,0.012645,0.063617,0.009792,-0.012147,0.002790,0.041480,0.021297,-0.040748,0.013811,0.004649,0.042352,-0.003136,0.366231,0.008734,0.082096,0.066591,-0.016545,-0.002274,-0.055173,-0.009033,0.005363,0.036718,-0.005387,0.021971,-0.049422,0.101320,-0.003356,-0.017558,0.019631,0.029573,0.006346,0.013684,0.006805,0.042137,0.050358,0.019434,-0.014514,-0.074199,0.017279,0.007226,0.120999,-0.012606,0.071159,0.015903,0.024657,-0.065949,-0.013050,0.030222,-0.002475,-0.040668,-0.009795,0.007097,0.001729,-0.033513,-0.018965,-0.017131,-0.055503,-0.096072,0.121177,-0.019259,-0.044181,0.006837,-0.002725,-0.029573,0.132923,0.029219,-0.070168,-0.018847,-0.037532,-0.068343,0.009870,-0.010873,-0.021641,0.011549,-0.020255,-0.039871,0.123003,0.023939,-0.079013,-0.032619,0.010172,0.063522,-0.025234,-0.013587,0.023366,0.024496,-0.061105,0.046754,0.050541,-0.018256,-0.016896,-0.013712,-0.020997,0.022283,-0.001771,-0.037088,-0.000679,-0.026701,-0.010698,-0.048270,0.007716,-0.016691,0.023189,-0.094452,0.030514,-0.109297,0.112137,-0.016703,-0.020745,0.000918,0.049987,0.006492,-0.080312,-0.008709,0.008103,0.010912,-0.026045,-0.006676,0.019033,0.055068,0.034704,0.037409,-0.002174,-0.041094,-0.006102,0.037269,0.044464,-0.008196,0.046324,-0.005030,0.022720,-0.018787,-0.050402,0.012226,0.056187,0.042139,-0.334166,0.015530,-0.026856,0.000722,-0.017977,-0.033853,-0.008988,-0.009222,0.026321,0.064908,-0.030732,0.018249,-0.034582,0.013064,0.050164,-0.011434,-0.028851,-0.014731,-0.061609,0.038686,-0.048068,0.017098,-0.030255,-0.021899,0.083091,0.051813,-0.001106,-0.039653,-0.101158,-0.033827,0.049679,0.016074,-0.059289,-0.063224,0.097661,-0.000998,0.060692,0.029434,-0.038490,-0.032305,-0.034103,0.029573,-0.012342,-0.019831,-0.014193,0.049471,-0.008926,0.035050,0.030429,-0.010681,-0.006619,-0.016680,0.075883,0.051133,0.102430,-0.072282,0.034315,-0.001903,-0.046583,-0.040483,0.030121,0.002810,0.002414,0.015443,-0.029982,-0.025309,0.029950,0.024906,0.011013,-0.029711,-0.048597,0.003627,0.010872,-0.007926,0.053688,-0.008668,-0.043613,0.000019,-0.072517,-0.008037,0.092150,0.004966,0.057385,0.032327,-0.029756,-0.009641,0.023087,-0.008111,-0.005164,-0.014077,-0.065284,-0.005160,-0.023586,0.018661,0.053926,-0.013864,-0.278694,0.000085,-0.023142,-0.005124,0.026917,0.041027,0.069996,-0.003165,-0.041698,0.027483,-0.008062,0.014342,0.076725,-0.049278,-0.004227,-0.025053,0.037476,0.005328,0.030151,0.054808,0.027698,0.033117,0.171234,0.055520,0.001745,0.013177,-0.000238,0.000856,0.052103,-0.005915,0.100791,0.013765,0.053247,-0.054678,0.028539,-0.046945,-0.023616,0.057794,0.023385,-0.021669,-0.026115,0.001786,0.024529,-0.011765,0.073438,-0.021749,-0.022836,-0.012213,-0.018825,0.006201,0.007558,0.029449,0.014049,-0.048112,-0.010387,-0.007601,0.036104,-0.021563,0.013549,0.018634,0.020186,-0.011906,-0.073404,-0.022482,-0.031289]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_6', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 6, 'Other income (a)
+
+(b) (c)
+
+(d)
+
+(a) Included operating lease income of $3.8 billion, $2.8 billion and $2.8 billion for the years ended December 31, 2025, 2024 and 2023, respectively. Refer to Note 6 for additional information.
+
+(b) Effective January 1, 2024, as a result of adopting updates to the Accounting for Investments in Tax Credit Structures guidance, the amortization of certain of the Firm’s alternative energy tax-oriented investments that was previously recognized in other income is now recognized in income tax expense. Refer to Notes 1, 6, 14 and 25 for additional information.
+
+(c) Included the net gain related to Visa shares of $7.9 billion recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+(d) Included the estimated bargain purchase gain of $2.8 billion for the year ended December 31, 2023 associated with the First Republic acquisition. Refer to Notes 6 and 34 for additional information.
+
+2025 compared with 2024
+
+Investment banking fees increased, reflecting in CIB :
+
+• higher debt underwriting fees predominantly driven by non-investment grade loans and investment grade bonds,
+
+• higher advisory fees benefiting from higher fees from deals in the Financial Institutions and Technology sectors, partially offset by lower fees from deals in the Media & Telecommunications sector, and
+
+• higher equity underwriting fees primarily driven by higher revenue from IPOs.
+
+Refer to CIB segment results on pages 69–75 and Note 6 for additional information.
+
+Principal transactions revenue increased, reflecting in CIB:
+
+• higher Fixed Income Markets revenue primarily driven by higher revenue in Rates and Commodities, largely offset by lower revenue in Securitized Products, Fixed Income Financing and Currencies & Emerging Markets, and
+
+• higher Equity Markets revenue, particularly in Equity Derivatives.
+
+The increase in CIB was partially offset by lower revenue in Treasury and CIO.
+
+Principal transactions revenue in CIB generally has offsets across other revenue lines, including net interest income. The Firm assesses the performance of its Markets business on a total net revenue basis.
+
+Refer to CIB segment and Corporate results on pages 69–75 and pages 80–82, respectively, and Note 6 for additional information.
+
+Lending- and deposit-related fees increased, reflecting:
+
+• in CIB, a reduction in client credits applied to deposit-related fees, as well as higher cash management fees in Payments as a result of higher volume, and
+
+• in CCB, higher deposit-related fees as a result of higher transaction volume and new accounts.
+
+Refer to CCB and CIB segment results on pages 65–68 and pages 69–75, respectively, and Note 6 for additional information.
+
+Asset management fees increased driven by higher average market levels in AWM and CCB, as well as net inflows in AWM and, to a lesser extent, in CCB. Refer to CCB and AWM segment results on pages 65–68 and pages 76–79, respectively, and Note 6 for additional information.
+
+Commissions and other fees increased in CIB and AWM, predominantly due to higher brokerage commissions on higher volume and, to a lesser extent, higher custody fees as a result of higher client activity and market levels. Refer to CIB and AWM segment results on pages 69–75 and pages 76–79, respectively, and Note 6 for additional information.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 51 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+51
+
+Investment securities losses decreased, reflecting lower losses on sales of securities associated with repositioning the investment securities portfolio in Treasury and CIO. The prior year net loss was primarily related to sales of U.S. GSE and government agency MBS and U.S. Treasuries. Refer to Corporate results on pages 80–82 and Note 10 for additional information.', '[-0.020444,-0.020381,0.001918,-0.003503,0.010645,-0.003461,0.006214,-0.023382,0.036895,0.000788,0.055701,0.014127,-0.013326,-0.037151,-0.050035,-0.000961,-0.023308,-0.093220,-0.021163,0.027052,0.035045,-0.090661,0.062181,-0.001436,0.039364,-0.028370,-0.071070,-0.018138,-0.052526,-0.185373,-0.004427,0.004789,0.038036,-0.037855,0.034123,0.003078,-0.058651,0.034439,0.009832,0.050662,-0.029695,0.011996,-0.021835,0.050232,-0.024664,-0.026800,-0.003629,0.000477,0.014843,0.053395,0.010673,-0.043842,-0.025143,0.078007,-0.064494,-0.011428,-0.014079,0.006116,-0.010754,0.046611,0.034008,0.020053,-0.201460,0.041991,0.031625,0.037068,-0.017275,0.018227,0.016795,0.023394,0.009520,-0.012603,-0.025419,-0.040302,0.033786,-0.021747,0.047208,0.023474,-0.068157,0.006100,-0.004907,0.020623,-0.031306,0.003544,-0.001631,-0.003174,-0.004038,-0.018935,0.059275,-0.001802,0.013002,-0.022091,-0.013665,0.000891,-0.060676,-0.030266,0.062120,-0.000835,0.040313,0.372997,0.080060,0.003472,0.014049,0.020623,0.013538,-0.006962,-0.021302,0.059646,0.039455,0.012281,0.038445,-0.005150,0.042843,-0.023721,-0.037884,0.031562,0.034781,0.038165,0.042655,-0.014632,0.034040,0.027168,0.018254,-0.020522,-0.056900,0.014843,0.054069,0.051166,0.019647,0.045430,-0.001353,-0.007602,-0.040934,0.016908,0.004841,-0.018769,0.009842,-0.035673,-0.001447,0.048108,-0.029412,-0.003876,-0.058652,-0.074462,-0.049959,0.086071,0.015768,0.025080,-0.021090,-0.018219,-0.030744,0.123444,0.055871,-0.065020,0.015511,0.007513,0.028133,-0.034239,-0.020671,-0.009486,-0.023103,0.001449,-0.081470,0.131195,0.071403,-0.089076,-0.068015,0.035138,0.027747,0.014423,-0.032318,0.012851,-0.036309,-0.068090,0.103265,-0.046864,-0.025210,0.009555,-0.040349,0.051771,0.050073,-0.024427,-0.071863,0.026426,0.000206,0.038955,-0.083273,-0.016807,-0.009629,0.018347,-0.068313,0.078154,-0.130014,0.085570,0.005109,0.043149,-0.008072,-0.023450,-0.041466,-0.048389,0.068677,-0.023182,0.022260,-0.006950,0.025086,-0.045802,-0.022239,0.019771,0.025329,-0.036255,0.000773,-0.020340,0.022430,-0.001674,-0.016026,-0.006073,0.008813,0.052645,-0.031690,0.010062,-0.028287,-0.008059,0.053144,-0.317953,-0.035710,-0.030831,-0.023183,-0.015695,-0.031991,0.044789,0.015832,-0.030994,-0.001218,-0.031789,0.006033,-0.037962,0.000370,0.036940,-0.054448,0.058841,0.025650,0.024165,0.021269,-0.072389,0.021510,-0.001037,0.042865,0.115996,0.006899,0.040110,-0.074906,0.017963,0.005741,0.034819,0.057341,-0.002267,-0.059380,0.049255,-0.000875,0.050914,0.043998,-0.074685,-0.012954,-0.034508,0.036176,-0.026214,-0.022496,0.033711,-0.004145,0.015725,0.019500,-0.006105,0.024504,-0.013836,0.002882,-0.024499,-0.002757,0.084833,-0.054674,-0.026969,-0.011531,0.009758,0.002767,0.020636,-0.051270,-0.009068,0.046017,-0.000241,-0.074615,-0.026916,-0.015114,-0.002893,0.046372,-0.012898,0.003321,0.036671,-0.036008,0.004044,-0.005867,0.021414,0.047294,-0.069827,0.020290,0.078530,-0.011843,0.046219,-0.023430,-0.023399,0.012509,0.016816,-0.027636,0.011959,-0.038624,-0.035628,-0.017663,-0.019950,-0.013818,0.037243,0.024976,-0.298820,-0.016590,-0.007592,-0.077435,-0.008059,0.027444,0.026171,0.022946,-0.018413,0.047438,0.010964,0.033521,0.014004,-0.042119,-0.015416,-0.029992,0.079537,-0.009847,0.037413,0.028515,0.052241,-0.008100,0.135860,0.044431,-0.055088,-0.071324,-0.059870,0.010101,0.003785,0.035522,0.022675,0.077055,0.062055,-0.014199,-0.036411,0.023918,0.001373,0.022559,-0.001650,0.035991,-0.032009,0.005264,-0.043595,0.024218,0.069686,0.044163,-0.015523,-0.035305,0.040652,-0.025646,0.046810,-0.017948,-0.024098,0.008187,0.052212,-0.025056,-0.043095,0.003557,0.023926,0.001139,-0.021198,-0.038698,-0.066786,0.006700,0.086197]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_7', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 7, 'JPMorgan Chase & Co./2025 Form 10-K
+
+51
+
+Investment securities losses decreased, reflecting lower losses on sales of securities associated with repositioning the investment securities portfolio in Treasury and CIO. The prior year net loss was primarily related to sales of U.S. GSE and government agency MBS and U.S. Treasuries. Refer to Corporate results on pages 80–82 and Note 10 for additional information.
+
+Mortgage fees and related income : refer to Notes 6 and 15 for additional information.
+
+Card income decreased driven by the net impact of:
+
+• lower income in CCB, reflecting lower net interchange income, as well as an increase in amortization related to new account origination costs, partially offset by higher annual fees. Net interchange income decreased as the impact of increased debit and credit card sales volume was more than offset by higher rewards costs and partner payments, and
+
+• higher card revenue in CIB Payments as a result of higher volume.
+
+Refer to CCB and CIB segment results on pages 65–68 and pages 69–75, respectively, and Note 6 for additional information.
+
+Other income decreased, reflecting:
+
+• the absence in Corporate of the $7.9 billion net gain related to Visa shares recorded in the second quarter of 2024,
+
+partially offset by
+
+• higher auto operating lease income in CCB due to growth in volume,
+
+• the $588 million First Republic-related gain recorded in the first quarter of 2025 in Corporate, and
+
+• lower losses related to certain equity investments in CIB.
+
+Refer to CCB and CIB segment and Corporate results on pages 65–68, pages 69–75 and pages 80–82, respectively, for additional information; Note 6 for additional information on Visa shares; and Notes 6 and 34 for additional information on the First Republic acquisition.
+
+Net interest income increased driven by higher Markets net interest income, higher revolving balances in Card Services, higher wholesale deposit balances, and the impact of investment securities activity. These factors were largely offset by deposit margin compression and the impact of lower rates.
+
+The Firm’s average interest-earning assets were $3.8 trillion, up $297 billion, and the yield was 5.05%, down 45 bps. The net yield on these assets, on an FTE basis, was 2.50%, a decrease of 13 bps. The net yield excluding Markets was 3.75%, a decrease of 9 bps, when compared to the prior year.
+
+Refer to the Consolidated average balance sheets, interest and rates schedule on pages 315–319 for additional information. Net yield excluding Markets is a non-GAAP financial measure. Refer to Explanation and Reconciliation of the Firm’s Use of Non-GAAP Financial Measures on pages 59–61 for an additional discussion of net yield excluding Markets.
+
+| 52 | JPMorgan Chase & Co./2025 Form 10-K |
+
+52
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| Provision for credit losses |
+| Year ended December 31, |
+| (in millions) | 2025 | 2024 | 2023 |
+| Consumer, excluding credit card | $ | 693 | $ | 631 | $ | 935 |
+| Credit card | 10,829 | 9,292 | 6,048 |
+| Total consumer | 11,522 | 9,923 | 6,983 |
+| Wholesale | 2,718 | 731 | 2,299 |
+| Investment securities | (28) | 24 | 38 |
+| Total provision for credit losses | $ | 14,212 | $ | 10,678 | $ | 9,320 |
+
+Consumer, excluding credit card
+
+Total provision for credit losses
+
+2025 compared with 2024
+
+The provision for credit losses was $14.2 billion. Net charge-offs were $9.8 billion and the net addition to the allowance for credit losses was $4.4 billion.
+
+The provision for credit losses included:', '[-0.045769,-0.017286,-0.013503,0.038370,-0.005636,0.033381,0.000033,0.008984,0.040309,-0.010988,0.047184,0.022650,0.043358,-0.027176,-0.012505,-0.059331,0.008299,-0.087971,-0.011262,0.039530,0.032531,-0.073710,0.075161,-0.019054,0.033926,-0.009335,-0.009905,-0.016172,-0.062864,-0.185556,0.025056,0.024470,0.054955,-0.010332,0.029573,0.020182,-0.071768,0.052402,-0.027631,0.014951,-0.000395,0.023282,0.030022,0.024286,-0.004116,-0.015272,-0.018400,-0.010597,0.033160,0.030489,-0.012184,-0.089852,0.032490,0.078198,-0.039972,-0.007365,0.028664,0.051129,0.043994,0.054005,0.000573,-0.023734,-0.207904,-0.005996,0.036647,0.042366,-0.016386,0.019972,0.026681,0.017435,-0.011321,-0.007616,-0.039789,-0.033930,-0.046949,-0.020625,0.061846,0.018073,-0.037641,0.017783,-0.017705,-0.014883,-0.036240,-0.000205,-0.006048,-0.004405,-0.010576,-0.032716,0.039138,-0.032881,0.011293,-0.027990,0.001809,-0.006980,-0.052397,-0.008368,0.012768,-0.014219,-0.001696,0.399686,0.087758,0.003072,-0.014262,-0.022915,0.020339,-0.029519,0.014091,0.012138,0.094097,0.016927,0.024648,-0.021014,0.071689,-0.009766,-0.016870,-0.027332,0.027080,0.047979,0.036877,0.025793,0.024337,0.066654,0.032380,-0.004611,-0.063867,0.000601,-0.010756,0.066856,0.015206,0.036917,-0.006742,0.006479,-0.076472,-0.009092,0.015663,-0.011720,-0.003149,-0.027137,-0.006494,0.017989,0.007967,0.014391,-0.017739,-0.045711,-0.043379,0.123997,0.008478,0.004450,0.003596,-0.012569,-0.017385,0.085941,0.025763,-0.040564,-0.025997,0.028126,-0.012700,0.027510,-0.014822,-0.052233,-0.017392,-0.001102,-0.065961,0.091576,0.066215,-0.035790,-0.045950,0.013148,0.016397,-0.013999,0.006644,0.012575,-0.003242,-0.054997,0.100124,-0.008257,-0.007747,-0.003826,-0.015086,0.009850,0.045397,-0.022925,-0.022223,0.030077,-0.017661,0.037158,-0.112713,0.025150,0.005707,0.013703,-0.060759,0.002844,-0.117148,0.114578,-0.048703,-0.005834,-0.026670,-0.005213,-0.030182,-0.062479,0.072698,-0.004197,0.055875,0.002459,-0.038229,-0.015497,0.022610,-0.038071,0.041155,-0.006359,-0.004963,-0.034886,0.005058,0.045093,0.007866,0.004598,0.023653,0.037509,0.027619,-0.011922,-0.003681,-0.018806,0.048587,-0.339148,-0.039353,-0.027239,-0.003785,-0.000688,-0.037557,-0.017743,0.000188,0.019429,0.026497,-0.050574,0.034607,-0.081410,0.009907,0.045078,-0.066020,-0.009548,0.018556,-0.042753,0.000494,-0.021839,-0.018474,-0.006441,-0.012990,0.118870,0.004946,0.058351,-0.086381,-0.030338,-0.005134,0.014101,0.059397,-0.019620,-0.002458,0.042657,0.009294,0.086103,0.005484,-0.056357,-0.042049,-0.075689,0.025942,0.044287,-0.067187,0.028727,0.044651,-0.012900,0.046961,0.010415,0.040103,-0.015895,-0.007063,-0.004397,0.023094,0.093429,-0.063707,-0.001007,0.010247,-0.026987,-0.015645,0.046643,-0.017446,0.060210,-0.021422,0.021882,-0.015611,-0.025225,0.014098,-0.022613,0.012219,-0.044402,0.033098,0.009045,-0.074240,0.021733,0.006251,-0.044497,0.026040,-0.084471,-0.003180,0.059234,-0.014718,0.066992,0.007963,-0.015362,0.046019,0.046009,-0.028006,0.007815,-0.028512,-0.042131,-0.037502,-0.038814,0.017140,0.013173,-0.022204,-0.257404,0.006168,0.002669,-0.036909,0.002799,0.022749,0.058642,0.003641,-0.030833,0.072446,0.004266,-0.008992,0.052661,-0.056289,-0.022780,0.004213,-0.023204,-0.016287,0.056561,0.081029,0.038062,0.029966,0.133193,0.023438,-0.018428,-0.065136,-0.034966,-0.015367,0.059782,0.040832,0.032001,0.056968,0.088520,-0.020008,0.012727,-0.024387,-0.024751,0.015806,0.001307,0.004039,-0.006726,-0.007071,-0.023505,-0.036185,0.077675,-0.028096,-0.015957,-0.049379,0.030026,0.004526,0.007334,0.007893,0.027857,-0.044135,0.019795,-0.042400,-0.053876,-0.024069,0.023390,0.042507,-0.014815,-0.042708,-0.084913,-0.003604,0.019448]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_8', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 8, 'Consumer, excluding credit card
+
+Total provision for credit losses
+
+2025 compared with 2024
+
+The provision for credit losses was $14.2 billion. Net charge-offs were $9.8 billion and the net addition to the allowance for credit losses was $4.4 billion.
+
+The provision for credit losses included:
+
+• $11.5 billion in consumer , consisting of net charge-offs of $8.3 billion, predominantly driven by Card Services, reflecting loan growth, and a net addition to the allowance for credit losses of $3.3 billion which was driven by $2.2 billion related to the Apple Card transaction, loan growth in Card Services and the impact of changes in the Firm''s weighted-average macroeconomic outlook, partially offset by reduced borrower uncertainty, and
+
+• $2.7 billion in wholesale , driven by net increases in the loan and lending-related commitment portfolios, net changes in credit quality of client-specific exposures, an update to loss assumptions on certain leveraged loans, and estimated losses related to borrower fraud in certain secured lending facilities, partially offset by the impact of changes in the Firm''s weighted-average macroeconomic outlook. Net charge-offs were $1.6 billion and the net addition to the allowance for credit losses was $1.1 billion.
+
+In the prior year, the provision was $10.7 billion, net charge-offs were $8.6 billion and the net addition to the allowance for credit losses was $2.0 billion.
+
+Refer to CCB, CIB and AWM segment and Corporate results on pages 65–68, pages 69–75, pages 76–79, and pages 80–82, respectively; Allowance for Credit Losses on pages 129–131; Critical Accounting Estimates Used by the Firm on pages 154–157; and Notes 12 and 13 for additional information on the credit portfolio and the allowance for credit losses.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 53 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+53
+
+| Noninterest expense |
+| Year ended December 31, |
+| (in millions) | 2025 | 2024 | 2023 |
+| Compensation expense | $ | 54,487 | $ | 51,357 | $ | 46,465 |
+| Noncompensation expense: |
+| Occupancy | 5,461 | 5,026 | 4,590 |
+| Technology, communications and equipment (a) | 11,029 | 9,831 | 9,246 |
+| Professional and outside services | 12,356 | 11,057 | 10,235 |
+| Marketing | 5,531 | 4,974 | 4,591 |
+| Other expense | 6,776 | 9,552 | (c) | 12,045 |
+| Total noncompensation expense | 41,153 | 40,440 | 40,707 |
+| Total noninterest expense | $ | 95,640 | $ | 91,797 | $ | 87,172 |
+| Certain components of other expense (b) |
+| Legal expense | $ | 361 | $ | 740 | $ | 1,436 |
+| FDIC-related expense | 531 | 1,893 | 4,203 |
+| Operating losses | 1,292 | 1,417 | 1,228 |
+
+Compensation expense
+
+Noncompensation expense:
+
+Technology, communications and equipment (a)
+
+Professional and outside services
+
+(c)
+
+Total noninterest expense
+
+Certain components of other expense (b)
+
+(a) Includes depreciation expense associated with auto operating lease assets. Refer to Note 18 for additional information.
+
+(b) Refer to Note 6 for additional information.
+
+(c) Included a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+2025 compared with 2024
+
+Compensation expense increased driven by:
+
+• growth in the number of employees, primarily front office employees, and
+
+• higher revenue-related compensation, predominantly in CIB and AWM.
+
+Noncompensation expense increased, primarily reflecting:
+
+• higher brokerage expense in CIB and higher distribution fees in AWM,
+
+• higher depreciation expense on higher auto operating lease assets in CCB,', '[-0.007212,-0.029855,-0.045907,0.034063,0.002085,0.002523,-0.005539,0.044749,0.054987,-0.011223,0.041766,-0.004644,0.033679,-0.041532,-0.033501,0.001933,0.062813,-0.115237,-0.017311,0.045103,0.069886,-0.095155,0.059562,-0.005486,0.019487,0.022229,-0.023902,-0.027915,-0.030739,-0.117090,0.062757,-0.026231,0.065115,0.000392,0.004092,-0.020438,-0.058498,0.026331,-0.022249,0.000019,-0.008550,-0.009331,-0.008498,-0.039325,0.014278,0.002104,0.005980,-0.015344,0.013702,-0.000620,0.006845,-0.085004,-0.018623,0.093128,-0.002996,0.017587,-0.051756,0.043819,0.012985,0.021403,-0.015971,-0.056961,-0.192922,-0.022369,0.011213,0.045356,-0.016508,-0.003576,0.018800,0.055930,-0.033715,-0.003505,-0.020299,-0.002991,0.003553,0.015756,0.116783,-0.017701,-0.049091,0.033373,0.018716,-0.049041,-0.040629,-0.020388,-0.013826,-0.048250,-0.005359,-0.052303,-0.006758,-0.026512,0.005272,-0.002242,-0.013177,-0.041684,-0.076762,-0.020732,0.017219,0.002361,-0.046512,0.367013,0.047396,0.053083,0.035991,-0.050023,0.019888,-0.043319,0.017597,0.060756,0.066703,-0.070074,-0.002884,-0.021917,0.046660,-0.019276,0.015351,0.078750,0.045275,0.062171,0.037594,0.044331,0.013966,0.079869,0.040190,0.024789,-0.067131,0.014602,0.014621,0.069663,-0.002551,0.010364,0.015142,-0.039933,-0.067587,0.041650,0.045690,-0.037012,-0.000976,-0.030462,0.072356,-0.016102,0.013825,0.025417,-0.013987,-0.024293,-0.023174,0.092678,0.050607,0.020228,0.000085,-0.013090,0.009143,0.101132,0.054808,-0.088203,-0.036545,0.041784,0.011411,0.011897,-0.048134,-0.004913,0.006733,-0.018012,-0.038308,0.104289,0.059079,-0.074631,-0.022422,0.043299,0.057476,0.013728,0.009362,-0.018883,-0.005910,-0.068625,0.057378,-0.030196,-0.044725,0.052435,0.025495,-0.037788,0.008879,0.022567,-0.086352,-0.067201,0.022112,0.013662,-0.061594,0.036086,-0.002010,-0.030732,-0.038851,0.008523,-0.134852,0.076935,-0.006263,-0.020241,-0.019596,0.015580,-0.012140,-0.005713,0.042994,0.025444,0.037478,0.012659,-0.030756,-0.011099,-0.018507,0.007213,-0.013864,0.000190,0.017286,-0.013871,0.054678,0.050857,0.018862,0.031672,0.037149,0.014371,0.041154,-0.027790,-0.033587,-0.009138,0.044443,-0.324787,-0.007543,-0.008573,-0.007168,-0.027397,-0.043365,0.002117,-0.032280,-0.015087,0.027672,-0.042788,-0.023158,-0.009818,0.084846,0.055686,0.006338,0.013395,-0.010082,-0.055665,0.022729,-0.033133,0.032114,-0.001554,0.011206,0.034839,0.017060,0.104454,-0.013907,-0.071483,0.005913,0.014416,0.071292,-0.047828,-0.024389,-0.002652,0.025194,-0.034712,-0.018985,0.007366,-0.004525,-0.007593,0.018157,0.024632,-0.061873,0.013059,0.024459,-0.039223,0.070178,-0.016970,0.037072,-0.000315,-0.045621,0.013807,-0.006707,0.100729,-0.054967,-0.047393,0.042445,-0.071490,-0.037498,0.012322,-0.092402,0.046345,-0.027751,0.007468,-0.019859,0.015287,0.051562,-0.061537,-0.027786,-0.032674,0.009423,0.008983,-0.051609,0.018328,-0.026944,0.030814,-0.017331,-0.072897,-0.078195,0.063151,0.005781,0.073832,0.029856,-0.019151,0.049216,0.038230,0.024465,0.015753,-0.011076,-0.073147,-0.009828,-0.024702,0.040660,0.036487,0.020712,-0.265725,-0.041345,-0.025085,-0.017551,-0.007871,-0.008606,0.038130,0.021193,0.011361,0.031979,-0.028399,0.004439,0.082752,-0.047310,0.022775,-0.040443,0.000721,-0.045188,0.060570,0.055064,0.065567,0.043455,0.107208,-0.071415,-0.085394,-0.026586,-0.042917,-0.007907,0.079597,0.059569,0.024993,0.028332,0.079576,-0.032477,0.015190,-0.028735,-0.025526,0.010030,-0.018680,0.016000,-0.032852,-0.025950,-0.022754,0.001441,0.062859,0.018564,-0.053187,-0.024566,-0.002599,0.035883,-0.023382,-0.026334,0.078510,-0.005059,0.010265,-0.031031,-0.024600,-0.000829,0.025101,0.016832,-0.007342,-0.004134,-0.055923,-0.008254,0.060885]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_9', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 9, '(b) Refer to Note 6 for additional information.
+
+(c) Included a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+2025 compared with 2024
+
+Compensation expense increased driven by:
+
+• growth in the number of employees, primarily front office employees, and
+
+• higher revenue-related compensation, predominantly in CIB and AWM.
+
+Noncompensation expense increased, primarily reflecting:
+
+• higher brokerage expense in CIB and higher distribution fees in AWM,
+
+• higher depreciation expense on higher auto operating lease assets in CCB,
+
+• higher investments in technology across the LOBs and Corporate and in marketing in CCB, and
+
+• higher occupancy expense, reflecting net additions and improvements to the Firm’s properties, including its new headquarters, bank branches and other corporate offices,
+
+partially offset by
+
+• lower FDIC-related expense driven by releases of FDIC special assessment accruals of $763 million in Corporate, compared with an accrual increase of $725 million in the first quarter of the prior year, and
+
+• the absence in Corporate of the following items recorded in the prior year
+
+– a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation, and
+
+– restructuring and integration costs associated with First Republic.
+
+Refer to Note 6 for additional information on FDIC-related expense and Visa shares, and Note 34 for additional information on the First Republic acquisition.
+
+| Income tax expense |
+| Year ended December 31, (in millions, except rate) |
+| 2025 | 2024 | 2023 |
+| Income before income tax expense | $ | 72,595 | $ | 75,081 | $ | 61,612 |
+| Income tax expense | 15,547 | 16,610 | (a) | 12,060 |
+| Effective tax rate | 21.4 | % | 22.1 | % | 19.6 | % |
+
+Income before income tax expense
+
+(a)
+
+(a) Effective January 1, 2024, as a result of adopting updates to the Accounting for Investments in Tax Credit Structures guidance, the amortization of certain of the Firm’s alternative energy tax-oriented investments is now recognized in income tax expense. Refer to Notes 1, 6, 14 and 25 for additional information.
+
+2025 compared with 2024
+
+The effective tax rate decreased driven by:
+
+• a $774 million income tax benefit in Corporate recorded in the second quarter of 2025, driven by the resolution of certain tax audits and the impact of tax regulations related to foreign currency translation gains and losses finalized in 2024 and effective for 2025, and
+
+• higher tax benefits related to the vesting of employee share-based awards,
+
+partially offset by
+
+• other changes in the level and mix of income and expenses subject to U.S. federal, state and local taxes, and
+
+• lower benefits associated with other tax audits.
+
+Refer to Note 25 for additional information.
+
+| 54 | JPMorgan Chase & Co./2025 Form 10-K |
+
+54
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| CONSOLIDATED BALANCE SHEETS AND CASH FLOWS ANALYSIS |
+
+Consolidated balance sheets analysis
+
+The following is a discussion of the significant changes between December 31, 2025 and 2024. Refer to pages 154–157 for a discussion of the Critical Accounting Estimates Used by the Firm that affect the Consolidated Balance Sheets.', '[-0.045451,-0.039268,0.002778,-0.002561,0.033907,-0.002564,-0.008175,0.036371,0.006368,-0.005134,0.072105,0.026084,-0.036419,-0.030844,-0.050971,-0.018874,-0.006001,-0.103127,-0.033565,0.012115,0.057379,-0.107171,0.097407,0.002017,0.006923,0.003648,-0.034206,-0.015217,-0.048987,-0.164207,0.019122,-0.038406,0.028282,-0.007896,0.025248,0.001235,-0.040351,0.041720,0.006700,0.023908,-0.007538,0.052925,0.013927,0.029513,-0.005365,-0.015732,0.012429,0.015923,-0.028365,0.013722,0.003381,-0.092383,0.002490,0.049674,-0.032184,0.004520,-0.004156,0.015380,-0.033916,0.030762,0.046264,-0.002362,-0.194755,0.032621,0.013880,0.026293,0.003708,-0.039832,-0.001691,0.044891,-0.021877,-0.033831,-0.034689,-0.041051,0.042026,-0.008606,0.034823,0.048825,-0.043573,0.001929,-0.033387,0.009899,-0.016761,-0.023910,0.013274,-0.012324,-0.014078,-0.043119,0.037120,0.007370,0.046513,-0.005266,-0.019860,0.017243,-0.068717,-0.021640,0.040458,0.019082,0.019772,0.369118,0.035554,0.039780,-0.000667,-0.001740,0.023098,-0.012933,0.036723,0.023030,0.059671,-0.030632,0.036084,0.016827,0.063234,-0.037216,-0.012453,0.023200,0.037929,0.004298,0.010497,0.021729,0.077683,0.015895,0.026359,0.003100,-0.118292,0.018091,0.023743,0.080346,0.050899,0.051814,-0.013844,0.013800,-0.041575,-0.007176,0.011418,-0.013839,0.016908,-0.049231,0.026373,0.017714,-0.020816,-0.006229,-0.037988,-0.092992,-0.075128,0.155583,-0.004563,-0.013151,0.012616,-0.016383,-0.027412,0.111167,0.069630,-0.073113,0.019126,0.015906,-0.039475,0.020393,-0.010075,-0.013077,0.020380,-0.031170,-0.053302,0.098094,0.068185,-0.095183,-0.074584,0.001785,0.040792,-0.022829,0.012600,-0.001058,-0.027975,-0.039592,0.087899,0.001201,-0.029233,-0.019827,0.017948,-0.003807,0.019532,0.026006,-0.100714,-0.013901,-0.022785,0.010131,-0.103597,-0.006269,-0.015156,0.025093,-0.056836,0.055898,-0.109847,0.062032,-0.021724,0.004646,-0.019783,0.020294,-0.013272,-0.087819,0.077171,0.001446,0.001269,-0.037395,0.020952,-0.043742,-0.006171,0.012613,0.042965,-0.021878,-0.005122,-0.021354,0.025269,0.037460,-0.041523,0.018767,-0.003998,0.028276,0.008357,-0.015375,0.004047,0.027682,0.051170,-0.320472,0.001215,-0.013383,0.015866,-0.024556,-0.004546,0.023680,0.033421,0.004279,0.022009,-0.057085,-0.026423,-0.023037,0.024367,0.046771,-0.070385,0.034644,-0.008402,0.003835,0.013764,-0.034296,0.019848,0.009715,0.032632,0.108365,-0.021653,0.021115,-0.075400,-0.052471,-0.004400,0.029064,0.043236,-0.018119,-0.056163,0.064449,-0.007931,0.035495,-0.007754,-0.006619,-0.031558,-0.008353,0.035081,-0.041036,-0.031207,-0.008795,0.046646,-0.042386,-0.017556,-0.007222,0.016833,-0.004998,0.023208,-0.014883,-0.012278,0.081396,-0.059890,-0.028374,-0.003683,-0.041469,0.007734,0.038594,-0.001336,0.011275,-0.000596,0.055482,-0.048460,-0.020719,0.042254,-0.031714,0.054163,-0.015879,-0.017331,0.013797,-0.062388,0.036698,-0.032086,0.019701,-0.001714,-0.079503,0.005444,0.083537,-0.009129,0.029503,0.020917,-0.044259,0.041301,0.043193,-0.025733,0.035381,-0.059717,-0.036283,-0.057962,0.000401,0.012187,0.030686,-0.014714,-0.308642,-0.018787,0.013209,-0.059285,0.000896,0.021242,0.065055,0.011848,-0.025001,0.079361,-0.022450,0.038602,0.045244,-0.047893,0.049677,-0.002868,0.036481,0.014349,0.030905,-0.002846,0.023058,0.013525,0.120533,0.014681,-0.046849,-0.063537,-0.027651,0.005255,0.067882,0.004082,0.070588,0.077750,0.048061,-0.025925,-0.029556,0.014392,0.006620,0.016663,0.023294,-0.010729,-0.011004,0.000377,-0.026997,0.014869,0.105839,-0.002506,-0.000458,-0.036107,0.005129,-0.017178,0.019002,-0.007891,0.033704,0.016249,0.038079,-0.053856,-0.026628,0.010674,0.011618,0.055029,-0.017834,-0.022878,-0.059100,0.035689,0.041975]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_10', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 10, 'Consolidated balance sheets analysis
+
+The following is a discussion of the significant changes between December 31, 2025 and 2024. Refer to pages 154–157 for a discussion of the Critical Accounting Estimates Used by the Firm that affect the Consolidated Balance Sheets.
+
+| Selected Consolidated balance sheets data |
+| December 31, (in millions) | 2025 | 2024 | Change |
+| Assets |
+| Cash and due from banks | $ | 21,742 | $ | 23,372 | (7) | % |
+| Deposits with banks | 321,596 | 445,945 | (28) |
+| Federal funds sold and securities purchased under resale agreements | 336,426 | 295,001 | 14 |
+| Securities borrowed | 286,191 | 219,546 | 30 |
+| Trading assets | 802,873 | 637,784 | 26 |
+| Available-for-sale securities | 507,198 | 406,852 | 25 |
+| Held-to-maturity securities | 270,134 | 274,468 | (2) |
+| Investment securities, net of allowance for credit losses | 777,332 | 681,320 | 14 |
+| Loans | 1,493,429 | 1,347,988 | 11 |
+| Allowance for loan losses | (25,765) | (24,345) | 6 |
+| Loans, net of allowance for loan losses | 1,467,664 | 1,323,643 | 11 |
+| Accrued interest and accounts receivable | 111,599 | 101,223 | 10 |
+| Premises and equipment | 36,244 | 32,223 | 12 |
+| Goodwill, MSRs and other intangible assets | 64,458 | 64,560 | — |
+| Other assets | 198,775 | 178,197 | 12 |
+| Total assets | $ | 4,424,900 | $ | 4,002,814 | 11 | % |
+
+Federal funds sold and securities purchased under resale agreements
+
+Accrued interest and accounts receivable
+
+Cash and due from banks and deposits with banks decreased driven by Markets activities in CIB, higher investment securities, higher loans and cash deployment in Treasury and CIO, largely offset by the impact of higher deposits and higher long-term debt.
+
+Federal funds sold and securities purchased under resale agreements increased driven by Markets, reflecting the impact of lower levels of netting, higher collateral requirements and higher demand for securities to cover short positions.
+
+Securities borrowed increased driven by Markets, reflecting higher client-driven activities and higher demand for securities to cover short positions.
+
+Refer to Note 11 for additional information on securities purchased under resale agreements and securities borrowed.
+
+Trading assets increased predominantly driven by Markets, due to higher levels of debt instruments, partially offset by lower levels of equity instruments, both related to client-driven market-making activities. Refer to Notes 2 and 5 for additional information.
+
+Investment securities increased. Excluding a non-cash transfer in the third quarter of 2025 of $44.1 billion of securities from available-for-sale ("AFS") to held-to-maturity (“HTM”) for asset-liability management purposes,
+
+• AFS securities increased driven by net purchases, predominantly U.S. Treasuries and non-U.S. government debt securities, partially offset by maturities and paydowns; and
+
+• HTM securities decreased driven by maturities and paydowns.
+
+Refer to Corporate results on pages 80–82, Investment Portfolio Risk Management on page 132, and Notes 2 and 10 for additional information.
+
+Loans increased, reflecting:
+
+• higher wholesale loans, predominantly in Markets associated with higher client demand,
+
+• higher securities-based lending in AWM due to higher client demand, and
+
+• higher outstanding balances in Card Services driven by growth in new accounts and higher revolving balances,
+
+partially offset by
+
+• a decline in Home Lending as loan sales and paydowns outpaced originations.
+
+The allowance for loan losses increased, reflecting a net addition to the allowance for loan losses of $1.4 billion, and consisted of:
+
+| JPMorgan Chase & Co./2025 Form 10-K | 55 |', '[-0.020166,-0.047842,-0.016149,-0.007036,0.062272,-0.022197,-0.022504,0.031603,-0.005951,-0.040924,0.057812,-0.010785,0.029873,-0.046832,-0.053656,-0.025646,-0.013720,-0.078355,-0.017324,0.058877,0.017869,0.002800,0.020461,-0.022297,0.040232,-0.027011,-0.049076,-0.078015,-0.080238,-0.186586,0.039191,0.000321,0.008170,-0.008481,0.023447,0.012524,-0.012846,0.028398,0.044974,0.033665,-0.010549,0.020597,0.014513,-0.019675,0.006065,-0.005445,-0.013440,0.011646,-0.019333,0.027134,0.031506,-0.108857,0.005987,0.076076,-0.036767,0.045651,0.036304,0.018901,0.042365,0.069782,0.050761,-0.003353,-0.203465,0.018337,0.046839,0.032482,0.026028,-0.007813,-0.017417,0.007611,-0.023964,-0.009186,-0.045505,-0.041608,0.068576,-0.043265,0.036564,-0.007440,-0.045419,0.027938,-0.041406,0.039481,-0.038100,-0.026096,-0.028791,-0.039935,0.043327,-0.006330,0.051950,-0.021887,-0.000126,-0.023177,0.017279,-0.037898,-0.066304,0.002652,0.034994,0.007816,0.032101,0.325409,0.031416,0.053387,0.000001,-0.027694,-0.037566,0.030341,-0.034637,-0.005580,0.050047,-0.034322,-0.005284,-0.040358,0.035533,0.006879,-0.068345,-0.007725,0.043288,-0.008648,0.008590,0.017678,0.068073,0.021689,0.048927,-0.024900,-0.025509,0.009429,-0.013580,0.053775,-0.004635,0.055367,0.007502,0.067580,-0.057862,0.026492,0.045855,0.020459,-0.008639,-0.046218,0.056262,0.015944,-0.052574,-0.028170,-0.004435,-0.074912,-0.118973,0.139217,-0.001978,-0.008008,-0.017921,-0.014892,-0.036590,0.047736,0.029154,-0.063879,0.003035,0.016456,-0.002570,-0.030362,-0.040978,0.006562,0.043239,-0.028710,-0.005749,0.098439,0.055615,-0.063329,-0.032550,-0.010302,0.036970,-0.019092,0.001920,0.007504,-0.033048,-0.080495,0.103314,0.029778,0.048695,-0.027445,0.027753,-0.013172,0.012913,0.011334,-0.081849,0.038789,-0.014229,0.057894,-0.057798,0.045489,0.009999,0.029437,-0.022599,-0.027618,-0.117068,0.105319,-0.021996,0.031216,-0.032256,-0.021131,-0.017642,-0.073991,0.068993,0.026968,-0.001064,-0.046588,0.040975,-0.012703,-0.040974,0.018389,0.051114,0.038521,0.015955,0.018846,0.032444,-0.007073,0.014746,0.014591,0.039020,0.017802,-0.033763,-0.003089,0.017301,-0.026956,0.052346,-0.324548,-0.005580,-0.008942,-0.071256,-0.025099,0.003088,-0.009068,-0.007134,-0.028449,0.029921,-0.042945,0.092146,-0.062866,-0.057438,0.053085,0.022759,-0.042899,-0.022646,-0.039803,0.003502,-0.016936,0.014094,-0.032585,0.025617,0.052737,0.037638,0.059372,-0.098897,-0.011017,0.035659,0.041812,-0.009156,-0.041241,-0.049886,0.068603,0.009911,0.007143,0.050002,-0.028425,0.008943,-0.011636,0.001977,-0.022418,0.005515,0.007414,0.005768,-0.008827,-0.046437,-0.007840,0.036116,0.016564,0.036425,-0.009983,0.077870,0.072468,-0.044461,0.031253,0.001616,-0.009455,-0.007512,0.074793,-0.027103,-0.016315,-0.006127,0.017083,-0.006844,-0.005025,-0.029557,-0.033643,-0.002567,-0.031946,0.020235,0.003723,-0.047976,-0.000647,0.025183,-0.013718,-0.006104,-0.023790,0.000952,0.035097,-0.018944,0.078638,-0.009165,-0.024034,0.012095,0.044170,-0.038814,-0.008159,-0.011851,0.004132,-0.058209,-0.036262,0.018173,0.055802,0.017628,-0.282624,-0.054895,0.078238,-0.022454,0.034803,0.064256,0.001122,0.021606,-0.010847,0.055901,0.028390,0.030602,0.037833,-0.089417,-0.009730,-0.033771,0.092130,-0.024562,0.044444,0.027752,0.045434,0.003852,0.169868,0.058206,-0.014158,-0.044224,-0.048449,0.044173,0.071866,-0.001995,0.070441,0.005148,0.037907,-0.008984,-0.027937,0.002580,-0.050221,0.067399,0.066619,-0.016156,-0.008277,-0.068840,0.011039,-0.021405,0.094549,0.013248,-0.049384,-0.038067,0.026181,-0.018161,-0.001774,-0.026903,-0.008783,-0.040776,0.014310,0.000255,-0.015502,0.026023,0.016393,-0.039382,-0.019562,-0.031602,-0.080927,-0.011884,0.057412]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_11', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 11, 'JPMorgan Chase & Co./2025 Form 10-K
+
+55
+
+• $1.1 billion in consumer , driven by loan growth in Card Services and the impact of changes in the Firm''s weighted-average macroeconomic outlook, partially offset by reduced borrower uncertainty, and
+
+• $350 million in wholesale , driven by a net increase in the loan portfolio, an update to loss assumptions on certain leveraged loans, and net changes in credit quality of client-specific exposures, partially offset by a reduction due to the impact of charge-offs and changes in the Firm''s weighted-average macroeconomic outlook.
+
+There was also a $3.0 billion net addition to the allowance for lending-related commitments recognized in other liabilities on the Consolidated balance sheets. The net addition was predominantly driven by $2.2 billion related to the Apple Card transaction and the impact of new lending-related commitments.
+
+Refer to Consolidated Results of Operations and Credit and Investment Risk Management on pages 51–54 and pages 109–132, respectively, Critical Accounting Estimates Used by the Firm on pages 154–157, and Notes 2, 3, 12 and 13 for additional information on loans and the total allowance for credit losses.
+
+Accrued interest and accounts receivable increased predominantly due to higher client-driven activities in Markets.
+
+Premises and equipment increased, reflecting the impact of net additions and improvements to the Firm’s properties, including its new headquarters, bank branches and other corporate offices. Refer to Notes 16 and 18 for additional information.
+
+Goodwill, MSRs and other intangibles : Refer to Note 15 for additional information.
+
+Other assets increased predominantly due to higher cash collateral placed with counterparties in Markets, and higher auto operating lease assets in CCB.
+
+| Selected Consolidated balance sheets data (continued) |
+| December 31, (in millions) | 2025 | 2024 | Change |
+| Liabilities |
+| Deposits | $ | 2,559,320 | $ | 2,406,032 | 6 | % |
+| Federal funds purchased and securities loaned or sold under repurchase agreements | 442,396 | 296,835 | 49 |
+| Short-term borrowings | 64,776 | 52,893 | 22 |
+| Trading liabilities | 216,019 | 192,883 | 12 |
+| Accounts payable and other liabilities | 316,794 | 280,672 | 13 |
+| Beneficial interests issued by consolidated variable interest entities (“VIEs”) | 27,951 | 27,323 | 2 |
+| Long-term debt | 435,206 | 401,418 | 8 |
+| Total liabilities | 4,062,462 | 3,658,056 | 11 |
+| Stockholders’ equity | 362,438 | 344,758 | 5 |
+| Total liabilities and stockholders’ equity | $ | 4,424,900 | $ | 4,002,814 | 11 | % |
+
+Federal funds purchased and securities loaned or sold under repurchase agreements
+
+Beneficial interests issued by consolidated variable interest entities (“VIEs”)
+
+Total liabilities and stockholders’ equity
+
+Deposits increased, reflecting:
+
+• an increase in CIB due to net inflows related to client-driven activities in Payments and Securities Services,
+
+• an increase in CCB primarily driven by new accounts, predominantly offset by increased customer spending, and
+
+• an increase in AWM primarily driven by growth in both new accounts and balances in existing accounts, including the impact of higher-yielding product offerings, largely offset by migration into other investment products.
+
+Federal funds purchased and securities loaned or sold under repurchase agreements increased driven by Markets, primarily reflecting higher secured financing of trading assets.
+
+Short-term borrowings increased driven by higher financing requirements in Markets.
+
+Refer to Liquidity Risk Management on pages 100–107 for additional information on deposits, federal funds purchased and securities loaned or sold under repurchase agreements, and short-term borrowings; Notes 2 and 17 for deposits; and Note 11 for federal funds purchased and securities loaned or sold under repurchase agreements.', '[-0.064341,-0.054807,-0.015149,0.016055,0.009076,0.011334,-0.003978,0.005214,0.024431,-0.039872,0.063197,-0.008976,0.010002,-0.053776,-0.021349,-0.015708,0.023381,-0.131870,-0.005570,0.036786,0.021544,-0.077957,0.087668,-0.007412,0.067471,-0.004900,-0.058318,0.017002,-0.034265,-0.152674,-0.002242,0.001322,0.058949,-0.004414,0.004173,-0.005436,-0.064289,0.052193,0.000697,0.004968,-0.002839,-0.018469,0.033549,-0.033762,0.000304,-0.004730,-0.001213,-0.007848,0.017350,-0.017068,0.002612,-0.114334,-0.011024,0.080066,-0.018519,0.038968,-0.019919,0.032268,0.033061,0.035621,0.016213,-0.020032,-0.188296,-0.006955,0.057686,0.023145,0.009969,0.018765,-0.012738,0.037475,0.014972,0.016341,-0.008713,-0.018236,0.011528,-0.028440,0.092859,-0.004202,-0.044903,0.063039,-0.018366,-0.028454,-0.029099,-0.027247,-0.021083,-0.000591,-0.017109,-0.031265,0.027801,-0.031339,-0.021488,0.001132,-0.013405,-0.020611,-0.071728,-0.018068,-0.006560,-0.009300,-0.000475,0.404395,0.045816,0.049749,0.036697,-0.026853,0.020934,-0.029971,0.011901,0.038188,0.067101,-0.028915,0.016866,-0.020956,0.049520,-0.004714,0.008225,0.051160,0.034479,0.003424,0.025717,0.003365,0.049208,0.069355,0.047320,-0.008589,-0.078375,0.007008,0.024045,0.069440,0.030848,0.052803,0.008029,0.006547,-0.087534,-0.002892,0.023325,-0.004290,-0.035597,-0.005229,0.029758,0.028972,-0.046939,0.010330,-0.007267,-0.092889,-0.091337,0.142969,0.040498,0.005803,-0.003279,-0.005965,0.003361,0.130383,0.028569,-0.070606,-0.044206,0.020100,-0.004615,0.007907,-0.003298,-0.007522,0.003336,-0.028648,-0.020677,0.080070,0.080775,-0.090359,-0.031533,0.002572,0.031980,0.000072,0.034981,-0.012204,-0.003593,-0.006824,0.048740,-0.018213,-0.013858,0.037231,0.014897,-0.080823,0.006918,0.003163,-0.082636,-0.006069,-0.012773,0.000997,-0.060928,0.023310,-0.009257,-0.003586,-0.030066,0.061548,-0.073325,0.069433,-0.039431,-0.023501,-0.024637,0.053304,-0.034855,-0.041401,0.050464,0.022616,0.022268,-0.035476,-0.019059,-0.027677,0.002944,0.057355,0.005859,-0.012219,-0.012366,0.018881,0.007889,0.066289,0.006135,0.035329,-0.011162,0.012128,0.014903,-0.053946,-0.008261,0.005511,0.071973,-0.327323,0.002673,0.006703,-0.005698,-0.037531,-0.029716,0.049066,-0.012188,0.013502,0.023826,-0.066318,0.020696,-0.026516,0.043059,0.054041,-0.018959,-0.038630,-0.011210,-0.038954,0.022506,-0.061211,0.014791,-0.050654,0.023188,0.080019,0.016175,0.062947,-0.050105,-0.095611,0.002397,0.010057,0.041167,-0.029807,-0.041340,0.025568,0.017938,0.028566,0.008900,-0.063200,-0.025043,-0.060101,0.040710,-0.011467,-0.044095,0.037981,0.042510,-0.022645,0.012210,-0.019047,0.015929,-0.019697,-0.007783,0.035906,0.026443,0.082283,-0.043718,-0.016143,0.030029,-0.017450,-0.032037,0.044895,-0.008135,0.012868,0.023784,-0.001481,-0.006692,0.027198,0.015452,-0.021735,-0.022379,-0.032131,0.008628,0.040652,-0.063062,0.046301,0.003033,-0.032004,0.005908,-0.080270,-0.016168,0.050589,0.011299,0.052785,0.041899,-0.043152,0.021106,0.031156,0.010188,-0.021561,-0.029193,-0.049575,-0.040382,-0.013900,0.033509,0.060620,0.000929,-0.283232,-0.008083,-0.049608,-0.020316,0.006424,0.014506,0.038870,0.020254,0.015811,0.045540,-0.034530,0.012091,0.073121,-0.036873,0.000378,-0.014250,0.028676,-0.025183,0.061198,0.028141,0.023548,0.042692,0.157899,-0.020334,-0.048270,-0.018522,-0.056610,-0.000090,0.058525,0.028290,0.042876,0.035505,0.074514,-0.011266,0.003494,-0.016943,-0.006685,0.023672,-0.022857,0.003574,0.008876,-0.003814,-0.047787,0.008254,0.063206,-0.021004,-0.015763,-0.025118,0.000740,-0.003195,-0.005152,-0.035714,0.038262,-0.006260,0.053563,-0.056810,-0.022792,-0.002557,-0.024853,0.054184,-0.014582,0.008336,-0.111016,0.006937,0.038108]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_12', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 12, '• an increase in AWM primarily driven by growth in both new accounts and balances in existing accounts, including the impact of higher-yielding product offerings, largely offset by migration into other investment products.
+
+Federal funds purchased and securities loaned or sold under repurchase agreements increased driven by Markets, primarily reflecting higher secured financing of trading assets.
+
+Short-term borrowings increased driven by higher financing requirements in Markets.
+
+Refer to Liquidity Risk Management on pages 100–107 for additional information on deposits, federal funds purchased and securities loaned or sold under repurchase agreements, and short-term borrowings; Notes 2 and 17 for deposits; and Note 11 for federal funds purchased and securities loaned or sold under repurchase agreements.
+
+Trading liabilities increased due to client-driven market-making activities, which resulted in higher levels of short positions, as well as higher derivative payables, primarily as a result of market movements. Refer to Notes 2 and 5 for additional information.
+
+Accounts payable and other liabilities increased predominantly due to higher brokerage payables related to client-driven activities in Markets. Refer to Note 19 for additional information on accounts payable.
+
+| 56 | JPMorgan Chase & Co./2025 Form 10-K |
+
+56
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Beneficial interests issued by consolidated VIEs : Refer to Liquidity Risk Management on pages 100–107; and Notes 14 and 28 for additional information related to Firm-sponsored VIEs and loan securitization trusts.
+
+Long-term debt increased driven by net issuances of structured notes in Markets due to client demand and an increase in the fair value of such instruments, as well as net issuances of long-term debt in Treasury and CIO, partially offset by a net reduction in Federal Home Loan Bank ("FHLB") advances . Refer to Liquidity Risk Management on pages 100–107 for additional information.
+
+Stockholders’ equity increased, reflecting:
+
+• net income, and
+
+• net unrealized gains in AOCI in Treasury and CIO, driven by the impact of lower interest rates on AFS securities and cash flow hedges, and spreads tightening on AFS securities,
+
+largely offset by
+
+• the impact of capital actions, including net repurchases of common shares and dividend payments on common and preferred stock.
+
+Refer to Consolidated Statements of changes in stockholders’ equity on page 168, Capital Actions on page 97, and Note 24 for additional information.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 57 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+57
+
+Consolidated cash flows analysis
+
+The following is a discussion of cash flow activities during the years ended December 31, 2025 and 2024. Refer to Consolidated cash flows analysis on page 66 of the Firm’s 2024 Form 10-K for a discussion of the 2023 activities.
+
+| (in millions) | Year ended December 31, |
+| 2025 | 2024 | 2023 |
+| Net cash provided by/ (used in) |
+| Operating activities | $ | (147,782) | $ | (42,012) | $ | 12,974 |
+| Investing activities | (265,565) | (163,403) | 67,643 |
+| Financing activities | 269,533 | 63,447 | (25,571) |
+| Effect of exchange rate changes on cash | 17,835 | (12,866) | 1,871 |
+| Net increase/(decrease) in cash and due from banks and deposits with banks | $ | (125,979) | $ | (154,834) | $ | 56,917 |
+
+Net cash provided by/
+
+(used in)
+
+Financing activities
+
+Effect of exchange rate changes on cash
+
+Net increase/(decrease) in cash and due from banks and deposits with banks
+
+Operating activities', '[-0.061633,-0.059191,-0.001281,0.027793,-0.010579,-0.000259,-0.001874,0.004704,0.002758,-0.044048,0.070311,0.015094,-0.018586,-0.082505,-0.027533,-0.008411,0.058468,-0.052804,-0.050139,0.026864,-0.028180,-0.033165,0.054431,-0.042698,0.094634,-0.001231,-0.016420,-0.009757,-0.075252,-0.177886,-0.031805,-0.012873,0.026184,-0.021754,0.019406,0.055020,-0.062923,0.017992,0.008874,-0.020311,-0.036320,0.026679,0.006775,-0.000655,-0.039046,-0.024745,0.011808,-0.011293,0.003378,0.010515,0.029733,-0.053991,-0.006023,0.060772,-0.009395,0.038680,0.022698,0.065915,0.023177,0.028038,0.023800,0.024275,-0.178915,-0.012750,0.018944,0.073413,0.012818,0.015053,0.005531,0.025854,0.012771,0.015897,-0.069460,0.012518,0.044601,-0.043056,0.018527,0.009805,-0.002775,0.041441,-0.011654,0.031075,-0.044165,-0.044534,0.002448,-0.038865,0.018725,-0.050807,0.033500,-0.000887,-0.027720,0.003827,-0.064213,0.006155,-0.027553,-0.035856,-0.028830,0.021190,0.039885,0.329917,0.031591,0.053544,-0.024853,-0.008034,-0.013940,0.003201,0.007459,0.024328,0.026346,-0.008935,-0.002930,0.042803,0.036575,-0.000629,-0.022588,0.036153,-0.024591,0.024564,0.006485,0.045183,0.067987,0.038695,0.042159,-0.026755,-0.069150,0.013760,0.016330,0.059680,0.041683,0.019650,-0.026522,-0.006219,-0.073822,-0.033176,-0.002678,0.015341,-0.072421,-0.059043,0.031078,0.059748,-0.082939,0.015129,-0.000698,-0.104493,-0.087288,0.175536,0.041271,-0.018469,-0.010285,-0.000518,0.003207,0.091526,-0.022779,-0.085770,-0.013628,0.024277,0.026254,0.079190,-0.003795,-0.015386,-0.047539,-0.018257,-0.003779,0.107779,0.055925,-0.072259,-0.025737,-0.009601,0.022876,0.009024,-0.005436,0.039450,-0.041647,-0.005878,0.028474,-0.014284,-0.061331,-0.061973,0.014287,-0.016322,0.003100,-0.035685,-0.063264,0.002916,-0.031716,-0.000488,-0.087811,0.014365,-0.020162,-0.013978,-0.043987,0.065942,-0.060341,0.036469,0.025114,0.022599,-0.021214,0.022467,-0.046068,-0.040321,0.004696,0.034123,0.002153,-0.041952,-0.004615,-0.020407,0.001082,0.039638,0.027271,-0.000765,-0.009645,0.074534,-0.025455,0.037595,0.016887,0.028022,-0.046646,0.031489,0.002096,-0.026248,0.034414,0.012472,0.068740,-0.334010,-0.025611,-0.014730,-0.015251,0.016808,-0.016316,0.013400,-0.011741,0.039400,0.004190,-0.045648,0.000013,-0.039061,0.003161,0.050547,-0.047484,-0.107318,-0.018737,-0.054676,0.032031,-0.063721,0.001533,-0.039058,0.035411,0.082142,0.036414,0.075135,-0.112476,-0.032669,-0.020153,0.010593,0.019452,0.010140,-0.027965,0.056929,-0.059677,0.034149,-0.010529,-0.070178,-0.002844,-0.069843,0.002014,-0.017675,0.004398,0.020675,0.001530,0.010317,-0.029196,-0.003232,0.027923,-0.002103,0.015301,0.007177,0.023910,0.013516,-0.053610,-0.050002,-0.014235,-0.012141,0.011930,0.057011,-0.004748,0.015751,-0.008327,0.067829,-0.044734,0.022393,0.028507,-0.025209,-0.001576,-0.036403,0.035502,0.010321,-0.045018,0.034958,-0.003604,-0.045156,0.017094,-0.076321,0.027342,0.060349,-0.017268,0.067863,0.037058,-0.044505,-0.008271,0.003167,-0.004437,-0.033089,-0.005942,0.029700,-0.012159,-0.097283,0.028119,0.071869,0.009669,-0.265188,-0.023061,0.025094,-0.017574,-0.020690,0.010256,0.023084,0.036055,-0.005265,0.056698,-0.030001,0.029554,0.042669,0.009054,0.006148,0.017642,0.072841,0.010709,0.070234,-0.023166,0.068635,0.017071,0.178073,0.042421,-0.001608,0.015850,-0.032657,0.033379,0.065205,-0.000960,0.102217,0.086837,0.067896,0.001216,0.024759,-0.004228,0.040583,0.065214,-0.016149,-0.000629,0.001012,0.008973,-0.028637,0.019392,0.036685,-0.052204,0.038669,-0.077939,-0.018051,0.063104,-0.019800,-0.045871,0.008533,0.039996,0.096282,-0.048522,-0.025388,0.002216,0.007298,0.054986,-0.020529,0.004617,-0.083853,0.007040,0.040397]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_13', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 13, 'Net cash provided by/
+
+(used in)
+
+Financing activities
+
+Effect of exchange rate changes on cash
+
+Net increase/(decrease) in cash and due from banks and deposits with banks
+
+Operating activities
+
+JPMorganChase’s operating assets and liabilities primarily support the Firm’s lending and capital markets activities. These assets and liabilities can vary significantly in the normal course of business due to the amount and timing of cash flows, which are affected by client-driven and risk management activities and market conditions. The Firm believes that cash flows from operations, available cash and other liquidity sources, and its capacity to generate cash through secured and unsecured sources, are sufficient to meet its operating liquidity needs.
+
+• In 2025, cash used resulted from higher trading assets, higher securities borrowed, net originations and purchases of loans held-for-sale, higher other assets and higher accrued interest and accounts receivable, partially offset by net income excluding non-cash adjustments, and higher trading liabilities.
+
+• In 2024, cash used resulted from higher trading assets and higher securities borrowed, largely offset by net income excluding non-cash adjustments.
+
+Investing activities
+
+The Firm’s investing activities predominantly include originating held-for-investment loans, and investing in the investment securities portfolio and other short-term instruments.
+
+• In 2025, cash used resulted from net loan originations, net purchases of investment securities and higher securities purchased under resale agreements.
+
+• In 2024, cash used resulted from net purchases of investment securities, net loan originations and higher securities purchased under resale agreements, partially offset by proceeds from sales and securitizations of loans held-for-investment.
+
+Financing activities
+
+The Firm’s financing activities include acquiring customer deposits and issuing long-term debt and preferred stock.
+
+• In 2025, cash provided primarily reflected higher deposits, higher securities loaned or sold under repurchase agreements and net proceeds from long- and short-term borrowings,
+
+• In 2024, cash provided primarily reflected higher securities loaned or sold under repurchase agreements and net proceeds from long- and short-term borrowings, partially offset by net redemption of preferred stock.
+
+• For both periods, cash was used for repurchases of common stock and cash dividends on common and preferred stock.
+
+*     *     *
+
+Refer to Consolidated Balance Sheets Analysis on pages 55–57, Capital Risk Management on pages 89–99, and Liquidity Risk Management on pages 100–107, and the Consolidated Statements of Cash Flows on page 169 for a further discussion of the activities affecting the Firm’s cash flows.
+
+| 58 | JPMorgan Chase & Co./2025 Form 10-K |
+
+58
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| EXPLANATION AND RECONCILIATION OF THE FIRM’S USE OF NON-GAAP FINANCIAL MEASURES |
+
+EXPLANATION AND RECONCILIATION OF THE FIRM’S USE OF NON-GAAP FINANCIAL MEASURES
+
+Non-GAAP financial measures
+
+The Firm prepares its Consolidated Financial Statements in accordance with U.S. GAAP; these financial statements appear on pages 165–169. That presentation, which is referred to as “reported” basis, provides the reader with an understanding of the Firm’s results that can be tracked consistently from year-to-year and enables a comparison of the Firm’s performance with the U.S. GAAP financial statements of other companies.', '[0.014603,-0.064541,0.010384,-0.024364,0.001529,-0.001509,0.038007,0.002342,-0.012365,-0.027138,0.045848,-0.000246,-0.003681,-0.054616,-0.023486,-0.028012,0.006840,-0.070008,-0.061279,0.001775,-0.002565,-0.061136,0.064347,-0.009859,0.073295,-0.031402,-0.052033,0.008845,-0.026215,-0.149747,0.036376,-0.034747,0.006982,0.029253,-0.000880,0.053089,-0.036473,0.047844,0.012230,0.031227,-0.026214,0.020365,0.013765,0.002513,-0.016091,-0.028640,-0.025584,-0.008060,-0.000579,0.031095,0.003219,-0.083765,0.021965,0.076085,0.002310,0.040321,0.029176,0.078876,0.030486,0.045569,0.050750,-0.031553,-0.182891,-0.030340,0.014092,0.051597,0.058450,0.011932,0.052526,0.012534,0.024432,-0.014134,-0.074736,0.004804,0.012668,-0.035040,0.045199,-0.018360,-0.086000,0.014968,-0.032273,0.012723,0.015298,0.000085,-0.042188,0.040590,0.002346,-0.032298,0.032551,-0.003325,-0.037635,0.045058,-0.008429,0.036468,-0.034174,0.033606,0.005507,0.011996,0.036237,0.367511,0.026952,0.061340,0.007992,-0.042654,-0.001426,0.026467,0.008551,0.048805,0.063695,0.001433,0.004546,-0.008433,0.050289,-0.012451,-0.049352,0.023951,-0.043768,0.013518,0.006663,0.030596,0.036390,0.038949,0.024641,0.017240,-0.071164,0.022006,0.012470,0.053326,0.011237,0.026813,-0.026166,0.001493,-0.070820,-0.000492,0.022458,0.000393,-0.011414,-0.045199,0.000212,0.004908,-0.046561,-0.026344,0.038215,-0.091710,-0.094102,0.130526,0.014380,-0.014424,0.044145,-0.024903,-0.027000,0.066853,0.013621,-0.072608,-0.004153,0.003805,-0.041054,0.020059,-0.003858,-0.017190,-0.068147,-0.038725,-0.031896,0.100176,0.062901,-0.080781,-0.003156,-0.013971,-0.005497,-0.012576,0.010137,-0.015165,-0.028729,-0.036197,0.077603,-0.014337,-0.056107,-0.006771,-0.013523,-0.012882,0.027753,-0.026701,-0.072054,-0.058620,-0.008550,0.017800,-0.089281,0.053711,0.029093,0.000409,-0.087118,0.023895,-0.075630,0.099018,0.009668,0.000368,-0.025157,0.011583,-0.034964,-0.038235,0.040094,0.059182,0.015295,-0.050944,-0.008052,0.012228,0.028943,-0.006373,0.008694,0.023907,-0.019945,0.072206,-0.016275,0.081785,-0.006951,0.002918,-0.004635,0.025618,-0.008036,-0.010441,0.002807,-0.034075,0.055350,-0.330719,-0.000827,0.012584,-0.056005,-0.004233,-0.031551,0.004008,-0.040113,-0.021700,0.007169,-0.035971,-0.028858,-0.033780,-0.005561,0.049425,-0.007184,-0.049825,-0.037098,-0.072691,-0.011480,-0.056462,-0.021913,-0.072331,-0.005234,0.066037,0.016512,0.074745,-0.080217,-0.015363,-0.006283,0.055206,0.029740,-0.042983,-0.070261,0.051216,-0.040234,0.033967,0.010274,-0.045488,-0.032907,-0.072270,0.027960,-0.031809,0.023026,0.009912,0.018583,-0.016446,-0.047352,-0.013299,-0.006431,-0.034923,0.026005,0.001697,0.059097,0.048100,-0.044211,0.045298,-0.004013,-0.028422,0.005000,0.031752,-0.004771,0.032118,-0.017469,0.052195,-0.041896,-0.003867,0.030754,-0.016322,0.006773,-0.041398,0.052809,-0.004530,-0.043921,0.060999,0.006017,-0.022280,-0.011035,-0.041227,0.024264,0.035510,0.005637,0.028958,0.041337,-0.038543,0.035370,0.061468,-0.016509,-0.006024,-0.045503,-0.037751,-0.027473,-0.016201,0.052906,0.049163,-0.002980,-0.258281,-0.002089,0.005849,-0.013280,0.001240,0.002304,0.012531,0.032722,-0.031846,0.092545,0.026376,0.035419,0.069600,-0.010214,0.028278,-0.013154,0.064287,-0.016593,0.080978,-0.001702,0.069946,0.042626,0.185498,0.018799,0.007205,-0.009037,-0.035651,0.021715,0.132981,0.003996,0.088897,0.054437,0.080635,-0.021156,-0.024933,-0.002118,-0.041804,0.069154,-0.014792,0.018206,-0.019421,-0.012493,-0.023689,-0.064168,0.062464,-0.022738,0.004254,-0.089559,0.006420,0.029630,0.056348,-0.033286,0.035034,0.006800,0.033219,-0.025374,-0.041757,0.008214,0.015620,0.077752,0.014773,-0.049704,-0.066947,0.000165,-0.014101]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_14', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 14, 'EXPLANATION AND RECONCILIATION OF THE FIRM’S USE OF NON-GAAP FINANCIAL MEASURES
+
+Non-GAAP financial measures
+
+The Firm prepares its Consolidated Financial Statements in accordance with U.S. GAAP; these financial statements appear on pages 165–169. That presentation, which is referred to as “reported” basis, provides the reader with an understanding of the Firm’s results that can be tracked consistently from year-to-year and enables a comparison of the Firm’s performance with the U.S. GAAP financial statements of other companies.
+
+In addition to analyzing the Firm’s results on a reported basis, management reviews Firmwide results, including the overhead ratio, on a “managed” basis; these Firmwide managed basis results are non-GAAP financial measures. The Firm also reviews the results of the lines of business on a managed basis. The Firm’s definition of managed basis starts, in each case, with the reported U.S. GAAP results and includes certain reclassifications to present total net revenue for the Firm as a whole, and for each of the reportable business segments and Corporate, on an FTE basis. Accordingly, revenue from investments that receive tax credits and tax-exempt securities is presented in the managed results on a basis comparable to taxable investments and securities. These financial measures
+
+allow management to assess the comparability of revenue from year-to-year arising from both taxable and tax-exempt sources. The corresponding income tax impact related to tax-exempt items is recorded within income tax expense. These adjustments have no impact on net income as reported by the Firm as a whole or by each of the lines of business and Corporate.
+
+Management also uses certain non-GAAP financial measures at the Firm and business-segment levels because these other non-GAAP financial measures provide information to investors about the underlying operational performance and trends of the Firm or of the particular business segment, as the case may be, and therefore facilitate a comparison of the Firm or the business segment with the performance of its relevant competitors. Refer to Business Segment & Corporate Results on pages 62–82 for additional information on these non-GAAP measures. Non-GAAP financial measures used by the Firm may not be comparable to similarly named non-GAAP financial measures used by other companies.
+
+The following summary table provides a reconciliation from the Firm’s reported U.S. GAAP results to managed basis.', '[-0.023178,-0.022286,-0.011913,-0.046670,0.012162,-0.003200,0.034559,-0.017781,0.062978,0.001445,0.051878,0.047464,-0.025196,-0.003095,-0.051904,-0.022665,-0.031902,-0.016163,0.045107,0.025349,0.018251,-0.028075,0.022191,0.101568,0.032392,0.037737,-0.004559,0.039786,-0.090638,-0.185836,-0.019095,-0.036723,0.002028,-0.005960,-0.001675,-0.004249,-0.011218,0.009526,0.047993,0.017830,-0.007262,0.010940,0.013892,-0.038821,0.004612,-0.013128,-0.002852,-0.031810,-0.036300,0.037562,0.034478,-0.067797,0.016736,0.024936,0.034492,0.063844,0.053171,0.003526,-0.036505,0.004978,0.033769,-0.041140,-0.198379,-0.010134,-0.010804,0.032935,-0.019215,0.013132,-0.021799,0.032157,-0.027585,0.008065,-0.053206,0.023306,0.028509,-0.025837,0.025771,0.010824,-0.054267,0.017923,0.027645,0.022384,-0.014925,-0.053188,-0.023571,0.033613,0.025364,0.000824,0.095474,-0.000003,-0.019194,0.002328,-0.057865,-0.083071,0.001591,-0.048192,0.013677,0.014929,-0.008374,0.340939,-0.005113,0.020129,0.005928,-0.043945,-0.034933,-0.009956,-0.031840,0.036620,0.031128,0.058854,-0.031404,-0.007656,0.005663,-0.066424,0.015724,-0.008648,-0.008025,-0.018429,0.046248,-0.022530,0.022741,0.017993,-0.002938,-0.032070,-0.033844,0.026730,0.060645,0.060073,0.055934,0.033048,-0.003224,-0.061938,-0.074919,0.008861,0.023707,-0.065915,-0.028705,0.026796,0.039969,0.040484,0.018598,-0.021929,-0.017630,-0.044438,-0.083548,0.171101,-0.041384,0.004193,-0.006677,-0.016831,-0.010581,0.089222,-0.002888,-0.092489,-0.002228,0.006474,-0.069949,-0.045469,-0.031237,0.015725,-0.008620,-0.013224,-0.025472,0.125579,0.018138,-0.101170,-0.025694,0.056968,-0.003336,-0.038091,-0.051645,-0.036568,-0.026626,-0.046699,0.028919,0.030783,-0.013257,-0.056281,-0.010756,0.029509,0.070852,-0.012485,-0.078807,0.004353,0.041940,0.074548,-0.065726,-0.016001,0.035338,0.034149,-0.085708,0.019348,-0.091104,0.010974,-0.033474,0.015804,-0.019395,0.017679,-0.027118,-0.016629,0.075723,0.041133,0.033310,0.046652,0.042809,0.061765,0.005270,0.000235,0.038522,0.038100,-0.034583,0.020209,-0.069837,0.052339,-0.031158,0.048182,0.019437,0.050847,-0.054752,0.068383,0.050373,-0.022977,0.003090,-0.280302,-0.011577,-0.028145,0.023893,0.009868,0.022948,-0.022045,0.020693,-0.032470,0.052571,-0.001784,0.018864,-0.044840,-0.057776,0.016109,-0.060391,-0.005269,-0.017954,-0.047725,-0.042814,-0.018133,0.008875,-0.016929,0.006652,0.103709,-0.041168,0.085596,-0.079721,0.063893,-0.006892,0.007955,0.051249,-0.055298,-0.072919,0.019145,-0.045070,-0.035662,-0.002172,-0.078189,-0.045079,-0.004802,-0.020784,0.032607,-0.023259,0.003541,-0.015739,0.016549,-0.047050,-0.006522,0.053342,-0.005256,-0.031382,-0.023908,0.032963,0.070610,-0.035675,-0.036996,-0.027097,-0.014449,-0.038015,-0.002284,0.011243,0.054099,-0.053254,0.074804,-0.021716,-0.006541,0.032524,0.014951,0.007344,-0.005015,0.024586,0.007301,-0.045583,-0.008415,0.022534,0.016980,-0.076690,-0.017294,0.011412,0.046118,0.079465,0.125011,0.013693,0.006282,-0.001786,-0.023923,-0.013031,0.054475,0.021251,-0.007290,-0.024186,-0.015219,-0.022079,0.026339,0.007042,-0.266955,-0.029192,-0.016625,-0.022431,0.015616,0.001195,-0.027947,0.009473,0.005326,0.056052,0.000853,-0.023185,0.061264,-0.058059,0.055427,0.014609,0.102512,-0.020194,0.053407,0.035680,0.082130,0.001895,0.173158,0.014310,-0.002782,-0.015674,0.010719,-0.019595,0.039996,0.038293,0.121104,0.015174,0.119911,-0.005569,0.026746,-0.016344,-0.021823,0.060098,-0.003491,-0.008571,0.009976,0.001148,-0.013983,0.010992,0.064451,0.039235,-0.036161,-0.082067,0.024983,-0.027878,-0.027836,0.035028,0.023689,0.014693,-0.017795,-0.024785,-0.048064,-0.007747,0.014802,-0.013037,-0.043077,0.041846,-0.062647,0.020410,0.007258]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_15', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 15, 'Management also uses certain non-GAAP financial measures at the Firm and business-segment levels because these other non-GAAP financial measures provide information to investors about the underlying operational performance and trends of the Firm or of the particular business segment, as the case may be, and therefore facilitate a comparison of the Firm or the business segment with the performance of its relevant competitors. Refer to Business Segment & Corporate Results on pages 62–82 for additional information on these non-GAAP measures. Non-GAAP financial measures used by the Firm may not be comparable to similarly named non-GAAP financial measures used by other companies.
+
+The following summary table provides a reconciliation from the Firm’s reported U.S. GAAP results to managed basis.
+
+| 2025 | 2024 | 2023 |
+| Year ended December 31, (in millions, except ratios) | Reported | Fully taxable-equivalent adjustments (a) | Managed basis | Reported | Fully taxable-equivalent adjustments (a) | Managed basis | Reported | Fully taxable-equivalent adjustments (a) | Managed basis |
+| Other income | $ | 6,174 | $ | 2,709 | $ | 8,883 | $ | 12,462 | (b) | $ | 2,560 | (b) | $ | 15,022 | $ | 5,609 | $ | 3,782 | $ | 9,391 |
+| Total noninterest revenue | 87,004 | 2,709 | 89,713 | 84,973 | 2,560 | 87,533 | 68,837 | 3,782 | 72,619 |
+| Net interest income | 95,443 | 425 | 95,868 | 92,583 | 477 | 93,060 | 89,267 | 480 | 89,747 |
+| Total net revenue | 182,447 | 3,134 | 185,581 | 177,556 | 3,037 | 180,593 | 158,104 | 4,262 | 162,366 |
+| Total noninterest expense | 95,640 | NA | 95,640 | 91,797 | NA | 91,797 | 87,172 | NA | 87,172 |
+| Pre-provision profit | 86,807 | 3,134 | 89,941 | 85,759 | 3,037 | 88,796 | 70,932 | 4,262 | 75,194 |
+| Provision for credit losses | 14,212 | NA | 14,212 | 10,678 | NA | 10,678 | 9,320 | NA | 9,320 |
+| Income before income tax expense | 72,595 | 3,134 | 75,729 | 75,081 | 3,037 | 78,118 | 61,612 | 4,262 | 65,874 |
+| Income tax expense | 15,547 | 3,134 | 18,681 | 16,610 | (b) | 3,037 | (b) | 19,647 | 12,060 | 4,262 | 16,322 |
+| Net income | $ | 57,048 | NA | $ | 57,048 | $ | 58,471 | NA | $ | 58,471 | $ | 49,552 | NA | $ | 49,552 |
+| Overhead ratio | 52 | % | NM | 52 | % | 52 | % | NM | 51 | % | 55 | % | NM | 54 | % |
+
+Fully taxable-equivalent adjustments (a)
+
+Fully taxable-equivalent adjustments (a)
+
+Fully taxable-equivalent adjustments (a)
+
+(b)
+
+(b)
+
+(b)
+
+(b)
+
+%
+
+(a) For other income, recognized in CIB, and for net interest income, predominantly recognized in CIB and Corporate.
+
+(b) Effective January 1, 2024, the Firm adopted updates to the Accounting for Investments in Tax Credit Structures guidance, under the modified retrospective method. Refer to Notes 1, 6, 14 and 25 for additional information.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 59 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+59
+
+Net interest income, net yield, and noninterest revenue excluding Markets', '[-0.055798,-0.050600,-0.021002,-0.043615,0.002425,-0.025612,0.051185,-0.046670,0.047137,-0.023595,0.067913,0.057191,-0.029704,-0.022634,-0.045351,-0.036062,-0.028724,-0.049426,0.052330,0.039709,0.016785,-0.016631,0.063292,0.095829,0.042933,0.024512,-0.032276,0.056872,-0.071185,-0.179040,-0.005441,-0.035654,-0.003570,0.004493,-0.001534,-0.001514,-0.014837,0.025854,0.047663,0.027698,-0.029817,0.012682,0.013335,-0.011187,-0.000146,0.008263,-0.018948,-0.010607,-0.023490,0.064309,0.024634,-0.107541,-0.000014,0.024243,0.016066,0.028313,0.036572,0.003650,-0.040914,0.020032,0.018024,-0.014497,-0.198333,0.001404,-0.021408,0.023931,-0.028368,-0.007825,-0.010051,0.034627,-0.016839,0.000222,-0.025410,-0.012353,0.021573,-0.031013,0.037257,-0.023425,-0.068113,0.009973,-0.008608,0.003386,-0.027120,-0.047550,-0.011701,0.045951,0.017644,0.000771,0.080362,-0.010400,-0.035455,-0.000591,-0.014682,-0.065501,-0.002771,-0.011644,0.016387,0.020961,-0.004404,0.360403,-0.034529,0.027256,-0.011583,-0.025357,-0.018624,0.020393,-0.048081,0.015479,0.011787,0.036434,-0.051955,-0.027244,0.015857,-0.065075,-0.015489,0.027950,0.024840,-0.027227,0.053853,-0.007832,0.020278,0.002457,0.013568,-0.031351,-0.044102,0.043027,0.041961,0.016825,0.029293,0.029695,-0.001694,-0.075463,-0.073089,-0.004599,0.041382,-0.047637,-0.000677,-0.000059,0.033980,0.050804,-0.002050,-0.034949,-0.011729,-0.078946,-0.057762,0.164242,-0.036654,-0.008588,0.012935,-0.049969,-0.010886,0.071135,0.035871,-0.062315,-0.028957,-0.001811,-0.048864,-0.002639,-0.050833,0.018681,-0.018040,-0.033666,-0.023606,0.130170,0.026173,-0.088368,-0.021952,0.042956,0.004504,-0.043039,-0.040156,-0.021103,-0.018279,-0.042909,0.068566,0.028637,-0.039778,-0.048539,-0.012611,0.031947,0.068897,0.004383,-0.072974,-0.003483,0.017390,0.063636,-0.057322,-0.029298,0.017940,0.047733,-0.086840,0.036200,-0.104525,0.058672,-0.002348,0.017478,-0.037053,0.012850,-0.024749,-0.032034,0.068203,0.034645,0.013336,0.030038,0.049772,0.039018,-0.002207,-0.035709,0.071450,0.008800,-0.035280,0.009979,-0.068159,0.051714,0.002011,0.068785,0.024399,0.030988,-0.033958,0.088796,0.031781,0.015324,0.019733,-0.262843,-0.003109,-0.055864,-0.004531,-0.014498,0.031931,-0.013218,0.013258,-0.039155,0.093315,-0.030592,0.021273,-0.029767,-0.042999,0.015602,-0.026270,0.001436,-0.034906,-0.026231,-0.044924,-0.028588,0.052723,-0.023621,0.022822,0.098998,-0.053251,0.071299,-0.078399,0.036969,-0.015898,0.003421,0.039650,-0.053743,-0.027272,0.024822,-0.054362,-0.038404,-0.012464,-0.053659,-0.046062,-0.029393,0.019606,0.015904,-0.021700,-0.010838,-0.007289,0.008788,-0.051230,-0.022229,0.038558,-0.028451,-0.012645,-0.036371,0.029682,0.078791,-0.066189,-0.041791,-0.016449,-0.003435,-0.034165,0.024122,-0.019880,0.032715,-0.028579,0.038234,-0.028227,0.020305,0.015682,0.004413,0.050073,-0.035035,-0.002917,0.039000,-0.043183,-0.000982,0.002498,0.029826,-0.015404,-0.019604,0.016282,0.047808,0.047168,0.091239,0.017038,-0.001572,0.001926,-0.018333,-0.004479,0.058807,0.010572,0.005925,-0.054923,-0.017028,0.009188,0.036843,0.020811,-0.247633,0.006689,-0.022975,-0.016583,0.019724,0.008525,-0.029175,-0.019752,-0.003966,0.054118,0.026506,-0.018944,0.086616,-0.061198,0.071052,0.008655,0.095147,-0.017652,0.074854,0.042942,0.071569,0.023271,0.198904,0.015127,-0.002654,-0.012430,0.008562,-0.010374,0.078255,0.027688,0.085436,0.005523,0.113038,-0.024111,0.067599,-0.001227,0.012775,0.055840,-0.012353,0.011923,0.018558,-0.025173,-0.034254,0.024396,0.095532,0.040601,-0.033933,-0.073888,0.049519,-0.015125,-0.024031,0.039595,0.026409,0.018824,-0.056899,-0.029246,-0.061693,-0.002008,0.005598,-0.023523,-0.031720,0.057070,-0.096913,0.006591,0.031874]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_16', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 16, 'JPMorgan Chase & Co./2025 Form 10-K
+
+59
+
+Net interest income, net yield, and noninterest revenue excluding Markets
+
+In addition to reviewing net interest income, net yield, and noninterest revenue on a managed basis, management also reviews these metrics excluding Markets, as shown below. Markets consists of CIB’s Fixed Income Markets and Equity Markets. These metrics, which exclude Markets, are non-GAAP financial measures. Management reviews these metrics to assess the performance of the Firm’s lending, investing (including asset-liability management) and deposit-raising activities, apart from any volatility associated with Markets activities. In addition, management also assesses Markets business performance on a total revenue basis as offsets may occur across revenue lines. Management believes that these measures provide investors and analysts with alternative measures to analyze the revenue trends of the Firm.
+
+| Year ended December 31, (in millions, except rates) | 2025 | 2024 | 2023 |
+| Net interest income – reported (a) | $ | 95,443 | $ | 92,583 | $ | 89,267 |
+| Fully taxable-equivalent adjustments | 425 | 477 | 480 |
+| Net interest income – managed basis | $ | 95,868 | $ | 93,060 | $ | 89,747 |
+| Less: Markets net interest income (b) | 3,277 | 641 | (294) |
+| Net interest income excluding Markets | $ | 92,591 | $ | 92,419 | $ | 90,041 |
+| Average interest-earning assets (a) | $ | 3,834,359 | $ | 3,537,567 | $ | 3,325,708 |
+| Less: Average Markets interest-earning assets (b) | 1,363,174 | 1,128,153 | 985,777 |
+| Average interest-earning assets excluding Markets | $ | 2,471,185 | $ | 2,409,414 | $ | 2,339,931 |
+| Net yield on average interest-earning assets – managed basis | 2.50 | % | 2.63 | % | 2.70 | % |
+| Net yield on average Markets interest-earning assets (b) | 0.24 | 0.06 | (0.03) |
+| Net yield on average interest-earning assets excluding Markets | 3.75 | % | 3.84 | % | 3.85 | % |
+
+Net interest income – reported (a)
+
+Less: Markets net interest income (b)
+
+Average interest-earning assets (a)
+
+Less: Average Markets interest-earning assets (b)
+
+Net yield on average interest-earning assets – managed basis
+
+Net yield on average Markets interest-earning assets (b)
+
+Net yield on average interest-earning assets excluding Markets
+
+| Noninterest revenue –  reported | $ | 87,004 | $ | 84,973 | (c) | $ | 68,837 |
+| Fully taxable-equivalent adjustments | 2,709 | 2,560 | (c) | 3,782 |
+| Noninterest revenue –  managed basis | $ | 89,713 | $ | 87,533 | $ | 72,619 |
+| Less: Markets noninterest revenue (b) | 32,505 | 29,366 | 28,258 |
+| Noninterest revenue excluding Markets | $ | 57,208 | $ | 58,167 | $ | 44,361 |
+| Memo: Total Markets net revenue (b) | $ | 35,782 | $ | 30,007 | $ | 27,964 |
+
+(c)
+
+Fully taxable-equivalent adjustments
+
+(c)
+
+Less: Markets noninterest revenue (b)
+
+Memo: Total Markets net revenue (b)
+
+(a) Includes the effect of derivatives that qualify for hedge accounting. Taxable-equivalent amounts are used where applicable. Refer to Note 5 for additional information on hedge accounting.
+
+(b) Refer to pages 73-74 for further information on Markets.
+
+(c) Effective January 1, 2024, the Firm adopted updates to the Accounting for Investment in Tax Credit Stricture guidance, under the modified retrospective method. Refer to Notes 1, 6, 14 and 25 for additional information.', '[-0.066095,-0.009500,-0.014089,0.015431,0.009124,-0.021614,0.000911,0.003282,0.033013,0.021315,0.062834,0.014779,-0.005158,-0.001800,-0.053562,-0.041294,0.005314,-0.034832,0.019130,0.068608,0.075139,-0.051876,0.042224,0.001596,0.073834,0.026304,-0.000829,0.038608,-0.057518,-0.157656,-0.006582,-0.016471,0.050728,0.010282,0.013778,0.015674,-0.042930,0.034112,-0.003145,-0.000935,-0.038580,-0.003782,0.009083,-0.001118,0.021507,-0.090871,-0.050705,-0.003141,-0.024757,0.040666,-0.008222,-0.110424,0.019575,0.080849,-0.035262,0.024438,0.024206,-0.001057,0.013748,0.033029,0.039680,-0.004590,-0.176377,-0.035428,0.019219,0.049218,0.004543,0.039144,-0.013925,0.007162,0.008237,0.013067,-0.051378,-0.007135,-0.021650,-0.041946,0.052809,0.017643,-0.078426,0.066630,-0.059255,-0.009039,-0.019027,-0.016807,0.031774,0.002992,-0.009657,0.029526,0.078148,0.007079,-0.014911,-0.036074,-0.067211,-0.027463,-0.041723,-0.041304,-0.002568,-0.005653,-0.036634,0.359620,0.055154,0.034572,-0.019705,-0.018831,0.005356,-0.045629,-0.011915,0.013190,0.063683,0.026271,-0.026665,-0.027560,0.044443,-0.058581,-0.009875,0.003914,0.023848,0.027471,0.071683,-0.008690,0.001285,0.063965,0.065116,0.005720,-0.008441,0.026441,0.011849,0.041686,0.013466,0.007043,0.012444,-0.017260,-0.113907,0.013824,0.030935,0.036708,-0.021505,-0.003409,0.015400,0.046717,-0.021779,-0.028930,-0.003356,-0.064907,-0.042131,0.134767,0.019895,0.028013,-0.008527,-0.007598,-0.070697,0.106270,0.021881,-0.087778,-0.010438,0.025979,-0.037624,0.003096,-0.036775,-0.005661,-0.040334,-0.047351,-0.045706,0.124283,0.005630,-0.046753,-0.031083,0.030617,-0.008813,-0.040751,0.002298,-0.031951,-0.017010,-0.008535,0.060362,0.006740,-0.025095,0.015258,-0.015171,0.007185,0.029939,-0.001103,-0.052977,0.009206,-0.011281,0.026176,-0.071420,-0.015868,-0.029383,-0.008349,-0.069770,-0.016260,-0.125399,0.038524,0.020055,0.034195,-0.010577,0.023653,-0.030168,-0.081411,0.065274,-0.000426,0.035898,0.016390,0.024384,0.016057,-0.005575,0.005339,0.051177,0.014895,-0.038889,-0.030781,-0.053220,0.044467,-0.001192,0.026956,0.064569,0.068564,-0.018050,0.009972,0.006804,0.030219,0.000093,-0.344937,-0.034439,-0.037257,0.052437,0.053891,-0.030619,0.046246,0.014694,-0.010113,0.092303,-0.028049,-0.006557,-0.087449,-0.027059,0.024215,-0.031077,-0.030082,-0.034336,-0.054380,-0.015713,-0.012839,0.004842,-0.032296,0.025286,0.105035,-0.041129,0.069893,-0.078018,0.001998,0.007757,0.020293,0.048536,-0.024224,-0.027923,0.022614,-0.027744,0.004474,0.013952,-0.044542,-0.046845,-0.058617,0.023952,0.023426,-0.033766,0.003974,0.018310,0.019549,0.000509,-0.002737,0.031342,-0.004897,-0.082798,0.057176,0.008901,0.063235,-0.024535,-0.048714,0.000193,-0.060260,-0.022798,0.019861,-0.014619,0.029955,-0.000440,0.003908,-0.034584,0.018874,0.045975,0.003936,0.026067,-0.041450,-0.003170,-0.007884,-0.024877,0.032862,0.021099,0.020157,-0.016286,-0.028714,0.039132,0.036534,0.042467,0.059098,0.030277,-0.036881,0.018122,0.043338,-0.005956,0.004191,0.004208,-0.013925,-0.011027,-0.054497,0.049411,0.050538,0.010065,-0.248018,-0.022335,-0.028830,-0.032357,0.022640,-0.041540,0.016886,-0.002445,-0.053088,0.097532,0.020472,-0.002461,0.020260,-0.088792,0.010441,-0.038022,0.052006,-0.021825,0.119772,0.006246,0.068835,-0.016567,0.187199,0.038727,-0.013566,0.001531,-0.039004,-0.042985,0.062430,0.035944,0.079366,0.027283,0.081727,-0.033943,0.014028,0.025458,0.045102,0.098638,0.014294,0.029808,0.002372,0.019150,-0.019021,0.016061,0.023046,-0.037960,-0.027840,-0.030223,0.046277,-0.019910,0.016332,-0.015756,0.014085,0.011420,0.028062,-0.041195,-0.016625,-0.041007,0.014478,0.030218,-0.035493,-0.060489,-0.077070,-0.001887,0.011876]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_17', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 17, '(c)
+
+Fully taxable-equivalent adjustments
+
+(c)
+
+Less: Markets noninterest revenue (b)
+
+Memo: Total Markets net revenue (b)
+
+(a) Includes the effect of derivatives that qualify for hedge accounting. Taxable-equivalent amounts are used where applicable. Refer to Note 5 for additional information on hedge accounting.
+
+(b) Refer to pages 73-74 for further information on Markets.
+
+(c) Effective January 1, 2024, the Firm adopted updates to the Accounting for Investment in Tax Credit Stricture guidance, under the modified retrospective method. Refer to Notes 1, 6, 14 and 25 for additional information.
+
+| Calculation of certain U.S. GAAP and non-GAAP financial measures |
+| Certain U.S. GAAP and non-GAAP financial measures are calculated as follows: |
+| Book value per share (“BVPS”) Common stockholders’ equity at period-end / Common shares at period-end |
+| Overhead ratio Total noninterest expense / Total net revenue |
+| ROA Reported net income / Total average assets |
+| ROE Net income* / Average common stockholders’ equity |
+| ROTCE Net income* / Average tangible common equity |
+| TBVPS Tangible common equity at period-end / Common shares at period-end |
+| * Represents net income applicable to common equity |
+
+Calculation of certain U.S. GAAP and non-GAAP financial measures
+
+Certain U.S. GAAP and non-GAAP financial measures are calculated as follows:
+
+Book value per share (“BVPS”)
+
+Common stockholders’ equity at period-end /
+
+Common shares at period-end
+
+Overhead ratio
+
+Total noninterest expense / Total net revenue
+
+ROA
+
+Reported net income / Total average assets
+
+ROE
+
+Net income* / Average common stockholders’ equity
+
+ROTCE
+
+Net income* / Average tangible common equity
+
+TBVPS
+
+Tangible common equity at period-end / Common shares at period-end
+
+* Represents net income applicable to common equity
+
+In addition, the Firm reviews other non-GAAP measures such as:
+
+• Adjusted expense, which represents noninterest expense excluding Firmwide legal expense, and
+
+• Pre-provision profit, which represents total net revenue less total noninterest expense.
+
+Management believes that these measures help investors to understand the effect of these items on reported results and provide an alternative presentation of the Firm’s performance.
+
+| 60 | JPMorgan Chase & Co./2025 Form 10-K |
+
+60
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+TCE, ROTCE and TBVPS
+
+TCE, ROTCE and TBVPS are each non-GAAP financial measures. TCE represents the Firm’s common stockholders’ equity (i.e., total stockholders’ equity less preferred stock) less goodwill and identifiable intangible assets (other than MSRs), net of related deferred tax liabilities. ROTCE measures the Firm’s net income applicable to common equity as a percentage of average TCE. TBVPS represents the Firm’s TCE at period-end divided by common shares at period-end. TCE, ROTCE and TBVPS are utilized by the Firm, as well as investors and analysts, in assessing the Firm’s use of equity.
+
+The following summary table provides a reconciliation from the Firm’s common stockholders’ equity to TCE.', '[-0.051408,0.004321,-0.053962,-0.015927,-0.005492,0.002756,0.042859,0.001895,0.068150,0.003826,0.070953,0.022090,0.016648,-0.021273,-0.058521,-0.034578,-0.037051,-0.016537,0.001141,0.067022,0.083504,-0.048093,0.067304,0.054746,0.067611,0.017026,-0.041050,0.014563,-0.051528,-0.159050,0.000377,-0.018295,0.006238,-0.048499,-0.005370,0.003026,-0.025606,0.026626,0.036972,-0.004338,-0.038203,0.011181,-0.026663,0.004930,0.011466,-0.056313,-0.039556,0.003536,-0.021527,0.083345,-0.004706,-0.070277,0.040223,0.022939,-0.018630,-0.013050,-0.010701,0.004642,0.009162,0.020828,0.035507,0.004206,-0.183364,-0.001237,0.025161,-0.012482,-0.018471,0.020342,0.016817,0.044773,-0.023381,0.036691,-0.066927,0.028281,0.044565,-0.000488,0.006570,0.005561,-0.071294,0.016731,-0.003037,-0.005577,-0.003472,-0.010069,0.017136,0.040316,0.039194,0.004253,0.070764,-0.014773,-0.007193,-0.019736,-0.021361,-0.046645,-0.048444,-0.032067,0.015975,-0.019082,0.010484,0.329639,0.033371,0.010892,-0.030311,-0.009925,-0.001759,0.009341,-0.003506,0.022572,0.066969,0.007585,-0.033092,0.001208,0.025225,-0.079404,-0.013093,0.019544,0.018522,0.005454,0.070503,-0.045334,0.026527,0.050593,0.001020,0.029951,-0.037146,0.043064,0.064360,0.092836,0.050378,0.055378,0.006819,-0.028745,-0.041454,0.011185,0.074886,0.032982,-0.001663,-0.007611,0.021502,0.054378,-0.036572,-0.017955,-0.060644,-0.061038,-0.068891,0.168019,-0.015746,-0.023891,-0.000695,-0.003993,-0.013583,0.081548,0.003937,-0.060309,-0.010318,-0.002312,-0.013819,-0.010407,-0.043241,-0.014575,-0.047974,-0.043354,-0.036562,0.146845,-0.033096,-0.070684,-0.002843,0.056173,-0.015716,-0.041183,-0.022644,-0.046213,-0.019914,-0.020974,0.086154,0.023872,-0.027264,-0.036301,-0.031834,0.015772,0.032282,-0.033636,-0.081354,-0.000551,0.018145,0.065689,-0.061208,-0.061201,-0.021200,0.008953,-0.043654,-0.011413,-0.127891,0.041088,-0.018948,0.004885,-0.011431,-0.011595,-0.025075,-0.014116,0.060793,0.011598,0.011668,0.018929,0.012308,0.029558,0.001769,-0.023931,0.045698,0.037741,-0.036473,0.063984,-0.054266,0.038576,-0.023528,0.117007,0.025011,0.047678,-0.040129,0.045820,0.028457,-0.031994,0.047557,-0.314681,0.017265,-0.012400,0.025186,0.067242,-0.031920,-0.017653,0.039843,-0.051487,0.037486,0.011934,0.023589,-0.084203,-0.040562,0.042649,-0.029212,-0.005458,-0.065571,-0.030561,-0.023277,-0.017574,0.039302,-0.053034,-0.013817,0.099091,-0.016148,0.041991,-0.096869,0.027611,-0.033755,-0.019832,0.063491,-0.053107,-0.043539,0.020667,-0.016136,-0.035611,-0.018227,-0.050901,-0.045774,-0.051067,0.011832,0.015649,-0.015116,0.001797,0.046398,0.016061,-0.040636,-0.014659,0.032184,-0.012066,-0.081651,0.002211,0.048583,0.091421,-0.064149,-0.013582,-0.049737,0.028426,-0.021737,-0.018207,-0.032275,0.045122,-0.020107,0.017560,-0.049219,0.033797,0.008920,-0.032158,-0.001652,-0.064133,0.027006,0.005098,-0.058475,-0.028420,0.038488,-0.003126,0.015502,-0.003367,0.011940,0.033452,0.048214,0.094345,0.005644,-0.046151,-0.008271,0.038870,-0.033615,0.027652,-0.028343,-0.033379,-0.026895,-0.020234,0.017980,0.029035,0.047590,-0.276918,-0.019827,-0.007075,-0.010219,0.057762,-0.024570,-0.002553,0.035177,-0.016970,0.042019,-0.045246,-0.001052,0.053503,-0.031014,0.027024,-0.030335,0.102841,-0.012720,0.078210,0.004522,0.095996,-0.021669,0.175476,0.067932,-0.008547,-0.011256,0.000045,-0.052321,0.063439,0.027228,0.058508,-0.004021,0.068977,-0.041056,0.018244,0.010833,-0.032540,0.075370,0.017437,0.008773,0.004310,0.024010,-0.016822,0.028155,0.056592,0.029357,-0.023466,-0.055212,-0.008375,-0.031680,0.016464,0.017095,0.025730,0.021797,-0.000427,-0.018701,-0.040969,-0.007231,0.013851,0.016288,-0.038325,0.002272,-0.070812,0.021276,0.041808]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_18', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 18, 'TCE, ROTCE and TBVPS are each non-GAAP financial measures. TCE represents the Firm’s common stockholders’ equity (i.e., total stockholders’ equity less preferred stock) less goodwill and identifiable intangible assets (other than MSRs), net of related deferred tax liabilities. ROTCE measures the Firm’s net income applicable to common equity as a percentage of average TCE. TBVPS represents the Firm’s TCE at period-end divided by common shares at period-end. TCE, ROTCE and TBVPS are utilized by the Firm, as well as investors and analysts, in assessing the Firm’s use of equity.
+
+The following summary table provides a reconciliation from the Firm’s common stockholders’ equity to TCE.
+
+| Period-end | Average |
+| Dec 31, 2025 | Dec 31, 2024 | Year ended December 31, |
+| (in millions, except per share and ratio data) | 2025 | 2024 | 2023 |
+| Common stockholders’ equity | $ | 342,393 | $ | 324,708 | $ | 332,754 | $ | 312,370 | $ | 282,056 |
+| Less: Goodwill | 52,731 | 52,565 | 52,677 | 52,627 | 52,258 |
+| Less: Other intangible assets | 2,560 | 2,874 | 2,706 | 3,042 | 2,572 |
+| Add: Certain deferred tax liabilities (a) | 2,916 | 2,943 | 2,921 | 2,970 | 2,883 |
+| Tangible common equity | $ | 290,018 | $ | 272,212 | $ | 280,292 | $ | 259,671 | $ | 230,109 |
+| Return on tangible common equity | NA | NA | 20 | % | 22 | % | 21 | % |
+| Tangible book value per share | $ | 107.56 | $ | 97.30 | NA | NA | NA |
+
+Common stockholders’ equity
+
+Less: Other intangible assets
+
+Add: Certain deferred tax liabilities (a)
+
+(a) Represents deferred tax liabilities related to tax-deductible goodwill and to identifiable intangibles created in nontaxable transactions, which are netted against goodwill and other intangibles when calculating TCE.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 61 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+61
+
+| BUSINESS SEGMENT & CORPORATE RESULTS |
+
+The Firm is managed on an LOB basis. The Firm has three reportable business segments – Consumer & Community Banking, Commercial & Investment Bank, and Asset & Wealth Management – with the remaining activities in Corporate.
+
+The business segments are determined based on the products and services provided, or the type of customers and clients served, and they reflect the manner in which financial information is evaluated by the Firm’s Operating Committee, whose members act collectively as the Firm’s chief operating decision maker. Segment results are presented on a managed basis. Refer to Explanation and Reconciliation of the Firm’s Use of Non-GAAP Financial Measures, on pages 59–61 for a definition of managed basis.
+
+The following table depicts the Firm’s reportable business segments.
+
+Description of business segment reporting methodology
+
+Results of the reportable business segments are intended to present each segment as if it were a stand-alone business. The management reporting process that derives business segment results includes the allocation of certain income and expense items. The Firm periodically assesses the assumptions, methodologies and reporting classifications used for segment reporting, and therefore further refinements may be implemented in future periods. The Firm also assesses the level of capital required for each LOB on at least an annual basis. The Firm’s LOBs also provide various business metrics which are utilized by the Firm and its investors and analysts in assessing performance.
+
+Revenue sharing', '[-0.085584,-0.025706,-0.025263,-0.059023,0.082640,-0.004233,0.052728,-0.025337,0.062988,-0.029009,0.061039,-0.017691,0.013063,-0.027300,-0.009949,-0.041807,0.024505,-0.031126,-0.006873,0.068011,0.023531,-0.041291,0.031835,-0.005474,0.057233,-0.012701,-0.064045,0.013063,-0.063805,-0.142369,0.033947,-0.036014,-0.000507,0.001709,0.024622,0.034734,0.004246,-0.004363,0.057515,-0.028879,-0.035097,0.028536,-0.013774,-0.043370,-0.006651,-0.062937,0.017407,-0.024385,-0.011425,0.066656,0.044241,-0.052305,0.021143,0.008067,0.007064,0.020359,0.056008,0.063843,-0.003310,-0.004973,0.025073,-0.040217,-0.148073,-0.011578,0.031060,0.026169,0.022704,0.019717,0.017410,-0.036348,0.046028,-0.006317,-0.049605,0.054763,0.042294,-0.000873,0.008975,0.000261,-0.092870,0.005649,0.015546,0.052431,0.022444,0.006257,0.004319,0.064189,0.065661,-0.042802,0.077243,-0.000309,0.021492,-0.000909,0.003455,-0.038444,-0.032046,-0.040809,-0.016968,0.024691,-0.043019,0.321926,0.033374,0.002147,0.009119,-0.045004,0.046545,-0.034089,-0.009586,-0.007953,0.020496,0.045156,0.002058,-0.084947,-0.001006,-0.024459,-0.033258,0.005786,-0.024380,0.022090,0.016301,-0.025093,0.015175,0.017453,-0.024227,-0.018880,-0.041628,-0.000298,0.044089,0.069801,0.053613,0.056005,0.022148,-0.003085,-0.041137,0.021506,0.073223,-0.032115,0.009263,0.019600,0.000608,0.010567,-0.007230,-0.039824,-0.026049,-0.029617,-0.076932,0.128595,-0.006967,-0.013142,0.004885,0.008356,-0.007599,0.083553,-0.019632,-0.060199,-0.009672,0.002191,-0.048047,0.009660,-0.050784,0.012052,-0.023373,-0.065462,-0.017082,0.186469,0.006872,-0.115556,-0.009731,0.015945,-0.020307,0.002689,-0.019883,-0.013250,-0.017008,-0.031655,0.071534,0.032731,-0.004777,-0.043137,0.017824,-0.007972,0.024749,-0.000023,-0.058269,0.008363,0.064794,0.088796,-0.039821,-0.034753,0.037262,0.032159,-0.042632,0.006984,-0.119623,0.001250,-0.010969,0.025200,-0.013343,-0.026400,-0.039111,0.059545,0.061601,0.008931,-0.004315,0.052163,-0.032391,0.029428,-0.042642,-0.000853,0.055262,0.021812,0.006149,0.050454,-0.044333,-0.008421,-0.010590,0.103399,0.028948,0.067994,0.016968,0.030376,-0.014596,-0.012204,0.087477,-0.309333,0.013856,-0.038931,-0.046345,0.047289,-0.024229,-0.114213,0.031436,-0.018191,-0.001714,0.036829,0.036019,-0.062295,-0.043981,0.008890,0.033471,-0.013682,-0.055476,-0.082942,-0.039655,-0.015440,-0.005855,-0.065224,0.017631,0.108847,0.025506,0.064762,-0.094694,0.007288,0.000337,-0.011433,0.079533,-0.015220,-0.021969,0.015871,-0.038252,-0.064629,-0.001302,-0.073287,-0.033753,-0.022870,0.016594,0.025310,-0.076299,0.013330,0.003397,0.002712,-0.030576,0.038484,0.065644,-0.010781,-0.074153,-0.035389,0.046016,0.084883,-0.033060,-0.062511,-0.029663,-0.001258,-0.000078,0.019862,0.006902,0.057278,-0.025300,0.054773,-0.065006,0.047188,0.014422,0.000083,-0.012508,-0.019730,0.038910,-0.026627,-0.087135,-0.046287,0.024991,-0.034737,-0.013099,0.067337,0.029340,0.043646,0.012197,0.071152,-0.007321,-0.024431,0.016433,0.041373,-0.066331,0.054417,-0.026791,-0.042816,-0.042939,-0.012240,0.050957,0.027181,0.014476,-0.277588,0.019413,-0.009377,-0.028491,0.016072,0.001984,-0.006009,0.003804,-0.017157,0.001135,0.005433,0.005543,0.023010,-0.083359,0.080542,-0.020196,0.099353,-0.070118,0.058237,-0.021817,0.040297,-0.013253,0.160399,0.064166,-0.038863,-0.013677,-0.023544,0.005562,0.008674,0.020792,0.015901,-0.002950,0.082090,-0.015477,-0.000440,0.040460,-0.017714,0.067317,-0.044576,0.042924,-0.000412,-0.003743,0.001489,-0.006595,0.031194,-0.024380,-0.023059,-0.053773,0.017852,0.011532,0.016114,0.033791,-0.021837,-0.012078,0.025020,-0.013329,-0.007381,0.011908,0.014183,-0.021483,-0.081551,0.026134,-0.038835,0.063628,0.040880]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_19', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 19, 'Results of the reportable business segments are intended to present each segment as if it were a stand-alone business. The management reporting process that derives business segment results includes the allocation of certain income and expense items. The Firm periodically assesses the assumptions, methodologies and reporting classifications used for segment reporting, and therefore further refinements may be implemented in future periods. The Firm also assesses the level of capital required for each LOB on at least an annual basis. The Firm’s LOBs also provide various business metrics which are utilized by the Firm and its investors and analysts in assessing performance.
+
+Revenue sharing
+
+When business segments or businesses within each segment join efforts to sell products and services to the Firm’s clients and customers, the participating businesses may agree to share revenue from those transactions. Revenue is generally recognized in the segment responsible for the related product or service, with allocations to the other segments or businesses involved in the transaction. The segment and business results reflect these revenue-sharing agreements.
+
+Expense allocation
+
+Where business segments use services provided by Corporate support units, or another business segment, the costs of those services are allocated to the respective business segments. The expense is generally allocated based on the actual cost and use of services provided. In contrast, certain costs and investments related to Corporate that are not currently utilized by any LOB are not allocated to the business segments and are retained in Corporate. Expense retained in Corporate generally includes costs that would not be incurred if the segments were stand-alone businesses, and other items not solely aligned with a particular reportable business segment.
+
+| 62 | JPMorgan Chase & Co./2025 Form 10-K |
+
+62
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Funds transfer pricing
+
+Funds transfer pricing (“FTP”) is the process by which the Firm allocates interest income and expense to the LOBs and Other Corporate and transfers the primary interest rate risk and liquidity risk to Treasury and CIO.
+
+The funds transfer pricing process considers the interest rate and liquidity risk characteristics of assets and liabilities and off-balance sheet products. Periodically, the methodology and assumptions utilized in the FTP process are adjusted to reflect economic conditions and other factors, which may impact the allocation of net interest income to the segments. Effective in the fourth quarter of 2024, the Firm updated its FTP with respect to consumer deposits, which resulted in an increase in the funding benefit reflected within CCB’s net interest income that is fully offset in Corporate, with no effect on the Firm’s net interest income.
+
+As a result of lower average interest rates in the current year, the cost of funding for assets and the funding benefit earned for liabilities generally decreased compared with the prior year. During the period ended December 31, 2025, this resulted in a lower cost of funds for loans and Markets activities. In addition, the FTP benefit for deposits generally decreased more than the decrease in rates paid to deposit holders during the year, resulting in an overall deposit margin compression.
+
+Foreign exchange risk
+
+Foreign exchange risk is transferred from the LOBs and Other Corporate to Treasury and CIO for certain revenues and expenses. Treasury and CIO manages these risks centrally and reports the impact of foreign exchange rate movements related to the transferred risk in its results. Refer to Market Risk Management on page 142 for additional information.
+
+Debt expense and preferred stock dividend allocation', '[0.018227,-0.041953,-0.017801,-0.013542,0.021973,-0.016285,0.052350,-0.008041,0.064369,0.004762,0.056780,0.033008,-0.024545,-0.019240,-0.048859,-0.012256,0.009079,-0.062182,0.050976,0.027384,0.032454,-0.095583,-0.051454,0.042677,0.032245,0.036882,0.009920,0.046632,-0.063091,-0.184819,-0.011505,-0.018100,-0.003476,-0.030515,0.050573,0.036815,-0.062600,0.024374,-0.020809,-0.001928,-0.009625,0.000476,-0.004476,-0.025594,-0.023591,-0.026735,-0.049031,0.034767,-0.033707,0.010608,0.053945,-0.047569,-0.006277,0.061200,-0.052386,0.069585,0.056431,0.039627,-0.016321,0.018000,0.035500,-0.017101,-0.138595,-0.024740,-0.006828,0.067971,-0.053979,0.030333,0.000402,0.023151,-0.003566,-0.006120,-0.046836,0.041972,0.044024,-0.041271,0.071513,0.010187,-0.048356,0.054580,-0.040955,0.017883,0.020576,-0.021058,-0.025509,-0.006395,0.018783,-0.047852,0.072557,0.004054,0.034050,0.012940,-0.034508,-0.027437,-0.048902,-0.040544,0.017637,0.009443,0.002169,0.357199,0.005152,0.010085,0.034090,-0.049251,-0.059519,-0.050267,-0.031632,0.054738,0.033813,0.051000,-0.011799,-0.015576,0.019120,-0.000240,-0.036111,0.009844,-0.033661,0.043402,0.000406,-0.030488,0.044953,-0.000976,-0.037769,-0.024432,-0.089788,0.011337,0.090144,0.060617,0.062951,0.036140,-0.019789,0.001104,-0.093738,-0.000579,-0.052515,-0.047262,0.032141,0.003705,-0.001972,0.046561,-0.014637,0.021844,0.009483,-0.057376,-0.066780,0.192255,-0.047512,0.022225,-0.031491,-0.013643,-0.057208,0.083779,0.019881,-0.085324,0.057895,0.008469,-0.000679,-0.002882,-0.020123,-0.014981,-0.033252,0.018893,-0.044537,0.121865,0.043420,-0.088943,-0.050788,0.051877,-0.002714,-0.012795,-0.076398,0.018850,0.018008,-0.070493,-0.017881,-0.008962,-0.066742,0.006137,0.015112,0.033276,0.072094,-0.007660,-0.023983,-0.029310,0.025613,-0.008207,-0.078489,-0.012610,0.038203,0.066205,-0.051118,0.036475,-0.096198,0.008752,0.025309,-0.006039,-0.018407,0.024333,-0.035229,-0.007634,0.015920,0.035714,-0.009241,0.001915,0.014727,0.009465,0.000378,0.023623,0.043676,-0.003895,-0.031337,-0.000157,-0.000684,0.038311,-0.022718,0.019284,0.021992,0.016654,-0.039871,0.086035,0.022065,-0.017572,0.040661,-0.286599,-0.049617,0.010039,-0.005089,0.002702,0.039929,-0.016315,0.017359,-0.060814,0.053958,0.077275,-0.047622,-0.070258,-0.021299,0.042800,-0.060615,-0.044206,0.005854,-0.029656,-0.048944,-0.020900,-0.004008,0.003661,0.023916,0.052565,-0.018119,0.063111,-0.105116,0.023090,0.007077,0.030995,0.027280,-0.040738,-0.041538,0.006280,-0.012887,-0.006497,-0.035637,-0.029109,-0.024556,-0.069811,0.041534,0.017410,-0.057691,0.046576,0.032700,0.030904,0.017302,-0.034557,0.044357,-0.040697,-0.037602,0.062970,0.013747,0.058542,-0.062383,-0.022875,-0.023963,-0.018612,-0.007286,0.035129,-0.020317,0.054398,0.015751,0.091945,-0.072216,0.014776,0.046942,-0.017362,0.022501,-0.009384,0.028061,0.011414,-0.034076,0.026416,-0.005383,0.024606,-0.008336,-0.044656,0.005968,0.043568,-0.005142,0.044694,0.013198,-0.032500,0.027158,0.039949,-0.022917,-0.007938,-0.013811,-0.053659,-0.048434,-0.071734,0.008662,0.041857,-0.029299,-0.260222,0.011716,-0.002517,-0.026894,0.035032,-0.000498,0.059285,0.025126,-0.004445,0.074055,0.011612,-0.006718,0.041581,-0.083871,0.064098,-0.005038,0.075597,-0.015513,0.039763,0.029151,0.033045,0.005527,0.171298,0.010985,-0.047033,-0.024910,0.019439,-0.011268,0.010478,-0.011566,0.104747,0.016358,0.121936,-0.028782,-0.010012,0.024457,0.017079,0.000850,0.034420,0.014488,0.024915,0.000403,-0.010222,-0.021995,0.067764,0.066638,-0.034906,-0.074123,-0.025181,0.008125,-0.003176,0.011793,0.027017,0.026153,0.020605,-0.049520,-0.050929,-0.030972,-0.009557,0.042618,-0.047531,-0.044250,-0.054204,0.068541,0.042692]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_20', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 20, 'As a result of lower average interest rates in the current year, the cost of funding for assets and the funding benefit earned for liabilities generally decreased compared with the prior year. During the period ended December 31, 2025, this resulted in a lower cost of funds for loans and Markets activities. In addition, the FTP benefit for deposits generally decreased more than the decrease in rates paid to deposit holders during the year, resulting in an overall deposit margin compression.
+
+Foreign exchange risk
+
+Foreign exchange risk is transferred from the LOBs and Other Corporate to Treasury and CIO for certain revenues and expenses. Treasury and CIO manages these risks centrally and reports the impact of foreign exchange rate movements related to the transferred risk in its results. Refer to Market Risk Management on page 142 for additional information.
+
+Debt expense and preferred stock dividend allocation
+
+As part of the FTP process, almost all of the cost of the credit spread component of outstanding unsecured long-term debt and preferred stock dividends is allocated to the reportable business segments, while the balance of the cost is retained in Corporate. The methodology to allocate the cost of unsecured long-term debt and preferred stock dividends to the business segments is aligned with the relevant regulatory capital requirements and funding needs of the LOBs, as applicable. The allocated cost of unsecured long-term debt is included in a business segment’s net interest income, and net income is reduced by preferred stock dividends, to arrive at a business segment’s net income applicable to common equity. Refer to Capital Risk Management on pages 89–99 for additional information.
+
+Capital allocation
+
+The amount of capital assigned to each LOB and Corporate is referred to as equity. The Firm’s current equity allocation methodology incorporates Basel III Standardized risk-weighted assets (“RWA”) and the global systemically important banks (“GSIB”) surcharge, both under rules currently in effect, as well as a simulation of capital depletion in a severe stress environment. At least annually, the assumptions, judgments and methodologies used to allocate capital are reassessed and, as a result, the capital allocated to the LOBs and Corporate may change. Refer to Line of business and Corporate equity on page 96 for additional information on capital allocation.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 63 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+63
+
+Segment & Corporate Results – Managed Basis
+
+The following tables summarize the Firm’s results by business segments and Corporate for the periods indicated.', '[0.013190,-0.058606,0.009471,0.004312,0.035901,-0.031395,0.013328,0.013183,0.062904,-0.015221,0.079157,0.009736,0.012795,0.000088,-0.023052,-0.018399,-0.043469,-0.067332,0.007327,0.042936,0.035369,-0.063311,0.031788,0.002979,0.040178,-0.020475,-0.010441,0.010375,-0.061186,-0.194296,-0.020967,-0.020023,-0.019159,0.011179,0.017299,0.043893,-0.084421,0.029237,-0.011172,0.019923,-0.034187,0.025245,-0.023629,-0.025868,0.036366,-0.061141,-0.031364,0.014670,-0.031092,0.053831,0.014602,-0.047408,0.008950,0.038393,-0.049112,0.034895,0.045756,0.048772,-0.008837,0.088452,0.007984,-0.007063,-0.190598,-0.011218,0.045161,0.039878,-0.013038,0.050014,0.015995,0.011431,-0.043519,0.011729,-0.012776,0.032027,0.029906,-0.025961,0.048319,-0.004608,-0.022047,0.055025,0.048583,0.052816,0.008529,-0.015072,-0.005369,-0.019260,0.035558,-0.058557,0.024670,0.000391,0.016340,-0.011486,0.021696,-0.002485,-0.096051,-0.004131,0.014601,0.068685,-0.069154,0.379657,0.020587,0.022091,0.003286,-0.014089,-0.023434,-0.052479,-0.031663,0.000732,0.041374,0.008820,-0.025001,0.022407,0.080502,-0.010201,-0.064904,-0.026174,-0.048718,0.016809,-0.012693,0.024171,0.052342,0.007127,-0.044232,0.002109,-0.057418,0.028692,-0.004951,0.068604,0.029500,0.050975,0.013275,-0.025935,-0.087441,0.029431,0.032085,0.007470,-0.020012,-0.011984,0.012573,-0.040770,-0.014126,-0.026359,0.022112,-0.036994,-0.079992,0.169131,-0.030533,0.014936,-0.000955,-0.035473,-0.032802,0.062659,0.024572,-0.075612,0.034681,0.030717,-0.017442,0.033737,-0.026872,-0.025928,-0.061432,-0.029145,-0.046818,0.090352,0.017738,-0.071683,-0.071445,0.001508,0.013125,-0.010488,-0.030988,0.012338,0.066225,-0.078001,0.070005,0.039011,-0.018814,-0.013346,-0.004529,-0.000893,0.035721,-0.010633,-0.027931,-0.043849,0.004136,0.043207,-0.082817,-0.004351,0.013248,-0.005609,-0.066345,0.014712,-0.098862,0.086636,-0.019056,0.057406,-0.027223,0.022642,-0.030178,-0.013358,0.048105,0.029381,0.015010,-0.022292,-0.021430,0.009001,0.020919,-0.016823,0.023421,0.048203,-0.005770,0.019079,0.037339,0.065900,0.024161,0.041291,0.064236,0.021051,-0.017483,0.029292,0.032350,-0.041854,0.052069,-0.322913,-0.006124,-0.038332,-0.061128,0.038840,-0.008537,-0.027749,-0.002894,-0.053090,0.046522,0.006478,-0.001253,-0.075824,-0.001025,0.037511,-0.079612,0.007397,-0.009119,-0.045739,-0.008152,-0.037984,-0.007276,-0.015580,0.010596,0.032995,0.017426,0.059941,-0.129366,-0.035484,-0.003896,0.028096,-0.020228,0.032734,-0.008523,0.022284,-0.026950,0.017547,0.018592,-0.034770,-0.015026,-0.067905,-0.010094,0.003567,-0.020699,0.023073,0.012779,0.025953,0.033788,0.016512,0.021280,0.013374,-0.016968,0.036878,0.058252,0.036936,-0.026612,-0.031473,0.003276,-0.036409,0.018659,0.028657,-0.018656,0.063127,-0.040116,0.013300,-0.081205,0.028653,0.048599,-0.016047,0.024037,-0.040995,0.029293,0.011523,-0.040383,0.019669,0.029005,-0.011991,0.075220,-0.031035,-0.003838,0.068665,0.000452,0.038785,0.031776,-0.035107,0.044415,0.070391,-0.001960,-0.007412,0.010741,-0.092363,-0.090619,-0.066474,0.057378,0.025100,-0.023102,-0.276764,0.011666,0.025243,-0.021753,-0.008932,0.004111,0.080156,0.018790,-0.037122,0.091462,-0.019643,0.011776,0.045732,-0.009410,0.016219,-0.036644,0.022155,-0.008223,0.041303,0.005358,0.008053,-0.007526,0.153965,0.017170,0.002944,-0.005267,0.001504,0.021106,0.057544,0.003284,0.053721,0.009731,0.062287,-0.056753,-0.028998,0.020758,-0.006715,0.028510,0.008797,0.007947,0.000830,0.019825,0.010389,-0.024506,0.043706,-0.013784,-0.020091,-0.067791,-0.008995,-0.006714,0.006234,0.040694,0.015059,-0.029957,0.021175,-0.014504,-0.039434,-0.046677,-0.009001,0.043886,-0.024112,-0.019468,-0.105643,0.030977,0.047590]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_21', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 21, 'JPMorgan Chase & Co./2025 Form 10-K
+
+63
+
+Segment & Corporate Results – Managed Basis
+
+The following tables summarize the Firm’s results by business segments and Corporate for the periods indicated.
+
+| Year ended December 31, | Consumer & Community Banking | Commercial & Investment Bank | Asset & Wealth Management |
+| (in millions, except ratios) | 2025 | 2024 | 2023 | 2025 | 2024 | 2023 | 2025 | 2024 | 2023 |
+| Total net revenue | $ | 76,029 | $ | 71,507 | $ | 70,148 | $ | 78,454 | $ | 70,114 | $ | 64,353 | $ | 24,073 | $ | 21,578 | $ | 19,827 |
+| Total noninterest expense | 40,267 | 38,036 | 34,819 | 38,216 | 35,353 | 33,972 | 15,332 | 14,414 | 12,780 |
+| Pre-provision profit | 35,762 | 33,471 | 35,329 | 40,238 | 34,761 | 30,381 | 8,741 | 7,164 | 7,047 |
+| Provision for credit losses | 11,493 | (a) | 9,974 | 6,899 | 2,615 | 762 | 2,091 | 97 | (68) | 159 |
+| Net income | 18,245 | 17,603 | 21,232 | 27,761 | 24,846 | 20,272 | 6,522 | 5,421 | 5,227 |
+| Return on equity (“ROE”) | 32 | % | 32 | % | 38 | % | 18 | % | 18 | % | 14 | % | 40 | % | 34 | % | 31 | % |
+
+Pre-provision profit
+
+(a)
+
+Net income
+
+| Year ended December 31, | Corporate | Total |
+| (in millions, except ratios) | 2025 | 2024 | 2023 | 2025 | 2024 | 2023 |
+| Total net revenue | $ | 7,025 | $ | 17,394 | (b) | $ | 8,038 | $ | 185,581 | $ | 180,593 | (b) | $ | 162,366 |
+| Total noninterest expense | 1,825 | 3,994 | (c) | 5,601 | 95,640 | 91,797 | (c) | 87,172 |
+| Pre-provision profit | 5,200 | 13,400 | 2,437 | 89,941 | 88,796 | 75,194 |
+| Provision for credit losses | 7 | 10 | 171 | 14,212 | 10,678 | 9,320 |
+| Net income | 4,520 | 10,601 | 2,821 | 57,048 | 58,471 | 49,552 |
+| Return on equity (“ROE”) | NM | NM | NM | 17 | % | 18 | % | 17 | % |
+
+(b)
+
+(b)
+
+(c)
+
+(c)
+
+Pre-provision profit
+
+Net income
+
+(a) Includes a provision for lending-related commitments of $2.2 billion related to the Apple Card transaction.
+
+(b) Included the net gain related to Visa shares of $7.9 billion recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+(c) Included a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+Refer to Note 32 for further details on total net revenue and total noninterest expense.
+
+The following sections provide a comparative discussion of the Firm’s results by business segments and Corporate as of or for the years ended December 31, 2025 and 2024, unless otherwise specified.
+
+| 64 | JPMorgan Chase & Co./2025 Form 10-K |
+
+64
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| CONSUMER & COMMUNITY BANKING |', '[-0.031453,-0.052462,0.015143,-0.009680,0.018474,0.011326,-0.004572,0.014094,0.024826,-0.013662,0.027374,0.026120,-0.024051,0.005953,-0.029221,-0.031643,0.003021,-0.071635,0.024677,0.082795,0.043976,-0.046653,0.048580,-0.016876,0.040105,0.022347,-0.016918,-0.011275,-0.076101,-0.160194,-0.011149,-0.022702,0.064081,-0.033949,0.055326,-0.015081,-0.049372,0.034257,-0.037832,-0.016143,-0.021887,-0.028208,0.046816,-0.004099,-0.020594,0.006219,-0.017937,0.002148,-0.001950,0.000371,0.007804,-0.094380,0.038403,0.084991,-0.029742,0.028769,-0.007667,0.046882,-0.002439,0.039591,0.004392,-0.003685,-0.209344,-0.031358,0.002826,0.045834,0.004625,0.007448,-0.019538,0.016844,0.030615,-0.004353,-0.005543,-0.032542,-0.021233,-0.042546,0.048085,-0.028625,-0.073936,0.037670,-0.073609,-0.013487,-0.024863,-0.052583,-0.008734,0.026559,-0.005956,-0.009305,0.055583,0.032174,0.004716,0.018667,-0.018290,-0.002589,-0.056204,-0.045277,0.049010,-0.014768,0.007773,0.385788,0.012628,0.045351,0.041144,-0.058292,-0.023081,-0.035173,-0.009581,0.036686,0.039597,-0.028542,-0.010665,-0.026864,0.097073,-0.053956,-0.034293,-0.017074,0.070370,0.024346,-0.005462,0.008320,0.049742,0.009766,-0.015554,0.002933,-0.057162,0.008101,0.042038,0.062294,0.047797,0.021834,-0.024383,0.044226,-0.114534,-0.001877,-0.007875,-0.031238,0.000117,-0.000569,-0.001996,-0.013753,-0.029785,-0.005430,-0.012249,-0.076047,-0.093216,0.170582,-0.019082,0.010370,-0.019026,0.006908,-0.027003,0.077029,0.055694,-0.075228,-0.004410,0.070189,-0.065447,0.041371,-0.009192,-0.020798,-0.003683,-0.019369,-0.039460,0.136565,0.051603,-0.115128,-0.047714,0.007355,0.028064,-0.027803,-0.013596,0.005198,-0.000987,-0.057727,0.052455,0.013047,-0.008732,0.002022,0.009974,-0.002912,0.050454,0.029063,-0.041975,-0.002735,-0.014812,0.013940,-0.071155,0.016628,-0.005027,0.018509,-0.058808,-0.011631,-0.099474,0.056821,-0.027053,0.002917,0.010421,0.036472,-0.004646,-0.049367,0.046001,0.010340,0.010456,-0.028693,0.039594,-0.005513,-0.021375,0.005826,0.077438,-0.018259,-0.058224,-0.028747,0.018479,0.031815,-0.005959,0.055394,0.014131,0.007799,-0.018961,0.030474,0.016693,-0.006082,0.039923,-0.298000,-0.017279,-0.013881,-0.010117,-0.067916,0.003361,-0.002601,0.014538,0.005721,0.051058,-0.023397,0.016678,-0.051193,0.007831,0.014588,0.002018,-0.025394,-0.016281,-0.063166,-0.012971,0.012510,-0.021327,-0.009441,0.052351,0.092911,0.001566,0.065828,-0.054860,-0.042979,0.016536,0.068937,0.009036,-0.017673,-0.019099,0.058962,-0.008516,0.019947,-0.025677,-0.027048,-0.065107,-0.064645,0.017394,-0.020704,-0.033228,0.051451,0.023405,-0.034638,0.045228,-0.021299,0.012854,-0.005012,-0.004988,0.038088,0.056848,0.078772,-0.040101,-0.011670,0.001872,-0.036428,-0.025871,0.067872,-0.031100,-0.013847,0.022527,0.041003,-0.032534,0.010091,0.056206,-0.012547,-0.007660,-0.041491,-0.033063,0.007379,-0.022705,0.038074,-0.013677,0.008273,-0.024765,-0.052787,-0.004755,0.060829,-0.000710,0.056017,0.042380,-0.025339,0.031066,0.075906,0.016682,-0.005222,-0.014524,-0.038894,-0.004141,-0.018166,0.032690,0.044214,0.020845,-0.271694,0.008316,-0.038957,-0.019432,0.016156,-0.003282,0.037247,0.015822,-0.019343,0.071158,0.025626,0.023778,0.090846,-0.070334,0.039185,-0.043298,0.039710,-0.009783,0.065859,0.083537,0.025664,0.008450,0.164704,0.017518,-0.044756,-0.039747,0.019728,-0.020592,0.082992,0.041546,0.061514,0.028409,0.121013,-0.020155,0.017120,-0.029953,0.007316,0.029617,-0.009541,-0.008117,0.034542,0.003078,0.010967,-0.019630,0.058884,-0.047058,-0.034602,-0.070938,0.052745,-0.003418,-0.026727,-0.025712,0.002816,-0.007554,-0.009557,-0.030446,0.029565,-0.011881,-0.052244,-0.017931,-0.016558,-0.010223,-0.069874,0.046217,0.032431]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_22', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 22, '| Consumer & Community Banking offers products and services to consumers and small businesses through bank branches, ATMs, digital (including mobile and online) and telephone banking. CCB is organized into Banking & Wealth Management (including Consumer Banking, Business Banking and J.P. Morgan Wealth Management), Home Lending (including Home Lending Production, Home Lending Servicing and Real Estate Portfolios) and Card Services & Auto. Banking & Wealth Management offers deposit, investment and lending products, cash management, payments and services. Home Lending includes mortgage origination and servicing activities, as well as portfolios consisting of residential mortgages and home equity loans. Card Services issues credit cards and offers payment solutions, travel services, merchant offers and lifestyle benefits. Auto originates and services auto loans and leases. |
+
+Consumer & Community Banking offers products and services to consumers and small businesses through bank branches, ATMs, digital (including mobile and online) and telephone banking. CCB is organized into Banking & Wealth Management (including Consumer Banking, Business Banking and J.P. Morgan Wealth Management), Home Lending (including Home Lending Production, Home Lending Servicing and Real Estate Portfolios) and Card Services & Auto. Banking & Wealth Management offers deposit, investment and lending products, cash management, payments and services. Home Lending includes mortgage origination and servicing activities, as well as portfolios consisting of residential mortgages and home equity loans. Card Services issues credit cards and offers payment solutions, travel services, merchant offers and lifestyle benefits. Auto originates and services auto loans and leases.
+
+| Selected income statement data |
+| Year ended December 31, (in millions, except ratios) | 2025 | 2024 | 2023 |
+| Revenue |
+| Lending- and deposit-related fees | $ | 3,669 | $ | 3,387 | $ | 3,356 |
+| Asset management fees | 4,669 | 4,014 | 3,282 |
+| Mortgage fees and related income | 1,326 | 1,378 | 1,175 |
+| Card income | 2,230 | 3,139 | 2,532 |
+| All other income (a) | 5,901 | 4,731 | 4,773 |
+| Noninterest revenue | 17,795 | 16,649 | 15,118 |
+| Net interest income | 58,234 | 54,858 | 55,030 |
+| Total net revenue | 76,029 | 71,507 | 70,148 |
+| Provision for credit losses | 11,493 | (d) | 9,974 | 6,899 |
+| Noninterest expense |
+| Compensation expense | 17,669 | 17,045 | 15,171 |
+| Noncompensation expense (b) | 22,598 | 20,991 | 19,648 |
+| Total noninterest expense | 40,267 | 38,036 | 34,819 |
+| Income before income tax expense | 24,269 | 23,497 | 28,430 |
+| Income tax expense | 6,024 | 5,894 | 7,198 |
+| Net income | $ | 18,245 | $ | 17,603 | $ | 21,232 |
+| Revenue by business |
+| Banking & Wealth Management | $ | 42,862 | $ | 40,943 | $ | 43,199 |
+| Home Lending | 4,966 | 5,097 | 4,140 |
+| Card Services & Auto | 28,201 | 25,467 | 22,809 |
+| Mortgage fees and related income details: |
+| Production revenue | 622 | 627 | 421 |
+| Net mortgage servicing revenue (c) | 704 | 751 | 754 |
+| Mortgage fees and related income | $ | 1,326 | $ | 1,378 | $ | 1,175 |
+| Financial ratios |
+| Return on equity | 32 | % | 32 | % | 38 | % |
+| Overhead ratio | 53 | 53 | 50 |
+
+Year ended December 31, (in millions, except ratios)
+
+All other income (a)
+
+(d)
+
+Noncompensation expense (b)
+
+Net mortgage servicing
+
+revenue (c)', '[0.068417,-0.031339,-0.022992,0.019090,-0.008304,-0.056567,0.038671,-0.018443,-0.029882,-0.042362,0.020693,-0.033534,0.006508,-0.018919,0.058203,-0.001236,0.039267,-0.023662,0.040918,0.078285,0.000952,-0.018408,0.006414,0.009966,0.048836,-0.000214,-0.024881,-0.044375,-0.066194,-0.116164,0.021336,0.003133,0.060527,-0.008155,0.078887,-0.032718,-0.027059,0.038764,-0.033889,-0.004259,-0.020239,-0.003441,0.076527,0.018016,-0.006555,0.020378,0.077692,0.061974,0.013638,0.029773,0.040103,-0.004051,-0.026082,0.077375,-0.046371,0.045638,0.018407,0.014259,0.024583,0.057185,0.048063,0.023837,-0.184711,0.065192,-0.002616,0.081271,0.036599,0.018533,0.047226,-0.036137,-0.005556,-0.012726,-0.020054,0.039105,-0.018130,-0.083969,0.043759,-0.010811,-0.084543,0.017248,-0.047163,-0.007593,0.001462,-0.022070,-0.042849,0.027945,-0.019487,-0.019638,0.047688,0.000785,0.022014,-0.048050,-0.016471,0.005289,-0.071929,-0.050516,0.057780,-0.032868,0.005409,0.405596,0.068655,0.028128,0.011633,-0.067771,0.049621,-0.002473,-0.007704,0.043859,0.060225,0.001082,0.037919,-0.005449,0.107427,-0.012538,-0.006304,-0.002366,-0.033267,-0.011946,0.078778,0.053963,0.001115,0.001304,0.040480,-0.031985,-0.041826,-0.035594,-0.003331,0.018100,0.063323,0.038918,-0.021062,0.039283,-0.053276,-0.010566,-0.005636,-0.032586,0.014033,0.014667,0.059134,-0.006919,0.012881,0.015024,-0.023895,-0.099585,-0.039795,-0.003053,0.022710,0.066368,-0.049702,-0.010864,0.027626,0.067881,-0.007595,-0.044003,-0.046337,0.070597,0.051746,0.021169,0.015590,-0.015751,-0.020857,0.001047,-0.038686,0.081606,0.030496,-0.130015,-0.053541,-0.065127,-0.026150,0.051130,0.019047,0.019714,-0.067118,-0.041045,0.024682,0.017491,-0.036956,0.015773,0.010915,0.031072,-0.030162,0.051711,-0.060021,-0.032348,-0.003143,0.057612,-0.090517,-0.032182,-0.033849,-0.105894,-0.046504,0.026108,-0.053388,0.030205,-0.036062,-0.012458,-0.017070,-0.056207,-0.001239,-0.038373,-0.012549,0.037422,0.000422,0.010434,-0.002453,-0.005173,-0.070000,-0.047604,0.045346,-0.023533,0.024237,0.009013,-0.015724,-0.008490,0.033159,-0.039255,0.047889,0.082702,0.022765,0.018790,-0.019400,0.009574,0.011434,-0.345922,-0.023023,-0.006822,-0.011690,0.010967,0.004713,0.011242,-0.016808,-0.025527,0.025822,0.009980,-0.034152,-0.033003,0.018579,0.021266,0.007429,-0.040924,-0.006586,-0.060918,0.012552,0.023279,-0.019334,0.039235,0.027050,0.081256,0.007685,0.059288,-0.141626,-0.056245,0.029119,0.016871,0.026719,-0.002854,0.001146,0.015696,-0.057998,0.037614,0.042244,-0.061200,0.027672,-0.051278,0.027841,-0.009020,-0.012029,-0.039354,0.001542,-0.031320,0.080224,-0.011052,-0.042000,-0.029948,0.028337,-0.029166,-0.012290,0.033031,-0.058815,-0.009394,-0.003349,-0.074265,-0.005610,0.025360,-0.013392,0.054591,0.029346,0.022713,-0.047570,-0.047787,0.010829,0.000257,0.025758,-0.053015,0.051854,0.046770,-0.048407,0.018620,0.008146,0.050505,0.005094,-0.018975,-0.035582,0.064998,-0.069017,0.084199,0.049172,-0.003897,0.047659,-0.005150,-0.011285,-0.059727,-0.004071,0.003753,0.001139,-0.072909,-0.003628,0.011846,-0.006515,-0.230583,-0.022860,-0.032002,-0.025677,-0.013501,-0.019828,0.002013,0.019446,-0.047985,0.048714,0.072754,0.000058,0.000068,-0.034174,0.039323,-0.003246,0.057258,-0.031579,0.028004,0.012591,0.004472,-0.013478,0.123572,0.071665,-0.002319,-0.027109,-0.015047,0.002713,0.075044,0.060038,0.030819,0.061190,0.073797,-0.010722,-0.025894,-0.028675,0.000022,0.053894,-0.016789,0.019558,-0.025920,0.018707,-0.043843,-0.052911,0.016148,-0.023449,-0.054213,-0.060487,0.014094,0.011180,-0.010325,-0.049208,0.003080,0.014191,0.027126,-0.020762,-0.063134,0.009428,0.006043,0.018957,0.036298,0.041765,-0.059627,0.044144,0.045229]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_23', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 23, 'Year ended December 31, (in millions, except ratios)
+
+All other income (a)
+
+(d)
+
+Noncompensation expense (b)
+
+Net mortgage servicing
+
+revenue (c)
+
+(a) Primarily includes operating lease income and commissions and other fees. Operating lease income was $3.8 billion, $2.8 billion and $2.8 billion for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(b) Included depreciation expense on leased assets of $2.4 billion, $1.7 billion and $1.7 billion for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(c) Included MSR risk management results of $118 million, $159 million and $131 million for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(d) Includes a provision for lending-related commitments of $2.2 billion related to the Apple Card transaction.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 65 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+65
+
+2025 compared with 2024
+
+Net income was $18.2 billion, up 4%.
+
+Net revenue was $76.0 billion, up 6%.
+
+Net interest income was $58.2 billion, up 6%, reflecting:
+
+• higher NII in Card Services, predominantly driven by higher revolving balances, and
+
+• higher NII in Banking & Wealth Management (“BWM”), driven by higher deposit margin, reflecting the impact of changes in FTP, partially offset by lower average deposit balances.
+
+Refer to Business Segment & Corporate Results on page 63 for additional information on FTP.
+
+Noninterest revenue was $17.8 billion, up 7%, driven by:
+
+• higher auto operating lease income as a result of growth in volume, and
+
+• in BWM, higher asset management fees, reflecting higher average market levels and net inflows, as well as higher deposit-related fees as a result of higher transaction volume and new accounts,
+
+partially offset by
+
+• lower card income, reflecting lower net interchange, as well as an increase in amortization related to new account origination costs, partially offset by higher annual fees. Net interchange decreased as the impact of increased debit and credit card sales volume was more than offset by higher rewards costs and partner payments.
+
+Refer to Note 6 for additional information on card income, asset management fees, and deposit-related fees; and Critical Accounting Estimates on pages 154–157 for additional information on the credit card rewards liability.
+
+Noninterest expense was $40.3 billion, up 6%, reflecting:
+
+• higher noncompensation expense, predominantly driven by higher auto lease depreciation on higher auto operating lease assets, and continued investments in marketing and technology, as well as
+
+• higher compensation expense, predominantly for bankers and advisors, and employees in technology.
+
+The provision for credit losses was $11.5 billion. Net charge-offs were $8.2 billion, up $319 million, primarily driven by Card Services, reflecting loan growth. The net addition to the allowance for credit losses of $3.2 billion which was driven by $2.2 billion related to the Apple Card transaction, loan growth in Card Services and the impact of changes in the Firm''s weighted-average macroeconomic outlook, partially offset by reduced borrower uncertainty.
+
+In the prior year, the provision was $10.0 billion, net charge-offs were $7.9 billion and the net addition to the allowance for credit losses was $2.0 billion.
+
+Refer to Credit and Investment Risk Management on pages 109–132 and Allowance for Credit Losses on pages 129–131 for a further discussion of the credit portfolios and the allowance for credit losses.
+
+| 66 | JPMorgan Chase & Co./2025 Form 10-K |
+
+66
+
+JPMorgan Chase & Co./2025 Form 10-K', '[-0.018715,0.004473,-0.008106,-0.026434,0.008359,-0.001191,-0.016759,-0.021679,0.059627,-0.015941,0.052701,0.032215,-0.011037,-0.057165,-0.017452,-0.036928,-0.008942,-0.088269,-0.020478,0.049359,0.050110,-0.077724,0.030501,0.007608,0.020374,0.024610,-0.071008,-0.004535,-0.046217,-0.147259,-0.018972,0.018724,0.070368,0.022080,0.019068,0.037549,-0.047354,0.018101,-0.011973,0.022204,0.004241,-0.018782,0.000014,0.013409,0.041095,-0.035656,-0.035661,-0.019753,0.013503,0.028998,-0.014414,-0.090369,0.016329,0.101898,-0.021430,0.001155,0.000609,-0.020206,0.005523,0.054111,0.010230,-0.019677,-0.223701,-0.016624,0.010056,0.010067,0.027104,0.012583,-0.020491,0.031918,0.007749,0.018978,-0.071797,-0.057723,-0.011377,0.004160,0.090840,0.027279,-0.069220,-0.010529,0.027726,-0.004023,0.018842,-0.002896,-0.034643,-0.016581,-0.003556,-0.051501,0.066650,-0.024254,0.007275,0.013459,-0.021384,-0.040453,-0.042536,0.009978,0.024773,-0.004518,-0.003722,0.397953,0.074602,0.011854,0.002576,-0.053703,-0.012484,0.019861,0.020682,0.051062,0.032516,-0.003522,0.000153,-0.013542,0.064391,-0.035591,-0.034960,0.011561,-0.011426,0.035263,0.042760,0.001239,0.015395,0.053776,0.010790,0.028346,-0.071250,0.027383,0.055119,0.103044,0.038339,0.011541,-0.031386,-0.004827,-0.046965,0.009079,0.043613,0.016213,0.070742,0.003040,0.040009,0.016019,-0.030679,0.010983,-0.024936,-0.046899,-0.055902,0.111736,0.015972,0.024600,0.025689,0.003363,-0.021646,0.103545,0.039318,-0.099247,-0.005861,0.027454,0.038431,0.017358,-0.052121,-0.025439,-0.027324,-0.047813,-0.060205,0.123698,0.075131,-0.113078,-0.033814,0.014533,-0.035362,-0.014268,-0.025230,-0.025791,0.005152,-0.055188,0.072428,-0.043911,0.021647,0.014462,-0.000018,0.014748,-0.005860,0.008969,-0.061129,0.003033,0.019319,0.028122,-0.073142,0.004280,-0.016966,-0.036167,-0.053685,0.030676,-0.103717,0.062063,-0.008354,0.009445,-0.017946,0.027406,0.010977,-0.047312,0.041070,-0.009104,0.038315,-0.056005,-0.010465,-0.024409,-0.015099,0.014416,0.037207,0.012012,-0.037487,-0.023382,0.007665,0.047392,-0.019613,0.022159,0.024385,0.041475,-0.007665,0.019347,-0.030117,0.005069,0.026563,-0.324463,-0.030830,-0.039994,-0.008062,-0.023487,-0.031400,0.027845,0.036432,-0.044188,0.029874,-0.021684,-0.032049,-0.019910,0.010379,0.066564,-0.045734,0.032228,-0.020425,-0.036919,0.005893,-0.022053,0.020940,-0.037392,0.010108,0.105381,-0.061936,0.086013,-0.070646,0.042137,0.011787,0.061264,0.068188,-0.038327,-0.027061,0.014925,-0.010347,0.046836,-0.000562,-0.053973,-0.061265,-0.049354,0.030829,0.001401,-0.021225,0.038797,-0.050865,-0.031664,0.003034,-0.007858,0.018745,0.004021,-0.023505,0.051157,0.011337,0.080268,-0.028974,0.017149,-0.025053,0.024542,-0.002988,0.044477,-0.050274,0.041428,-0.008545,-0.002956,-0.058726,-0.008371,0.011684,-0.027774,-0.004035,-0.037069,0.019620,0.007403,-0.053850,0.039677,0.050661,0.007240,0.012918,-0.047559,-0.010045,0.058954,-0.010072,0.102699,0.019541,-0.031930,0.030128,0.032881,-0.005410,-0.008224,-0.050897,-0.045527,0.000442,-0.034145,0.000945,0.030577,0.052050,-0.278289,-0.024633,-0.040598,-0.008342,-0.017321,-0.037851,0.010633,0.041207,-0.017194,0.046122,0.024669,0.057449,0.058300,-0.062832,0.037402,-0.038856,0.037475,0.026761,0.030915,0.050551,0.054961,0.003316,0.125524,0.010803,-0.046757,-0.022789,-0.038284,0.015066,0.070078,0.013261,0.016579,0.063015,0.066431,-0.031909,-0.002880,-0.002370,0.011263,0.053007,-0.004034,0.071129,-0.010316,-0.006235,0.017378,0.000124,0.037540,-0.033302,-0.011428,-0.054887,0.043522,0.005556,0.014572,-0.025652,0.005972,-0.001975,0.029530,-0.028248,-0.065749,-0.002939,-0.031554,0.001931,-0.020673,-0.057008,-0.067311,0.039475,0.034705]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_24', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 24, '66
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| Selected metrics |
+| As of or for the year ended December 31, |
+| (in millions, except employees) | 2025 | 2024 | 2023 |
+| Selected balance sheet data (period-end) |
+| Total assets | $ | 664,669 | $ | 650,268 | $ | 642,951 |
+| Loans: |
+| Banking & Wealth Management | 33,005 | 33,221 | 31,142 |
+| Home Lending (a) | 240,724 | 246,498 | 259,181 |
+| Card Services | 247,753 | 233,016 | 211,175 |
+| Auto | 70,585 | 73,619 | 77,705 |
+| Total loans | 592,067 | 586,354 | 579,203 |
+| Deposits (b) | 1,072,792 | 1,056,652 | 1,094,738 |
+| Equity | 56,000 | 54,500 | 55,500 |
+| Selected balance sheet data (average) |
+| Total assets | $ | 646,820 | $ | 631,648 | $ | 584,367 |
+| Loans: |
+| Banking & Wealth Management | 33,241 | 31,544 | 30,142 |
+| Home Lending (b) | 242,595 | 252,542 | 232,115 |
+| Card Services | 231,720 | 214,139 | 191,424 |
+| Auto | 71,359 | 75,009 | 72,674 |
+| Total loans | 578,915 | 573,234 | 526,355 |
+| Deposits | 1,057,232 | 1,064,215 | 1,126,552 |
+| Equity | 56,000 | 54,500 | 54,349 |
+| Employees | 144,196 | (c) | 144,989 | 141,640 |
+
+(in millions, except employees)
+
+Home Lending (a)
+
+Deposits (b)
+
+Home Lending (b)
+
+Deposits
+
+Employees
+
+(c)
+
+(a) At December 31, 2025, 2024 and 2023, Home Lending loans held-for-sale and loans at fair value were $11.0 billion, $8.1 billion and $3.4 billion, respectively.
+
+(b) Average Home Lending loans held-for-sale and loans at fair value were $9.5 billion, $7.1 billion and $4.8 billion for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(c) In the first quarter of 2025, 419 employees were transferred to Corporate as a result of the centralization of certain functions.', '[-0.021333,-0.080799,0.000019,-0.019902,0.052156,-0.030423,-0.017170,-0.002960,-0.000508,-0.011565,-0.004291,0.006230,-0.007417,-0.018537,-0.046878,-0.002699,-0.033470,-0.063113,-0.022008,0.098131,0.081879,-0.032041,0.066868,-0.022756,0.079909,-0.007998,-0.021735,-0.013067,-0.039632,-0.141550,-0.011623,0.000465,0.068496,0.023662,0.056147,0.003762,-0.045090,0.036565,-0.019604,-0.004071,-0.028248,-0.024417,0.062737,-0.017096,0.021749,-0.001569,-0.005113,-0.001254,0.014006,0.044584,-0.018116,-0.100989,0.011551,0.124236,0.008331,0.038507,-0.002658,0.031762,0.030240,0.030035,0.018946,0.004650,-0.196546,-0.035527,0.030219,0.024529,0.047147,0.006061,-0.004280,-0.017760,0.039409,-0.001036,-0.024655,-0.041586,-0.001449,-0.066734,0.041993,-0.008300,-0.064028,0.028030,-0.036150,-0.018501,-0.015150,-0.035152,-0.046324,0.019102,-0.022483,-0.007614,0.052749,0.022539,0.013698,0.019301,0.008486,0.022568,-0.075924,-0.010390,-0.016389,0.009514,-0.000332,0.393533,0.012231,0.032738,0.039985,-0.080593,0.011385,-0.026830,-0.012919,0.026084,0.060043,-0.035669,0.014102,-0.032438,0.081429,-0.064266,0.025425,-0.001038,0.050452,0.002650,0.019654,0.014907,0.026137,0.024469,0.035623,-0.000720,-0.062398,0.001906,0.003873,0.057832,0.027751,0.071477,0.004975,0.021184,-0.100544,-0.014096,-0.004565,-0.009550,0.025510,-0.020790,0.039915,-0.037903,-0.028349,-0.008638,-0.013214,-0.062592,-0.073114,0.125550,-0.016893,0.012524,-0.002194,-0.012259,-0.018849,0.051213,0.045910,-0.092151,0.002142,0.093841,-0.027861,0.025103,-0.007849,-0.030395,0.021029,-0.029730,-0.095887,0.091527,0.055651,-0.104859,-0.055844,-0.005578,0.012688,-0.005961,0.048056,-0.013952,0.000043,-0.048341,0.063771,0.015174,0.009836,0.019244,-0.018376,-0.046262,-0.026808,0.013223,-0.063716,-0.001088,-0.052740,0.008104,-0.084959,0.016790,-0.013970,-0.002002,-0.037628,0.018297,-0.082805,0.052726,0.004810,0.013322,0.016215,0.044843,-0.008916,-0.073315,0.033004,-0.001301,0.023542,-0.020506,-0.004835,-0.005917,-0.009596,0.020424,0.059206,0.022657,-0.047480,-0.019986,0.022474,0.055781,-0.041918,0.022104,0.003683,0.016737,0.006246,0.001576,-0.014471,-0.004708,0.060449,-0.313732,0.013789,0.000483,0.004922,-0.044522,-0.018509,0.023718,-0.004272,0.000331,0.077422,-0.029885,0.013553,-0.029974,-0.000285,0.020600,0.010324,-0.053918,0.015079,-0.074591,0.032688,0.013724,-0.033788,-0.044109,0.051952,0.075499,0.041274,0.075534,-0.042015,-0.067347,0.005380,0.051055,0.044226,-0.006017,0.009579,0.075269,0.011879,0.010085,0.013369,-0.028295,-0.042651,-0.043537,0.030065,-0.021142,-0.036895,-0.006316,0.048572,-0.041660,0.002678,-0.029798,-0.015105,-0.017474,0.004381,0.059585,0.029969,0.091800,-0.046298,0.020767,0.015530,-0.041897,-0.014081,0.036683,-0.026066,0.031195,0.018530,-0.016008,-0.051784,-0.023606,0.044682,-0.021079,-0.003375,-0.047859,-0.012680,-0.021841,-0.027796,0.038823,0.006918,-0.033600,0.018267,-0.040546,-0.041384,0.055867,-0.047023,0.029361,0.042172,0.015147,0.038631,0.034593,0.009639,0.052232,-0.025616,-0.035165,-0.027787,-0.012768,0.046992,0.060140,-0.000174,-0.299848,-0.005761,-0.049388,-0.017246,0.009148,-0.010604,0.059728,-0.015485,-0.002587,0.046323,0.003064,0.042251,0.088786,-0.072631,0.060354,-0.072868,0.016640,-0.014100,0.054411,0.026437,0.017214,0.013108,0.147618,0.038250,-0.048560,-0.007734,-0.052545,0.017913,0.119806,0.018101,0.004143,0.028093,0.068964,-0.027616,-0.004207,-0.035265,-0.010794,0.045673,-0.016837,-0.019923,-0.008904,-0.003590,0.001683,0.004989,0.066890,-0.026208,-0.012084,-0.054591,0.017791,0.043665,0.001056,-0.018870,0.026024,-0.017260,-0.014589,0.013575,0.028869,-0.035217,-0.019586,-0.010191,-0.022481,0.000545,-0.063132,-0.001765,0.040259]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_25', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 25, '(in millions, except employees)
+
+Home Lending (a)
+
+Deposits (b)
+
+Home Lending (b)
+
+Deposits
+
+Employees
+
+(c)
+
+(a) At December 31, 2025, 2024 and 2023, Home Lending loans held-for-sale and loans at fair value were $11.0 billion, $8.1 billion and $3.4 billion, respectively.
+
+(b) Average Home Lending loans held-for-sale and loans at fair value were $9.5 billion, $7.1 billion and $4.8 billion for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(c) In the first quarter of 2025, 419 employees were transferred to Corporate as a result of the centralization of certain functions.
+
+| Selected metrics |
+| As of or for the year ended December 31, |
+| (in millions, except ratio data) | 2025 | 2024 | 2023 |
+| Credit data and quality statistics |
+| Nonaccrual loans (a) | $ | 3,484 | $ | 3,366 | $ | 3,740 |
+| Net charge-offs/(recoveries) |
+| Banking & Wealth Management | 356 | 442 | 340 |
+| Home Lending | (122) | (106) | (56) |
+| Card Services | 7,678 | 7,148 | 4,699 |
+| Auto | 335 | 444 | 357 |
+| Total net charge-offs/(recoveries) | $ | 8,247 | $ | 7,928 | $ | 5,340 |
+| Net charge-off/(recovery) rate |
+| Banking & Wealth Management | 1.07 | % | 1.40 | % | 1.13 | % |
+| Home Lending | (0.05) | (0.04) | (0.02) |
+| Card Services | 3.31 | 3.34 | 2.45 |
+| Auto | 0.47 | 0.59 | 0.49 |
+| Total net charge-off/(recovery) rate | 1.45 | % | 1.40 | % | 1.02 | % |
+| 30+ day delinquency rate |
+| Home Lending (b) | 0.86 | % | 0.78 | % | 0.66 | % |
+| Card Services | 2.16 | 2.17 | 2.14 |
+| Auto | 1.33 | 1.43 | 1.19 |
+| 90+ day delinquency rate - Card Services | 1.10 | % | 1.14 | % | 1.05 | % |
+| Allowance for credit losses: |
+| Allowance for loan losses |
+| Banking & Wealth Management | $ | 765 | $ | 764 | $ | 685 |
+| Home Lending | 647 | 447 | 578 |
+| Card Services | 15,558 | 14,608 | 12,453 |
+| Auto | 587 | 692 | 742 |
+| Total allowance for loan losses | $ | 17,557 | $ | 16,511 | $ | 14,458 |
+| Allowance for lending-related commitments | $ | 2,290 | (c) | $ | 91 | $ | 97 |
+| Total allowance for credit losses | $ | 19,847 | $ | 16,602 | $ | 14,555 |
+
+Nonaccrual loans (a)
+
+Home Lending (b)
+
+90+ day delinquency rate - Card Services
+
+Allowance for credit losses:
+
+Allowance for lending-related commitments
+
+(c)
+
+Total allowance for credit losses
+
+(a) Excludes mortgage loans past due and insured by U.S. government agencies, which are primarily 90 or more days past due. These loans have been excluded based upon the government guarantee. At December 31, 2025, 2024 and 2023, mortgage loans 90 or more days past due and insured by U.S. government agencies were $70 million, $84 million and $123 million, respectively. In addition, the Firm’s policy is generally to exempt credit card loans from being placed on nonaccrual status as permitted by regulatory guidance.', '[0.030002,-0.097344,-0.012654,-0.015428,0.032996,-0.079952,0.012710,-0.004594,0.041088,0.018313,0.045166,0.050792,0.028839,-0.047564,-0.066030,0.021020,-0.016650,-0.078368,-0.052234,0.069626,0.009070,-0.035365,0.078776,-0.019602,0.055974,-0.034632,-0.039485,-0.049831,-0.077296,-0.113098,-0.026505,0.004905,0.042825,0.051447,0.104128,0.030231,-0.009814,0.021425,0.004909,0.032797,0.023211,-0.017184,0.038924,-0.022158,0.013856,0.050695,-0.000297,0.016160,-0.003711,0.074451,-0.027357,-0.047732,-0.057971,0.133839,0.011306,0.023776,0.010880,-0.010185,0.035305,0.076173,0.058552,0.023206,-0.159231,-0.001084,0.034896,0.010013,0.085178,-0.013351,0.003295,-0.001337,0.018701,-0.016514,0.027380,-0.020919,0.028386,-0.074456,0.019074,-0.025487,-0.046593,0.020230,-0.008882,-0.024818,-0.003036,-0.015273,-0.062931,0.000975,0.013767,-0.025645,0.035783,-0.009144,0.028698,0.017876,-0.006287,-0.020035,-0.052530,-0.019118,0.047852,0.010820,0.035397,0.402904,0.023250,0.049534,0.036733,-0.069012,0.056210,0.052697,-0.013412,0.030903,-0.014424,-0.005177,0.004123,-0.020580,0.085795,-0.032424,0.033723,0.012066,0.007007,0.004678,0.042123,-0.025325,0.048319,0.012764,0.052264,-0.011545,-0.040817,0.013555,-0.014992,0.065819,0.027950,0.053427,-0.028620,-0.016939,-0.108826,0.003066,0.031755,-0.012240,0.043139,-0.040851,0.047496,0.014805,-0.036305,-0.037089,-0.028125,-0.092351,-0.053276,0.023947,0.011181,0.018916,0.046425,0.010106,0.009763,0.092893,0.027543,-0.125346,0.005122,0.038130,0.051689,0.013529,-0.012630,-0.010011,0.014562,-0.010874,-0.086393,0.068491,0.037229,-0.099771,-0.063961,0.016852,0.004746,0.040075,0.052292,-0.067468,-0.054581,-0.037062,0.050961,0.019296,-0.015007,0.005352,-0.050318,0.007090,-0.021545,0.020084,-0.057316,0.004078,0.016155,0.016169,-0.053397,0.043174,-0.047799,0.002299,-0.001820,0.008516,-0.086787,0.013940,0.009452,0.035111,-0.018425,0.023829,0.009422,-0.049435,0.008354,-0.003716,0.001435,0.013765,-0.013314,0.000320,-0.057486,0.017059,0.050313,0.006634,0.002961,0.011939,0.027337,0.028609,0.026048,-0.004739,0.042197,0.044972,0.056255,0.030766,-0.028239,0.009687,0.061212,-0.305898,-0.029477,-0.009172,-0.059075,0.014121,-0.009224,0.016663,-0.008810,-0.031271,0.033268,-0.069979,-0.014627,-0.012404,0.020265,0.002124,-0.008462,-0.014605,0.046580,-0.034391,-0.027722,0.000557,0.024366,-0.028904,0.066364,0.005986,-0.034117,0.108838,-0.130821,-0.003453,0.002887,0.025037,0.024716,0.002578,0.008445,0.043219,-0.003992,0.018423,-0.023031,-0.043177,0.037510,-0.002221,0.037938,-0.024272,-0.006691,-0.028679,-0.010600,-0.041856,-0.006753,-0.040665,-0.015277,-0.007912,-0.046123,0.021211,0.003899,0.030163,-0.029312,-0.016089,0.031897,-0.046824,0.018011,0.054515,-0.049371,0.059454,-0.027476,0.021653,-0.040004,-0.015458,0.030336,-0.001755,0.025409,-0.082980,0.005015,0.010655,0.013850,0.025239,0.048824,-0.044019,0.027029,-0.021606,-0.002598,0.034686,-0.089260,0.003580,0.028629,0.017096,0.051808,-0.007414,-0.005160,-0.001951,0.018358,-0.004424,-0.052400,-0.058685,0.031126,0.005281,0.015798,-0.320124,-0.022860,-0.039084,-0.050460,0.010836,-0.003872,0.016613,-0.016521,-0.033874,0.030271,0.027224,0.036514,0.048985,-0.037059,0.053568,-0.056773,0.023487,0.000953,0.049844,-0.026839,0.037913,-0.017308,0.146038,0.022130,-0.044954,-0.001436,-0.047060,-0.004976,0.086074,0.030480,0.023320,0.037955,0.065908,-0.027612,-0.010741,-0.058438,0.033523,0.044608,-0.003361,0.005182,-0.030590,-0.032334,0.004502,-0.004179,0.030231,0.022368,0.002791,-0.064864,0.039700,0.027359,-0.036083,-0.020661,0.041367,-0.041790,-0.030223,-0.016992,-0.040459,0.009679,-0.022583,-0.030750,-0.036547,0.006998,-0.061885,-0.042818,0.058466]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_26', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 26, '(c)
+
+Total allowance for credit losses
+
+(a) Excludes mortgage loans past due and insured by U.S. government agencies, which are primarily 90 or more days past due. These loans have been excluded based upon the government guarantee. At December 31, 2025, 2024 and 2023, mortgage loans 90 or more days past due and insured by U.S. government agencies were $70 million, $84 million and $123 million, respectively. In addition, the Firm’s policy is generally to exempt credit card loans from being placed on nonaccrual status as permitted by regulatory guidance.
+
+(b) At December 31, 2025, 2024 and 2023, excluded mortgage loans insured by U.S. government agencies of $102 million, $122 million and $176 million, respectively, that are 30 or more days past due. These amounts have been excluded based upon the government guarantee.
+
+(c) Includes $2.2 billion related to the Apple Card transaction.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 67 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+67
+
+| Selected metrics |
+| As of or for the year ended December 31, |
+| (in billions, except ratios and where otherwise noted) | 2025 | 2024 | 2023 |
+| Business Metrics |
+| CCB Consumer customers  (in millions) | 86.6 | 84.4 | 82.1 |
+| CCB Small business customers (in millions) | 7.4 | 7.0 | 6.4 |
+| Number of branches | 5,083 | 4,966 | 4,897 |
+| Active digital customers (in thousands) (a) | 74,646 | 70,813 | 66,983 |
+| Active mobile customers (in thousands) (b) | 61,736 | 57,821 | 53,828 |
+| Debit and credit card sales volume | $ | 1,940.7 | $ | 1,805.4 | $ | 1,678.6 |
+| Total payments transaction volume (in trillions) (c) | 7.0 | 6.4 | 5.9 |
+| Banking & Wealth Management |
+| Average deposits | $ | 1,040.8 | $ | 1,049.3 | $ | 1,111.7 |
+| Deposit margin | 2.74 | % | 2.66 | % | 2.84 | % |
+| Business Banking average loans | $ | 19.1 | $ | 19.5 | $ | 19.6 |
+| Business Banking origination volume | 3.2 | 4.5 | 4.8 |
+| Client investment assets (d) | 1,269.9 | 1,087.6 | 951.1 |
+| Number of client advisors | 6,049 | 5,755 | 5,456 |
+| Home Lending |
+| Mortgage origination volume by channel |
+| Retail | $ | 33.0 | $ | 25.5 | $ | 22.4 |
+| Correspondent | 19.8 | 15.3 | 12.7 |
+| Total mortgage origination volume (e) | $ | 52.8 | $ | 40.8 | $ | 35.1 |
+| Third-party mortgage loans serviced (period-end) | $ | 661.9 | $ | 648.0 | $ | 631.2 |
+| MSR carrying value (period-end) | 9.1 | 9.1 | 8.5 |
+| Card Services |
+| Sales volume, excluding commercial card | $ | 1,354.7 | $ | 1,259.3 | $ | 1,163.6 |
+| Net revenue rate | 10.08 | % | 10.03 | % | 9.72 | % |
+| Net yield on average loans | 10.26 | 9.73 | 9.61 |
+| New credit card accounts opened (in millions) | 10.4 | 10.0 | 10.0 |
+| Cards in force (in millions) (f) | 116.5 | 111.7 | 106.8 |
+| Auto |
+| Loan and lease origination volume | $ | 44.8 | $ | 40.3 | $ | 41.3 |
+| Average auto operating lease assets | 16.2 | 11.1 | 10.9 |
+
+CCB Consumer customers  (in millions)
+
+CCB Small business customers (in millions)', '[-0.021052,-0.044679,-0.052111,-0.007980,-0.002299,0.011178,-0.000689,-0.009169,0.042966,-0.001835,0.064248,0.038120,0.019128,-0.031280,-0.069378,0.005684,-0.003343,-0.067943,-0.026677,0.107789,0.091730,-0.036641,0.055050,-0.000466,0.047411,0.004298,0.000595,-0.010604,-0.032331,-0.158327,-0.000705,-0.036329,0.024499,0.012834,0.036372,-0.013180,-0.026201,0.014058,-0.027875,-0.012561,0.012108,-0.011521,0.044662,0.019646,-0.006568,-0.022126,-0.011556,0.001868,0.001777,-0.000776,0.031473,-0.070730,0.026629,0.116747,0.010275,0.021396,-0.022202,0.017727,0.023026,0.025326,-0.021516,-0.070647,-0.213490,-0.019954,0.025858,0.080510,0.031882,-0.017881,0.031269,0.025457,0.004213,-0.026043,-0.057838,0.009756,-0.000991,0.004788,0.094826,0.029535,-0.051329,0.035002,-0.036064,-0.056961,0.018254,-0.018169,-0.031391,-0.057957,0.011513,-0.026350,-0.025048,-0.029033,0.009985,-0.039889,0.024273,-0.027303,-0.093387,-0.019627,0.022817,0.034413,-0.044882,0.375508,0.064972,0.050312,-0.004595,0.015780,0.024294,-0.036981,0.023551,0.043132,0.029573,-0.017417,-0.027986,0.014838,0.107738,-0.015395,-0.003536,0.019036,0.072086,0.011156,0.044454,0.016731,0.001154,0.036956,0.031612,0.021904,-0.086081,-0.009456,-0.030798,0.070688,0.001280,0.049132,0.018494,-0.053707,-0.070221,0.000817,0.023278,-0.016837,-0.031861,0.034451,0.070575,-0.017155,0.002739,-0.031143,0.000702,-0.031041,-0.067290,0.069933,0.009561,0.043929,-0.024711,-0.020183,-0.005001,0.059243,0.044101,-0.053301,-0.036935,0.064558,0.022403,0.028419,-0.040472,0.004188,0.038423,-0.045940,-0.050728,0.107731,0.051885,-0.081208,0.030442,0.036234,0.013013,0.017963,0.053902,-0.028680,0.010396,-0.051504,0.074209,-0.002921,-0.041498,0.051236,-0.022127,-0.025021,-0.033910,-0.005554,-0.061442,-0.014029,0.035923,0.022513,-0.066240,0.008599,-0.002804,-0.015478,0.006431,-0.009349,-0.130212,0.076065,-0.052160,-0.012238,-0.002628,0.003064,0.004283,-0.052102,0.022664,0.005423,0.035849,0.010766,-0.022825,-0.000677,-0.013589,0.000013,-0.003277,0.010124,0.007282,0.026036,0.020812,0.014974,0.024195,0.052638,0.063202,0.034222,0.031838,-0.014206,-0.017741,0.000319,0.085045,-0.311153,-0.014855,-0.049477,-0.048176,-0.035822,-0.040531,-0.013986,-0.032345,-0.040136,0.078209,-0.028198,0.006150,-0.064692,0.019365,-0.004546,0.026191,0.021847,-0.008229,-0.060571,-0.005286,-0.016794,0.037388,-0.035221,0.038330,0.020180,0.014973,0.106594,-0.035303,-0.090150,0.008562,0.015444,0.073709,-0.053148,-0.015806,-0.004639,-0.008234,-0.010930,0.008260,-0.021538,-0.015770,-0.007794,0.050777,0.013538,-0.031998,0.045378,-0.007046,-0.030252,0.045543,-0.036276,0.016264,0.030254,-0.029927,0.002356,0.048429,0.069416,-0.009385,-0.023999,0.019013,-0.074637,0.016224,0.043348,-0.058479,0.027501,-0.001215,0.009923,-0.038919,-0.004959,0.037645,-0.085555,0.033831,0.002797,0.018607,-0.001426,-0.066018,0.047837,0.016685,0.015103,-0.007951,-0.045674,-0.063234,0.066674,-0.067246,0.060033,0.036062,0.009147,0.017890,0.029480,0.044128,0.024025,-0.029355,-0.032944,-0.032373,-0.003580,0.063046,0.048243,0.015833,-0.281497,-0.039453,-0.013451,-0.018500,0.016312,-0.029445,0.031505,-0.000405,-0.034655,0.025424,-0.034342,0.040763,0.091201,-0.076007,0.011562,-0.029531,0.020567,-0.008634,0.051576,0.004395,0.043499,-0.016181,0.136593,-0.000135,-0.059801,-0.031557,-0.057160,-0.000839,0.081715,0.013734,0.047216,0.031724,0.069556,-0.026405,0.027279,-0.061374,-0.015863,0.055944,0.005538,-0.009427,-0.068015,-0.015096,-0.041934,0.008950,0.046733,0.005065,-0.056578,-0.065613,0.034384,0.004747,0.002476,-0.008563,0.031089,-0.028005,-0.041730,-0.035371,-0.025215,0.016805,-0.024656,0.009093,-0.017315,0.010191,-0.036195,0.019087,0.071432]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_27', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 27, 'CCB Consumer customers  (in millions)
+
+CCB Small business customers (in millions)
+
+Active digital customers
+
+(in thousands) (a)
+
+Active mobile customers
+
+(in thousands) (b)
+
+Debit and credit card
+
+sales volume
+
+Total payments transaction volume (in trillions) (c)
+
+Business Banking
+
+average loans
+
+Business Banking
+
+origination volume
+
+Client investment
+
+assets (d)
+
+Total mortgage origination volume (e)
+
+MSR carrying value
+
+(period-end)
+
+Net yield on average
+
+loans
+
+New credit card accounts
+
+opened (in millions)
+
+Cards in force
+
+(in millions) (f)
+
+Loan and lease
+
+origination volume
+
+Average auto
+
+operating lease assets
+
+(a) Users of all web and/or mobile platforms who have logged in within the past 90 days.
+
+(b) Users of all mobile platforms who have logged in within the past 90 days.
+
+(c) Total payments transaction volume includes debit and credit card sales volume and gross outflows of ACH, ATM, teller, wires, BillPay, PayChase, Zelle, person-to-person and checks.
+
+(d) Includes assets invested in managed accounts and J.P. Morgan mutual funds where AWM is the investment manager. Refer to AWM segment results on pages 76–79 for additional information.
+
+(e) Firmwide mortgage origination volume was $63.4 billion, $47.4 billion and $41.4 billion for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(f) Represents the total number of open credit cards, inclusive of primary cardholders and authorized users.
+
+| 68 | JPMorgan Chase & Co./2025 Form 10-K |
+
+68
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| COMMERCIAL & INVESTMENT BANK |
+
+COMMERCIAL & INVESTMENT BANK
+
+| The Commercial & Investment Bank is comprised of the Banking & Payments and Markets & Securities Services businesses. These businesses offer investment banking, lending, payments, market-making, financing, custody and securities products and services to a global base of corporate and institutional clients. Banking & Payments offers products and services in all major capital markets, including advising on corporate strategy and structure, capital-raising in equity and debt markets, and loan origination and syndication. Banking & Payments also provides services that enable clients to manage payments globally across liquidity and account solutions, commerce solutions, clearing, trade, and working capital. Markets & Securities Services includes Markets, which is a global market-maker across products, including cash and derivative instruments, and also offers sophisticated risk management solutions, lending, prime brokerage, clearing and research. Markets & Securities Services also includes Securities Services, a leading global custodian that provides custody, fund services, liquidity and trading services, and data solutions products. |
+
+The Commercial & Investment Bank is comprised of the Banking & Payments and Markets & Securities Services businesses. These businesses offer investment banking, lending, payments, market-making, financing, custody and securities products and services to a global base of corporate and institutional clients. Banking & Payments offers products and services in all major capital markets, including advising on corporate strategy and structure, capital-raising in equity and debt markets, and loan origination and syndication. Banking & Payments also provides services that enable clients to manage payments globally across liquidity and account solutions, commerce solutions, clearing, trade, and working capital. Markets & Securities Services includes Markets, which is a global market-maker across products, including cash and derivative instruments, and also offers sophisticated risk management solutions, lending, prime brokerage, clearing and research. Markets & Securities Services also includes Securities Services, a leading global custodian that provides custody, fund services, liquidity and trading services, and data solutions products.', '[0.022452,-0.076231,-0.019213,0.005733,0.009449,-0.030503,0.023743,-0.034399,0.066017,-0.046472,0.028500,0.009299,0.014357,-0.042561,-0.021647,-0.018344,0.063183,-0.102078,0.008525,0.048015,0.003470,-0.063508,0.048991,-0.044929,0.043726,-0.000703,-0.028083,-0.043931,-0.062870,-0.153356,-0.007219,0.009163,0.113412,0.034958,0.062159,0.000576,-0.011279,0.006919,-0.015450,-0.038104,-0.017216,0.028339,0.026343,0.014713,0.006491,-0.009909,0.035054,0.046888,0.016017,0.033702,0.068444,-0.026812,0.015181,0.075403,-0.032993,0.016309,0.006829,0.015321,0.064218,0.073159,0.057450,-0.030402,-0.188395,0.034829,-0.004177,0.057564,0.020248,-0.004206,-0.055786,-0.015662,-0.002519,-0.039699,-0.039872,-0.012845,-0.001218,-0.065123,0.040128,0.003730,-0.057318,-0.003774,-0.041334,-0.002425,0.001877,-0.010827,-0.062859,0.012893,-0.019776,0.000039,0.036386,-0.030158,0.047907,0.009890,-0.007387,0.008332,-0.059700,-0.036161,0.000164,-0.005853,0.017694,0.366465,0.066859,0.022386,-0.008567,-0.033259,0.047347,-0.006942,0.010765,0.043288,0.090912,0.009304,-0.008009,0.025936,0.077709,-0.053117,-0.014495,-0.006037,-0.029615,-0.021331,0.043524,0.041686,-0.028549,0.017714,0.008539,0.008083,-0.046490,-0.006408,-0.004303,0.050503,0.025863,0.019821,-0.020083,0.053575,-0.100834,0.004019,0.005010,0.004100,0.005006,0.011102,0.041861,0.036706,0.006179,-0.010388,0.017008,-0.076150,-0.083796,0.111523,0.024903,0.069473,-0.024924,-0.033847,0.047799,0.104313,0.000930,-0.022410,-0.019034,0.057920,0.070923,0.076626,-0.041874,-0.049856,-0.015354,0.005574,-0.023144,0.107723,0.047137,-0.106005,0.003892,0.001354,-0.014518,-0.008819,0.033306,0.024966,-0.066336,0.007572,0.055769,-0.036801,-0.061364,-0.030416,0.014866,0.031174,-0.035175,0.047717,-0.021717,-0.031885,-0.033877,0.005909,-0.079395,-0.014722,-0.033446,-0.048727,0.017254,0.002372,-0.073438,0.046211,-0.036518,-0.005683,-0.032127,-0.018788,-0.007564,-0.041073,0.015575,0.036242,-0.033559,0.028911,0.034415,0.053196,-0.036212,-0.011745,0.004392,-0.009375,0.048053,0.040778,-0.024855,-0.001577,0.006670,-0.028804,0.064659,0.046574,0.029612,-0.009352,0.003286,-0.020925,0.020377,-0.354579,-0.033237,0.012832,0.005113,0.043016,0.013614,0.010981,-0.002466,0.010912,0.056263,0.002807,-0.021189,-0.041489,-0.018381,-0.006774,-0.006485,-0.079678,-0.002775,-0.072098,0.011733,-0.029744,0.013686,-0.015486,0.064341,0.075867,0.014658,0.090114,-0.087263,-0.061506,0.017131,0.035816,0.028360,0.001147,-0.027759,0.015008,-0.029033,0.058936,0.020404,-0.021433,0.008777,-0.066547,0.019859,0.026777,-0.016179,-0.006810,-0.009745,-0.040543,0.018920,-0.039947,-0.021384,-0.022262,-0.007211,0.012921,0.011076,0.009119,-0.062045,-0.020075,0.015674,-0.063020,-0.005025,0.006295,-0.059814,0.033416,0.005528,-0.002781,-0.058213,0.016806,0.024101,-0.061011,0.009932,-0.028366,0.080158,0.014708,-0.051339,0.036960,-0.012467,0.051314,0.018085,-0.039786,-0.015836,0.067524,-0.106745,0.086265,0.053943,-0.006883,0.060119,0.034823,-0.020766,-0.018436,-0.033344,-0.002845,-0.015105,-0.059196,-0.018596,-0.018763,-0.010141,-0.237447,-0.014633,-0.071272,-0.002843,-0.025097,-0.008698,0.042147,0.015328,-0.020035,0.054915,0.021202,-0.022224,0.052505,-0.058349,-0.007145,-0.005864,0.048020,-0.074067,0.019399,-0.028554,0.030465,-0.039758,0.142860,0.061181,-0.052094,-0.003693,-0.055844,0.034200,0.070765,0.023369,0.039933,0.077360,0.072326,-0.025082,0.002600,0.017781,0.022750,0.042861,-0.018118,0.008448,-0.014549,-0.008057,-0.018020,-0.024082,0.036741,-0.030974,-0.014101,-0.086515,0.028588,0.063571,-0.016674,-0.026579,-0.010541,0.035772,0.010159,0.012760,-0.049567,-0.009256,0.002570,0.041172,0.000518,0.014219,-0.050631,0.057650,0.064907]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_28', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 28, 'The Commercial & Investment Bank is comprised of the Banking & Payments and Markets & Securities Services businesses. These businesses offer investment banking, lending, payments, market-making, financing, custody and securities products and services to a global base of corporate and institutional clients. Banking & Payments offers products and services in all major capital markets, including advising on corporate strategy and structure, capital-raising in equity and debt markets, and loan origination and syndication. Banking & Payments also provides services that enable clients to manage payments globally across liquidity and account solutions, commerce solutions, clearing, trade, and working capital. Markets & Securities Services includes Markets, which is a global market-maker across products, including cash and derivative instruments, and also offers sophisticated risk management solutions, lending, prime brokerage, clearing and research. Markets & Securities Services also includes Securities Services, a leading global custodian that provides custody, fund services, liquidity and trading services, and data solutions products.
+
+| Selected income statement data |
+| Year ended December 31, (in millions) | 2025 | 2024 | 2023 |
+| Revenue |
+| Investment banking fees | $ | 9,735 | $ | 9,116 | $ | 6,631 |
+| Principal transactions | 27,226 | 24,382 | 23,794 |
+| Lending- and deposit-related fees | 5,177 | 3,914 | 3,423 |
+| Commissions and other fees | 5,985 | 5,278 | 4,879 |
+| Card income | 2,436 | 2,310 | 2,213 |
+| All other income | 3,207 | 3,253 | 2,869 |
+| Noninterest revenue | 53,766 | 48,253 | 43,809 |
+| Net interest income | 24,688 | 21,861 | 20,544 |
+| Total net revenue (a) | 78,454 | 70,114 | 64,353 |
+| Provision for credit losses | 2,615 | 762 | 2,091 |
+| Noninterest expense |
+| Compensation expense | 19,345 | 18,191 | 17,105 |
+| Noncompensation expense | 18,871 | 17,162 | 16,867 |
+| Total noninterest expense | 38,216 | 35,353 | 33,972 |
+| Income before income tax expense | 37,623 | 33,999 | 28,290 |
+| Income tax expense | 9,862 | 9,153 | 8,018 |
+| Net income | $ | 27,761 | $ | 24,846 | $ | 20,272 |
+
+Total net revenue (a)
+
+Income before income tax expense
+
+(a) Included taxable-equivalent adjustments primarily from income tax credits from investments in alternative energy, affordable housing and new markets, income from tax-exempt securities and loans, and the related amortization and other tax benefits of the investments in alternative energy and affordable housing of $2.9 billion, $2.8 billion and $4.0 billion for the years ended December 31, 2025, 2024 and 2023, respectively. Effective January 1, 2024, the Firm adopted updates to the Accounting for Investments in Tax Credit Structures Using the Proportional Amortization Method guidance, under the modified retrospective method. Refer to Notes 1, 6, 14 and 25 for additional information.', '[0.052520,-0.056327,-0.060670,-0.014897,0.063422,-0.045949,0.034483,-0.016284,0.041689,-0.021127,0.038807,-0.049228,0.022810,-0.037853,0.004776,-0.039985,0.025528,-0.056363,0.001731,0.048815,0.025270,-0.055318,0.017819,-0.031395,0.034737,-0.019988,-0.041036,0.004321,-0.012820,-0.112784,0.001154,-0.041615,0.003485,0.029760,0.023552,0.003755,-0.027310,0.012312,0.004389,-0.030158,-0.060744,-0.035818,-0.001948,0.035806,0.003746,-0.000744,0.002553,0.024265,-0.019242,0.007865,0.048057,-0.034649,-0.030995,0.102491,-0.062176,0.011456,-0.002386,-0.003588,0.013133,0.031795,0.061399,-0.046327,-0.199317,0.066414,-0.026198,0.056864,0.069914,0.029394,-0.017577,-0.029854,-0.034881,-0.030238,0.003625,-0.000109,0.011467,-0.067254,0.029388,-0.013766,-0.073503,0.043201,0.006078,-0.056101,-0.023891,-0.003581,-0.068447,0.058368,-0.004733,0.022662,0.058442,0.019370,-0.002920,-0.036732,-0.025182,-0.040460,-0.037860,-0.050797,-0.018002,0.010969,-0.082432,0.387936,0.052757,0.019346,0.013439,-0.045165,-0.007555,0.005669,-0.015541,-0.006449,0.045400,0.021246,0.008457,0.016162,0.128016,-0.029395,-0.055996,-0.019199,-0.008323,0.003801,-0.006599,0.019856,-0.004739,-0.013001,0.006406,0.009630,-0.037754,-0.014181,-0.058215,0.032353,0.029020,0.018436,-0.028458,0.060265,-0.064998,0.004807,0.011361,0.035324,-0.034694,-0.005018,0.074362,0.022556,0.005176,-0.002798,0.003180,-0.087311,-0.020933,0.057492,0.064377,0.016075,-0.057645,0.017391,-0.038909,0.087152,0.032806,-0.039160,0.009102,0.051805,0.058589,-0.008305,-0.035142,-0.058604,-0.031717,-0.010328,-0.032262,0.121878,0.013128,-0.123077,-0.016392,0.010139,-0.016668,0.039662,0.000981,0.056907,-0.033657,-0.029878,0.063587,-0.009874,-0.045716,-0.021333,0.035878,0.031179,-0.012014,0.023391,-0.047402,-0.000322,0.010327,0.046340,-0.032311,-0.029610,-0.026855,-0.070569,-0.026498,0.011293,-0.084119,0.054665,-0.014903,0.049675,-0.008505,-0.018779,-0.029550,-0.071500,0.080414,0.040777,-0.035804,0.005210,0.068289,0.017426,-0.048719,-0.015410,0.026133,0.000016,0.034432,0.070034,-0.018098,-0.005853,0.051720,-0.061296,0.033585,0.035269,0.025513,-0.018114,-0.030099,-0.014070,0.021215,-0.309141,-0.037647,-0.018092,0.000413,0.002293,-0.001773,0.010900,0.017804,-0.047795,0.077791,0.082782,0.048284,-0.029146,-0.004829,0.021164,-0.014466,-0.043030,0.005480,-0.025628,-0.009812,-0.021408,0.015578,-0.023513,0.076179,0.095878,0.008056,0.075512,-0.106649,-0.033240,0.007192,0.028845,0.010573,0.037731,-0.038238,0.066855,-0.015480,0.070917,0.072827,-0.074021,-0.033821,-0.033730,-0.015880,-0.018754,0.016872,-0.020624,0.016577,0.000879,0.017075,-0.024506,0.002172,-0.015865,0.021627,0.007198,0.000953,0.039204,-0.050585,-0.023431,0.008783,-0.071142,-0.007094,0.040074,-0.056582,0.008945,0.032242,0.002451,-0.017250,0.010266,0.053997,-0.050275,-0.006023,-0.051598,0.047330,-0.005483,-0.018780,0.002103,0.002685,0.058389,0.019672,-0.065790,0.040334,0.015767,-0.073782,0.084929,0.034886,0.014228,0.046693,0.041544,-0.034641,-0.036481,0.001802,-0.024283,-0.008644,-0.057185,0.028607,0.045010,-0.018032,-0.243941,-0.018162,-0.020044,-0.040839,-0.058558,-0.018168,-0.013539,0.011957,-0.005261,0.071788,0.066951,-0.054236,0.065192,-0.032413,-0.027428,-0.028772,0.090357,-0.075982,0.074199,-0.001795,0.072413,0.012217,0.116140,0.071582,0.012052,-0.034851,-0.021204,0.034732,0.046671,0.037420,0.071926,0.070798,-0.013506,-0.030792,-0.012435,0.032604,0.024108,0.097892,-0.018831,0.015073,0.002219,-0.016908,-0.034355,-0.013805,0.009241,0.007199,-0.034308,-0.048044,0.023308,0.030980,-0.003468,-0.017795,0.007654,0.033027,0.025404,-0.032520,-0.090486,-0.009210,0.028114,0.047546,0.066209,-0.016284,-0.068025,0.059010,0.011798]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_29', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 29, '(a) Included taxable-equivalent adjustments primarily from income tax credits from investments in alternative energy, affordable housing and new markets, income from tax-exempt securities and loans, and the related amortization and other tax benefits of the investments in alternative energy and affordable housing of $2.9 billion, $2.8 billion and $4.0 billion for the years ended December 31, 2025, 2024 and 2023, respectively. Effective January 1, 2024, the Firm adopted updates to the Accounting for Investments in Tax Credit Structures Using the Proportional Amortization Method guidance, under the modified retrospective method. Refer to Notes 1, 6, 14 and 25 for additional information.
+
+| Selected income statement data |
+| Year ended December 31, (in millions, except ratios) | 2025 | 2024 | 2023 |
+| Financial ratios |
+| Return on equity | 18 | % | 18 | % | 14 | % |
+| Overhead ratio | 49 | 50 | 53 |
+| Compensation expense as percentage of total net revenue | 25 | 26 | 27 |
+| Revenue by business |
+| Investment Banking | $ | 10,198 | $ | 9,636 | $ | 7,076 |
+| Payments | 19,331 | 18,085 | 17,818 |
+| Lending | 7,601 | 7,470 | 6,896 |
+| Other | 6 | 76 | 107 |
+| Total Banking & Payments | 37,136 | 35,267 | 31,897 |
+| Fixed Income Markets | 22,532 | 20,066 | 19,180 |
+| Equity Markets | 13,250 | 9,941 | 8,784 |
+| Securities Services | 5,599 | 5,084 | 4,772 |
+| Credit Adjustments & Other (a) | (63) | (244) | (280) |
+| Total Markets & Securities Services | 41,318 | 34,847 | 32,456 |
+| Total net revenue | $ | 78,454 | $ | 70,114 | $ | 64,353 |
+
+Compensation expense as
+
+percentage of total net
+
+revenue
+
+Fixed Income Markets
+
+Equity Markets
+
+Credit Adjustments & Other (a)
+
+Total Markets & Securities
+
+Services
+
+(a) Consists primarily of centrally-managed credit valuation adjustments (“CVA”), funding valuation adjustments (“FVA”) on derivatives, other valuation adjustments, and certain components of fair value option elected liabilities, which are primarily reported in principal transactions revenue. Results are presented net of associated hedging activities and net of CVA and FVA amounts allocated to Fixed Income Markets and Equity Markets. Refer to Notes 2, 3 and 24 for additional information.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 69 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+69
+
+| Banking & Payments Revenue by Client Coverage Segment: (a) Global Corporate Banking & Global Investment Banking provides banking products and services generally to large corporations, financial institutions and merchants. Commercial Banking provides banking products and services to clients, including start-ups, small and mid-sized companies, local governments, municipalities, and nonprofits, as well as commercial real estate clients. (a) Global Banking is a client coverage view within the Banking & Payments business and is comprised of the Global Corporate Banking, Global Investment Banking and Commercial Banking client coverage segments. |
+
+Banking & Payments Revenue by Client Coverage Segment: (a)
+
+Global Corporate Banking & Global Investment Banking provides banking products and services generally to large corporations, financial institutions and merchants.
+
+Commercial Banking provides banking products and services to clients, including start-ups, small and mid-sized companies, local governments, municipalities, and nonprofits, as well as commercial real estate clients.
+
+(a) Global Banking is a client coverage view within the Banking & Payments business and is comprised of the Global Corporate Banking, Global Investment Banking and Commercial Banking client coverage segments.', '[-0.001172,-0.033539,-0.044121,-0.025733,0.061109,-0.010590,-0.018225,-0.043569,0.027760,0.016312,0.072462,-0.000168,-0.000906,-0.013577,-0.043674,0.003737,-0.012768,-0.037022,-0.035773,0.022079,0.015605,-0.057410,0.076459,0.019224,0.076152,0.020865,-0.047776,0.013542,-0.064536,-0.137431,0.004135,-0.015366,0.036064,-0.007188,-0.027084,0.031347,-0.051317,0.015910,0.005876,0.012156,-0.000997,-0.009906,-0.029092,0.006414,-0.021178,0.003849,-0.030495,0.020263,-0.003371,0.032060,-0.020213,-0.081850,0.012349,0.065235,-0.011639,0.022698,-0.023870,0.029149,-0.024761,0.004493,0.022667,0.043184,-0.195687,0.033536,0.034431,0.006457,-0.017299,-0.027920,0.038218,0.022762,-0.039537,0.042820,-0.021348,-0.059691,0.077014,-0.019134,0.039357,0.028737,-0.054968,0.022150,-0.009855,-0.029580,-0.005597,0.018872,-0.010509,-0.004222,0.050335,0.001418,0.061427,0.005722,-0.020420,-0.024380,-0.029670,-0.018443,-0.065991,-0.025444,0.027266,0.015934,-0.003076,0.345088,0.070488,0.034091,-0.008446,-0.019376,-0.038145,0.032249,-0.027620,0.013297,0.024672,-0.024960,0.006338,0.027097,0.044503,-0.038144,-0.035971,0.050698,0.029074,0.026133,0.029596,-0.042833,0.040793,0.014699,-0.006326,0.011796,-0.033857,0.032492,0.072635,0.039902,0.040714,0.068173,-0.015488,0.001069,-0.047800,0.014760,0.010217,-0.005681,0.009900,-0.010637,0.078529,0.033182,-0.036862,0.007434,-0.039844,-0.094684,-0.066945,0.126247,-0.007756,-0.007065,-0.014262,0.001763,0.008374,0.101555,0.031448,-0.057974,0.002371,0.046511,0.018049,-0.027150,-0.024027,-0.005708,-0.000220,-0.013978,-0.035085,0.134938,0.035868,-0.100469,-0.039064,0.042325,0.004450,0.015101,0.018870,0.017128,0.003714,-0.047341,0.081293,-0.004580,0.000087,-0.020458,-0.029449,0.006456,0.007654,-0.044492,-0.093883,0.025168,0.027742,0.039097,-0.078257,-0.029180,-0.019670,0.009722,-0.045628,0.019119,-0.116000,0.123931,0.029232,0.026970,-0.018875,-0.015886,-0.061889,-0.030101,0.065937,0.034261,-0.024669,0.023879,0.014546,-0.034221,-0.033751,0.046677,0.038720,-0.000768,-0.004234,0.030643,-0.003149,0.028827,0.037891,0.040487,0.014676,0.017625,-0.017323,-0.014097,-0.002670,-0.012734,0.055875,-0.314767,0.016449,-0.061897,-0.039765,-0.014605,-0.062841,-0.007265,-0.015221,-0.085871,0.027804,-0.038946,0.019682,-0.019650,0.005542,0.036191,-0.038497,0.023066,-0.057762,-0.007320,-0.012491,-0.018900,0.031105,-0.005572,0.059890,0.069045,-0.005410,0.050376,-0.085307,0.009938,0.040275,-0.018619,0.065740,-0.005194,-0.027020,0.086322,0.037123,0.021950,0.030169,-0.020063,-0.051414,-0.034294,0.023610,-0.048255,-0.007848,0.034258,0.004251,-0.012707,-0.032921,-0.001371,0.005490,0.029292,-0.033687,-0.018918,0.013711,0.092157,-0.047005,-0.032597,-0.021417,0.026304,-0.022802,0.050227,-0.070674,0.052844,0.043049,0.011760,-0.055946,-0.002391,0.016710,-0.054642,0.039317,-0.039007,-0.011959,0.037230,-0.066901,0.013848,0.040583,-0.025219,0.025170,-0.026602,-0.004037,0.053461,-0.019605,0.060429,-0.010644,0.000532,0.000364,0.018061,0.000393,-0.017358,-0.036002,-0.030642,-0.032030,-0.034679,0.015952,0.098728,0.010206,-0.325244,-0.017511,-0.009433,-0.071023,-0.003593,-0.009935,0.005747,0.034668,0.018341,0.002618,-0.036279,0.039285,0.043367,-0.061714,0.000398,-0.045539,0.113685,-0.004179,0.066903,-0.023693,0.093191,-0.015592,0.164257,0.039470,-0.033435,-0.018426,-0.072639,-0.020858,0.040785,0.052840,0.052480,0.052673,0.032282,0.018418,0.011716,-0.007013,0.019504,0.026397,-0.018779,0.006483,-0.067135,-0.017677,-0.039489,0.059994,0.051941,0.026962,-0.002322,-0.055309,-0.001031,-0.026255,0.030849,0.025031,0.021631,0.002031,-0.024623,-0.038141,-0.080762,-0.004259,-0.009328,-0.035182,-0.025185,0.008578,-0.064656,-0.008642,0.077166]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_30', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 30, 'Banking & Payments Revenue by Client Coverage Segment: (a)
+
+Global Corporate Banking & Global Investment Banking provides banking products and services generally to large corporations, financial institutions and merchants.
+
+Commercial Banking provides banking products and services to clients, including start-ups, small and mid-sized companies, local governments, municipalities, and nonprofits, as well as commercial real estate clients.
+
+(a) Global Banking is a client coverage view within the Banking & Payments business and is comprised of the Global Corporate Banking, Global Investment Banking and Commercial Banking client coverage segments.
+
+| Selected income statement data |
+| Year ended December 31, (in millions) | 2025 | 2024 | 2023 |
+| Banking & Payments revenue by client coverage segment |
+| Global Corporate Banking & Global Investment Banking (a) | $ | 25,285 | $ | 23,780 | $ | 20,847 |
+| Commercial Banking | 11,851 | 11,487 | 11,050 |
+| Commercial & Specialized Industries (b) | 8,306 | 7,759 | 7,740 |
+| Commercial Real Estate Banking | 3,545 | 3,728 | 3,310 |
+| Total Banking & Payments revenue | $ | 37,136 | $ | 35,267 | $ | 31,897 |
+
+Year ended December 31,
+
+(in millions)
+
+Global Corporate Banking & Global Investment Banking (a)
+
+Commercial Banking
+
+Commercial & Specialized Industries (b)
+
+(a) In the second quarter of 2025, amounts were reclassified from Other to Global Corporate Banking & Global Investment Banking reflecting the subsequent alignment of certain business activities after the Firm’s business segment reorganization in the second quarter of 2024. Prior-period amounts have been revised to conform with the current presentation.
+
+(b) In the second quarter of 2025, the Middle Market Banking client coverage segment was renamed Commercial & Specialized Industries.
+
+| 70 | JPMorgan Chase & Co./2025 Form 10-K |
+
+70
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+2025 compared with 2024
+
+Net income was $27.8 billion, up 12%.
+
+Net revenue was $78.5 billion, up 12%.
+
+Banking & Payments revenue was $37.1 billion, up 5%.
+
+• Investment Banking revenue was $10.2 billion, up 6%. Investment Banking fees were up 7%, driven by higher fees across products. The Firm ranked #1 for Global Investment Banking fees, according to Dealogic.
+
+– Debt underwriting fees were $4.5 billion, up 9%, predominantly driven by non-investment grade loans and investment grade bonds.
+
+– Advisory fees were $3.5 billion, up 6%, driven by higher fees from deals in the Financial Institutions and Technology sectors, partially offset by lower fees from deals in the Media & Telecommunications sector.
+
+– Equity underwriting fees were $1.7 billion, up 2%, primarily driven by higher revenue from IPOs.
+
+• Payments revenue was $19.3 billion, up 7%. Excluding the net impact of equity investments, revenue was up 5%, driven by higher average deposits and fee growth, largely offset by deposit margin compression.
+
+• Lending revenue was $7.6 billion, up 2%, driven by higher lending-related fees and lower fair value losses on credit protection purchased against certain retained loans and lending-related commitments.
+
+Markets & Securities Services revenue was $41.3 billion, up 19%. Markets revenue was $35.8 billion, up 19%.
+
+• Equity Markets revenue was $13.3 billion, up 33%, driven by higher revenue across products, particularly in Equity Derivatives.
+
+• Fixed Income Markets revenue was $22.5 billion, up 12%, predominantly driven by higher revenue in Rates, Currencies & Emerging Markets, Commodities and Securitized Products, partially offset by lower revenue in Credit.
+
+• Securities Services revenue was $5.6 billion, up 10%, driven by higher average deposits as well as fee growth related to higher client activity and market levels, partially offset by deposit margin compression.', '[-0.010437,-0.053762,-0.028475,-0.019772,0.038626,-0.008053,0.029794,0.026703,0.053329,0.000430,0.019366,0.028383,-0.018643,0.009704,-0.072934,-0.022990,0.035323,-0.084893,0.001600,0.094571,0.050663,-0.069937,0.075703,-0.025351,0.061122,0.020682,0.003129,0.008311,-0.001743,-0.144114,-0.082544,-0.004192,0.012288,0.019670,0.021643,-0.002852,-0.063466,0.021360,-0.035400,-0.012083,-0.068677,-0.024263,0.003296,-0.024117,0.016165,-0.031723,-0.038861,0.011160,-0.039912,0.031410,0.067434,-0.070276,0.030843,0.096703,-0.117546,-0.010884,0.021845,0.017464,-0.003240,0.045224,0.008534,-0.038382,-0.190737,0.033960,-0.009843,0.074246,0.028780,0.041975,-0.047845,0.032618,-0.003246,-0.053759,-0.043773,-0.000083,0.035799,-0.047046,0.043620,-0.028893,-0.028599,0.052666,0.020558,-0.039835,-0.025655,-0.055419,-0.039961,0.007730,-0.000266,0.008881,0.072934,0.003692,0.039408,-0.023658,-0.005762,-0.019949,-0.075240,-0.024228,0.027308,-0.000249,0.015595,0.352830,0.063879,-0.001169,0.050982,-0.029021,-0.015911,-0.038219,-0.024287,0.037242,0.042194,0.034436,-0.016961,0.007086,0.073397,-0.023958,-0.102050,0.009470,-0.018831,-0.004299,-0.026583,0.030432,-0.010493,-0.027081,-0.011783,-0.004227,-0.039014,0.033948,-0.003558,0.033550,0.009911,0.027049,-0.006788,0.040140,-0.065898,-0.002163,0.008090,0.015717,0.019067,0.053127,0.023553,0.052700,0.050574,0.033343,-0.027537,-0.059456,-0.028594,0.109917,0.003986,0.020268,-0.063196,-0.032314,0.012945,0.042452,0.025294,-0.008879,0.032559,0.067692,0.000347,0.046647,-0.043661,-0.032366,0.003257,-0.006786,-0.006918,0.106865,0.052401,-0.120431,0.016381,0.006652,0.008160,-0.015033,-0.005051,0.058960,-0.026689,-0.027925,0.044120,-0.028076,-0.068343,0.022922,0.022683,0.008927,0.012319,0.060385,-0.018602,-0.012612,-0.005677,0.000364,-0.015217,0.052381,-0.028492,-0.034777,-0.059451,-0.001379,-0.126718,0.027190,0.062059,0.043095,-0.034349,-0.031399,-0.012903,-0.040103,0.057899,0.047411,0.033763,-0.024408,0.059358,0.011638,-0.019754,-0.015371,0.033293,-0.039760,-0.015429,0.003399,-0.021671,-0.003818,0.029033,-0.000831,0.031037,-0.026511,0.001663,0.065650,-0.007797,-0.029767,0.002378,-0.290817,-0.010216,-0.000251,0.005786,-0.002323,0.017857,-0.008315,0.046901,-0.032291,0.056073,0.069802,-0.001821,-0.074335,-0.017927,0.032483,-0.003555,-0.037908,0.009102,-0.020788,-0.042657,0.007799,0.031034,-0.045114,0.066762,0.076058,-0.035118,0.086208,-0.121915,-0.041248,0.015014,0.023602,0.040852,0.012596,-0.064268,0.059198,-0.060707,0.036284,0.025670,-0.067919,-0.055485,-0.061109,0.036464,-0.017273,-0.034316,0.046549,0.001440,-0.008344,0.021445,-0.021008,-0.020842,-0.034181,0.021304,-0.001559,0.032683,0.040775,-0.074630,-0.032699,0.017586,-0.075295,0.009987,0.059783,-0.077789,0.037828,0.017086,0.010610,-0.051977,0.017796,0.034486,-0.011179,0.036873,-0.048817,0.034578,-0.012952,-0.005373,0.012310,0.009801,0.098228,0.047147,-0.109527,0.012239,0.056982,-0.083827,0.049054,0.011234,0.012763,0.015948,-0.003571,-0.018465,-0.037030,-0.030669,-0.054335,-0.015462,-0.032212,-0.030695,0.012687,-0.031243,-0.229760,0.005497,-0.034723,-0.044723,-0.034996,-0.035106,0.039988,0.000249,-0.013276,0.070485,0.055412,-0.026253,0.079739,-0.023238,0.022821,-0.027709,0.058035,-0.027526,0.051158,0.040864,0.021609,-0.014788,0.163846,-0.011847,0.002951,-0.081505,-0.011867,0.055176,0.093506,0.040891,0.044982,0.058857,0.081996,-0.021430,0.021310,0.032853,0.043560,0.029889,-0.017477,-0.013171,0.043539,-0.009295,-0.016595,0.003420,0.043549,0.006430,-0.028159,-0.090466,0.006389,0.038556,-0.033005,-0.024260,-0.002880,0.035951,-0.020230,-0.038046,-0.059189,-0.001762,-0.056378,0.058970,0.023803,-0.009755,-0.064667,0.071599,0.036749]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_31', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 31, 'Markets & Securities Services revenue was $41.3 billion, up 19%. Markets revenue was $35.8 billion, up 19%.
+
+• Equity Markets revenue was $13.3 billion, up 33%, driven by higher revenue across products, particularly in Equity Derivatives.
+
+• Fixed Income Markets revenue was $22.5 billion, up 12%, predominantly driven by higher revenue in Rates, Currencies & Emerging Markets, Commodities and Securitized Products, partially offset by lower revenue in Credit.
+
+• Securities Services revenue was $5.6 billion, up 10%, driven by higher average deposits as well as fee growth related to higher client activity and market levels, partially offset by deposit margin compression.
+
+• Credit Adjustments & Other was a loss of $63 million, compared with a loss of $244 million in the prior year.
+
+Noninterest expense was $38.2 billion, up 8%, predominantly driven by higher compensation, including higher revenue-related compensation, as well as higher brokerage, technology and regulatory expense.
+
+The provision for credit losses was $2.6 billion, driven by net increases in the loan and lending-related commitment portfolios, net changes in credit quality of client-specific exposures, an update to loss assumptions on certain leveraged loans, and estimated losses related to borrower fraud in certain secured lending facilities, partially offset by the impact of changes in the Firm''s weighted-average macroeconomic outlook. Net charge-offs were $1.5 billion and the net addition to the allowance for credit losses was $1.1 billion.
+
+In the prior year, the provision was $762 million, net charge-offs were $617 million and the net addition to the allowance for credit losses was $145 million.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 71 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+71', '[-0.013270,-0.040999,-0.028189,-0.020377,0.009345,0.023954,-0.025667,0.017263,0.040111,-0.005125,0.034742,0.016563,0.017161,-0.032929,-0.035353,-0.006863,0.067908,-0.084621,-0.039551,0.030866,0.010684,-0.081285,0.011874,-0.015941,0.065639,-0.018422,-0.042503,-0.021802,-0.041741,-0.129122,0.017805,-0.064335,0.029548,-0.015507,0.006136,0.035337,-0.081142,0.005701,0.049953,-0.003429,-0.049822,-0.031474,-0.029484,-0.026138,-0.009122,-0.078806,-0.029591,0.012158,0.014045,0.023465,-0.004711,-0.059628,0.000682,0.134113,-0.055619,0.026493,-0.040148,0.056022,-0.028786,0.032563,0.017448,-0.008747,-0.202948,-0.001149,-0.021896,0.005344,0.030343,0.032638,0.001410,0.021559,-0.026449,0.014936,0.000050,-0.024798,-0.012218,-0.020122,0.077480,0.013702,-0.033412,0.037227,0.020059,-0.039820,-0.027043,0.034418,-0.043577,-0.007189,0.012270,0.008277,0.065549,0.012316,0.021841,0.003871,-0.059616,-0.038591,-0.088267,-0.014836,-0.043504,0.022047,-0.018451,0.386156,0.052612,0.031122,-0.014745,-0.071056,0.015153,-0.024412,0.057301,0.034682,0.070933,-0.023954,0.014759,-0.013997,0.059932,-0.012059,-0.019991,0.028362,0.008488,0.019777,-0.000867,0.015971,0.035404,0.082161,0.018839,0.023420,-0.048352,0.007994,0.039347,0.116968,0.011770,-0.009520,-0.009170,0.060179,-0.068000,0.018495,0.019334,0.015045,0.001416,0.000461,0.054972,0.047128,-0.051446,0.026020,-0.008720,-0.070689,-0.032951,0.090002,0.035752,0.003546,-0.002542,0.020990,-0.015624,0.132031,0.020460,-0.097018,-0.014543,0.009329,-0.025026,0.026690,-0.058827,-0.027950,0.002668,0.004006,-0.045250,0.122700,0.056294,-0.108745,-0.039573,0.016273,0.011621,0.028548,-0.022249,0.059405,-0.016648,-0.081464,0.005949,-0.041654,-0.024446,0.004249,0.045716,0.011850,0.012278,0.035375,-0.052349,0.005787,-0.028908,0.020484,-0.065904,0.009397,-0.037150,-0.012120,-0.072690,0.000606,-0.098299,0.019380,0.034126,0.034010,-0.013909,0.008605,-0.043059,-0.030662,0.066479,-0.002242,-0.005387,0.010847,0.033738,-0.023862,0.009820,0.044223,0.011925,0.012900,-0.000761,-0.016753,0.010039,0.032478,-0.001718,0.019173,0.019448,0.020934,-0.009934,-0.032240,-0.002095,0.066666,0.034272,-0.295726,-0.052694,-0.011549,-0.019248,0.045391,-0.034361,0.044153,0.056501,-0.008880,0.051810,-0.007318,-0.013971,-0.007575,-0.018380,0.022686,-0.089432,-0.047208,-0.013043,-0.042137,-0.008465,-0.016050,0.030689,-0.012084,0.004168,0.084209,0.025199,0.059190,-0.068991,-0.013717,-0.006808,0.039652,0.035136,0.021883,-0.019949,0.040319,0.008609,0.082001,0.044880,-0.093549,-0.038606,-0.058983,-0.040836,0.006543,-0.020727,-0.018090,0.004731,0.005219,0.022560,-0.021926,0.048731,-0.011557,-0.053202,0.063649,-0.018415,0.070477,-0.034276,-0.025635,-0.017964,-0.027573,-0.002389,0.036679,-0.031040,0.025112,-0.033054,0.022339,-0.042711,0.041081,0.050160,-0.077724,0.019362,-0.090559,0.013760,-0.026720,-0.021316,0.031131,0.031873,0.030313,0.024818,-0.108939,-0.012906,0.041852,0.013439,0.061392,-0.002666,-0.003732,0.023056,0.038542,-0.014103,-0.016700,-0.001058,-0.067102,-0.023552,-0.067831,0.031363,0.084608,-0.003963,-0.262372,-0.018147,-0.017761,-0.035699,-0.056869,-0.029293,0.038417,0.026692,0.012654,0.077016,0.016303,-0.011065,0.049791,-0.061006,0.010163,-0.048856,0.035326,-0.033368,0.103372,0.051771,0.062279,0.031341,0.108654,0.024615,-0.037606,-0.011443,-0.001941,-0.014593,0.051865,0.032916,0.057307,0.058853,0.026775,-0.009614,0.012610,-0.007171,-0.024491,0.039229,0.010329,0.065831,0.011480,-0.028468,-0.011121,0.050414,0.059346,0.000235,0.038791,-0.053235,0.025509,0.044736,0.003869,-0.039784,0.029009,0.013578,0.020856,0.006750,-0.058840,-0.021404,0.018550,0.028029,-0.004467,-0.092200,-0.060087,-0.016794,0.013633]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_32', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 32, 'JPMorgan Chase & Co./2025 Form 10-K
+
+71
+
+| Selected metrics |
+| As of or for the year ended December 31, (in millions, except employees) | 2025 | 2024 | 2023 |
+| Selected balance sheet data (period-end) |
+| Total assets | $ | 2,142,534 | $ | 1,773,194 | $ | 1,638,493 |
+| Loans: |
+| Loans retained | 558,528 | 483,043 | 475,186 |
+| Loans held-for-sale and loans at fair value (a) | 73,508 | 40,324 | 39,464 |
+| Total loans | 632,036 | 523,367 | 514,650 |
+| Equity | 149,500 | 132,000 | 138,000 |
+| Banking & Payments loans by client coverage segment (period-end) (b) |
+| Global Corporate Banking & Global Investment Banking (c) | $ | 146,079 | (e) | $ | 125,270 | $ | 128,623 |
+| Commercial Banking | 222,139 | 217,674 | 221,550 |
+| Commercial & Specialized Industries (d) | 75,865 | 72,814 | 78,043 |
+| Commercial Real Estate Banking | 146,274 | 144,860 | 143,507 |
+| Total Banking & Payments loans | 368,218 | 342,944 | 350,173 |
+| Selected balance sheet data (average) |
+| Total assets | $ | 2,195,248 | $ | 1,912,466 | $ | 1,716,755 |
+| Trading assets-debt and equity instruments | 764,098 | 624,032 | 508,792 |
+| Trading assets-derivative receivables | 58,384 | 57,028 | 63,862 |
+| Loans: |
+| Loans retained | $ | 517,260 | $ | 475,426 | $ | 457,886 |
+| Loans held-for-sale and loans at fair value (a) | 54,725 | 43,621 | 40,891 |
+| Total loans | $ | 571,985 | $ | 519,047 | $ | 498,777 |
+| Deposits | 1,174,581 | 1,061,488 | 996,295 |
+| Equity | 149,500 | 132,000 | 137,507 |
+| Banking & Payments loans by client coverage segment (average) (b) |
+| Global Corporate Banking & Global Investment Banking (c) | $ | 129,437 | (e) | $ | 128,496 | $ | 131,561 |
+| Commercial Banking | 220,562 | 220,285 | 209,244 |
+| Commercial & Specialized Industries (d) | 74,733 | 75,605 | 77,130 |
+| Commercial Real Estate Banking | 145,829 | 144,680 | 132,114 |
+| Total Banking & Payments loans | $ | 349,999 | $ | 348,781 | $ | 340,805 |
+| Employees | 94,563 | (f) | 93,231 | 92,271 |
+
+Selected balance sheet data (period-end)
+
+Loans held-for-sale and loans at fair value (a)
+
+Banking & Payments loans by client coverage segment (period-end) (b)
+
+Global Corporate Banking & Global Investment Banking (c)
+
+(e)
+
+Commercial & Specialized Industries (d)
+
+Selected balance sheet data (average)
+
+Loans held-for-sale and loans at fair value (a)
+
+Deposits
+
+Banking & Payments loans by client coverage segment (average) (b)
+
+Global Corporate Banking & Global Investment Banking (c)
+
+(e)
+
+Commercial & Specialized Industries (d)
+
+Employees
+
+(f)
+
+(a) Loans held-for-sale and loans at fair value primarily reflect lending-related positions originated and purchased in Markets, including loans held for securitization.
+
+(b) Refer to page 70 for a description of each of the client coverage segments.
+
+(c) In the second quarter of 2025, amounts were reclassified from Other to Global Corporate Banking & Global Investment Banking reflecting the subsequent alignment of certain business activities after the Firm’s business segment reorganization in the second quarter of 2024. Prior-period amounts have been revised to conform with the current presentation.
+
+(d) In the second quarter of 2025, the Middle Market Banking client coverage segment was renamed Commercial & Specialized Industries.', '[-0.051889,-0.092219,-0.005547,0.012004,0.026787,-0.013416,-0.021671,-0.000613,0.018954,-0.004479,0.027180,-0.004822,-0.015676,0.001185,-0.035111,-0.025945,-0.019311,-0.093513,-0.017972,0.103057,0.111281,-0.013731,0.093618,-0.027370,0.077194,-0.010272,-0.026291,-0.007592,-0.052400,-0.161579,-0.000515,-0.011266,0.047512,0.000004,0.033512,0.012191,-0.065341,0.045522,-0.019191,0.011021,-0.030471,-0.021199,0.063289,-0.011561,-0.003237,0.011144,-0.015740,-0.002433,-0.000839,0.013250,-0.026439,-0.105246,0.008113,0.093983,-0.029405,0.044997,-0.010530,0.032863,0.031601,0.041626,0.023651,-0.025899,-0.177946,-0.028173,0.010099,0.033847,0.051292,0.019107,-0.004751,-0.006243,0.027898,-0.015319,-0.018320,-0.007563,-0.007008,-0.056241,0.070369,-0.024765,-0.090930,0.069555,-0.038694,-0.024361,-0.035391,-0.042047,-0.050690,0.021345,-0.012684,-0.009838,0.049136,-0.006441,0.000597,-0.016703,0.001694,0.008227,-0.085884,-0.021968,-0.013789,0.014617,-0.013404,0.400025,0.018468,0.042923,0.044318,-0.047827,0.013193,-0.028522,-0.011950,0.017874,0.051869,-0.048035,-0.009301,-0.025723,0.065847,-0.028413,-0.005378,0.013128,0.036076,0.004535,0.001348,-0.003425,0.018363,0.031015,0.022990,-0.000207,-0.088241,-0.022382,0.020635,0.060737,0.035676,0.063673,0.015601,0.019966,-0.125480,-0.006974,0.003695,-0.009775,-0.016154,-0.010967,0.033372,-0.032017,-0.039046,-0.004480,-0.025876,-0.070805,-0.094672,0.139038,-0.006748,-0.002295,0.001760,-0.033867,-0.024434,0.095577,0.056360,-0.096108,0.007900,0.051434,-0.019357,0.039911,-0.003812,0.003978,0.009850,-0.035171,-0.066490,0.113299,0.040659,-0.108196,-0.033619,-0.011258,0.030613,0.001791,0.043127,-0.018637,0.001637,-0.038125,0.068071,-0.004825,0.022232,0.007945,-0.021283,-0.028164,-0.006175,-0.000212,-0.054568,0.008785,-0.029480,-0.001835,-0.072715,-0.006573,-0.011739,0.013028,-0.021776,0.026825,-0.091288,0.062125,-0.025137,0.001262,-0.002058,0.039172,-0.022237,-0.085496,0.060421,0.009412,0.000869,-0.042484,0.026356,0.016162,-0.013589,0.030390,0.069350,0.012242,-0.027282,0.010316,0.037402,0.067229,-0.002977,0.047122,-0.010493,-0.000585,0.009122,-0.020501,-0.016744,0.015510,0.061064,-0.285825,-0.004795,0.015264,0.009207,-0.061800,-0.025926,0.025966,-0.010310,0.006374,0.076140,-0.014308,0.040640,-0.049568,0.005440,0.025371,0.002308,-0.023727,0.001008,-0.048392,-0.007916,-0.006969,-0.023837,-0.023971,0.043421,0.061734,0.027072,0.070253,-0.025719,-0.070594,0.008075,0.042191,-0.000558,-0.005913,-0.016416,0.052525,0.019257,0.010749,0.004165,-0.013325,-0.036592,-0.058915,0.030854,-0.017839,-0.024394,0.034736,0.040568,-0.034738,0.004337,-0.027232,0.008893,0.003018,0.005969,0.052079,0.026986,0.088487,-0.049404,0.025762,0.025954,-0.042352,-0.042625,0.071453,-0.024968,0.002293,0.027987,-0.018384,-0.040490,-0.001942,0.064272,-0.008823,0.007546,-0.028789,-0.004938,-0.007878,-0.036069,0.064984,0.008538,-0.048737,0.021561,-0.032038,-0.029082,0.074579,-0.020304,0.029752,0.026109,-0.014706,0.040699,0.039356,0.034712,0.017112,-0.009679,-0.026326,-0.037001,-0.000250,0.030261,0.061411,0.007679,-0.296314,-0.002517,-0.046067,-0.001708,0.027599,0.023322,0.047968,-0.023274,-0.017475,0.053352,-0.007427,0.038009,0.083982,-0.075004,0.021411,-0.061286,0.016716,-0.020049,0.057130,0.060621,0.010997,-0.000858,0.155547,0.043148,-0.060565,-0.009373,-0.030247,0.006621,0.100220,0.009444,0.026594,0.004013,0.080671,-0.024062,-0.004562,-0.018023,0.005710,0.045325,-0.011924,-0.015349,0.002111,0.009319,0.003325,0.001320,0.052917,-0.041786,-0.008491,-0.060397,0.019982,0.013716,0.002707,-0.009639,0.005048,-0.018196,-0.013309,0.008860,0.024419,-0.002614,-0.028834,-0.019050,-0.030792,-0.006873,-0.091403,0.009493,0.025462]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_33', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 33, '(a) Loans held-for-sale and loans at fair value primarily reflect lending-related positions originated and purchased in Markets, including loans held for securitization.
+
+(b) Refer to page 70 for a description of each of the client coverage segments.
+
+(c) In the second quarter of 2025, amounts were reclassified from Other to Global Corporate Banking & Global Investment Banking reflecting the subsequent alignment of certain business activities after the Firm’s business segment reorganization in the second quarter of 2024. Prior-period amounts have been revised to conform with the current presentation.
+
+(d) In the second quarter of 2025, the Middle Market Banking client coverage segment was renamed Commercial & Specialized Industries.
+
+(e) On January 1, 2025, $5.6 billion of loans were realigned from Global Corporate Banking to Fixed Income Markets.
+
+(f) In the first quarter of 2025, 219 employees were transferred to Corporate as a result of the centralization of certain functions.
+
+| Selected metrics |
+| As of or for the year ended December 31, (in millions, except ratios) | 2025 | 2024 | 2023 |
+| Credit data and quality statistics |
+| Net charge-offs/(recoveries) | $ | 1,509 | $ | 689 | (d) | $ | 588 |
+| Nonperforming assets: |
+| Nonaccrual loans: |
+| Nonaccrual loans retained (a) | $ | 3,641 | $ | 3,258 | $ | 1,675 |
+| Nonaccrual loans held-for-sale and loans at fair value (b) | 1,518 | 1,502 | 828 |
+| Total nonaccrual loans | 5,159 | 4,760 | 2,503 |
+| Derivative receivables | 204 | 145 | 364 |
+| Assets acquired in loan satisfactions | 192 | 213 | 169 |
+| Total nonperforming assets | $ | 5,555 | $ | 5,118 | $ | 3,036 |
+| Allowance for credit losses: |
+| Allowance for loan losses | $ | 7,632 | $ | 7,294 | $ | 7,326 |
+| Allowance for lending-related commitments | 2,738 | 1,976 | 1,849 |
+| Total allowance for credit losses | $ | 10,370 | $ | 9,270 | $ | 9,175 |
+| Net charge-off/(recovery) rate (c) | 0.29 | % | 0.14 | % | 0.13 | % |
+| Allowance for loan losses to period-end loans retained | 1.37 | 1.51 | 1.54 |
+| Allowance for loan losses to nonaccrual loans retained (a) | 210 | 224 | 437 |
+| Nonaccrual loans to total period-end loans | 0.82 | 0.91 | 0.49 |
+
+Credit data and quality statistics
+
+Net charge-offs/(recoveries)
+
+(d)
+
+Nonaccrual loans retained (a)
+
+Nonaccrual loans held-for-sale and loans at fair value (b)
+
+Total nonaccrual loans
+
+Assets acquired in loan satisfactions
+
+Total nonperforming assets
+
+Total allowance for credit losses
+
+Net charge-off/(recovery) rate (c)
+
+Allowance for loan losses to period-end loans
+
+retained
+
+Allowance for loan losses to nonaccrual loans
+
+retained (a)
+
+(a) Allowance for loan losses of $597 million, $435 million and $251 million were held against these nonaccrual loans at December 31, 2025, 2024 and 2023, respectively.
+
+(b) Excludes mortgage loans past due and insured by U.S. government agencies, which are primarily 90 or more days past due. These loans have been excluded based upon the government guarantee. At December 31, 2025, 2024 and 2023, mortgage loans 90 or more days past due and insured by U.S. government agencies were $128 million, $37 million and $59 million, respectively.
+
+(c) Loans held-for-sale and loans at fair value were excluded when calculating the net charge-off/(recovery) rate.
+
+(d) Includes $72 million related to a purchased credit deteriorated (“PCD”) loan that was charged off in the fourth quarter of 2024.', '[-0.048798,-0.062246,-0.047932,-0.013418,-0.003229,-0.017844,-0.000340,0.015084,0.034613,-0.025511,0.028626,0.027288,0.010925,-0.021863,-0.050970,0.014295,0.009332,-0.076246,-0.010637,0.085513,0.013986,-0.058281,0.099153,-0.021714,0.063543,0.025805,-0.002217,0.017347,-0.051539,-0.150465,-0.010623,0.008075,-0.014311,0.039518,0.057384,0.008539,-0.080733,0.026673,-0.011455,0.006588,-0.036340,-0.044364,0.008999,-0.003804,-0.003290,0.017636,-0.017168,0.019212,-0.001708,0.041279,0.010805,-0.079373,-0.019865,0.093415,-0.038653,0.032853,0.034532,0.021008,0.012271,0.068317,0.047264,-0.020998,-0.204095,0.000434,0.021937,0.077906,0.044804,-0.006803,-0.003876,0.020222,0.013106,-0.064359,-0.020628,-0.002683,0.041001,-0.041847,0.004485,-0.006508,-0.052118,0.050612,0.000040,-0.016358,0.002889,-0.017519,-0.052395,-0.017455,0.037471,-0.021146,0.045538,-0.027148,0.041878,-0.020398,0.013934,-0.025787,-0.066890,-0.020236,-0.002109,0.053408,0.042939,0.383109,0.038839,0.006420,0.045578,0.000424,0.036855,-0.045022,-0.034728,0.038353,0.023213,0.007397,-0.012588,0.037818,0.046839,-0.074018,-0.039849,0.025434,0.002557,0.019560,0.026977,-0.010961,0.037843,-0.007246,0.008048,0.023665,-0.073200,0.015277,-0.009970,0.024804,-0.000290,0.020515,-0.010652,0.009589,-0.067768,0.008018,0.032674,0.010285,0.010234,0.011174,0.044182,0.032046,-0.015414,-0.027860,0.002193,-0.111409,-0.022443,0.128315,-0.004182,0.025712,-0.004841,-0.024042,-0.027102,0.060155,0.054475,-0.071172,0.025800,-0.009664,0.041631,0.054686,-0.050912,0.013080,0.036102,-0.036592,-0.035368,0.142925,0.067952,-0.118823,0.018792,0.026346,0.029831,0.020453,0.030646,0.027852,-0.019701,-0.034149,0.042755,-0.004251,-0.068486,-0.015647,-0.006071,0.013168,0.005071,-0.002219,-0.085942,0.019723,-0.033428,-0.006902,-0.072482,0.014680,-0.030120,0.005649,-0.025264,0.001367,-0.095125,0.037295,0.024811,0.009521,-0.026553,0.002593,-0.048577,-0.035115,0.033950,0.037536,0.014043,-0.012473,0.030066,0.016363,-0.031735,0.012525,0.045840,0.031308,0.020069,0.029484,-0.020244,0.022700,0.026737,-0.002235,0.038314,-0.005522,0.049139,0.051719,-0.002214,0.048504,0.053015,-0.317543,-0.020866,-0.010288,-0.040346,-0.011878,0.031589,-0.056692,0.030688,-0.033265,0.029555,-0.014144,0.016969,-0.060246,0.013227,0.019900,-0.045575,0.001794,0.012706,-0.024723,-0.045521,0.015676,0.045871,-0.049232,0.064471,0.052834,0.007860,0.101434,-0.066392,-0.069731,-0.018379,0.019162,0.022684,0.015500,0.003600,0.060364,-0.023341,-0.011932,0.023872,-0.064280,-0.004946,0.015806,0.020971,-0.021688,-0.030421,0.007314,-0.017084,-0.013295,-0.000915,-0.024435,-0.006576,-0.006618,0.009450,-0.005460,0.036415,0.057919,-0.038783,-0.029945,-0.009825,-0.055498,-0.005222,0.027789,-0.046606,0.057175,-0.002146,0.021143,-0.063071,0.034013,-0.005178,-0.028388,0.013425,-0.036486,-0.011569,0.009994,-0.027604,0.002871,0.002634,0.000234,0.049859,-0.020927,-0.011276,0.066878,-0.063365,0.031954,-0.000271,0.017096,0.009621,-0.005208,-0.002909,0.020720,0.016541,-0.053704,-0.025137,-0.040245,0.029459,0.042234,-0.005132,-0.309424,-0.029864,-0.015757,-0.036883,-0.001755,0.008018,0.045096,-0.018625,-0.040178,0.073158,0.015683,0.001135,0.106844,-0.055765,-0.008997,-0.047099,0.073372,-0.065625,0.053261,0.006108,0.030771,-0.014460,0.162172,0.024942,-0.029826,-0.036017,-0.051238,0.018625,0.057189,0.025322,0.069318,0.006113,0.084684,-0.025268,-0.016225,-0.031371,0.038180,-0.000133,0.011136,-0.021534,-0.005565,-0.038959,-0.017296,0.013123,0.082006,0.016096,-0.009632,-0.083939,0.059977,0.066041,-0.019459,-0.015734,0.023936,-0.003028,-0.018139,-0.047228,-0.056878,-0.001050,-0.021272,0.011552,-0.012062,-0.039423,-0.063272,-0.031216,0.063518]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_34', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 34, '(b) Excludes mortgage loans past due and insured by U.S. government agencies, which are primarily 90 or more days past due. These loans have been excluded based upon the government guarantee. At December 31, 2025, 2024 and 2023, mortgage loans 90 or more days past due and insured by U.S. government agencies were $128 million, $37 million and $59 million, respectively.
+
+(c) Loans held-for-sale and loans at fair value were excluded when calculating the net charge-off/(recovery) rate.
+
+(d) Includes $72 million related to a purchased credit deteriorated (“PCD”) loan that was charged off in the fourth quarter of 2024.
+
+| 72 | JPMorgan Chase & Co./2025 Form 10-K |
+
+72
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| Investment banking fees |
+| Year ended December 31, (in millions) | 2025 | 2024 | 2023 |
+| Advisory | $ | 3,497 | $ | 3,290 | $ | 2,814 |
+| Equity underwriting | 1,732 | 1,692 | 1,151 |
+| Debt underwriting (a) | 4,506 | 4,134 | 2,666 |
+| Total investment banking fees | $ | 9,735 | $ | 9,116 | $ | 6,631 |
+
+Year ended December 31,
+
+(in millions)
+
+Advisory
+
+Equity underwriting
+
+Debt underwriting (a)
+
+Total investment banking fees
+
+(a) Represents long-term debt and loan syndications.
+
+| League table results – wallet share |
+| 2025 | 2024 | 2023 |
+| Year ended December 31, | Rank | Share | Rank | Share | Rank | Share |
+| Based on fees (a) |
+| M&A (b) |
+| Global | # | 2 | 8.3 | % | # | 1 | 9.2 | % | # | 2 | 8.9 | % |
+| U.S. | 2 | 8.9 | 2 | 11.1 | 2 | 10.8 |
+| Equity and equity-related (c) |
+| Global | 1 | 9.3 | 1 | 10.9 | 1 | 7.7 |
+| U.S. | 1 | 12.6 | 1 | 14.6 | 1 | 14.4 |
+| Long-term debt (d) |
+| Global | 1 | 7.1 | 1 | 7.5 | 1 | 7.0 |
+| U.S. | 1 | 10.2 | 1 | 11.4 | 1 | 10.8 |
+| Loan syndications |
+| Global | 2 | 10.1 | 1 | 10.2 | 1 | 12.0 |
+| U.S. | 2 | 11.3 | 1 | 11.7 | 1 | 15.1 |
+| Global investment banking fees (e) | # | 1 | 8.4 | % | # | 1 | 9.1 | % | # | 1 | 8.6 | % |
+
+Based on fees (a)
+
+M&A (b)
+
+Global
+
+U.S.
+
+Equity and equity-related (c)
+
+Global
+
+U.S.
+
+Long-term debt (d)
+
+Global
+
+U.S.
+
+Loan syndications
+
+Global investment banking fees (e)
+
+(a) Source: Dealogic as of January 2, 2026. Reflects the ranking of revenue wallet and market share.
+
+(b) Global M&A excludes any withdrawn transactions. U.S. M&A revenue wallet represents wallet from client parents based in the U.S.
+
+(c) Global equity and equity-related ranking includes rights offerings and Chinese A-Shares.
+
+(d) Long-term debt rankings include investment-grade, high-yield, supranationals, sovereigns, agencies, covered bonds, asset-backed securities ("ABS") and mortgage-backed securities ("MBS"); and exclude money market, short-term debt and U.S. municipal securities.
+
+(e) Global investment banking fees exclude money market, short-term debt and shelf securities.
+
+Markets revenue', '[-0.038682,-0.041215,-0.043122,0.024931,0.040026,-0.005779,-0.013124,0.005116,0.028472,-0.002460,0.063225,0.067763,0.014807,-0.049361,-0.062215,-0.005217,-0.028252,-0.064090,-0.042646,0.106699,0.070154,-0.047253,0.056081,-0.028469,0.093721,-0.018512,0.006265,-0.016229,-0.038780,-0.168120,0.010711,-0.029986,0.029247,0.010448,0.038433,0.012988,-0.066031,0.008895,-0.010001,0.026791,-0.021201,-0.019360,0.030443,0.008590,-0.029014,-0.002803,-0.045080,-0.016065,0.009031,0.035765,0.009870,-0.065955,-0.010716,0.091026,-0.014522,0.034022,-0.039102,0.029825,0.006707,0.031919,0.013691,-0.015597,-0.198400,-0.017743,0.010800,0.070593,0.045831,-0.005071,0.020281,0.004738,0.013530,-0.029208,-0.038990,0.009509,-0.016350,-0.008532,0.045649,-0.011886,-0.040054,0.061112,-0.037459,-0.019377,0.032330,-0.019465,-0.054077,-0.042747,0.023809,-0.001205,0.004378,0.006218,0.036846,-0.015669,0.032985,-0.011775,-0.089363,0.008837,0.019034,0.030745,-0.052263,0.393137,0.019473,0.065711,0.004994,0.001373,0.001263,-0.017040,0.009753,0.038661,0.008644,-0.007564,-0.013860,0.002044,0.114421,-0.025656,-0.003167,0.013441,0.062832,-0.014614,0.041467,-0.008772,0.012853,0.006081,0.034309,-0.007705,-0.081087,0.013329,-0.047469,0.075424,0.030355,0.025606,-0.012431,-0.090006,-0.056656,-0.032871,0.052443,-0.028514,-0.000887,0.011369,0.050566,-0.036364,-0.008894,-0.035572,-0.022600,-0.033992,-0.082691,0.050952,-0.008106,0.024800,0.013733,-0.013546,-0.028372,0.050704,0.014952,-0.079617,0.002419,0.061762,-0.008188,0.009200,-0.024351,0.010715,0.012584,-0.056530,-0.066854,0.145743,0.021080,-0.051481,-0.025328,0.016415,0.017209,0.006872,0.034623,-0.028667,0.012721,-0.074288,0.093778,-0.017079,-0.000455,0.030063,-0.035053,-0.026665,-0.004897,-0.041178,-0.075380,0.000910,0.019895,-0.004986,-0.083749,0.015662,-0.008412,0.006116,-0.029097,-0.020681,-0.115455,0.095585,-0.033998,0.017865,0.018938,-0.007530,-0.004737,-0.071943,0.036936,-0.021666,0.030267,0.015371,0.003561,0.031676,-0.008067,-0.008624,0.008692,0.002712,-0.010466,0.027869,0.043898,0.016820,0.012367,0.025755,0.030175,0.015383,0.011213,0.014238,-0.020420,-0.025940,0.062333,-0.303050,-0.011067,-0.029211,-0.044660,-0.035738,-0.067383,-0.003545,-0.031137,-0.021327,0.074059,-0.055247,0.003799,-0.071163,-0.033734,0.004459,0.044291,0.019420,0.024884,-0.073465,-0.008080,0.006924,0.045448,-0.026057,0.056382,0.054672,0.036379,0.097648,-0.068849,-0.028818,-0.005251,0.022468,0.022825,-0.014279,0.027061,0.017488,-0.006099,0.028114,0.021996,-0.021383,-0.035116,-0.014630,0.070724,-0.026636,-0.030038,0.035399,0.016664,0.002670,0.019259,-0.037772,0.030985,0.029010,-0.043746,0.048466,0.031289,0.079945,0.032202,-0.040831,0.012496,-0.058101,0.014619,0.083844,-0.062066,0.002937,-0.000601,0.003660,-0.053643,-0.023074,0.054607,-0.051426,0.035489,-0.035486,-0.003173,-0.009052,-0.040177,0.024162,0.051159,-0.037382,0.021496,-0.037186,-0.026732,0.053916,-0.056582,0.045134,-0.002073,-0.001778,0.028629,0.007473,0.042772,0.030196,-0.023288,-0.043608,-0.019661,-0.041504,0.069433,0.024179,-0.001064,-0.283446,-0.019308,0.038216,-0.040215,0.009090,-0.005769,0.043052,-0.005859,-0.033092,0.011566,-0.022727,0.051478,0.066606,-0.053207,0.004130,-0.031144,0.040942,0.010146,0.083857,0.022168,0.046610,0.001130,0.152369,0.018549,-0.014470,-0.060612,-0.055542,0.018688,0.091555,0.009558,0.049480,0.036455,0.059528,-0.012608,0.029696,-0.052145,-0.024335,0.083233,0.004316,-0.010516,-0.076105,0.007752,-0.027737,0.012785,0.051613,0.011724,-0.009868,-0.058434,0.017045,0.026068,0.016443,0.006546,0.021026,-0.026541,-0.008290,-0.046328,0.004972,0.012649,-0.005226,0.015948,-0.040446,-0.021935,-0.044158,0.001945,0.055328]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_35', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 35, '(a) Source: Dealogic as of January 2, 2026. Reflects the ranking of revenue wallet and market share.
+
+(b) Global M&A excludes any withdrawn transactions. U.S. M&A revenue wallet represents wallet from client parents based in the U.S.
+
+(c) Global equity and equity-related ranking includes rights offerings and Chinese A-Shares.
+
+(d) Long-term debt rankings include investment-grade, high-yield, supranationals, sovereigns, agencies, covered bonds, asset-backed securities ("ABS") and mortgage-backed securities ("MBS"); and exclude money market, short-term debt and U.S. municipal securities.
+
+(e) Global investment banking fees exclude money market, short-term debt and shelf securities.
+
+Markets revenue
+
+The following table summarizes selected income statement data for the Markets businesses. Markets includes both Fixed Income Markets and Equity Markets. Markets revenue consists of principal transactions, fees, commissions and other income, as well as net interest income. The Firm assesses its Markets business performance on a total revenue basis, as offsets generally occur across revenue line items. For example, securities that generate net interest income may be risk-managed by derivatives that are reflected at fair value in principal transactions revenue. Refer to Notes 6 and 7 for a description of the composition of these income statement line items.
+
+Principal transactions reflects revenue on financial instruments and commodities transactions that arise from client-driven market-making activity. Principal transactions revenue includes amounts recognized upon executing new transactions with market participants, as well as “inventory-related revenue,” which is revenue recognized from gains and losses on derivatives and other instruments that the Firm has been holding in anticipation of, or in response to, client demand, and changes in the fair value of instruments
+
+used by the Firm to actively manage the risk exposure arising from such inventory. Principal transactions revenue recognized upon executing new transactions with market participants is affected by many factors including the level of client activity, the bid-offer spread (which is the difference between the price at which a market participant is willing and able to sell an instrument to the Firm and the price at which another market participant is willing and able to buy it from the Firm, and vice versa), market liquidity and volatility. These factors are interrelated and sensitive to the same factors that drive inventory-related revenue, which include general market conditions, such as interest rates, foreign exchange rates, credit spreads, and equity and commodity prices, as well as other macroeconomic conditions.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 73 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+73
+
+For the periods presented below, the primary source of principal transactions revenue was the amount recognized upon executing new transactions.', '[0.006205,-0.025874,-0.040401,-0.012932,0.025915,-0.021699,0.014944,-0.034168,0.059749,0.020995,0.056707,0.046316,0.005518,0.009764,-0.068289,-0.033395,0.032862,0.000578,-0.021625,0.034938,0.024286,-0.078691,-0.020816,-0.014386,0.108421,-0.043466,-0.028916,-0.011080,-0.017202,-0.192315,-0.036582,-0.001687,0.055434,-0.014888,-0.005344,0.007603,-0.048522,0.028709,-0.040449,-0.007868,-0.017396,0.003871,0.000638,0.029615,0.057989,-0.074430,-0.016006,-0.007429,-0.029779,0.060303,0.050654,-0.006328,-0.023800,0.089810,-0.029725,0.040521,0.016047,0.030609,-0.041500,0.020413,0.066667,0.011196,-0.185721,0.024087,0.021725,0.053982,-0.001391,0.055048,-0.042942,0.024070,0.027691,0.006451,-0.065347,0.043909,-0.012684,-0.031974,0.056700,0.014404,-0.047128,0.051554,-0.010086,0.049699,-0.027424,-0.012268,-0.018016,0.046281,0.066304,-0.010001,0.076722,-0.041983,0.049566,-0.036402,-0.020706,0.015735,-0.065877,-0.004775,-0.005625,0.043100,-0.011263,0.333811,0.045062,0.035481,-0.021614,-0.029204,0.022513,0.003980,-0.004968,0.031727,0.031073,0.038819,0.002684,0.007691,0.046926,-0.043936,-0.020689,-0.043598,-0.023825,0.051668,0.021060,0.002079,-0.013978,0.028059,0.008075,0.018678,-0.050052,0.025470,0.034726,0.065483,0.013436,-0.007174,0.006453,0.021286,-0.080142,-0.024894,0.034336,0.004054,-0.018937,0.025064,0.037782,0.041560,-0.043289,0.023906,-0.002629,-0.050645,-0.076855,0.154037,0.044761,-0.007249,-0.047671,-0.005239,-0.030323,0.053489,0.045599,-0.079501,-0.010380,0.032984,0.008968,-0.011067,-0.042613,-0.026470,-0.002222,-0.030050,-0.041032,0.153630,0.016928,-0.095387,-0.005890,0.003659,-0.034900,-0.051109,0.009269,0.008946,-0.013429,-0.034499,0.043193,-0.031745,-0.020622,-0.009541,-0.011992,-0.005171,0.037218,-0.035564,-0.068226,0.000988,0.014255,0.024483,-0.053875,-0.001536,0.013350,0.006945,-0.065079,-0.005421,-0.075932,0.058103,0.007381,0.049024,-0.022616,-0.016187,-0.006049,-0.030419,0.069735,0.027099,-0.025215,-0.010509,0.028213,0.042568,0.005390,-0.024445,-0.032084,0.017411,0.011804,0.019421,-0.060085,0.022038,0.019687,-0.032259,0.038054,0.023254,-0.026393,0.010359,-0.002645,-0.035168,0.007052,-0.326781,-0.061219,-0.042537,0.056091,0.011477,-0.026549,0.022122,0.023391,-0.009161,0.020853,0.047353,-0.013567,-0.046100,-0.052090,-0.022027,-0.010775,-0.057047,-0.033389,0.001887,0.006801,-0.012875,-0.003659,-0.062036,0.001709,0.098708,0.035391,0.076089,-0.083575,-0.025919,0.009927,0.026298,0.053251,-0.024727,-0.035364,0.050282,-0.062168,0.025681,0.000870,-0.063997,-0.055688,-0.101097,0.056536,-0.001843,-0.003279,0.018043,-0.013378,0.018809,0.015891,0.003393,0.039502,-0.029192,-0.058961,0.011350,0.008543,0.016342,-0.059689,-0.021549,-0.029371,-0.037239,0.027073,0.004126,-0.048105,0.016635,-0.001682,-0.018518,-0.077330,0.011643,0.015767,-0.011970,0.010674,-0.015244,0.019579,0.010344,-0.036392,0.066323,0.018508,0.059537,0.036860,-0.074370,0.067796,0.035893,0.030670,0.063119,0.029186,0.007986,0.032315,0.006797,-0.014145,-0.026992,0.001301,-0.049932,-0.015711,-0.078806,-0.035332,0.020895,0.016572,-0.265491,0.020414,0.004345,0.022906,0.016458,-0.031101,0.024544,0.010398,-0.075456,0.022795,0.027738,0.070677,0.062345,-0.061547,-0.019968,-0.015326,0.106586,-0.029994,0.087726,0.047399,0.052276,-0.006337,0.193692,0.054041,-0.002359,-0.053153,-0.061174,-0.004392,0.024630,0.031053,0.082322,0.038541,0.079031,-0.005718,0.029987,0.036691,-0.026922,0.039792,0.014688,0.063932,-0.003811,0.045861,-0.089973,-0.036566,0.050226,-0.027332,-0.006247,-0.056792,0.019599,-0.018577,0.003106,-0.027443,-0.018869,0.003413,-0.047236,-0.010352,-0.043681,-0.004030,0.033228,0.031676,-0.009791,-0.018846,-0.050834,0.036700,0.004338]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_36', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 36, 'JPMorgan Chase & Co./2025 Form 10-K
+
+73
+
+For the periods presented below, the primary source of principal transactions revenue was the amount recognized upon executing new transactions.
+
+| 2025 | 2024 | 2023 |
+| Year ended December 31, (in millions, except where otherwise noted) | Fixed Income Markets | Equity Markets | Total Markets | Fixed Income Markets | Equity Markets | Total Markets | Fixed Income Markets | Equity Markets | Total Markets |
+| Principal transactions | $ | 12,327 | $ | 14,771 | $ | 27,098 | $ | 10,603 | $ | 13,526 | $ | 24,129 | $ | 13,198 | $ | 10,380 | $ | 23,578 |
+| Lending- and deposit-related fees | 451 | 182 | 633 | 391 | 100 | 491 | 307 | 40 | 347 |
+| Commissions and other fees | 626 | 2,488 | 3,114 | 605 | 2,086 | 2,691 | 596 | 1,908 | 2,504 |
+| All other income | 1,775 | (115) | 1,660 | 2,120 | (65) | 2,055 | 1,908 | (79) | 1,829 |
+| Noninterest revenue | 15,179 | 17,326 | 32,505 | 13,719 | 15,647 | 29,366 | 16,009 | 12,249 | 28,258 |
+| Net interest income | 7,353 | (4,076) | 3,277 | 6,347 | (5,706) | 641 | 3,171 | (3,465) | (294) |
+| Total net revenue | $ | 22,532 | $ | 13,250 | $ | 35,782 | $ | 20,066 | $ | 9,941 | $ | 30,007 | $ | 19,180 | $ | 8,784 | $ | 27,964 |
+| Loss days (a) | 2 | 1 | 2 |
+
+Fixed Income Markets
+
+Equity Markets
+
+Principal transactions
+
+Net interest income
+
+Loss days (a)
+
+(a) Markets consists of Fixed Income Markets and Equity Markets. The year ended December 31, 2025 had two loss days, including one loss day on December 25, 2025 from limited activity primarily in one location. Loss days represent the number of days for which Markets recorded losses in total net revenue, which includes revenue related to both trading and non-trading positions. The loss days determined under this measure differ from the measure used to determine backtesting gains and losses. Daily backtesting gains and losses include positions in the Firm’s Risk Management value-at-risk ("VaR") measure and exclude certain components of total net revenue, which may more than offset backtesting gains or losses on a particular day. For more information on daily backtesting gains and losses, refer to the VaR discussion on pages 135–138.
+
+| Selected metrics |
+| As of or for the year ended December 31, (in millions, except where otherwise noted) | 2025 | 2024 | 2023 |
+| Assets under custody ("AUC") by asset class (period-end) (in billions): |
+| Fixed Income | $ | 18,322 | $ | 16,409 | $ | 15,543 |
+| Equity | 17,954 | 14,848 | 12,927 |
+| Other (a) | 4,896 | 4,023 | 3,922 |
+| Total AUC | $ | 41,172 | $ | 35,280 | $ | 32,392 |
+| Client deposits and other third-party liabilities (average) (b) | $ | 1,097,581 | $ | 961,646 | $ | 912,859 |
+
+Other (a)
+
+Client deposits and other third-party liabilities (average) (b)
+
+(a) Consists of mutual funds, unit investment trusts, currencies, annuities, insurance contracts, options and other contracts.
+
+(b) Client deposits and other third-party liabilities pertain to the Payments and Securities Services businesses.
+
+| 74 | JPMorgan Chase & Co./2025 Form 10-K |
+
+74
+
+JPMorgan Chase & Co./2025 Form 10-K', '[-0.019140,-0.064424,-0.027225,-0.009475,0.007376,0.012973,-0.007894,-0.019176,0.035987,0.023475,0.039871,-0.007190,-0.015104,0.016765,-0.044718,-0.042962,-0.021124,-0.051650,-0.014200,0.072836,0.084039,-0.068993,0.009111,0.011150,0.058334,-0.016373,-0.000199,-0.034771,-0.042775,-0.158243,-0.008928,-0.003546,0.032481,-0.011601,0.013694,0.004781,-0.080918,0.038047,-0.042942,-0.010174,-0.011346,0.014023,0.025185,-0.009057,0.050269,-0.028913,-0.056887,-0.004255,0.015254,0.010090,0.001930,-0.048835,0.001834,0.116827,-0.058316,-0.001334,-0.008621,0.051464,0.005958,0.017749,-0.008418,0.013585,-0.218382,-0.055375,0.010091,0.040751,0.031506,0.049675,-0.015402,0.015615,0.000536,0.002180,-0.070694,-0.027198,-0.040414,-0.044677,0.064770,0.029643,-0.085257,0.036355,-0.035749,-0.006951,-0.010517,-0.006832,-0.032063,0.016248,0.019833,-0.026199,0.071657,0.007613,0.042666,0.011810,0.001242,0.005483,-0.097074,-0.011942,0.017479,0.013120,0.027999,0.383000,0.034810,0.019208,-0.004594,-0.002493,0.008316,-0.010753,-0.025060,0.042368,0.030424,-0.020983,-0.035087,-0.040734,0.099482,-0.047088,-0.002152,-0.024478,0.051497,0.008455,-0.000097,0.013171,0.056407,0.033031,0.028573,0.030916,-0.025879,0.031860,0.045120,0.073610,0.039736,0.049872,0.004697,0.036857,-0.134086,0.001639,0.064578,0.002429,0.009193,-0.036357,0.014815,0.010334,-0.051370,0.009379,-0.038043,-0.059815,-0.122562,0.132403,0.044602,0.013130,-0.028364,-0.005262,-0.033643,0.077904,0.022606,-0.079416,-0.001573,0.029354,-0.000821,0.009645,-0.026199,0.008344,0.008800,-0.049024,-0.051693,0.110383,0.046973,-0.092362,-0.009390,0.000930,0.036748,-0.052650,0.023193,0.018043,0.020327,-0.078486,0.075555,0.033245,-0.013748,0.009960,-0.021734,0.005088,0.058542,-0.004456,-0.047879,-0.009301,-0.033080,-0.001760,-0.054904,0.033697,-0.000676,0.038063,-0.078308,0.005095,-0.093857,0.051854,0.036083,0.017698,0.006757,0.028568,-0.012095,-0.065363,0.056455,-0.015552,-0.011134,-0.027792,0.042185,0.011553,0.010060,-0.006764,0.065061,0.019493,-0.019837,-0.003563,0.007417,0.046098,-0.015902,0.024446,0.000392,0.037754,-0.005286,-0.023832,-0.003336,0.013663,0.062193,-0.314553,-0.014221,-0.027006,-0.000652,-0.022108,-0.007379,0.032246,-0.019920,-0.016637,0.054689,0.014105,0.045209,-0.057773,-0.032468,0.015503,-0.013014,-0.032637,-0.006304,-0.017819,-0.007730,-0.034320,-0.037863,-0.040279,0.013241,0.080309,0.059101,0.077265,-0.030949,-0.028422,0.008178,0.068122,0.004466,-0.033299,-0.033981,0.044481,-0.014307,0.046037,0.019067,-0.009994,-0.066058,-0.093652,0.014164,-0.018879,0.025683,0.023547,0.041142,-0.003745,0.002796,0.017800,0.017033,-0.011237,-0.038019,0.040565,0.012698,0.066161,-0.011210,0.029443,-0.005291,-0.036406,0.009071,0.023750,-0.017511,-0.020704,-0.013560,-0.004014,-0.041313,0.033247,0.042142,-0.040932,0.018313,-0.032426,0.033115,-0.018261,-0.045326,0.043215,-0.003632,-0.014855,0.003655,-0.068191,0.005866,0.058157,-0.014002,0.051888,0.075051,-0.015448,0.051771,0.066410,-0.018424,0.005970,-0.023001,-0.059405,0.012668,-0.019410,0.024744,0.018309,0.008518,-0.289148,0.006243,-0.034160,-0.011550,-0.001184,-0.013920,0.015000,0.011960,-0.069613,0.035740,-0.004134,0.048572,0.063551,-0.067939,0.058710,-0.034839,0.022180,-0.034641,0.040176,0.057687,0.049543,0.030777,0.155648,0.032086,-0.054836,-0.030104,-0.048845,0.014774,0.088948,0.024777,0.032392,0.022080,0.075906,-0.024613,0.027450,-0.002494,-0.032235,0.040621,-0.013627,0.013229,-0.015401,0.007775,-0.011992,-0.028109,0.045907,-0.040524,-0.017508,-0.090387,0.011648,0.016958,0.010377,-0.024256,0.010991,-0.024650,-0.019161,0.018108,-0.012767,0.001535,-0.022510,-0.002511,0.012907,-0.037157,-0.052068,-0.011893,0.030543]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_37', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 37, '74
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| International metrics |
+| As of or for the year ended December 31, (in millions, except where otherwise noted) | 2025 | 2024 | 2023 |
+| Total net revenue (a) |
+| Europe/Middle East/Africa | $ | 17,189 | $ | 15,191 | $ | 14,418 |
+| Asia-Pacific | 10,699 | 8,867 | 7,891 |
+| Latin America/Caribbean | 2,636 | 2,427 | 2,161 |
+| Total international net revenue | 30,524 | 26,485 | 24,470 |
+| North America | 47,930 | 43,629 | 39,883 |
+| Total net revenue | $ | 78,454 | $ | 70,114 | $ | 64,353 |
+| Loans retained (period-end) (a) |
+| Europe/Middle East/Africa | $ | 60,299 | $ | 44,374 | $ | 44,793 |
+| Asia-Pacific | 20,390 | 16,107 | 15,506 |
+| Latin America/Caribbean | 11,993 | 10,331 | 8,610 |
+| Total international loans | 92,682 | 70,812 | 68,909 |
+| North America | 465,846 | 412,231 | 406,277 |
+| Total loans retained | $ | 558,528 | $ | 483,043 | $ | 475,186 |
+| Client deposits and other third-party liabilities (average) (b) |
+| Europe/Middle East/Africa | $ | 297,959 | $ | 264,227 | $ | 247,804 |
+| Asia-Pacific | 155,950 | 141,042 | 135,388 |
+| Latin America/Caribbean | 47,064 | 42,716 | 39,861 |
+| Total international | $ | 500,973 | $ | 447,985 | $ | 423,053 |
+| North America | 596,608 | 513,661 | 489,806 |
+| Total client deposits and other third-party liabilities | $ | 1,097,581 | $ | 961,646 | $ | 912,859 |
+| AUC (period-end) (b) (in billions) |
+| North America | $ | 27,763 | $ | 23,845 | $ | 21,792 |
+| All other regions | 13,409 | 11,435 | 10,600 |
+| Total AUC | $ | 41,172 | $ | 35,280 | $ | 32,392 |
+
+Total net revenue (a)
+
+Loans retained (period-end) (a)
+
+Client deposits and other third-party liabilities (average) (b)
+
+Total client deposits and other third-party liabilities
+
+AUC (period-end) (b) (in billions)
+
+(a) Total net revenue and loans retained (excluding loans held-for-sale and loans at fair value) are based on the location of the trading desk, booking location, or domicile of the client, as applicable.
+
+(b) Client deposits and other third-party liabilities pertaining to the Payments and Securities Services businesses, and AUC, are based on the domicile of the client or booking location, as applicable.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 75 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+75
+
+| ASSET & WEALTH MANAGEMENT |
+
+| Asset & Wealth Management, with client assets of $7.1 trillion, is a global leader in investment and wealth management. Asset Management Offers multi-asset investment management solutions across equities, fixed income, alternatives and money market funds to institutional and retail investors providing for a broad range of clients’ investment needs. Global Private Bank Provides retirement products and services, brokerage, custody, estate planning, lending, deposits and investment management to high net worth clients. The majority of AWM’s client assets are in actively managed portfolios. |
+
+Asset & Wealth Management, with client assets of $7.1 trillion, is a global leader in investment and wealth management.
+
+Asset Management
+
+Offers multi-asset investment management solutions across equities, fixed income, alternatives and money market funds to institutional and retail investors providing for a broad range of clients’ investment needs.
+
+Global Private Bank', '[-0.033146,-0.069648,0.006328,0.015190,0.030712,-0.003476,-0.024379,0.021191,-0.008282,-0.003408,0.043139,-0.014199,-0.035618,-0.011318,-0.048283,-0.027173,-0.032239,-0.096410,-0.010888,0.073182,0.106560,-0.046055,0.085856,-0.010136,0.068026,0.003100,-0.012289,-0.010788,-0.026869,-0.163432,-0.004683,-0.002132,0.018205,-0.000213,0.003316,0.008401,-0.048370,0.039019,0.001642,-0.002562,-0.007742,-0.007198,0.061658,-0.048279,0.015297,-0.012550,-0.042513,0.031586,-0.016909,0.007175,-0.016177,-0.077205,0.013850,0.074920,-0.040716,0.038391,0.008021,0.049777,0.020069,0.032395,0.022702,-0.032026,-0.213798,-0.033077,0.030398,0.058116,0.024796,0.023652,-0.015902,-0.000888,0.027777,-0.034579,-0.011445,0.008062,-0.023512,-0.046357,0.076438,-0.016540,-0.091385,0.057707,-0.006457,-0.038261,-0.059992,-0.030719,-0.009826,-0.012885,0.023659,0.008779,0.036494,-0.006904,0.000282,0.008253,0.008210,0.042260,-0.085807,-0.022167,0.011879,-0.019402,-0.016807,0.391486,0.042199,0.030526,0.039225,-0.051713,-0.003447,-0.006750,-0.004330,0.013309,0.044071,-0.013090,-0.021477,-0.038527,0.075435,-0.034369,-0.007101,0.002862,0.049144,0.023050,0.026388,0.008488,0.005661,0.034736,0.037561,-0.010057,-0.066407,-0.005322,0.051261,0.082044,0.050633,0.030474,0.021365,0.004975,-0.134475,-0.010125,0.047820,-0.013701,-0.029832,-0.000408,0.020066,-0.030593,-0.014045,0.002070,-0.025240,-0.068351,-0.072260,0.146801,-0.005808,-0.015827,-0.008634,-0.027818,-0.038776,0.090828,0.053231,-0.072212,-0.001713,0.045080,-0.029767,0.035008,0.008147,0.005412,0.012939,-0.061348,-0.041647,0.134364,0.047623,-0.101998,-0.041321,-0.016151,0.022955,-0.032523,0.012460,-0.014048,-0.002960,-0.043008,0.077518,-0.003439,0.020408,0.041215,-0.021019,-0.025782,0.004113,0.008187,-0.026359,-0.008356,-0.009286,0.015810,-0.057859,0.002499,0.005907,0.000330,-0.038245,0.063275,-0.127138,0.079325,0.020297,-0.003419,-0.006644,0.033449,0.002464,-0.093177,0.072261,-0.001094,0.001773,-0.045045,0.039491,-0.004593,0.008272,-0.006372,0.056759,-0.014586,-0.034486,0.002875,0.040312,0.048971,-0.011994,0.059206,-0.005226,-0.003480,-0.024102,-0.007712,0.016811,0.003747,0.045304,-0.283132,0.007445,0.021237,0.015714,-0.043884,-0.003429,0.033844,0.026749,0.032193,0.086951,-0.017423,0.024696,-0.043380,0.033006,0.009245,0.018773,-0.026209,-0.012076,-0.057067,0.001294,-0.004233,-0.006097,-0.036997,0.020931,0.062846,-0.011968,0.081153,-0.025889,-0.076330,-0.006373,0.032789,0.018588,-0.016050,-0.016699,0.042579,0.006469,0.042163,-0.018056,0.014171,-0.056260,-0.063759,0.003111,-0.029514,-0.004715,0.040701,0.033368,-0.049134,0.020314,-0.015036,-0.003775,-0.003813,-0.027320,0.041586,0.024279,0.079145,-0.045952,0.004397,0.002557,-0.042380,-0.018923,0.044542,-0.034721,-0.009453,0.027611,-0.037475,-0.041845,0.009736,0.049963,-0.019217,0.017438,-0.046742,-0.006549,-0.008104,-0.053470,0.060830,-0.000740,-0.021053,0.019838,-0.031148,0.001758,0.088750,0.005036,0.047284,0.019400,-0.035908,0.042052,0.023158,0.043828,0.016683,-0.003629,-0.031092,-0.032136,-0.015291,0.016642,0.048947,0.014007,-0.298086,-0.000816,-0.076671,-0.010624,0.028219,-0.015145,0.066069,0.002559,-0.028609,0.018057,-0.005390,0.020138,0.077276,-0.050210,0.049870,-0.055912,0.007992,-0.010080,0.065459,0.084865,0.000048,-0.008586,0.146204,0.023512,-0.043025,-0.005631,-0.017153,-0.015003,0.096840,0.003192,0.023671,0.016983,0.077472,-0.014885,0.020009,-0.027019,0.000713,0.041534,-0.018008,-0.007065,0.016282,0.004377,0.009955,-0.024427,0.048067,-0.049131,-0.008139,-0.066291,0.044046,0.013655,0.006775,-0.054383,0.003155,-0.019364,-0.027813,0.007549,-0.000613,-0.006025,-0.025233,-0.011994,-0.022590,-0.036610,-0.079452,0.021820,0.004215]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_38', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 38, 'Asset & Wealth Management, with client assets of $7.1 trillion, is a global leader in investment and wealth management.
+
+Asset Management
+
+Offers multi-asset investment management solutions across equities, fixed income, alternatives and money market funds to institutional and retail investors providing for a broad range of clients’ investment needs.
+
+Global Private Bank
+
+Provides retirement products and services, brokerage, custody, estate planning, lending, deposits and investment management to high net worth clients.
+
+The majority of AWM’s client assets are in actively managed portfolios.
+
+| Selected income statement data |
+| Year ended December 31, (in millions, except ratios) | 2025 | 2024 | 2023 |
+| Revenue |
+| Asset management fees | $ | 15,494 | $ | 13,693 | $ | 11,826 |
+| Commissions and other fees | 1,184 | 874 | 697 |
+| All other income (a) | 563 | 456 | 1,037 | (b) |
+| Noninterest revenue | 17,241 | 15,023 | 13,560 |
+| Net interest income | 6,832 | 6,555 | 6,267 |
+| Total net revenue | 24,073 | 21,578 | 19,827 |
+| Provision for credit losses | 97 | (68) | 159 |
+| Noninterest expense |
+| Compensation expense | 8,645 | 7,984 | 7,115 |
+| Noncompensation expense | 6,687 | 6,430 | 5,665 |
+| Total noninterest expense | 15,332 | 14,414 | 12,780 |
+| Income before income tax expense | 8,644 | 7,232 | 6,888 |
+| Income tax expense | 2,122 | 1,811 | 1,661 |
+| Net income | $ | 6,522 | $ | 5,421 | $ | 5,227 |
+| Revenue by line of business |
+| Asset Management | $ | 11,700 | $ | 10,175 | $ | 9,129 |
+| Global Private Bank | 12,373 | 11,403 | 10,698 |
+| Total net revenue | $ | 24,073 | $ | 21,578 | $ | 19,827 |
+| Financial ratios |
+| Return on equity | 40 | % | 34 | % | 31 | % |
+| Overhead ratio | 64 | 67 | 64 |
+| Pre-tax margin ratio: |
+| Asset Management | 35 | 31 | 31 |
+| Global Private Bank | 37 | 35 | 38 |
+| Asset & Wealth Management | 36 | 34 | 35 |
+
+All other income (a)
+
+(b)
+
+%
+
+(a) Includes the amortization of the fair value discount on certain acquired lending-related commitments associated with First Republic. The discount, which is deferred in other liabilities and recognized on a straight-line basis over the commitment period, continues to decline as commitments expire.
+
+(b) Includes the gain on the original minority interest in China International Fund Management (“CIFM”) upon the Firm’s acquisition of the remaining 51% interest in the entity.
+
+2025 compared with 2024
+
+Net income was $6.5 billion, up 20%.
+
+Net revenue was $24.1 billion, up 12%. Net interest income was $6.8 billion, up 4%. Noninterest revenue was $17.2 billion, up 15%.
+
+Revenue from Asset Management was $11.7 billion, up 15%, predominantly driven by:
+
+• higher asset management fees, reflecting strong net inflows and higher average market levels,
+
+• higher investment valuation gains, and
+
+• performance fees.
+
+Revenue from Global Private Bank was $12.4 billion, up 9%, driven by:
+
+• higher noninterest revenue, reflecting:
+
+– higher management fees due to strong net inflows and higher average market levels, as well as higher brokerage commissions,
+
+partially offset by
+
+– a decline in the amortization of the fair value discount on certain acquired lending-related commitments associated with First Republic that have expired, and', '[0.027354,-0.055972,-0.012432,-0.002534,0.040121,0.000914,0.024520,-0.038256,0.012012,-0.011892,0.077456,-0.023459,0.024691,-0.003453,-0.012561,-0.013737,0.029121,-0.053719,-0.013060,0.085253,0.046803,-0.035288,0.015423,-0.023527,0.027720,-0.006279,-0.060598,-0.039135,-0.070375,-0.128124,0.006709,-0.045656,0.013242,0.007533,-0.005356,0.045835,-0.052088,0.021799,-0.012316,-0.007827,-0.001073,0.022983,0.025604,0.014164,0.027440,-0.020188,0.014147,0.002503,-0.022351,0.023167,0.031096,-0.068450,0.009416,0.043382,-0.004362,0.028741,-0.011440,0.035403,-0.046741,0.014791,-0.029163,-0.010349,-0.185222,0.038549,-0.012694,0.095021,0.023221,-0.017612,-0.007886,-0.048419,0.015812,0.039307,-0.030952,-0.028550,-0.000764,-0.042458,0.039211,0.024201,-0.030198,0.042661,-0.019664,-0.013917,-0.029364,-0.032780,-0.025975,0.033042,-0.017016,-0.008170,0.069691,-0.009703,-0.021690,0.016507,-0.061339,0.003978,0.002415,-0.034803,0.005000,0.050020,-0.051829,0.381499,0.032834,-0.005642,0.014303,-0.059232,0.036413,0.033844,-0.013251,0.000378,0.044514,0.032201,0.054967,-0.032773,0.047691,-0.076294,-0.007189,-0.018518,-0.041683,0.037061,-0.008274,-0.033196,0.025450,-0.008860,0.003240,0.038727,0.001856,-0.006276,-0.014857,0.019554,0.082078,0.015215,-0.010181,0.035493,-0.123447,-0.043864,0.012568,-0.005465,-0.000236,-0.051969,0.056001,0.034379,0.023051,0.034572,-0.039751,-0.048838,-0.038487,0.123353,0.031858,-0.014712,-0.049274,-0.031399,0.024513,0.063751,0.023287,-0.025682,0.024373,0.040366,-0.001376,0.054434,0.007826,-0.051293,-0.053893,-0.024637,-0.037389,0.119121,-0.014560,-0.121198,-0.013510,0.013173,-0.016986,-0.008054,-0.001860,0.018757,0.015834,0.000814,0.078203,-0.029328,0.010195,-0.041767,-0.006879,-0.006770,0.021144,0.037522,-0.036701,0.015750,-0.053334,-0.017108,-0.036828,-0.025786,-0.030191,-0.046685,-0.069455,0.092380,-0.084323,0.027221,0.015403,0.032268,-0.004381,0.011608,0.014186,0.000527,0.090989,0.032152,0.067674,-0.038672,-0.028770,0.022001,-0.071369,0.006925,0.043182,0.027099,0.003558,0.037349,-0.068980,-0.000804,0.022045,0.039332,0.043614,0.049635,0.030940,0.033213,0.012171,0.008367,-0.023353,-0.313330,0.005029,-0.033387,-0.022480,0.019109,0.013568,-0.008646,0.009200,0.013502,0.029097,0.006165,-0.036262,-0.049933,0.024046,0.019218,-0.062245,-0.070535,-0.000393,-0.059703,-0.014634,-0.020423,-0.001594,-0.062296,0.068702,0.124623,-0.044988,0.124937,-0.103070,-0.024808,0.007318,0.021951,0.018594,0.018434,-0.025918,0.054262,-0.049793,0.051576,-0.037461,-0.053272,-0.037512,-0.032377,-0.045346,-0.019088,-0.017069,-0.045868,0.003023,-0.038056,0.002116,0.024299,0.024374,0.016599,0.016898,0.030138,0.022922,-0.005091,-0.058657,-0.073099,-0.022466,-0.061490,0.025090,0.042457,-0.065391,0.044967,0.000448,0.041681,-0.138932,-0.038132,0.008369,0.000249,-0.035230,-0.029741,-0.000326,0.056998,-0.027908,0.019829,-0.005922,0.052766,0.036116,-0.106209,0.028747,0.080996,-0.038274,0.036128,0.040066,0.014195,0.030476,-0.027059,0.034034,-0.026928,0.021241,-0.015115,-0.057140,-0.076173,0.017752,0.020903,-0.020082,-0.225640,0.025755,-0.049861,0.007353,-0.039055,0.000206,-0.004283,0.025253,0.001593,0.077193,0.061768,0.027776,0.035271,-0.020680,0.031692,-0.048907,0.040005,-0.019815,0.078388,0.058168,0.050949,-0.014207,0.134248,0.039561,0.018679,-0.006416,-0.043680,0.045531,0.055938,0.025215,0.072306,0.089083,0.043650,0.002367,-0.009734,-0.026590,0.074250,0.072646,0.039270,0.054200,0.030230,-0.009721,0.011244,-0.025260,0.023558,-0.043767,-0.012926,-0.036678,-0.025543,-0.033386,-0.038509,-0.031771,0.006653,0.003047,0.063136,-0.015751,-0.047982,0.034000,0.016557,-0.006954,0.009331,0.065680,-0.103749,0.009601,0.014128]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_39', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 39, 'Revenue from Asset Management was $11.7 billion, up 15%, predominantly driven by:
+
+• higher asset management fees, reflecting strong net inflows and higher average market levels,
+
+• higher investment valuation gains, and
+
+• performance fees.
+
+Revenue from Global Private Bank was $12.4 billion, up 9%, driven by:
+
+• higher noninterest revenue, reflecting:
+
+– higher management fees due to strong net inflows and higher average market levels, as well as higher brokerage commissions,
+
+partially offset by
+
+– a decline in the amortization of the fair value discount on certain acquired lending-related commitments associated with First Republic that have expired, and
+
+• higher net interest income, driven by higher average loans and deposits, largely offset by narrower spreads on loans.
+
+Noninterest expense was $15.3 billion, up 6%, driven by:
+
+• higher compensation, primarily higher revenue-related compensation and continued growth in private banking advisor teams, as well as higher distribution fees,
+
+partially offset by
+
+• lower legal expense.
+
+The provision for credit losses was $97 million, largely driven by the impact of a charge-off related to a client-specific exposure in the third quarter of 2025. Net charge-offs were $92 million and the net addition to the allowance for credit losses was $5 million.
+
+In the prior year, the provision was a net benefit of $68 million.
+
+| 76 | JPMorgan Chase & Co./2025 Form 10-K |
+
+76
+
+JPMorgan Chase & Co./2025 Form 10-K', '[-0.011954,-0.017096,-0.021625,0.005912,-0.000524,0.013550,0.004168,0.026674,0.026224,0.001248,0.061602,0.026210,-0.004664,0.006083,-0.029155,0.007488,0.022307,-0.092624,-0.037224,0.025913,0.029733,-0.084420,0.069557,-0.022385,0.056528,-0.027994,-0.033010,0.005971,-0.077447,-0.183646,-0.019464,-0.038777,0.043139,-0.036025,0.010483,0.033596,-0.091149,0.034602,-0.007022,0.000288,-0.020691,0.003010,-0.023497,-0.020763,0.038386,-0.070873,-0.008963,-0.036064,-0.030226,0.012101,-0.002018,-0.064363,-0.013342,0.068325,-0.072024,0.024648,-0.038314,0.033012,-0.048601,0.034301,-0.005743,0.006305,-0.182944,-0.002083,0.007631,0.039917,0.023570,0.037203,0.001905,0.034781,0.007292,0.036153,0.004850,-0.046813,-0.003174,-0.021714,0.084777,0.023065,-0.036268,0.056207,0.039474,-0.013462,-0.026113,0.000581,-0.019332,0.005258,-0.001150,-0.030637,0.051517,-0.006058,0.020250,0.027298,-0.076550,-0.024216,-0.031457,-0.009391,0.020194,0.021202,0.040657,0.411942,0.070741,0.038552,0.004038,-0.026157,0.036743,0.001672,0.019641,0.034665,0.054396,-0.022985,0.053242,-0.010503,0.075021,-0.052934,-0.008045,0.026232,-0.018134,0.000224,-0.016036,-0.010355,0.021225,0.039163,0.042890,0.028532,-0.059890,0.015640,0.035299,0.066683,0.044407,-0.009268,0.012269,0.008303,-0.102958,-0.022928,0.041590,-0.020081,0.036779,0.012253,0.001723,0.067605,-0.006599,0.054004,-0.046911,-0.057033,-0.046783,0.068755,0.016778,-0.000059,-0.022674,0.016115,-0.001165,0.085101,0.035377,-0.072534,0.003554,-0.000624,-0.015666,0.036566,-0.010502,-0.029892,-0.031940,0.015269,-0.054956,0.105063,0.018808,-0.109617,-0.020133,0.018177,0.023260,-0.013881,-0.043182,0.004713,-0.002721,-0.074392,0.075677,-0.033485,-0.038829,-0.005702,-0.002320,0.012300,0.033150,0.025303,-0.024787,0.006495,-0.042813,-0.019733,-0.067054,0.009223,-0.031263,0.010572,-0.088147,0.055364,-0.158075,0.045878,0.029978,0.011248,-0.022481,0.014073,-0.019459,-0.031286,0.082059,0.016350,0.048593,-0.013479,0.013002,0.000725,-0.012279,0.032995,0.022732,0.015240,-0.007924,0.003331,-0.021792,0.032936,-0.010505,0.032860,0.044061,0.022553,-0.006778,0.004876,0.001592,0.027873,0.042532,-0.311368,-0.009244,-0.010848,-0.022791,0.071690,-0.030722,0.034790,0.019266,0.009298,0.019538,-0.019090,-0.059049,-0.041631,0.024786,0.055136,-0.055678,-0.034521,0.022306,-0.030995,-0.019152,-0.027077,0.049019,-0.033276,0.037207,0.076106,-0.045360,0.083856,-0.098360,0.003985,-0.019935,0.025824,0.033679,-0.001073,-0.056603,0.041622,-0.027434,0.035263,-0.006972,-0.056947,-0.021548,-0.060237,-0.007900,0.008045,-0.065689,-0.005796,0.037015,-0.010931,0.028078,0.001354,0.017641,0.000787,-0.056801,0.054629,-0.010589,0.050026,-0.047603,-0.050790,0.027297,-0.081521,0.041153,0.028241,-0.050715,0.018247,-0.051998,0.005770,-0.068852,-0.018759,0.014455,0.022070,0.033882,-0.037294,-0.012677,0.006880,-0.033408,0.035826,0.019106,0.044557,0.025267,-0.140596,-0.012078,0.057803,-0.020670,0.034765,-0.026109,-0.018280,0.016302,0.016135,0.001185,-0.017630,0.016083,-0.057195,-0.026320,-0.085706,0.022047,0.041222,-0.001628,-0.242082,0.001994,-0.046456,-0.034506,-0.002826,0.028809,0.034579,-0.003542,-0.005084,0.081673,0.018581,0.023879,0.028703,-0.049566,0.028872,-0.048794,0.005688,-0.005488,0.096819,0.077362,0.058808,-0.010637,0.125273,0.037849,-0.034522,-0.031577,-0.035415,-0.009865,0.074117,0.048213,0.036445,0.062181,0.083215,-0.017709,0.041601,-0.004219,0.000886,0.042599,0.022313,0.069316,0.027917,-0.008657,0.008887,-0.011176,0.037913,0.002927,0.020327,-0.039339,0.006013,0.004712,-0.005441,-0.027746,0.019398,-0.000623,-0.003978,-0.016957,-0.034591,-0.009930,0.013474,0.058186,0.011692,-0.026959,-0.070090,-0.022657,0.008020]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_40', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 40, '76
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| Asset Management has two high-level measures of its overall fund performance. |
+| • Percentage of active mutual fund and active ETF assets under management in funds rated 4- or 5-star: Mutual fund rating services rank funds based on their risk adjusted performance over various periods. A 5-star rating is the best rating and represents the top 10% of industry-wide ranked funds. A 4-star rating represents the next 22.5% of industry-wide ranked funds. A 3-star rating represents the next 35% of industry-wide ranked funds. A 2-star rating represents the next 22.5% of industry-wide ranked funds. A 1-star rating is the worst rating and represents the bottom 10% of industry-wide ranked funds. An overall Morningstar rating is derived from a weighted average of the performance associated with a fund’s three-, five and ten- year (if applicable) Morningstar Rating metrics. For U.S.-domiciled funds, separate star ratings are provided at the individual share class level. The Nomura “star rating” is based on three-year risk-adjusted performance only. Funds with fewer than three years of history are not rated and hence excluded from these rankings. All ratings, the assigned peer categories and the asset values used to derive these rankings are sourced from the applicable fund rating provider. Where applicable, the fund rating providers redenominate asset values into U.S. dollars. The percentage of AUM is based on star ratings at the share class level for U.S.-domiciled funds, and at a “primary share class” level to represent the star rating of all other funds, except for Japan, for which Nomura provides ratings at the fund level. The performance data may have been different if all share classes had been included. Past performance is not indicative of future results. |
+| • Percentage of active mutual fund and active ETF assets under management in funds ranked in the 1st or 2nd quartile (one, three and five years) : All quartile rankings, the assigned peer categories and the asset values used to derive these rankings are sourced from the fund rating providers. Quartile rankings are based on the net-of-fee absolute return of each fund. Where applicable, the fund rating providers redenominate asset values into U.S. dollars. The percentage of AUM is based on fund performance and associated peer rankings at the share class level for U.S.-domiciled funds, at a “primary share class” level to represent the quartile ranking for U.K., Luxembourg and Hong Kong SAR funds and at the fund level for all other funds. The performance data may have been different if all share classes had been included. Past performance is not indicative of future results. |
+| “ Primary share class ” means the C share class for European funds and Acc share class for Hong Kong SAR and Taiwan funds. If these share classes are not available, the oldest share class is used as the primary share class. |', '[-0.018144,-0.046590,-0.046089,0.009793,0.010839,0.026097,-0.007304,0.037141,0.019498,-0.015943,0.073536,-0.007500,-0.010511,0.002409,-0.044884,-0.023344,0.003726,-0.048518,0.006444,0.006442,0.059590,-0.049733,0.002855,-0.063554,0.098028,0.003573,-0.039522,-0.053430,-0.088216,-0.176259,-0.061789,-0.052322,0.007712,-0.004271,0.003416,0.001067,-0.016666,0.045292,-0.014064,-0.018071,0.001648,0.011406,0.027134,0.006856,0.001583,-0.029440,-0.032007,-0.059960,-0.032388,0.033245,-0.011433,-0.077196,-0.031486,0.067714,-0.003144,0.020135,0.009074,0.022309,-0.014540,0.035940,0.018888,0.050893,-0.164911,-0.022883,-0.005431,0.038453,-0.011540,0.001934,-0.054953,-0.002242,0.005856,0.022701,0.009421,-0.004233,-0.033661,0.007654,0.077713,0.001644,0.001769,0.046134,-0.040588,-0.011327,-0.071352,-0.085059,0.026998,0.043421,-0.000349,-0.004325,0.044272,0.060434,0.014523,0.022684,-0.000015,0.009720,-0.026662,0.004706,-0.010515,0.002321,-0.024961,0.349980,-0.003161,-0.003591,-0.004597,-0.036612,0.046877,-0.059139,-0.012613,-0.004432,0.043532,0.004396,0.006075,-0.005776,0.040604,-0.047632,0.009654,-0.021146,-0.017479,0.049705,0.068425,0.003588,0.045815,0.015105,0.004992,-0.046061,-0.010051,-0.009219,0.023272,0.049733,0.039182,0.015119,-0.048960,0.002337,-0.136307,-0.042520,-0.020726,0.041939,-0.033853,-0.013193,0.027136,0.017183,-0.030759,-0.004771,-0.037064,-0.038955,-0.040605,0.182073,0.002396,0.038632,-0.002326,-0.029033,0.021858,0.054696,-0.045706,-0.054442,-0.010259,0.060124,-0.078119,0.017174,-0.018672,0.002770,-0.014769,0.004001,-0.027160,0.090907,0.032237,-0.055086,-0.084373,-0.007408,-0.035104,0.003407,0.024072,0.016612,-0.022720,0.012082,0.000639,-0.019731,-0.022136,-0.082693,-0.023727,-0.044737,0.033440,-0.006011,-0.017689,-0.010081,-0.008197,0.063853,-0.094873,-0.004393,0.026028,0.005744,-0.098878,0.048403,-0.055157,0.058601,0.004430,-0.001736,0.017384,0.042878,0.000758,-0.051150,0.070445,0.025190,0.026895,0.013216,0.003273,0.083733,-0.057077,0.028650,0.043027,0.024431,-0.024287,-0.023298,-0.036153,0.040223,0.021751,0.032395,0.042661,-0.033399,-0.030769,0.021663,0.071964,0.046037,-0.062380,-0.342373,-0.011121,-0.022587,0.001274,0.009563,-0.003648,0.027056,0.007122,0.008194,0.069080,0.005053,-0.000088,-0.043218,-0.006777,0.031744,0.017349,-0.050076,0.004907,-0.048788,-0.031896,-0.009466,0.023642,-0.038366,0.029170,0.149562,-0.021073,0.061239,-0.055431,-0.055454,-0.036433,0.021692,0.020937,-0.020323,-0.003680,0.052521,-0.061326,0.086543,-0.035224,-0.014799,0.002968,-0.028371,0.017226,-0.009445,-0.058178,-0.032504,-0.023662,0.016652,0.046999,-0.042974,0.017568,-0.007129,-0.035398,0.025112,-0.018693,0.049482,-0.063407,-0.043957,0.014511,0.019602,-0.001254,0.017638,0.008912,0.027050,-0.003577,0.018488,-0.102216,-0.013835,0.035018,0.003687,-0.010085,-0.020855,-0.019452,0.003699,-0.044704,0.101641,0.022911,-0.004117,-0.022428,-0.012419,0.024056,0.090555,0.016649,0.054669,0.011358,-0.044488,0.025805,0.024458,-0.009352,0.014065,0.003618,0.012472,-0.019989,-0.025662,0.036496,-0.021188,-0.006357,-0.263427,-0.015750,0.016870,0.058191,0.027839,-0.029809,0.065578,-0.012122,-0.011486,0.081719,0.014686,0.032399,0.061089,-0.066791,-0.014143,-0.005392,0.032925,-0.022216,0.095293,0.020037,0.036524,-0.015786,0.197114,-0.001818,-0.000672,0.000457,-0.084834,0.027537,0.030701,0.017216,0.100109,0.062274,0.079035,-0.001713,0.023678,-0.008195,0.019348,0.030270,-0.013480,-0.014272,0.065981,0.032995,-0.058123,-0.004216,0.023258,-0.063868,0.047227,-0.012298,-0.017856,-0.017075,0.037061,-0.000107,0.028246,0.011493,-0.016535,0.020124,0.012174,0.011925,-0.013852,0.007740,-0.005463,0.005363,-0.062966,0.061154,0.025227]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_41', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 41, '• Percentage of active mutual fund and active ETF assets under management in funds rated 4- or 5-star: Mutual fund rating services rank funds based on their risk adjusted performance over various periods. A 5-star rating is the best rating and represents the top 10% of industry-wide ranked funds. A 4-star rating represents the next 22.5% of industry-wide ranked funds. A 3-star rating represents the next 35% of industry-wide ranked funds. A 2-star rating represents the next 22.5% of industry-wide ranked funds. A 1-star rating is the worst rating and represents the bottom 10% of industry-wide ranked funds. An overall Morningstar rating is derived from a weighted average of the performance associated with a fund’s three-, five and ten- year (if applicable) Morningstar Rating metrics. For U.S.-domiciled funds, separate star ratings are provided at the individual share class level. The Nomura “star rating” is based on three-year risk-adjusted performance only. Funds with fewer than three years of history are not rated and hence excluded from these rankings. All ratings, the assigned peer categories and the asset values used to derive these rankings are sourced from the applicable fund rating provider. Where applicable, the fund rating providers redenominate asset values into U.S. dollars. The percentage of AUM is based on star ratings at the share class level for U.S.-domiciled funds, and at a “primary share class” level to represent the star rating of all other funds, except for Japan, for which Nomura provides ratings at the fund level. The performance data may have been different if all share classes had been included. Past performance is not indicative of future results.
+
+• Percentage of active mutual fund and active ETF assets under management in funds ranked in the 1st or 2nd quartile (one, three and five years) : All quartile rankings, the assigned peer categories and the asset values used to derive these rankings are sourced from the fund rating providers. Quartile rankings are based on the net-of-fee absolute return of each fund. Where applicable, the fund rating providers redenominate asset values into U.S. dollars. The percentage of AUM is based on fund performance and associated peer rankings at the share class level for U.S.-domiciled funds, at a “primary share class” level to represent the quartile ranking for U.K., Luxembourg and Hong Kong SAR funds and at the fund level for all other funds. The performance data may have been different if all share classes had been included. Past performance is not indicative of future results.
+
+“ Primary share class ” means the C share class for European funds and Acc share class for Hong Kong SAR and Taiwan funds. If these share classes are not available, the oldest share class is used as the primary share class.', '[-0.007088,-0.047238,-0.057561,-0.006355,0.018407,0.015198,-0.005071,0.034588,0.034929,-0.001865,0.071708,-0.007349,-0.005244,0.008035,-0.052184,-0.014283,-0.020666,-0.036149,-0.002408,0.008780,0.053580,-0.056256,-0.003999,-0.065758,0.094793,0.011492,-0.041638,-0.070743,-0.068402,-0.194149,-0.065417,-0.048559,-0.008156,-0.013446,-0.008722,0.002088,-0.009823,0.046686,-0.015470,0.011153,0.017273,0.019882,0.009389,0.011731,0.006873,-0.020888,-0.048727,-0.057657,-0.036379,0.044653,-0.004803,-0.059308,-0.040583,0.077447,-0.007409,0.027785,0.018185,0.020813,-0.021325,0.037568,0.017687,0.056385,-0.149421,-0.015973,-0.008661,0.021840,-0.015022,-0.002829,-0.064954,-0.010857,-0.004289,0.038188,0.015464,0.013163,-0.006219,0.023470,0.076684,0.011438,0.025614,0.038367,-0.024793,0.014721,-0.069327,-0.057464,0.029292,0.022628,0.016013,-0.009141,0.031659,0.056469,0.024039,0.016745,0.008765,0.012149,-0.020550,0.026062,-0.011933,0.005840,-0.034203,0.340587,-0.011884,-0.004881,0.000720,-0.019196,0.042894,-0.053162,-0.026325,-0.001145,0.028783,0.025434,-0.011649,-0.002978,0.024452,-0.046571,-0.002510,-0.017826,-0.028444,0.042577,0.066755,0.007091,0.032372,0.013165,-0.016163,-0.034812,-0.009529,-0.013511,0.026398,0.045422,0.038164,0.019833,-0.041619,-0.003120,-0.120031,-0.050948,-0.016681,0.034663,-0.024596,-0.021357,0.038892,0.026501,-0.026109,-0.003806,-0.028410,-0.035059,-0.029794,0.176505,0.012507,0.039739,0.002954,-0.029413,0.041356,0.067412,-0.053727,-0.041004,-0.015394,0.059858,-0.063785,0.002088,-0.032326,0.009382,-0.022041,-0.025687,-0.021782,0.110959,0.024685,-0.058257,-0.086214,0.011753,-0.039944,-0.001429,0.026921,0.017436,-0.033768,0.011948,0.004464,-0.018303,-0.012265,-0.112376,-0.013206,-0.045955,0.044988,-0.019825,-0.015115,0.018980,-0.007575,0.087898,-0.091380,-0.013205,0.019495,-0.006011,-0.082233,0.038841,-0.063897,0.065736,-0.008120,0.007150,0.026326,0.019533,0.009290,-0.033997,0.066008,0.012141,0.014217,0.028911,0.001739,0.089027,-0.072349,0.024578,0.050215,0.025284,-0.003234,-0.001699,-0.025857,0.007282,0.021485,0.015689,0.057170,-0.037939,-0.026249,0.045019,0.070914,0.028413,-0.084289,-0.340208,-0.015766,-0.021835,-0.022620,0.021320,0.005733,0.016002,0.010719,-0.000556,0.048789,0.032239,0.003082,-0.022709,-0.023730,0.025539,0.031832,-0.029652,-0.006693,-0.032628,-0.033691,-0.013398,0.012676,-0.029123,0.008922,0.143250,-0.015478,0.071384,-0.066406,-0.041703,-0.065684,0.015103,0.032979,-0.019894,0.013146,0.044545,-0.063910,0.082319,-0.045921,-0.032795,0.022417,-0.025094,0.015099,-0.013770,-0.056175,-0.032949,-0.037458,0.029151,0.034018,-0.034332,0.031742,0.003987,-0.039791,0.014106,-0.014580,0.036236,-0.068824,-0.061957,0.009360,0.047962,0.003294,0.017035,-0.004656,0.024494,-0.027525,0.019413,-0.119600,-0.027615,0.021670,0.009204,0.018080,-0.008024,0.011082,0.002102,-0.036011,0.093368,0.024417,-0.002713,-0.022975,0.003437,0.034112,0.076811,0.007481,0.052106,-0.030963,-0.048975,0.032545,0.023304,-0.009549,0.002636,0.026178,0.016835,-0.010152,-0.027659,0.026579,-0.028003,-0.004291,-0.265475,-0.028913,0.016424,0.065069,0.039234,-0.041584,0.054013,-0.015827,-0.010025,0.069428,0.010255,0.044774,0.059673,-0.056446,-0.025438,0.006685,0.045820,-0.043813,0.092728,-0.013935,0.035825,-0.023404,0.196200,0.001858,-0.020451,0.008196,-0.103768,0.041656,0.006015,0.009440,0.088696,0.043065,0.074333,0.019819,0.008250,-0.009897,0.006600,0.029421,-0.005591,-0.029760,0.050753,0.019700,-0.070995,0.030674,0.011325,-0.055013,0.054142,-0.017417,-0.020560,-0.005699,0.042691,0.010765,0.030672,0.016508,-0.030752,0.022939,-0.006152,0.025421,-0.007513,-0.016680,-0.002458,0.008035,-0.048196,0.064388,0.058161]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_42', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 42, '• Percentage of active mutual fund and active ETF assets under management in funds ranked in the 1st or 2nd quartile (one, three and five years) : All quartile rankings, the assigned peer categories and the asset values used to derive these rankings are sourced from the fund rating providers. Quartile rankings are based on the net-of-fee absolute return of each fund. Where applicable, the fund rating providers redenominate asset values into U.S. dollars. The percentage of AUM is based on fund performance and associated peer rankings at the share class level for U.S.-domiciled funds, at a “primary share class” level to represent the quartile ranking for U.K., Luxembourg and Hong Kong SAR funds and at the fund level for all other funds. The performance data may have been different if all share classes had been included. Past performance is not indicative of future results.
+
+“ Primary share class ” means the C share class for European funds and Acc share class for Hong Kong SAR and Taiwan funds. If these share classes are not available, the oldest share class is used as the primary share class.
+
+| Selected metrics |
+| As of or for the year ended December 31, (in millions, except ranking data, ratios and employees) | 2025 | 2024 | 2023 |
+| % of JPM mutual fund assets and ETFs rated as 4- or 5-star (a) | 60 | % | 69 | % | 69 | % |
+| % of JPM mutual fund assets and ETFs ranked in 1 st or 2 nd quartile: (b) |
+| 1 year | 44 | 73 | 40 |
+| 3 years | 54 | 75 | 67 |
+| 5 years | 73 | 77 | 71 |
+| Selected balance sheet data (period-end) (c) |
+| Total assets | $ | 288,065 | $ | 255,385 | $ | 245,512 |
+| Loans | 266,385 | 236,303 | 227,929 |
+| Deposits | 257,316 | 248,287 | 233,232 |
+| Equity | 16,000 | 15,500 | 17,000 |
+| Selected balance sheet data (average) (c) |
+| Total assets | $ | 267,986 | $ | 246,254 | $ | 240,222 |
+| Loans | 246,596 | 227,676 | 220,487 |
+| Deposits | 245,248 | 235,146 | 216,178 |
+| Equity | 16,000 | 15,500 | 16,671 |
+| Employees | 29,722 | (d) | 29,403 | 28,485 |
+| Number of Global Private Bank client advisors | 4,101 | 3,775 | 3,515 |
+| Credit data and quality statistics (c) |
+| Net charge-offs/(recoveries) | $ | 92 | $ | 21 | $ | 13 |
+| Nonaccrual loans | 1,199 | 700 | 650 |
+| Allowance for credit losses: |
+| Allowance for loan losses | $ | 536 | $ | 539 | $ | 633 |
+| Allowance for lending-related commitments | 43 | 35 | 28 |
+| Total allowance for credit losses | $ | 579 | $ | 574 | $ | 661 |
+| Net charge-off/(recovery) rate | 0.04 | % | 0.01 | % | 0.01 | % |
+| Allowance for loan losses to period-end loans | 0.20 | 0.23 | 0.28 |
+| Allowance for loan losses to nonaccrual loans | 45 | 77 | 97 |
+| Nonaccrual loans to period-end loans | 0.45 | 0.30 | 0.29 |
+
+As of or for the year ended December 31,
+
+(in millions, except ranking data, ratios and employees)', '[-0.006258,-0.022743,-0.026734,-0.006060,0.024403,0.015475,-0.017930,0.024831,0.011751,-0.005323,0.097600,-0.037847,0.002354,0.013413,0.001993,0.004739,-0.016457,-0.033897,0.009875,0.008364,0.009152,-0.089127,-0.002223,-0.075262,0.077850,0.022728,-0.000928,-0.049117,-0.037105,-0.220974,-0.016511,-0.034027,0.001594,-0.007124,0.007730,0.001949,-0.018350,0.053136,-0.018653,-0.012346,0.009322,0.021940,0.010421,-0.014231,0.029382,-0.006258,-0.041828,-0.019520,-0.052076,0.027982,0.017987,-0.026596,-0.008874,0.090723,-0.020552,0.029899,0.025003,0.016530,-0.009095,0.020079,0.010073,0.054562,-0.156162,-0.013934,-0.044729,0.037755,0.017909,-0.021497,-0.083468,-0.014017,0.004527,0.047177,-0.004143,0.011126,-0.016326,-0.023119,0.066947,-0.021588,-0.007372,0.023841,-0.039723,0.012923,-0.043745,-0.037923,0.063503,0.016005,0.047922,-0.018320,0.050048,0.021995,0.032425,0.014106,-0.012919,-0.003054,-0.016053,0.010204,-0.011748,0.024704,-0.021690,0.377681,0.000583,0.008370,-0.029685,-0.021362,0.024766,-0.043267,0.004376,-0.004103,0.013275,-0.023841,-0.004381,-0.024658,0.004641,-0.031594,-0.017846,-0.044691,-0.010860,-0.003395,0.038230,0.015404,0.040581,-0.027552,0.014238,-0.059340,-0.018806,-0.029958,0.022591,0.056575,0.045508,0.028006,0.018119,-0.002314,-0.110542,-0.090372,-0.007090,0.013371,0.016767,-0.028375,0.034338,0.022213,-0.014080,0.001450,-0.033879,-0.048874,-0.070617,0.181834,-0.008833,0.025931,-0.000109,-0.014177,0.043901,0.023515,-0.013833,-0.050488,-0.004836,0.042059,-0.024104,0.020589,-0.039042,-0.049158,-0.001009,-0.036675,-0.059377,0.131691,0.014461,-0.081156,-0.039141,0.007688,0.010702,-0.014403,0.032998,0.028783,-0.032545,0.025347,0.043457,-0.027367,-0.002077,-0.135910,-0.001731,-0.020749,0.037176,-0.026964,-0.004982,0.014002,-0.014473,0.064614,-0.080944,-0.020179,0.016327,0.023965,-0.043560,0.063763,-0.062209,0.061907,-0.031407,0.006530,0.026496,0.028459,-0.009190,-0.064433,0.075090,0.019601,0.005057,0.002016,0.002856,0.063100,-0.055661,0.017715,0.039058,0.023733,0.016038,0.008120,-0.058341,0.005614,0.014179,-0.014160,0.052782,-0.006780,-0.033298,0.062959,0.046166,0.032488,-0.029600,-0.324000,-0.021989,-0.010415,-0.059604,0.039326,0.026003,0.008703,0.044843,0.009785,0.042012,0.022815,0.028554,-0.041405,-0.018248,-0.003666,-0.003981,-0.012239,-0.011772,-0.045049,-0.040661,-0.018978,-0.009239,-0.015209,0.018376,0.125525,0.028607,0.084195,-0.046577,-0.001310,-0.033584,0.017632,0.030649,-0.036665,0.009718,0.045238,-0.063051,0.080742,-0.046658,-0.025345,0.025471,-0.028327,0.041718,-0.027470,-0.049900,-0.019465,0.001947,-0.011653,0.018006,-0.065803,0.016592,0.010595,-0.036326,0.032003,0.003358,0.003710,-0.033082,-0.071422,0.021793,0.027451,0.029608,0.032163,0.001225,0.025969,-0.053455,0.003945,-0.112321,-0.038428,0.018617,0.006128,0.026369,-0.023813,0.002960,-0.003044,-0.036009,0.066501,0.001303,0.035358,0.022022,-0.013533,0.027806,0.097639,-0.038724,0.007835,-0.011549,-0.017177,0.008225,0.046363,0.031881,0.004729,0.049564,-0.013425,0.004284,-0.040096,0.046688,-0.008295,0.022908,-0.253850,-0.046247,0.021059,0.057416,0.029678,-0.016740,0.061288,-0.044548,-0.026652,0.071537,0.034673,0.052304,0.084960,-0.062741,-0.022979,-0.045568,0.016691,-0.071159,0.079216,0.000143,0.042836,-0.020677,0.198103,0.038411,-0.020142,-0.005362,-0.074665,0.039593,0.010791,-0.011173,0.093275,0.061581,0.065473,0.002898,-0.001652,0.016122,-0.017755,0.025561,-0.012715,-0.021767,0.047439,-0.012370,-0.080088,0.014191,0.011796,-0.063024,0.034009,-0.037843,0.011591,0.015402,0.054094,-0.018026,0.030938,0.012899,-0.016204,-0.004776,-0.032260,0.010663,0.008921,-0.031385,0.009049,-0.006806,-0.036560,0.033558,0.056144]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_43', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 43, 'As of or for the year ended December 31,
+
+(in millions, except ranking data, ratios and employees)
+
+% of JPM mutual fund assets and ETFs rated as 4- or 5-star (a)
+
+% of JPM mutual fund assets and ETFs ranked in 1 st or 2 nd
+
+quartile: (b)
+
+Selected balance sheet data (period-end) (c)
+
+Selected balance sheet data (average) (c)
+
+Employees
+
+(d)
+
+Credit data and quality statistics (c)
+
+Allowance for lending-related commitments
+
+Total allowance for credit losses
+
+Allowance for loan losses to period-end loans
+
+Allowance for loan losses to nonaccrual loans
+
+Nonaccrual loans to period-end loans
+
+(a) Represents the Morningstar Rating for all domiciled funds except for Japan domiciled funds which use Nomura. Includes only Asset Management retail active open-ended mutual funds and active ETFs that have a rating. Excludes money market funds, Undiscovered Managers Fund, and Brazil domiciled funds.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 77 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+77
+
+(b) Quartile ranking sourced from Morningstar, Lipper and Nomura based on country of domicile. Includes only Asset Management retail active open-ended mutual funds and active ETFs that are ranked by the aforementioned sources. Excludes money market funds, Undiscovered Managers Fund, and Brazil domiciled funds.
+
+(c) Loans, deposits and related credit data and quality statistics relate to the Global Private Bank business.
+
+(d) In the first quarter of 2025, 130 employees were transferred to Corporate as a result of the centralization of certain functions.
+
+Client assets
+
+2025 compared with 2024
+
+Assets under management were $4.8 trillion, up 18%, and client assets were $7.1 trillion, up 20%. These increases were driven by higher market levels and continued net inflows.
+
+| Client assets |
+| December 31, (in billions) | 2025 | 2024 | 2023 |
+| Assets by asset class |
+| Liquidity | $ | 1,279 | $ | 1,083 | $ | 926 |
+| Fixed income | 998 | 851 | 751 |
+| Equity | 1,400 | 1,128 | 868 |
+| Multi-asset | 884 | 764 | 680 |
+| Alternatives | 230 | 219 | 197 |
+| Total assets under management | 4,791 | 4,045 | 3,422 |
+| Custody/brokerage/ administration/deposits | 2,327 | 1,887 | 1,590 |
+| Total client assets (a) | $ | 7,118 | $ | 5,932 | $ | 5,012 |
+| Assets by client segment |
+| Private Banking (b) | $ | 1,414 | $ | 1,162 | $ | 924 |
+| Global Institutional | 1,953 | 1,692 | 1,488 |
+| Global Funds (b) | 1,424 | 1,191 | 1,010 |
+| Total assets under management | $ | 4,791 | $ | 4,045 | $ | 3,422 |
+| Private Banking (b) | $ | 3,549 | $ | 2,902 | $ | 2,402 |
+| Global Institutional | 2,121 | 1,820 | 1,594 |
+| Global Funds (b) | 1,448 | 1,210 | 1,016 |
+| Total client assets (a) | $ | 7,118 | $ | 5,932 | $ | 5,012 |
+
+Alternatives
+
+Custody/brokerage/
+
+administration/deposits
+
+Total client assets (a)
+
+Private Banking (b)
+
+Global Funds (b)
+
+Private Banking (b)
+
+Global Funds (b)
+
+Total client assets (a)
+
+(a) Includes CCB client investment assets invested in managed accounts and J.P. Morgan mutual funds where AWM is the investment manager.
+
+(b) In the first quarter of 2025, the Firm realigned certain client assets from Private Banking to Global Funds to reflect them in the client segment where the assets are invested. Prior period amounts have been revised to conform with the current presentation.', '[-0.005679,-0.060523,-0.032631,-0.035259,0.028814,0.015321,-0.026173,0.017142,0.032890,-0.022784,0.074915,-0.014381,0.020753,0.012150,-0.076096,-0.022127,-0.016497,-0.071959,0.006845,0.014260,0.044874,-0.060675,0.041985,-0.048981,0.073314,-0.001026,-0.049926,-0.060816,-0.071021,-0.149540,-0.031020,-0.042503,0.024068,0.000644,0.022184,0.040762,-0.030150,0.017639,-0.013777,-0.040928,-0.003327,0.012561,0.029496,-0.028999,0.016897,-0.030390,-0.018824,-0.026707,-0.041391,0.048284,-0.041326,-0.058120,0.023747,0.104349,-0.028591,0.056956,0.001810,0.029969,-0.003747,0.055764,0.027939,0.021131,-0.164089,-0.038250,0.006046,0.015691,0.026157,0.025464,-0.040187,-0.002365,0.008143,0.015553,-0.002399,-0.009600,-0.011611,-0.011122,0.065754,0.009069,-0.035227,0.048316,-0.057348,-0.003095,0.006762,-0.033677,-0.014604,0.016766,-0.002051,-0.014988,-0.004266,0.063038,0.014363,0.025990,-0.019737,0.009343,-0.081073,0.008774,-0.015673,0.038169,-0.009106,0.375007,-0.003712,-0.002967,0.010577,-0.041816,0.046027,0.006800,0.013182,-0.001989,0.061891,-0.016789,-0.018086,-0.026175,0.057553,-0.047849,-0.003577,-0.022702,0.033863,0.022199,0.022061,0.017845,0.037186,0.023527,0.009313,-0.006106,-0.048446,-0.015896,-0.000854,0.035906,0.052963,0.029194,-0.047687,0.041535,-0.118695,-0.029180,-0.003426,0.025676,-0.002558,-0.045868,0.073138,0.023161,-0.055300,-0.021956,-0.029540,-0.078935,-0.042877,0.142713,0.024877,0.019366,-0.004127,-0.017949,0.022047,0.105022,0.033424,-0.100186,-0.004905,0.048040,-0.030683,0.016707,-0.025352,-0.015073,-0.002783,-0.046948,-0.056211,0.094743,0.029693,-0.102908,-0.027356,0.043113,0.005284,0.013580,0.066454,-0.017109,-0.031134,-0.021133,0.042594,-0.021226,0.017673,-0.027210,-0.018323,-0.007642,0.001267,0.011876,-0.059495,0.000580,-0.041183,0.052307,-0.098245,0.023984,0.011570,-0.018139,-0.041156,0.022230,-0.059908,0.071645,-0.001402,0.008457,0.012413,0.028590,-0.011324,-0.065904,0.052042,0.027551,0.050065,-0.004133,-0.019431,0.008565,-0.049658,0.030135,0.060538,0.016200,-0.007575,0.013572,-0.000685,0.065795,0.037764,0.019397,0.053363,-0.004188,-0.007176,0.026624,0.019043,0.018939,0.000943,-0.332211,-0.004501,-0.031864,-0.034386,-0.007841,-0.012617,0.041650,0.008080,-0.009632,0.050494,0.003610,-0.002492,-0.075933,-0.026118,0.023263,-0.018308,-0.021261,0.011356,-0.041416,-0.041829,-0.034175,0.027561,-0.046370,0.027121,0.062401,-0.048531,0.095896,-0.043551,-0.075004,-0.021069,0.040613,0.055764,-0.009822,-0.061334,0.091276,-0.022702,0.021658,-0.016947,-0.013735,0.010424,-0.017265,0.012632,-0.002535,-0.023751,-0.003409,-0.029017,-0.000218,0.013097,-0.037023,0.019448,-0.013962,-0.023611,0.053244,-0.006044,0.057340,-0.062559,0.010272,0.007547,-0.006475,0.009018,0.036183,-0.018146,0.026240,-0.029356,0.000908,-0.109511,-0.005472,0.039942,0.001630,0.049259,-0.051015,0.012407,0.001958,-0.028182,0.052667,0.025798,0.001895,0.002687,-0.047785,-0.006022,0.077825,-0.005958,0.012899,-0.009448,-0.028244,0.037841,0.060244,-0.021655,0.034076,0.012191,-0.012845,-0.049150,-0.042069,0.043979,0.055738,0.002572,-0.287596,-0.003129,-0.052240,0.016997,0.036229,-0.026390,0.026076,-0.017851,-0.017244,0.102196,-0.001484,0.063034,0.074700,-0.101044,0.015290,-0.010362,0.017398,0.005335,0.107182,-0.003904,0.069584,-0.005286,0.161765,0.010259,-0.061030,-0.011277,-0.075361,-0.008923,0.040317,0.062349,0.072855,0.063498,0.086414,0.020508,-0.013563,-0.016166,0.023929,0.063825,0.010260,-0.018646,0.021366,0.010599,-0.035188,0.021402,0.038140,-0.054618,0.009146,-0.021260,0.003607,-0.037533,0.008035,0.000151,-0.000319,0.010041,-0.021161,-0.009349,-0.012848,0.008671,0.015490,-0.020934,-0.018833,0.018599,-0.087265,0.004488,0.068655]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_44', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 44, 'Alternatives
+
+Custody/brokerage/
+
+administration/deposits
+
+Total client assets (a)
+
+Private Banking (b)
+
+Global Funds (b)
+
+Private Banking (b)
+
+Global Funds (b)
+
+Total client assets (a)
+
+(a) Includes CCB client investment assets invested in managed accounts and J.P. Morgan mutual funds where AWM is the investment manager.
+
+(b) In the first quarter of 2025, the Firm realigned certain client assets from Private Banking to Global Funds to reflect them in the client segment where the assets are invested. Prior period amounts have been revised to conform with the current presentation.
+
+| Client assets (continued) |
+| Year ended December 31, (in billions) | 2025 | 2024 | 2023 |
+| Assets under management rollforward |
+| Beginning balance | $ | 4,045 | $ | 3,422 | $ | 2,766 |
+| Net asset flows: |
+| Liquidity | 183 | 140 | 242 |
+| Fixed income | 94 | 91 | 70 |
+| Equity | 95 | 114 | 70 |
+| Multi-asset | 16 | 19 | 1 |
+| Alternatives | 4 | 10 | (1) |
+| Market/performance/other impacts | 354 | 249 | 274 |
+| Ending balance, December 31 | $ | 4,791 | $ | 4,045 | $ | 3,422 |
+| Client assets rollforward |
+| Beginning balance | $ | 5,932 | $ | 5,012 | $ | 4,048 |
+| Net asset flows | 553 | 486 | 490 |
+| Market/performance/other impacts | 633 | 434 | 474 |
+| Ending balance, December 31 | $ | 7,118 | $ | 5,932 | $ | 5,012 |
+
+Assets under management rollforward
+
+Alternatives
+
+| Selected Metrics |
+| As of December 31, |
+| 2025 | 2024 | Change |
+| Firmwide Wealth Management |
+| Client assets (in billions) (a) | $ | 4,521 | $ | 3,756 | 20 | % |
+| Number of client advisors | 10,150 | 9,530 | 7 |
+| Stock Plan Administration |
+| Number of stock plan participants (in thousands) | 1,794 | 1,327 | 35 |
+| Client assets (in billions) | $ | 372 | $ | 270 | 38 | % |
+
+Selected Metrics
+
+Client assets (in billions) (a)
+
+Stock Plan Administration
+
+(a) Consists of Global Private Bank in AWM and client investment assets in J.P. Morgan Wealth Management in CCB.
+
+| 78 | JPMorgan Chase & Co./2025 Form 10-K |
+
+78
+
+JPMorgan Chase & Co./2025 Form 10-K', '[-0.042883,-0.085030,-0.022990,-0.008187,0.001859,-0.027647,0.012071,-0.059170,0.027214,-0.000726,0.054268,-0.007697,-0.022642,-0.006148,0.001336,-0.032237,0.036280,-0.069140,-0.003950,0.063697,0.003794,-0.046541,0.031100,-0.021997,0.039069,-0.008717,-0.055431,-0.020068,-0.074337,-0.145879,0.012640,-0.011575,-0.036779,-0.022497,0.015944,0.018799,-0.023663,0.074009,-0.026406,0.013905,0.028664,0.078630,0.018859,-0.011826,0.022216,-0.030897,0.007639,0.020040,-0.019046,0.033086,0.069052,-0.075091,0.030066,0.059357,-0.046857,0.036178,0.036965,0.050485,0.001189,0.041866,-0.008236,0.002904,-0.188066,0.030097,0.029399,0.081669,0.016421,-0.001938,0.011286,0.014560,-0.019022,-0.006930,-0.053679,-0.036556,0.029246,-0.036240,0.014928,0.035306,-0.004449,0.034819,-0.053977,0.021860,-0.013333,-0.014081,-0.025719,0.010552,-0.021521,0.022864,0.025121,-0.017083,-0.005998,-0.010208,-0.021569,-0.007832,-0.043054,-0.001835,0.034140,0.028885,-0.039062,0.373828,0.025199,-0.017864,0.027647,-0.022285,0.048257,0.011959,-0.014171,-0.022215,0.064285,0.043177,-0.014731,-0.004488,0.034199,-0.063471,-0.060395,0.003780,-0.032086,0.042363,0.002020,0.015442,0.017203,0.012994,0.014179,0.016257,-0.040734,-0.005395,-0.017907,0.025737,0.027436,0.040803,-0.004777,0.038381,-0.104741,0.012463,0.034009,-0.010825,0.007310,-0.043844,0.071994,-0.000270,0.010136,-0.018902,-0.033629,-0.050005,-0.062083,0.153888,0.043886,0.013477,-0.045004,-0.017127,0.032179,0.086445,0.026248,0.001115,-0.003292,0.055437,-0.026898,0.087151,-0.033912,0.003075,0.001098,-0.022774,0.017531,0.132868,0.033609,-0.121315,-0.002100,0.006931,0.018854,-0.013966,0.003803,0.007627,0.001466,-0.033887,0.087400,-0.015296,-0.005247,-0.056265,0.024629,-0.024484,-0.009653,0.026016,-0.060603,0.014770,-0.073258,-0.013365,-0.047672,-0.007605,-0.020616,0.005451,-0.078253,0.073162,-0.096265,0.031271,0.033394,0.001658,-0.026075,-0.028536,0.000480,0.005207,0.066762,0.040260,0.067732,-0.022495,0.022282,0.005955,-0.055180,-0.014653,0.074319,-0.006742,0.017322,0.025347,-0.058392,0.016663,0.051437,0.013908,0.017225,0.035921,0.005401,0.004518,-0.007830,0.032531,-0.003819,-0.307182,-0.019306,-0.027052,-0.042468,0.012303,0.007269,-0.000707,0.013118,-0.030713,0.041845,-0.000765,-0.034940,-0.078047,0.007069,0.037990,-0.066486,-0.066871,0.000389,-0.026276,-0.009805,-0.067738,0.014867,-0.081461,0.053820,0.081192,0.011648,0.116606,-0.083536,-0.056990,-0.005329,-0.005171,0.037808,0.000591,-0.000997,0.048512,-0.014710,0.031629,-0.013101,-0.008300,-0.026808,0.005567,0.014074,0.002226,-0.047572,-0.042869,0.012262,-0.050235,-0.010849,-0.008019,-0.003982,-0.025207,-0.011557,-0.031436,0.006757,0.050949,-0.072516,-0.018631,0.007521,-0.016971,-0.001874,0.050737,-0.075204,0.010488,0.031868,0.019682,-0.099389,0.004275,-0.020863,-0.018724,-0.021962,-0.049917,0.019055,0.072092,-0.052039,0.015012,0.004324,0.024881,0.065215,-0.091291,0.022776,0.082597,-0.075702,0.022473,0.000083,-0.000981,0.080253,-0.050513,0.018980,-0.010956,0.005263,-0.039372,-0.053428,-0.088850,0.030495,0.021566,-0.007820,-0.258628,0.030653,-0.027844,-0.006648,-0.032714,0.007185,0.005936,0.013610,-0.042355,0.066508,0.017392,0.001276,0.042708,-0.050510,0.049850,-0.052690,0.080742,-0.027177,0.088592,0.051764,0.032796,0.005813,0.179233,0.053914,-0.012979,-0.013453,-0.077453,0.037560,0.080508,0.035493,0.069594,0.059385,0.067505,-0.002677,0.017049,-0.028233,0.036911,0.035075,0.036249,-0.001252,0.013156,0.002801,-0.004540,0.009245,0.049049,-0.004152,-0.016469,-0.027618,-0.011153,-0.025724,-0.036274,0.000288,0.017128,0.021693,0.051803,-0.006202,-0.019068,0.004758,-0.040881,-0.002296,-0.006269,0.016491,-0.053253,0.009050,0.041756]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_45', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 45, '78
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| International metrics |
+| Year ended December 31, (in billions, except where otherwise noted) | 2025 | 2024 | 2023 |
+| Total net revenue (in millions) (a) |
+| Europe/Middle East/Africa | $ | 4,049 | $ | 3,563 | $ | 3,377 |
+| Asia-Pacific | 2,432 | 2,023 | 1,876 |
+| Latin America/Caribbean | 1,228 | 1,065 | 985 |
+| Total international net revenue | 7,709 | 6,651 | 6,238 |
+| North America | 16,364 | 14,927 | 13,589 |
+| Total net revenue (a) | $ | 24,073 | $ | 21,578 | $ | 19,827 |
+| Assets under management |
+| Europe/Middle East/Africa | $ | 709 | $ | 604 | $ | 539 |
+| Asia-Pacific | 374 | 302 | 263 |
+| Latin America/Caribbean | 126 | 106 | 86 |
+| Total international assets under management | 1,209 | 1,012 | 888 |
+| North America | 3,582 | 3,033 | 2,534 |
+| Total assets under management | $ | 4,791 | $ | 4,045 | $ | 3,422 |
+| Client assets |
+| Europe/Middle East/Africa | $ | 1,035 | $ | 841 | $ | 740 |
+| Asia-Pacific | 620 | 482 | 406 |
+| Latin America/Caribbean | 310 | 254 | 232 |
+| Total international client assets | 1,965 | 1,577 | 1,378 |
+| North America | 5,153 | 4,355 | 3,634 |
+| Total client assets | $ | 7,118 | $ | 5,932 | $ | 5,012 |
+
+Total net revenue (in millions) (a)
+
+Total net revenue (a)
+
+(a) Regional revenue is based on the domicile of the client.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 79 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+79
+
+| CORPORATE |
+
+CORPORATE
+
+| Corporate consists of Treasury and Chief Investment Office (“CIO”) and Other Corporate. Treasury and CIO is predominantly responsible for measuring, monitoring, reporting and managing the Firm’s liquidity, funding, capital, structural interest rate and foreign exchange risks. Other Corporate includes staff functions and expense that is centrally managed as well as certain Firm initiatives and activities not solely aligned to a specific LOB. The major Other Corporate functions include Real Estate, Technology, Legal, Corporate Finance, Human Resources, Internal Audit, Risk Management, Compliance, Control Management, Corporate Responsibility and various Other Corporate groups. |
+
+Corporate consists of Treasury and Chief Investment Office (“CIO”) and Other Corporate. Treasury and CIO is predominantly responsible for measuring, monitoring, reporting and managing the Firm’s liquidity, funding, capital, structural interest rate and foreign exchange risks.
+
+Other Corporate includes staff functions and expense that is centrally managed as well as certain Firm initiatives and activities not solely aligned to a specific LOB. The major Other Corporate functions include Real Estate, Technology, Legal, Corporate Finance, Human Resources, Internal Audit, Risk Management, Compliance, Control Management, Corporate Responsibility and various Other Corporate groups.', '[-0.044118,-0.078779,0.024827,0.002495,0.026483,0.034070,-0.027687,0.018435,-0.003577,-0.004621,0.070327,-0.024286,-0.033112,0.001615,-0.046482,-0.039666,-0.037401,-0.090250,-0.010301,0.061914,0.111378,-0.035065,0.103016,-0.022517,0.046995,0.006409,-0.030354,0.001783,-0.055047,-0.154608,-0.009682,-0.012768,0.027560,0.005771,0.016878,-0.002715,-0.042057,0.052368,-0.019310,-0.006347,0.002517,-0.005919,0.056605,-0.035455,0.024179,-0.060514,-0.067655,0.032893,-0.013062,0.027824,-0.009726,-0.072961,0.023934,0.081934,-0.069058,0.016756,0.002421,0.009599,0.022696,0.043912,0.014269,-0.045665,-0.195822,-0.011356,0.029153,0.038002,0.004491,0.038488,-0.035104,-0.013448,-0.009917,-0.013044,-0.040753,-0.024348,-0.034878,-0.034363,0.041051,-0.009826,-0.054661,0.061453,-0.033266,-0.033181,-0.054176,-0.029807,-0.005889,0.012418,-0.001336,0.017942,0.048230,-0.001506,0.016450,0.001433,0.008003,0.038693,-0.087292,-0.037379,0.038103,0.011415,-0.007195,0.363335,0.055660,0.047556,0.023415,-0.065945,0.017392,-0.016389,-0.024238,0.002116,0.032509,-0.005637,-0.018970,-0.033346,0.053137,-0.064466,-0.035372,-0.018747,0.033324,0.014582,0.009435,-0.018480,0.027628,0.039173,0.023133,-0.003131,-0.059703,0.014745,0.055415,0.093108,0.052133,0.031660,0.049085,0.047536,-0.113888,-0.021828,0.024264,0.010803,-0.005632,-0.011387,-0.018510,-0.011554,-0.002617,0.000095,-0.014302,-0.045175,-0.087410,0.165871,-0.027168,-0.007423,-0.011883,-0.008196,-0.032807,0.091850,0.044985,-0.063118,-0.015535,0.057991,-0.046486,0.032898,0.013916,-0.013641,-0.000020,-0.060348,-0.055527,0.153474,0.052873,-0.104779,-0.074202,-0.012369,0.040860,-0.027280,-0.011874,0.001126,-0.009421,-0.029800,0.079989,0.022041,0.009594,0.018306,-0.022849,-0.037025,0.006459,0.022265,-0.024323,-0.015310,-0.012299,0.025934,-0.064756,-0.001913,-0.003897,0.004806,-0.049925,0.076981,-0.103753,0.082998,0.008558,0.034087,0.002688,0.016995,0.012508,-0.091142,0.046911,-0.006672,0.002169,-0.047385,0.003593,0.024370,0.024075,0.011560,0.049373,-0.017942,-0.048187,-0.013600,0.043865,0.041358,-0.020530,0.082707,-0.010527,-0.012020,-0.040478,0.003936,0.008621,-0.003945,0.012263,-0.301554,0.006670,-0.000769,0.037067,-0.026386,-0.008277,0.045249,0.009607,0.013624,0.092992,-0.006926,0.012684,-0.048935,0.032174,0.007438,0.009135,-0.032431,0.002770,-0.047512,0.006919,-0.009525,-0.050943,-0.030491,0.029953,0.075021,0.005950,0.078575,-0.037675,-0.072100,-0.003396,0.041868,0.037830,-0.019338,-0.031363,0.040092,-0.009205,0.018179,-0.009569,0.011663,-0.029501,-0.033113,0.010361,-0.013308,-0.001276,0.048242,0.047299,-0.040398,-0.000663,-0.017977,0.008426,-0.009429,-0.017273,0.059841,0.038760,0.073027,-0.053287,0.010852,-0.014151,-0.042484,-0.012313,0.039135,-0.009458,-0.031177,0.028884,-0.013510,-0.027380,0.002465,0.084116,-0.033045,0.002209,-0.013399,-0.018385,-0.007492,-0.051526,0.045768,0.002595,-0.008274,0.005576,-0.037888,0.018467,0.077584,0.016152,0.042977,0.027156,-0.026349,0.032669,0.014614,0.011618,0.015686,-0.018693,-0.037113,-0.037043,0.014347,0.024694,0.015063,0.021543,-0.296145,0.012667,-0.048997,0.002790,-0.002037,-0.029967,0.047084,0.004087,-0.022033,0.043233,-0.002187,0.006314,0.085940,-0.068912,0.022976,-0.045442,0.025722,-0.034710,0.082987,0.059722,0.000875,-0.022275,0.161620,0.020751,-0.003000,0.005058,-0.033418,0.001048,0.110284,0.019399,0.039528,0.022190,0.074020,-0.031593,0.002330,-0.019319,-0.013120,0.026252,0.003566,-0.003683,0.002976,-0.000660,0.012964,-0.021998,0.042006,-0.032664,-0.002457,-0.055703,0.029851,0.013286,0.021459,-0.025631,-0.000339,-0.006044,-0.015783,0.019830,0.032393,-0.007367,-0.025397,-0.023278,-0.023777,-0.013281,-0.099340,0.035718,0.018321]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_46', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 46, 'Corporate consists of Treasury and Chief Investment Office (“CIO”) and Other Corporate. Treasury and CIO is predominantly responsible for measuring, monitoring, reporting and managing the Firm’s liquidity, funding, capital, structural interest rate and foreign exchange risks.
+
+Other Corporate includes staff functions and expense that is centrally managed as well as certain Firm initiatives and activities not solely aligned to a specific LOB. The major Other Corporate functions include Real Estate, Technology, Legal, Corporate Finance, Human Resources, Internal Audit, Risk Management, Compliance, Control Management, Corporate Responsibility and various Other Corporate groups.
+
+| Selected income statement and balance sheet data |
+| As of or for the year ended December 31, (in millions, except employees) | 2025 | 2024 | 2023 |
+| Revenue |
+| Principal transactions | $ | (339) | $ | 152 | $ | 302 |
+| Investment securities losses | (58) | (1,020) | (3,180) |
+| All other income | 1,308 | 8,476 | (f) | 3,010 | (h) |
+| Noninterest revenue | 911 | 7,608 | 132 |
+| Net interest income | 6,114 | 9,786 | 7,906 |
+| Total net revenue (a) | 7,025 | 17,394 | 8,038 |
+| Provision for credit losses | 7 | 10 | 171 |
+| Noninterest expense (b) | 1,825 | 3,994 | (g) | 5,601 |
+| Income before income tax expense | 5,193 | 13,390 | 2,266 |
+| Income tax expense/(benefit) | 673 | (d) | 2,789 | (555) | (i) |
+| Net income | $ | 4,520 | $ | 10,601 | $ | 2,821 |
+| Total net revenue |
+| Treasury and CIO | 6,501 | 9,638 | 6,072 |
+| Other Corporate | 524 | 7,756 | 1,966 |
+| Total net revenue | $ | 7,025 | $ | 17,394 | $ | 8,038 |
+| Net income/(loss) |
+| Treasury and CIO | 4,565 | 7,013 | 4,206 |
+| Other Corporate (b) | (45) | 3,588 | (1,385) |
+| Total net income | $ | 4,520 | $ | 10,601 | $ | 2,821 |
+| Total assets (period-end) | $ | 1,329,632 | $ | 1,323,967 | $ | 1,348,437 |
+| Loans (period-end) | 2,941 | 1,964 | 1,924 |
+| Deposits (c) | 35,874 | 27,581 | 21,826 |
+| Employees | 50,031 | (e) | 49,610 | 47,530 |
+
+As of or for the year ended December 31,
+
+(in millions, except employees)
+
+Investment securities losses
+
+(f)
+
+(h)
+
+Total net revenue (a)
+
+Noninterest expense (b)
+
+(g)
+
+(d)
+
+(i)
+
+Other Corporate (b)
+
+Deposits (c)
+
+(e)
+
+(a) Included taxable-equivalent adjustments, predominantly driven by tax-exempt income from municipal bonds, of $154 million,
+
+$182 million and $211 million for the years ended December 31, 2025, 2024 and 2023, respectively.
+
+(b) Included FDIC special assessment accrual releases of $763 million and an accrual increase of $725 million for the years ended December 31, 2025 and 2024, respectively, which are adjustments to the initial $2.9 billion estimate recorded in the fourth quarter of 2023.
+
+(c) Predominantly relates to the Firm''s international consumer initiatives.
+
+(d) Included a $774 million income tax benefit recorded in the second quarter of 2025, driven by the resolution of certain tax audits and the impact of tax regulations related to foreign currency translation gains and losses finalized in 2024 and effective for 2025.
+
+(e) In the first quarter of 2025, 768 employees were transferred from the LOBs to Corporate as a result of the centralization of certain functions.', '[0.042415,-0.012472,0.003170,-0.023928,0.024010,-0.033982,0.084342,0.011835,0.000267,0.015734,0.054223,0.016390,-0.003024,-0.013445,-0.039375,-0.067094,-0.039701,-0.077509,0.025042,0.031271,0.045808,-0.047215,0.023043,0.039620,0.013214,0.006700,-0.048259,0.044455,-0.041872,-0.151728,-0.032905,0.019362,-0.011599,0.020265,0.084116,0.009067,-0.007972,0.000999,-0.019714,0.005649,-0.019444,0.010231,0.074245,-0.012016,0.033306,0.009834,-0.013930,0.018971,-0.039810,0.070439,0.014366,-0.051922,-0.031129,0.072718,-0.048505,0.018192,0.063829,-0.000620,-0.009907,0.011053,0.034084,-0.035395,-0.159202,0.043309,0.030443,0.036258,0.003004,0.009436,-0.011211,0.036421,0.024805,-0.030882,-0.024994,-0.003563,-0.007287,-0.045832,0.019287,-0.011643,-0.078317,0.053674,0.036641,-0.001806,-0.022057,0.011867,-0.036119,-0.001622,0.060411,-0.023004,0.043599,0.037722,0.015173,0.027627,0.010284,-0.012797,-0.043935,-0.049499,0.074588,0.019449,-0.030155,0.421768,0.039443,0.016548,0.056637,-0.026501,0.013956,0.026202,0.000422,0.036640,0.002678,0.031236,-0.023433,-0.058332,0.039057,-0.044787,-0.037798,-0.051005,0.000874,0.002085,0.018861,-0.003583,0.087423,0.000454,0.023420,0.020125,-0.032673,0.000788,0.017424,0.045381,0.045482,0.077395,0.010529,0.015788,-0.051007,0.045911,0.028929,0.028927,-0.050622,-0.058667,0.020853,0.036488,-0.050813,-0.027335,-0.014753,-0.078299,-0.065392,0.089357,0.029447,0.016828,0.006439,-0.003840,-0.038343,0.087967,0.047369,-0.064078,0.011628,0.018961,-0.012768,-0.052982,-0.005570,-0.024558,-0.063637,-0.031292,-0.041767,0.123115,0.043859,-0.112110,-0.042983,0.030652,-0.015057,0.002353,-0.017053,-0.012002,-0.075712,-0.043525,0.083445,0.018977,-0.016467,0.012730,-0.039186,0.043455,0.037973,0.011035,-0.042344,0.005478,0.030484,0.050634,-0.040618,-0.026971,-0.019507,0.001355,-0.083087,0.063129,-0.051785,0.029889,-0.080699,0.051410,0.023681,-0.008876,-0.042366,0.009847,0.037311,0.028776,-0.023725,-0.013791,-0.010546,0.017242,-0.022311,0.050191,0.071814,-0.052762,0.008541,-0.002726,0.045261,0.014726,0.038203,0.004458,0.041040,0.036697,-0.031821,0.029486,0.020273,-0.025540,0.030399,-0.310404,-0.046690,-0.065313,-0.035540,-0.031489,0.005304,-0.010618,0.048113,-0.052464,0.016275,0.029380,0.024410,-0.058597,-0.024853,0.008424,-0.020303,0.041970,-0.048065,-0.026418,-0.022940,-0.020050,-0.012472,-0.031732,0.039831,0.044003,-0.011674,0.051287,-0.081963,0.043630,0.009897,0.055581,0.039941,0.015100,-0.049922,0.026213,-0.036772,-0.006323,-0.007368,-0.096737,-0.000610,-0.019170,0.048298,-0.059377,0.042007,0.074766,-0.006967,-0.075856,0.009262,-0.024543,-0.005931,0.013385,-0.036560,-0.016844,0.027231,0.019450,-0.025004,-0.048441,-0.031993,-0.037704,-0.019485,0.013717,-0.039073,0.003447,0.024165,0.009430,-0.066229,-0.027894,0.031243,0.010499,-0.006957,-0.046307,0.016729,-0.006737,-0.076101,-0.033805,0.016817,0.027815,0.007483,-0.040459,0.045551,0.063862,0.057766,0.036111,0.029533,-0.032674,0.004665,0.022550,-0.058716,0.028903,-0.007007,-0.009776,-0.030102,0.031162,-0.006930,0.030267,0.053431,-0.264196,-0.052934,-0.000669,-0.056110,-0.019449,0.007602,-0.021090,-0.013854,0.012995,0.087060,0.044323,0.014910,0.019834,-0.042367,0.039573,-0.028623,0.072589,-0.047551,0.064569,0.060304,0.045948,0.000542,0.157338,-0.015847,-0.031841,0.015601,-0.010061,0.005686,0.014335,0.032778,0.101103,0.040979,0.012546,-0.037886,-0.006340,-0.016788,0.016929,0.063604,0.017942,0.027607,0.005756,-0.025459,-0.030591,-0.040791,0.065973,0.025022,-0.031113,-0.049470,0.048625,-0.043988,-0.029773,-0.023574,-0.039446,-0.010667,-0.001416,-0.038183,-0.035860,-0.000457,0.003686,-0.017298,-0.035630,-0.041057,-0.079323,0.066886,0.074053]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_47', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 47, '(b) Included FDIC special assessment accrual releases of $763 million and an accrual increase of $725 million for the years ended December 31, 2025 and 2024, respectively, which are adjustments to the initial $2.9 billion estimate recorded in the fourth quarter of 2023.
+
+(c) Predominantly relates to the Firm''s international consumer initiatives.
+
+(d) Included a $774 million income tax benefit recorded in the second quarter of 2025, driven by the resolution of certain tax audits and the impact of tax regulations related to foreign currency translation gains and losses finalized in 2024 and effective for 2025.
+
+(e) In the first quarter of 2025, 768 employees were transferred from the LOBs to Corporate as a result of the centralization of certain functions.
+
+(f) Included the net gain related to Visa shares of $7.9 billion recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+(g) Included a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation recorded in the second quarter of 2024. Refer to Note 6 for additional information.
+
+(h) Included the estimated bargain purchase gain of $2.8 billion for the year ended December 31, 2023 associated with the First Republic acquisition. Refer to Notes 6 and 34 for additional information.
+
+(i) Income taxes associated with the First Republic acquisition were reflected in the estimated bargain purchase gain.
+
+| 80 | JPMorgan Chase & Co./2025 Form 10-K |
+
+80
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+2025 compared with 2024
+
+Net income was $4.5 billion, compared with $10.6 billion in the prior year.
+
+Net revenue was $7.0 billion, compared with $17.4 billion in the prior year.
+
+Net interest income was $6.1 billion, down $3.7 billion, driven by the impact of lower rates and changes in FTP for consumer deposits, partially offset by the impact of investment securities activity.
+
+Refer to Business Segment & Corporate Results on page 63 for additional information on FTP.
+
+Noninterest revenue was $911 million, compared with $7.6 billion in the prior year, driven by:
+
+• the absence of the $7.9 billion net gain related to Visa shares recorded in the second quarter of 2024,
+
+partially offset by
+
+• lower net investment securities losses associated with repositioning the investment securities portfolio in Treasury and CIO. The prior year net loss was primarily related to sales of U.S. GSE and government agency MBS and U.S. Treasuries, and
+
+• the $588 million First Republic-related gain recorded in the first quarter of 2025.
+
+Noninterest expense was $1.8 billion, down 54%, primarily driven by:
+
+• lower FDIC-related expense driven by releases of FDIC special assessment accruals of $763 million, compared with an accrual increase of $725 million in the first quarter of the prior year, and
+
+• the absence of the following items recorded in the prior year
+
+– a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation, and
+
+– restructuring and integration costs associated with First Republic.
+
+Refer to Note 6 for additional information on Visa shares and FDIC-related expense, Note 10 and Note 13 for additional information on the investment securities portfolio and the allowance for credit losses, and Note 6 and Note 34 for additional information on the First Republic acquisition.
+
+The current period income tax expense was driven by:
+
+• changes in the level and mix of income and expenses subject to U.S. federal, state and local taxes,
+
+partially offset by', '[-0.019103,-0.040678,-0.025621,-0.015392,0.022897,0.010861,0.004161,0.023790,0.026802,-0.023915,0.056656,0.032278,-0.001315,-0.048183,-0.074059,-0.002545,-0.000042,-0.118652,-0.045426,0.042215,0.048497,-0.078321,0.088960,0.010757,0.039298,0.004479,-0.040736,-0.028205,-0.041218,-0.142584,0.014324,-0.008272,0.018653,-0.019445,0.036066,0.007506,-0.074371,0.023102,0.031700,0.006304,-0.002785,0.004236,0.009021,-0.015026,-0.006675,-0.018153,-0.038210,0.032131,-0.025234,0.022476,-0.009434,-0.075289,0.009075,0.063906,-0.029334,0.021416,-0.001006,0.028519,-0.018833,0.069502,0.040570,0.027656,-0.194244,0.000556,0.017897,0.042191,-0.018565,-0.011851,0.004008,0.027720,-0.020199,-0.001980,-0.004170,-0.032120,0.006650,-0.026399,0.061238,0.046048,-0.061742,0.038843,0.013701,0.030494,0.005746,-0.007288,-0.034753,-0.021966,-0.011323,-0.036616,0.057534,0.037502,0.023675,-0.007999,-0.031757,-0.003650,-0.055980,-0.017866,0.055110,0.022530,0.047814,0.357657,0.088009,0.037818,0.020065,-0.018220,-0.019101,0.008547,-0.003808,0.041413,0.048959,-0.000087,0.018360,-0.019070,0.061330,-0.034617,0.003617,0.009006,0.045063,0.012605,0.037384,-0.015845,0.084364,0.033396,0.027986,-0.035996,-0.112960,0.014247,0.068526,0.095668,0.040583,0.074099,-0.022797,0.025577,-0.032397,0.005002,0.022090,-0.024479,0.017317,0.002794,0.013053,0.003450,-0.021011,0.002337,-0.013065,-0.095763,-0.092417,0.144121,0.003412,-0.006634,0.028726,-0.010493,-0.004986,0.124365,0.040342,-0.079557,0.007533,0.060333,-0.013178,0.013122,-0.019681,-0.036246,0.024036,-0.024159,-0.042069,0.104748,0.085279,-0.076289,-0.061239,0.012874,0.014896,-0.013583,0.009724,0.014246,-0.028770,-0.077937,0.025109,0.004438,-0.017207,-0.009640,0.005081,-0.023900,0.025219,-0.017054,-0.089315,-0.000557,-0.004169,0.018950,-0.095973,0.011678,-0.008206,0.017626,-0.065128,0.038183,-0.135045,0.080329,-0.025629,-0.009604,-0.025895,0.029070,-0.035414,-0.054149,0.049030,-0.021102,0.013937,-0.040422,0.038540,-0.030099,0.002066,0.018842,0.044105,-0.024895,-0.008143,-0.025098,0.034304,0.035076,-0.027062,0.020619,0.025968,0.014291,-0.032740,-0.017353,-0.005743,0.027685,0.056549,-0.320675,0.000297,-0.014433,0.020243,-0.012838,-0.009481,0.041276,0.003777,0.023178,0.024167,-0.065482,-0.008012,-0.053245,0.006988,-0.001748,-0.049815,0.004252,0.027871,-0.018332,0.019774,-0.033227,0.037522,-0.030427,-0.000001,0.044306,0.002531,0.051010,-0.067236,-0.055210,-0.008233,0.034108,0.086835,-0.035478,-0.030728,0.078955,0.018665,0.042279,0.021463,-0.018043,-0.014805,-0.037926,0.025925,-0.021590,-0.046990,0.009273,0.029146,-0.041205,-0.013273,-0.020371,0.015461,-0.005583,0.004552,-0.010598,-0.037814,0.074089,-0.021185,-0.013712,0.000143,-0.022746,0.020832,0.049641,-0.035171,-0.003467,-0.011582,0.045824,-0.050141,-0.013068,0.023389,-0.033507,0.060146,-0.027999,-0.012117,0.033488,-0.022750,0.010792,0.019064,-0.034904,-0.015541,-0.063167,-0.019233,0.086915,0.011609,0.003259,-0.000200,-0.031195,0.028178,0.051353,-0.026633,0.006396,-0.032361,-0.035670,-0.041312,0.003081,0.005644,0.014403,0.008943,-0.314613,-0.027572,-0.004076,-0.088579,0.009595,0.016172,0.073848,0.023882,-0.014616,0.051146,0.000034,0.024728,0.060191,-0.113496,0.013349,-0.028969,0.041819,0.021872,0.045689,-0.000893,0.030128,0.000632,0.132536,0.017897,-0.035822,-0.065747,-0.052398,-0.008364,0.026536,0.007239,0.052320,0.053053,0.067557,-0.024146,-0.014604,0.018701,-0.002111,0.015848,0.057532,0.006894,-0.024936,-0.013104,0.007523,0.012333,0.092262,0.002134,0.022872,-0.028131,0.014728,-0.007736,0.020076,-0.010552,0.033888,-0.024505,0.001716,-0.079554,-0.023533,0.010417,0.029574,0.052675,-0.056344,-0.056118,-0.045403,0.009421,0.054434]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_48', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 48, '– a $1.0 billion contribution of Visa shares to the JPMorgan Chase Foundation, and
+
+– restructuring and integration costs associated with First Republic.
+
+Refer to Note 6 for additional information on Visa shares and FDIC-related expense, Note 10 and Note 13 for additional information on the investment securities portfolio and the allowance for credit losses, and Note 6 and Note 34 for additional information on the First Republic acquisition.
+
+The current period income tax expense was driven by:
+
+• changes in the level and mix of income and expenses subject to U.S. federal, state and local taxes,
+
+partially offset by
+
+• a $774 million income tax benefit recorded in the second quarter of 2025, driven by the resolution of certain tax audits and the impact of tax regulations related to foreign currency translation gains and losses finalized in 2024 and effective for 2025.
+
+Other Corporate includes the Strategic Investment Group within the Firm’s Security and Resiliency Initiative, as well as the Firm''s international consumer initiatives, which primarily consist of Chase U.K., J.P. Morgan Personal Investing (formerly Nutmeg) and an ownership stake in C6 Bank.
+
+The deposits within Corporate relate to the Firm’s international consumer initiatives and have increased as a result of growth in customer accounts.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 81 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+81
+
+Treasury and CIO overview
+
+Treasury and CIO is predominantly responsible for measuring, monitoring, reporting and managing the Firm’s liquidity, funding, capital, structural interest rate and foreign exchange risks. The risks managed by Treasury and CIO arise from the activities undertaken by the Firm’s three reportable business segments to serve their respective customer and client bases, which generate both on- and off-balance sheet assets and liabilities.
+
+Treasury and CIO seeks to achieve the Firm’s asset-liability management objectives generally by investing in high quality securities that are managed for the longer-term as part of the Firm’s investment securities portfolio. Treasury and CIO also uses derivatives to meet the Firm ’ s asset-liability management objectives. Refer to Note 5 for further information on derivatives. In addition, Treasury and CIO manages the Firm’s cash position primarily through deposits at central banks and investments in short-term instruments. Refer to Liq uidity Risk Management on pages 100–107 for further information on liquidity and funding risk . R efer to Market Risk Management on pages 133-142 for informatio n on interest rate and foreign exchange risks.
+
+The investment securities portfolio predominantly consists of U.S. and non-U.S. government securities, U.S. GSE and government agency and nonagency mortgage-backed securities, collateralized loan obligations, obligations of U.S. states and municipalities and other ABS. At December 31, 2025, the Treasury and CIO investment securities portfolio, net of the allowance for credit losses, was $774.0 billion, and the average credit rating of the securities comprising the portfolio was AA+ (based upon external ratings where available and, where not available, based primarily upon internal risk ratings). Refer to Note 10 for further information on the Firm’s investment securities portfolio and internal risk ratings.', '[-0.013270,-0.027277,0.020061,0.002207,-0.009515,0.004032,0.050109,0.013935,-0.020933,-0.008119,0.046410,0.015888,-0.036578,0.008217,-0.029417,-0.026082,-0.015216,-0.097847,0.002252,0.029686,0.074499,-0.103733,0.065759,0.023581,0.004857,0.001681,-0.022250,0.022171,-0.025460,-0.152883,0.017560,-0.028881,-0.033577,-0.015309,0.024442,0.016392,-0.025407,0.022002,-0.001546,-0.009247,-0.010154,0.046883,0.014544,0.044525,0.017612,-0.031986,-0.022516,0.023084,-0.006811,0.033803,-0.007712,-0.046371,0.034015,0.050937,-0.044263,0.029632,0.051654,0.056326,-0.017833,0.050479,0.034904,-0.027832,-0.192974,0.033512,0.017061,0.079317,0.005299,0.043987,0.004123,0.014777,-0.018915,0.001045,-0.069397,-0.044592,-0.014611,-0.014470,0.070961,0.028942,-0.047169,0.075984,0.002747,0.009432,-0.007766,-0.004067,0.006896,0.015279,0.001741,-0.041516,0.066078,0.013705,0.039430,0.008571,0.005087,0.016595,-0.048456,-0.036374,0.044951,0.056665,0.030218,0.364014,0.085006,0.009734,0.027935,-0.019185,0.005879,-0.032890,0.023453,0.004117,0.047979,-0.013299,0.002060,-0.001012,0.065565,-0.052819,-0.014434,-0.060508,0.000602,0.007524,0.033207,0.036752,0.071143,0.036652,0.041860,0.044069,-0.095490,0.014426,0.045959,0.077666,0.049210,0.073792,0.013281,0.025986,-0.070330,0.027839,0.024909,0.014602,-0.017684,-0.064763,-0.038880,0.019984,-0.054244,-0.007975,-0.009065,-0.070728,-0.076172,0.126750,0.011661,0.002793,0.013309,0.000158,-0.008111,0.075508,0.052385,-0.070042,0.003610,0.003070,-0.049756,0.015924,-0.004584,-0.023707,-0.019871,-0.046588,-0.057709,0.114581,0.051717,-0.117520,-0.067199,0.013639,0.019553,-0.011180,0.009240,-0.008972,-0.009502,-0.051971,0.073871,-0.001863,-0.054362,0.004555,-0.056224,-0.022439,-0.010211,0.001039,-0.054191,-0.046462,0.033418,0.020329,-0.084057,-0.012393,-0.027533,0.007298,-0.053938,0.061277,-0.073872,0.059046,-0.019107,0.021317,-0.015971,0.025817,-0.071651,-0.034750,0.017709,0.020175,0.011747,-0.019940,-0.025349,-0.041004,-0.003278,0.022786,0.010256,-0.036947,-0.032593,0.008379,0.010563,0.010984,0.009217,0.007711,0.021127,0.036354,0.003131,0.020651,0.000910,0.024286,0.052449,-0.356292,-0.056164,-0.081228,0.005388,-0.009315,-0.007210,0.002823,-0.002086,-0.031636,0.021111,-0.008002,0.007265,-0.072588,0.023434,0.050090,-0.076335,0.010332,0.026997,0.005250,-0.020721,-0.022030,-0.038276,-0.033432,-0.009378,0.090282,0.012912,0.027997,-0.066239,-0.052876,0.013314,0.021058,0.021407,0.011086,-0.071868,0.048685,-0.024972,0.053292,0.030726,-0.048393,-0.040581,-0.036113,0.006845,-0.049042,-0.012180,0.019695,0.035401,-0.036400,0.034458,0.015720,0.012096,0.033535,-0.004150,0.011336,0.009121,0.036964,-0.064546,0.004073,-0.018554,-0.040542,-0.029775,0.010824,0.025727,0.024909,-0.003297,0.040591,-0.066431,-0.001240,0.063494,-0.011983,0.004307,-0.038039,0.004924,-0.002797,-0.081478,0.020304,-0.028144,0.029697,-0.005646,-0.058849,0.015042,0.079133,0.036788,0.026762,0.020863,-0.063568,0.055101,0.060120,-0.038081,0.027610,-0.071452,-0.035284,-0.059891,-0.011834,0.018665,0.038654,-0.019979,-0.265273,0.001656,0.007121,-0.024729,0.019762,-0.009833,0.079831,-0.008555,-0.031502,0.067717,0.018279,0.023189,0.038411,-0.030985,0.035090,-0.017810,0.045574,0.004225,0.043371,0.005700,0.033134,-0.010396,0.142661,-0.018323,-0.012797,-0.031729,-0.039923,0.005669,0.068263,0.049232,0.071339,0.085399,0.055643,-0.064950,0.008330,-0.016042,0.003843,0.022558,0.017450,0.024588,-0.017488,0.042886,-0.046478,-0.055162,0.076174,-0.011863,-0.014410,-0.045836,0.010420,-0.020224,0.002822,0.000137,-0.017261,-0.023781,0.041631,-0.041790,-0.016159,0.011142,0.039099,0.052959,-0.036628,-0.036041,-0.080261,0.059659,0.018708]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_49', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 49, 'The investment securities portfolio predominantly consists of U.S. and non-U.S. government securities, U.S. GSE and government agency and nonagency mortgage-backed securities, collateralized loan obligations, obligations of U.S. states and municipalities and other ABS. At December 31, 2025, the Treasury and CIO investment securities portfolio, net of the allowance for credit losses, was $774.0 billion, and the average credit rating of the securities comprising the portfolio was AA+ (based upon external ratings where available and, where not available, based primarily upon internal risk ratings). Refer to Note 10 for further information on the Firm’s investment securities portfolio and internal risk ratings.
+
+| Selected income statement and balance sheet data |
+| As of or for the year ended December 31, (in millions) | 2025 | 2024 | 2023 |
+| Investment securities losses | $ | (58) | $ | (1,020) | $ | (3,180) |
+| Available-for-sale securities (average) | $ | 463,541 | (b) | $ | 287,260 | $ | 200,708 | (c) |
+| Held-to-maturity securities (average) | 271,309 | (b) | 321,384 | 402,010 | (c) |
+| Investment securities portfolio (average) | $ | 734,850 | $ | 608,644 | $ | 602,718 |
+| Available-for-sale securities (period-end) | $ | 503,896 | (b) | $ | 403,796 | $ | 199,354 | (c) |
+| Held-to-maturity securities (period–end) | 270,134 | (b) | 274,468 | 369,848 | (c) |
+| Investment securities portfolio, net of allowance for credit losses (period–end) (a) | $ | 774,030 | $ | 678,264 | $ | 569,202 |
+
+(b)
+
+(c)
+
+(b)
+
+(c)
+
+Investment securities portfolio (average)
+
+(b)
+
+(c)
+
+Held-to-maturity securities (period–end)
+
+(b)
+
+(c)
+
+Investment securities portfolio, net of allowance for credit losses (period–end) (a)
+
+(a) As of December 31, 2025, 2024 and 2023, the allowance for credit losses on investment securities was $73 million, $105 million and $94 million, respectively.
+
+(b) During the third quarter of 2025, the Firm transferred $44.1 billion of investment securities from AFS to HTM for asset-liability management purposes.
+
+(c) Effective January 1, 2023, the Firm adopted the portfolio layer method hedge accounting guidance. As permitted by the guidance, the Firm elected to transfer $7.1 billion of investment securities from HTM to AFS. Refer to Note 1 and Note 10 for additional information.
+
+| 82 | JPMorgan Chase & Co./2025 Form 10-K |
+
+82
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| FIRMWIDE RISK MANAGEMENT |
+
+Risk is an inherent part of JPMorganChase’s business activities. When the Firm extends a consumer or wholesale loan, advises customers and clients on their investment decisions, makes markets in securities, or offers other products or services, the Firm takes on some degree of risk. The Firm’s overall objective is to manage its business, and the associated risks, in a manner that balances serving the interests of its clients, customers and investors, and protecting the safety and soundness of the Firm.
+
+The Firm believes that effective risk management requires, among other things:
+
+• Acceptance of responsibility, including identification and escalation of risks by all individuals within the Firm;
+
+• Ownership of risk identification, assessment, data and management within each of the LOBs and Corporate; and
+
+• A Firmwide risk governance and oversight structure.
+
+The Firm follows a disciplined and balanced compensation framework with strong internal governance and independent oversight by the Board of Directors (the “Board”). The impact of risk and control issues is carefully considered in the Firm’s performance evaluation and incentive compensation processes.
+
+Risk governance framework
+
+The Firm’s risk governance framework involves understanding drivers of risks, types of risks and impacts of risks.', '[-0.017069,-0.031267,-0.078960,-0.015371,0.022573,0.025108,0.015124,0.016895,0.030069,-0.001630,0.035552,0.017646,0.043241,-0.010427,-0.034404,-0.012344,0.016645,-0.107309,0.021748,0.053917,0.055870,-0.077853,0.021181,-0.040924,0.059878,-0.031333,-0.078597,-0.017079,-0.079884,-0.153828,0.003376,-0.041003,0.028184,0.055086,-0.028537,0.037912,-0.068571,0.020228,0.019520,0.007170,-0.008833,0.023691,0.002347,-0.019684,0.036541,-0.044441,-0.058284,-0.016630,-0.004322,0.079798,-0.007802,-0.080404,0.004376,0.131631,-0.020784,0.004105,-0.005871,0.038209,-0.015042,0.045137,0.019820,-0.033100,-0.182985,0.024131,0.008470,0.041189,0.023118,0.065999,-0.010677,-0.036008,0.030120,0.024228,-0.062033,-0.038737,-0.000490,0.024240,0.070252,0.018208,-0.034843,0.030615,0.016828,-0.016586,-0.009342,0.012141,-0.009950,-0.017332,0.041334,0.003692,0.060049,0.056331,0.035967,-0.028532,-0.005247,-0.020017,-0.023974,-0.040758,-0.009878,0.038210,-0.057651,0.364540,0.058820,-0.015307,0.041094,-0.041369,0.012175,-0.001371,0.000449,-0.027238,0.007120,-0.007028,-0.001485,-0.028568,0.022011,-0.037904,-0.038374,-0.039965,0.031745,0.026044,0.047562,-0.024064,0.021921,0.023961,-0.012967,-0.023120,-0.009952,-0.022117,0.009997,0.027833,0.067596,0.069781,-0.019723,0.036306,-0.088489,0.050274,0.044527,-0.011843,-0.013194,-0.065197,0.056720,-0.037548,-0.039997,0.008646,-0.027187,-0.041025,-0.049561,0.110260,0.026226,-0.001941,-0.035756,-0.012690,-0.007019,0.071184,0.051559,-0.033764,-0.014641,0.026589,-0.018411,0.010648,-0.034899,-0.020487,0.003289,-0.028060,-0.053703,0.135589,0.017403,-0.068700,-0.024809,0.031114,0.013708,0.013523,0.032812,0.005706,0.015747,-0.037834,0.034066,-0.003581,-0.008686,-0.011681,-0.002714,-0.047177,-0.008223,-0.060323,-0.069544,0.058178,0.020758,0.072350,-0.049075,-0.029515,-0.030618,0.003381,-0.086534,0.010154,-0.084253,0.082434,-0.012832,0.012837,0.019473,-0.003467,-0.021662,0.008513,0.084303,-0.028959,0.015998,0.002047,-0.045484,0.006564,-0.053512,0.009968,0.049666,0.026842,0.012246,0.009190,0.023293,0.032589,0.025449,0.049088,0.021680,0.016972,0.036501,0.024934,0.003167,-0.003744,0.025043,-0.315510,-0.060397,-0.065247,-0.041951,-0.017638,-0.037460,0.020250,0.013291,-0.043051,0.017562,-0.018630,0.031333,-0.065278,-0.018997,-0.005458,-0.043105,0.023179,-0.009945,-0.027822,0.017413,-0.015422,0.063122,-0.044091,0.016612,0.079653,0.025289,0.060609,-0.053608,-0.012772,0.065644,0.035827,0.051370,0.021040,-0.001287,0.026405,-0.007928,0.067450,0.075328,-0.038275,-0.031946,-0.018829,0.009097,0.018420,-0.005952,0.026294,-0.045994,-0.024522,0.036859,-0.041329,0.065616,0.068367,-0.039549,0.029193,0.039969,0.059389,-0.059151,-0.029159,-0.010964,-0.006722,0.009466,0.017872,-0.032734,0.032840,-0.016960,-0.023850,-0.058460,0.016196,0.022350,-0.036111,-0.010404,-0.060007,0.006625,0.014875,-0.089943,-0.006870,0.009298,-0.015522,0.041545,-0.011945,0.007756,0.048930,0.014623,0.047695,0.009431,-0.027181,0.032565,0.013064,-0.006319,0.065317,0.012122,-0.014682,-0.077518,-0.053889,0.036261,0.043836,0.028005,-0.299281,-0.022064,0.032371,0.009428,-0.005939,-0.026346,0.048934,-0.014275,-0.016694,0.067150,0.004292,-0.010338,0.041258,-0.080271,-0.028636,-0.043579,0.043670,-0.050340,0.106428,0.039587,0.049854,0.013376,0.162179,-0.012848,-0.055892,-0.018845,-0.078187,0.015308,0.018239,0.003403,0.092953,0.046901,0.030015,0.014567,0.037978,-0.015535,0.015361,0.045296,-0.007555,0.034661,0.003426,-0.048010,-0.020238,-0.007701,0.055066,0.014766,0.035346,-0.022763,0.027856,-0.011691,0.003406,-0.003175,-0.041886,-0.100539,0.027022,-0.029097,-0.043293,0.026855,0.012340,-0.019235,-0.054971,-0.028134,-0.051100,0.018965,0.032722]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_50', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 50, '• Acceptance of responsibility, including identification and escalation of risks by all individuals within the Firm;
+
+• Ownership of risk identification, assessment, data and management within each of the LOBs and Corporate; and
+
+• A Firmwide risk governance and oversight structure.
+
+The Firm follows a disciplined and balanced compensation framework with strong internal governance and independent oversight by the Board of Directors (the “Board”). The impact of risk and control issues is carefully considered in the Firm’s performance evaluation and incentive compensation processes.
+
+Risk governance framework
+
+The Firm’s risk governance framework involves understanding drivers of risks, types of risks and impacts of risks.
+
+Drivers of risks are factors that cause a risk to exist. Drivers of risks include the economic environment, regulatory or government policy, competitor or market evolution, business decisions, process or judgment error, deliberate wrongdoing, dysfunctional markets and natural disasters.
+
+Types of risks are categories by which risks manifest themselves. The Firm’s risks are generally categorized in the following four risk types:
+
+• Strategic risk is the risk to earnings, capital, liquidity or reputation associated with poorly-designed or failed business plans or an inadequate response to changes in the operating environment.
+
+• Credit and investment risk is the risk associated with the default or change in credit profile of a client, counterparty or customer; or loss of principal or a reduction in expected returns on investments, including consumer credit risk, wholesale credit risk and investment portfolio risk.
+
+• Market risk is the risk associated with the effect of changes in market factors, such as interest and foreign exchange rates, equity and commodity prices, credit spreads or implied volatilities, on the value of assets and liabilities held for both the short and long term.
+
+• Operational risk is the risk of an adverse outcome resulting from inadequate or failed internal processes or systems; human factors; or external events impacting the Firm’s processes or systems. Operational risk includes cybersecurity, compliance, conduct, legal, and estimations and model risk.
+
+Impacts of risks are consequences of risks, both quantitative and qualitative. There may be many consequences when risks manifest themselves, including quantitative impacts such as a reduction in earnings and capital, liquidity outflows, and fines or penalties, or qualitative impacts such as damage to the Firm’s reputation, loss of clients and customers, and regulatory and enforcement actions.
+
+The Firm’s risk governance framework is managed on a Firmwide basis. The Firm has an Independent Risk Management (“IRM”) function, which is comprised of Risk Management and Compliance. The Firm’s Chief Executive Officer (“CEO”) appoints, subject to approval by the Risk Committee of the Board of Directors (the “Board Risk Committee”), the Firm’s Chief Risk Officer (“CRO”) to lead the IRM function and maintain the risk governance framework of the Firm. The framework is subject to approval by the Board Risk Committee through its review and approval of the Risk Governance and Oversight Policy.', '[0.051376,-0.038483,-0.041694,-0.004394,0.034932,-0.031433,0.107291,0.015094,0.038956,0.007521,0.009889,-0.037124,-0.000855,-0.028740,-0.035602,0.038948,-0.034961,-0.030449,0.067321,0.068198,0.001512,-0.029671,0.016973,-0.025950,0.009188,0.003612,-0.024912,0.010754,-0.066243,-0.153417,-0.023246,-0.006723,0.005946,-0.034059,0.021533,-0.008492,-0.078496,0.041439,0.021196,-0.020774,0.009944,0.027182,0.001121,-0.021155,-0.031659,-0.071016,0.019802,-0.022535,-0.071930,-0.003027,-0.016192,-0.025877,-0.008138,0.074331,-0.005162,-0.004889,0.070139,0.055531,-0.007795,0.066418,0.048237,-0.022970,-0.159909,0.031213,0.052969,0.100431,-0.071258,0.032528,-0.014546,0.054362,-0.059005,0.030767,-0.001838,0.036958,0.024046,0.029909,0.016117,0.010546,-0.017680,0.022113,0.043534,0.033766,-0.043980,-0.041742,-0.036437,-0.071717,0.033021,-0.053306,0.086133,0.040607,0.040642,-0.001099,0.005804,-0.008134,0.004787,-0.022840,0.023155,-0.000418,-0.004759,0.345528,-0.001880,0.030893,-0.001475,0.072380,-0.024301,0.004049,0.007486,-0.020611,0.016950,0.008560,0.017751,-0.028464,-0.017024,-0.038350,-0.040229,0.016888,-0.066959,0.067353,0.019065,-0.072228,-0.003263,0.015290,0.026975,0.021660,0.010396,0.031814,-0.001305,0.069759,0.084091,0.003333,-0.020681,-0.029125,-0.000182,0.001039,0.027520,-0.029860,-0.076711,0.075881,0.017114,0.042201,-0.019641,-0.005373,0.049400,-0.069687,-0.096427,0.099885,0.053319,-0.031837,-0.029266,0.002890,-0.001159,0.108328,-0.043061,0.019039,-0.005179,0.000047,-0.054375,-0.000645,-0.015231,-0.032310,-0.049457,0.014820,-0.050425,0.127693,0.016565,-0.061937,-0.012526,0.019553,-0.050786,-0.044710,-0.010379,-0.015275,0.005291,-0.035681,0.018395,0.020835,-0.016689,-0.023162,-0.007038,-0.031924,0.073745,-0.007496,-0.046634,0.005822,0.029416,0.049732,-0.056533,-0.021910,-0.023169,0.020513,-0.073095,0.061391,-0.090896,0.014251,-0.036503,-0.006364,-0.002897,-0.023968,0.016621,-0.014529,-0.013844,0.097017,-0.019202,0.023016,-0.027310,0.009596,-0.017882,0.016868,-0.046602,0.034914,-0.039821,0.035727,0.006986,0.055812,0.017507,0.024952,0.015216,0.084761,-0.031185,-0.036159,0.078965,-0.005138,0.051913,-0.302893,-0.006629,-0.060882,-0.039711,-0.045763,0.016417,-0.088962,-0.063953,-0.070135,0.039749,0.055691,-0.038830,-0.017405,-0.021010,0.039218,-0.018942,-0.039701,-0.097077,-0.079256,-0.015736,-0.048554,0.019021,-0.031685,0.006895,0.070359,0.032895,0.063058,-0.125453,0.020522,0.026515,0.025269,0.047366,0.019640,0.001305,0.075831,-0.064028,0.024131,0.000474,-0.114278,-0.012546,0.015511,-0.030918,-0.008727,0.025038,0.022293,0.017352,-0.025759,0.045175,-0.042672,0.011168,0.037232,0.003001,0.018069,0.057851,0.039550,-0.051338,-0.054224,0.002003,-0.042226,-0.021488,0.046767,-0.002173,-0.002106,-0.005033,0.040558,-0.042333,-0.007695,-0.000962,-0.009290,-0.001167,-0.060410,0.105326,0.010550,-0.097637,0.044555,0.040796,-0.020370,0.011680,-0.053117,0.010823,0.059541,-0.000994,0.078856,0.079998,0.006930,-0.010947,0.028232,0.003928,0.026391,-0.001827,-0.041954,-0.032339,-0.031881,-0.027059,0.018717,0.031339,-0.242899,0.013294,-0.017003,0.006097,-0.018938,-0.024710,-0.004726,-0.031654,0.027021,0.016773,-0.012225,0.002333,0.036652,-0.042256,0.043250,0.020805,0.058021,-0.052367,0.076849,-0.043833,0.019426,0.039456,0.153082,-0.009648,0.036192,-0.067314,0.010570,-0.008082,0.003523,0.004961,0.080510,-0.010721,0.095388,-0.045358,0.019314,0.051923,0.014364,0.020552,0.001175,0.006312,0.047298,-0.008095,0.035932,-0.041443,0.055724,-0.034797,-0.035265,-0.084448,0.008716,0.054726,-0.026234,0.014945,0.004954,0.021197,-0.014796,-0.086394,0.027780,-0.013834,0.002619,0.019427,-0.003316,0.068136,-0.061560,0.036669,0.017766]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_51', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 51, 'The Firm’s risk governance framework is managed on a Firmwide basis. The Firm has an Independent Risk Management (“IRM”) function, which is comprised of Risk Management and Compliance. The Firm’s Chief Executive Officer (“CEO”) appoints, subject to approval by the Risk Committee of the Board of Directors (the “Board Risk Committee”), the Firm’s Chief Risk Officer (“CRO”) to lead the IRM function and maintain the risk governance framework of the Firm. The framework is subject to approval by the Board Risk Committee through its review and approval of the Risk Governance and Oversight Policy.
+
+The Firm’s CRO oversees and delegates authority to the Firmwide Risk Executives (“FREs”), the Chief Risk Officers of the LOBs and Corporate (“LOB CROs”), and the Firm’s Chief Compliance Officer (“CCO”), who, in turn, establish Risk Management and Compliance organizations, develop the Firm’s risk governance policies and standards, and define and oversee the implementation of the Firm’s risk governance framework. The LOB CROs oversee risks that arise in their LOBs and Corporate, while FREs oversee risks that span across the LOBs and Corporate, as well as functions and regions. Each area of the Firm that gives rise to risk is expected to operate within the parameters identified by the IRM function, and within the risk and control standards established by its own management.
+
+| JPMorgan Chase & Co./2025 Form 10-K | 83 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+83
+
+Three lines of defense
+
+The Firm’s “three lines of defense” are as follows:
+
+The first line of defense consists of each LOB, Treasury and CIO, and certain Other Corporate initiatives, including their aligned Operations, Technology and Control Management. The first line of defense owns the risks, and identification of risks, associated with their respective activities and the design and execution of controls to manage those risks. Responsibilities also include adherence to applicable laws, rules and regulations and implementation of the risk governance framework established by IRM, which may include policies, standards, limits, thresholds and controls.
+
+The second line of defense is the IRM function, which is separate from the first line of defense and is responsible for independently measuring risk, as well as assessing and challenging the risk management activities of the first line of defense. IRM is also responsible for the identification of risks within its organization, its own adherence to applicable laws, rules and regulations and for the development and implementation of policies and standards with respect to its own processes.
+
+The third line of defense is Internal Audit, an independent function that provides objective assessment of the adequacy and effectiveness of Firmwide processes, controls, governance and risk management. The Internal Audit function is led by the General Auditor, who reports to the Audit Committee and administratively to the CEO.
+
+In addition, there are other functions that contribute to the Firmwide control environment but are not considered part of a particular line of defense, including Corporate Finance, Human Resources and Legal. These other functions are responsible for the identification of risks within their respective organizations, adherence to applicable laws, rules and regulations and implementation of the risk governance framework established by IRM.
+
+Risk identification and ownership
+
+The LOBs and Corporate are responsible for the identification of risks within their respective organizations, as well as the design and execution of controls, including IRM-specified controls, to manage those risks. The IRM function reviews and challenges the material risks identified by each LOB and Corporate, and maintains a risk identification framework and a central risk inventory.
+
+Risk appetite', '[0.003119,-0.043769,-0.011345,-0.019543,0.005469,-0.039031,0.102968,0.022544,0.014361,-0.021540,0.018855,-0.030712,-0.003929,-0.018939,0.011901,-0.006041,-0.001201,-0.031958,0.084494,0.073914,0.018843,-0.009553,0.009361,-0.005388,0.003990,0.037973,-0.027178,0.021443,-0.080549,-0.175815,-0.022419,-0.006574,-0.029810,-0.023865,0.021017,-0.008162,-0.037406,0.038598,-0.009246,-0.040492,0.015349,0.053086,0.018882,0.008034,0.005036,-0.051561,0.020300,-0.035282,-0.042502,-0.001507,0.044312,-0.038568,0.039245,0.002813,-0.004720,0.021636,0.075330,0.028262,0.002604,0.093919,0.020233,0.019326,-0.167975,0.037402,0.023699,0.089831,-0.030198,-0.004343,-0.007427,0.054484,-0.050270,-0.018449,-0.015666,-0.025260,-0.008782,-0.003929,0.033974,0.025399,-0.033170,0.028483,0.020608,0.002300,-0.063949,-0.025596,-0.002335,-0.002177,0.045610,-0.042656,0.068282,0.085136,0.024301,-0.005902,0.008033,0.006889,-0.021320,-0.035267,0.013484,0.015621,-0.049295,0.344419,0.007365,-0.008259,0.005380,0.026559,-0.009593,-0.008588,-0.003716,-0.023851,0.052872,-0.030674,0.007538,-0.032858,0.053666,-0.040718,0.002815,-0.009251,-0.080730,0.041437,0.012140,-0.085914,0.073465,-0.026532,0.078115,0.025349,0.000792,0.002020,0.006720,0.055184,0.105787,-0.013827,0.024774,-0.062527,0.000268,-0.016143,0.010991,-0.002639,-0.064209,0.013199,0.024198,0.001315,-0.056353,0.015393,0.043420,-0.081456,-0.090132,0.071456,-0.018191,-0.002012,-0.016085,-0.035735,-0.004798,0.094344,-0.004670,-0.041629,-0.020668,-0.000563,-0.053941,0.029548,0.017639,-0.004419,-0.080527,0.059422,-0.005725,0.097951,-0.013163,-0.050812,-0.009948,0.057525,-0.025372,-0.039941,-0.009771,-0.012585,0.026590,-0.037142,-0.003144,-0.003553,-0.013334,-0.021456,-0.007690,-0.012435,0.038952,-0.047863,-0.013069,-0.016339,-0.006741,0.007898,-0.043157,-0.046732,-0.066101,0.032368,-0.061527,0.172810,-0.014100,-0.028956,-0.022358,-0.001912,0.019916,0.005911,-0.000088,-0.001670,-0.012649,0.081583,-0.001126,0.028121,-0.044960,0.043879,0.010122,0.019649,-0.048345,0.027978,0.011544,0.022707,-0.006084,0.005705,0.011096,0.010046,0.032591,0.058182,-0.071872,-0.032463,0.088381,0.052927,0.025673,-0.321834,-0.011755,-0.090711,-0.049212,-0.037231,0.024607,-0.020715,-0.044744,-0.065977,0.041798,0.037216,-0.019830,-0.092655,-0.017248,0.000877,-0.023155,0.004250,-0.072502,-0.066095,0.001586,-0.016827,0.021544,0.006919,0.020491,0.088706,0.055511,0.032356,-0.090639,-0.027607,-0.005468,0.063425,0.000126,0.009149,-0.014162,0.061050,-0.040071,0.008350,-0.020716,-0.072414,-0.036752,0.015500,0.007347,-0.018199,0.003960,-0.020557,0.016148,-0.052963,0.045668,-0.006779,-0.048626,0.012788,-0.012038,0.021198,0.048250,0.013180,-0.022069,-0.046969,-0.007297,-0.038335,-0.033291,-0.025495,0.031140,0.002542,-0.004492,0.079730,-0.051633,0.025224,0.070035,0.065277,-0.051902,-0.057486,0.053235,-0.048377,-0.070482,0.061403,0.031287,-0.048743,-0.012924,-0.084950,0.032472,0.098191,0.050438,0.082087,0.043505,-0.019948,0.000383,0.004621,0.023855,0.025822,0.013188,0.010163,-0.015497,-0.018186,0.028050,0.053086,-0.057103,-0.254797,0.002971,-0.025498,-0.003709,-0.005835,-0.028953,0.005913,-0.031470,0.003141,0.013290,0.043332,0.042028,0.018417,-0.066931,0.059829,0.015418,0.033355,-0.063487,0.067697,-0.039656,0.015818,0.037394,0.140048,-0.006804,0.042588,-0.023452,0.018711,0.031452,0.003929,0.014992,0.131591,-0.000159,0.074997,-0.070866,0.036189,0.035860,0.031215,0.041617,-0.002027,-0.034278,0.013078,-0.017514,0.024829,-0.038406,0.051470,-0.054959,-0.023158,-0.047795,0.029679,-0.023733,-0.030396,-0.053716,-0.009439,0.008714,0.040025,-0.060291,0.038994,0.010431,-0.033919,0.057237,0.007011,0.002175,-0.042138,0.061933,0.038894]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_52', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 52, 'In addition, there are other functions that contribute to the Firmwide control environment but are not considered part of a particular line of defense, including Corporate Finance, Human Resources and Legal. These other functions are responsible for the identification of risks within their respective organizations, adherence to applicable laws, rules and regulations and implementation of the risk governance framework established by IRM.
+
+Risk identification and ownership
+
+The LOBs and Corporate are responsible for the identification of risks within their respective organizations, as well as the design and execution of controls, including IRM-specified controls, to manage those risks. The IRM function reviews and challenges the material risks identified by each LOB and Corporate, and maintains a risk identification framework and a central risk inventory.
+
+Risk appetite
+
+The Firm’s overall appetite for risk is governed by Risk Appetite frameworks for quantitative and qualitative risks. The Firm’s risk appetite is periodically set and approved by senior management (including the CEO and CRO) and approved by the Board Risk Committee. Quantitative and qualitative risks are assessed to monitor and measure the Firm’s capacity to take risk consistent with its stated risk appetite. Risk appetite results are reported to the Board Risk Committee.
+
+| 84 | JPMorgan Chase & Co./2025 Form 10-K |
+
+84
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Risk governance and oversight structure
+
+The independent status of the IRM function is supported by a risk governance and oversight structure that provides channels for the escalation of risks and issues to senior management, the FRC and the Board of Directors, as appropriate.
+
+The chart below illustrates the principal standing committees of the Board of Directors and key senior management-level committees in the Firm’s risk governance and oversight structure. In addition, there are other committees, forums and channels of escalation that support the oversight of risk that are not shown in the chart below or described in this Form 10-K.
+
+(a) The Firm’s CEO is also the Chairman of the Board of Directors.
+
+(b) The Firm’s CRO reports to the Firm’s CEO and the Board Risk Committee. The Firm’s CRO may escalate directly to the Board of Directors (including its committees), as appropriate.
+
+(c) The Firm’s General Auditor reports to the Audit Committee and administratively to the Firm’s CEO.
+
+(d) The Firmwide Risk Committee escalates to the Board Risk Committee, as appropriate.
+
+(e) The Asset and Liability Committee escalates to the Firm’s CEO or the Board of Directors (including its committees), as appropriate.
+
+The Firm’s Operating Committee, which consists of the Firm’s CEO, CRO, Chief Financial Officer (“CFO”), General Counsel, CEOs of the LOBs and other senior executives, is accountable to and may refer matters to the Firm’s Board of Directors. The Operating Committee and certain other members of senior management are responsible for escalating to the Board the information necessary to facilitate the Board’s exercise of its duties.
+
+Board oversight
+
+The Firm’s Board of Directors actively oversees the business and affairs of the Firm. This includes monitoring the Firm’s financial performance and condition and reviewing the strategic objectives and plans of the Firm. The Board carries out a significant portion of its oversight responsibilities through its principal standing committees, each of which consists solely of independent members of the Board.
+
+The JPMorgan Chase Bank, N.A. Board of Directors is responsible for the oversight of management of the bank, which it discharges both acting directly and through the principal standing committees of the Firm’s Board of Directors. Risk and control oversight on behalf of JPMorgan Chase Bank N.A. is primarily the responsibility of the Board Risk Committee and the', '[0.011804,-0.040654,-0.005461,-0.024678,0.027006,-0.021445,0.106420,-0.017780,0.043708,-0.035933,0.002835,-0.006758,-0.001890,-0.016867,-0.009705,0.020306,0.008409,-0.052931,0.055101,0.055592,-0.012342,-0.008942,0.048168,0.012754,0.000108,0.027485,-0.018044,0.015881,-0.038062,-0.171569,0.017626,0.001214,0.024882,-0.068445,-0.006972,0.015010,-0.040468,0.042732,-0.047015,-0.039052,0.016729,0.019335,-0.013175,-0.014177,-0.009915,-0.026438,0.000536,-0.006850,-0.070946,0.019702,0.039689,-0.027177,0.024929,0.028314,-0.024325,0.018612,0.087194,0.005732,0.014463,0.077857,0.035574,-0.003686,-0.143307,-0.011203,0.042016,0.083873,-0.067275,0.013735,0.026156,0.058296,-0.016358,0.019214,-0.026271,0.021227,0.010424,-0.040208,0.020668,0.008445,-0.063464,0.016114,0.016616,0.007671,-0.064612,-0.016918,-0.013786,-0.027528,0.033445,-0.037911,0.040239,0.094174,0.011944,-0.018272,-0.009181,0.031094,-0.040663,-0.020420,0.022856,0.012500,-0.048052,0.355147,-0.023435,0.030018,-0.002767,0.033088,-0.020437,-0.022824,0.002174,0.003361,0.040622,-0.010763,-0.029195,-0.056239,0.043852,-0.044877,-0.009670,0.010361,-0.053957,0.057001,-0.005906,-0.072088,0.050473,-0.017049,0.071558,0.011404,0.001054,0.023393,-0.033246,0.051400,0.085333,-0.018574,0.008501,-0.054155,0.018293,-0.006552,-0.004727,-0.017416,-0.018211,0.007382,0.035438,0.018353,-0.044428,0.011604,0.039551,-0.119078,-0.061497,0.143437,0.011038,-0.026591,-0.014242,-0.027906,0.017983,0.107815,-0.001658,-0.005459,0.002473,0.007654,-0.072596,0.049551,0.024641,0.001738,-0.059721,0.037740,-0.014653,0.085403,-0.002308,-0.084147,-0.065957,0.031152,-0.024934,-0.035213,0.002876,-0.005778,-0.003405,-0.016468,-0.002414,-0.006626,-0.032497,0.025073,0.002487,0.020022,0.057586,-0.077094,-0.023120,0.003639,0.024161,0.028425,-0.040852,-0.094479,-0.058407,0.022362,-0.062240,0.131490,-0.018946,0.028245,-0.049804,-0.009356,0.021209,0.044610,0.000916,-0.030858,-0.048608,0.122588,-0.001836,0.003749,0.011509,-0.018314,-0.000620,0.034563,0.001418,-0.025717,-0.003622,0.008198,-0.020899,0.036548,-0.005667,-0.019721,0.057386,0.049549,-0.080724,-0.026884,0.109972,0.061092,0.053462,-0.318066,-0.024280,-0.060976,-0.060981,-0.017149,-0.002796,-0.017827,-0.053462,-0.096402,0.016414,0.035475,0.007719,-0.087684,-0.003456,0.030697,0.008634,0.026868,-0.064379,-0.052617,-0.005567,-0.065401,0.016226,-0.014226,0.026674,0.070996,0.077196,0.059384,-0.101325,0.031939,-0.002050,0.045793,0.011954,0.000458,-0.008871,0.077449,-0.038245,-0.005094,-0.000672,-0.050423,-0.016223,-0.027066,-0.006967,0.001534,0.016598,0.003218,-0.012691,-0.038246,0.026573,-0.011815,-0.049614,0.054853,0.028655,0.041102,0.054251,0.019341,-0.002514,-0.015324,-0.028995,-0.039880,-0.044214,-0.020953,0.026911,0.005940,0.002751,0.079008,-0.061645,-0.043278,0.055594,0.057746,-0.018150,-0.057375,0.064312,-0.015746,-0.045114,0.021999,0.017224,-0.032547,-0.010292,-0.086277,-0.001114,0.074146,0.050733,0.048077,0.039149,0.008283,-0.006830,-0.024587,-0.010229,0.061443,0.036005,-0.014308,-0.013876,-0.033459,-0.008469,0.033023,0.029924,-0.238303,0.026989,-0.020892,0.028218,-0.015128,-0.023309,-0.004901,-0.043958,-0.034248,0.032659,0.045863,0.012328,0.016054,-0.072666,0.039743,0.000902,0.032230,-0.067542,0.077945,-0.056650,0.012295,0.049522,0.179145,-0.009567,-0.002322,0.009336,0.030302,0.006196,-0.035945,-0.009363,0.151327,-0.011487,0.054942,-0.065722,0.013626,0.014182,0.015573,0.033686,-0.010919,-0.008163,0.008220,0.004748,-0.035966,-0.015949,0.062129,-0.042449,-0.035842,-0.020046,0.045049,0.005565,-0.013913,-0.036455,-0.016022,-0.000271,0.038411,-0.066486,-0.000317,0.016491,-0.033755,0.039355,-0.001385,0.014774,-0.044465,0.034171,0.020953]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_53', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 53, 'The Firm’s Board of Directors actively oversees the business and affairs of the Firm. This includes monitoring the Firm’s financial performance and condition and reviewing the strategic objectives and plans of the Firm. The Board carries out a significant portion of its oversight responsibilities through its principal standing committees, each of which consists solely of independent members of the Board.
+
+The JPMorgan Chase Bank, N.A. Board of Directors is responsible for the oversight of management of the bank, which it discharges both acting directly and through the principal standing committees of the Firm’s Board of Directors. Risk and control oversight on behalf of JPMorgan Chase Bank N.A. is primarily the responsibility of the Board Risk Committee and the
+
+Audit Committee, respectively, and, with respect to compensation and other management-related matters, the Compensation & Management Development Committee.
+
+The Board Risk Committee assists the Board in its oversight of management’s responsibility to implement a global risk management framework reasonably designed to identify, assess and manage the Firm’s risks. The Board Risk Committee’s responsibilities include approval of applicable primary risk policies and review of certain associated frameworks, analysis and reporting established by management. Breaches in risk appetite and parameters, issues that may have a material adverse impact on the Firm, including capital and liquidity issues, and other significant risk-related matters are escalated to the Board Risk Committee, as appropriate.
+
+The Audit Committee assists the Board in its oversight of management’s responsibilities to ensure that there is an effective system of controls reasonably designed to safeguard the Firm’s assets and income, ensure the integrity of the Firm’s financial statements, and maintain compliance with the Firm’s ethical standards, policies, plans and procedures, and with laws and
+
+| JPMorgan Chase & Co./2025 Form 10-K | 85 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+85
+
+regulations. It also assists the Board in its oversight of the qualifications, independence and performance of the Firm’s independent registered public accounting firm, and of the performance of the Firm’s Internal Audit function.
+
+The Compensation & Management Development Committee (“CMDC”) assists the Board in its oversight of the Firm’s compensation principles and practices. The CMDC reviews and approves the Firm’s compensation and qualified benefits programs. The Committee reviews the performance of Operating Committee members against their goals, and approves their compensation awards. In addition, the CEO’s compensation award is subject to ratification by the independent directors of the Board. The CMDC also reviews the development of and succession for key executives. As part of the Board’s role of reinforcing, demonstrating and communicating the “tone at the top,” the CMDC oversees the Firm’s culture, including reviewing updates from management regarding significant conduct issues and any related actions with respect to employees, including compensation actions.
+
+The Public Responsibility Committee oversees and reviews the Firm''s positions and practices on public responsibility matters such as community investment, fair lending, sustainability, consumer practices and other public policy issues that reflect the Firm''s values and character and could impact the Firm''s reputation among its stakeholders. The Committee also provides guidance on these matters to management and the Board, as appropriate.
+
+The Corporate Governance & Nominating Committee exercises general oversight with respect to the governance of the Board of Directors. It reviews the qualifications of and recommends to the Board proposed nominees for election to the Board. The Committee evaluates and recommends to the Board corporate governance practices applicable to the Firm. It also reviews the framework for assessing the Board’s performance and self-evaluation.
+
+Management oversight
+
+The Firm’s senior management-level committees that are primarily responsible for key risk-related functions include:', '[0.010464,-0.031915,-0.014611,-0.037291,0.011213,-0.038174,0.086629,-0.002108,-0.006066,0.002476,0.029651,-0.024598,0.009680,-0.009432,-0.024357,-0.001612,-0.007577,0.002282,0.052009,0.061675,-0.013648,-0.069289,0.044393,0.020243,0.037016,0.001438,-0.029231,-0.057419,-0.070261,-0.150241,-0.009564,-0.035877,0.029348,-0.057590,0.036149,-0.000559,-0.027378,-0.014972,-0.000059,-0.065071,0.013644,0.015473,0.027336,-0.048176,0.006358,-0.031577,0.039420,-0.022910,-0.034937,0.017959,0.013577,-0.056373,0.020292,0.036287,-0.011302,0.030171,0.002785,0.017646,-0.011223,0.101655,0.085082,0.011920,-0.180233,0.028080,0.031777,0.097988,0.016187,-0.019733,-0.003016,0.046696,-0.012652,-0.036612,-0.001870,0.011455,-0.041913,-0.040362,0.064106,0.027136,-0.081488,0.057093,-0.005580,-0.029956,-0.038273,-0.064924,0.006262,0.026840,-0.005266,0.004428,0.056529,0.090076,0.033706,-0.030889,0.011715,0.026853,-0.050706,-0.022993,0.018424,0.001034,-0.043196,0.357538,0.060777,0.050805,0.002001,0.025528,-0.001535,-0.062987,0.070300,0.019264,0.076313,-0.010228,0.036011,-0.043819,0.062520,-0.048366,0.016900,0.023989,-0.081356,0.003984,-0.021107,-0.042266,0.031649,0.027530,0.041510,0.002808,-0.010751,0.006447,-0.014255,0.071858,0.072732,0.038952,-0.004529,-0.008676,-0.011430,-0.013343,0.022376,-0.038641,-0.063886,0.009425,0.024691,-0.008684,-0.044076,0.004687,-0.020201,-0.051645,-0.080524,0.039580,-0.033080,-0.017503,-0.002769,-0.022394,-0.034690,0.103106,-0.020634,-0.047293,-0.010498,0.024296,-0.103365,0.024695,0.050092,-0.029152,-0.035250,0.029377,-0.035518,0.096895,0.024204,-0.052860,-0.044326,-0.028701,-0.060038,-0.063196,-0.025981,0.010466,0.012342,-0.007293,0.013474,-0.006384,-0.005364,0.041967,0.008206,-0.026532,0.020584,-0.001119,-0.073703,-0.044351,0.014479,0.000049,-0.034021,-0.021967,-0.030224,0.030546,-0.135056,0.077770,-0.089626,0.039090,-0.047478,-0.032438,0.031797,-0.013550,-0.056877,-0.027920,-0.015861,0.060297,0.004032,0.048158,0.027256,0.018415,0.017865,0.030793,0.016863,0.003195,-0.028343,0.025772,-0.033951,0.037786,0.015483,-0.006730,0.008138,0.060308,0.012013,-0.037191,0.087798,0.077682,0.075966,-0.295711,-0.042332,-0.049902,0.071496,-0.071708,-0.042999,-0.041215,-0.064582,-0.057727,0.030371,0.037609,-0.024295,-0.051510,-0.041271,0.011472,-0.001765,-0.036985,-0.022108,-0.068323,-0.041188,0.002926,0.001681,0.014988,0.066826,0.067003,0.047469,0.046593,-0.061230,-0.011611,0.043000,0.035537,0.046487,-0.038057,-0.043762,0.055174,-0.032731,-0.006273,-0.009038,-0.049922,-0.013621,-0.007561,0.020708,0.002310,-0.017185,-0.016914,0.039361,-0.051721,0.052358,-0.001501,-0.039797,0.010007,-0.074157,0.003025,0.057483,0.066980,-0.034016,0.007599,-0.019535,-0.086871,-0.017999,0.026486,0.019913,-0.002497,0.000688,0.028663,-0.030386,0.014743,0.082773,0.030121,0.022076,-0.031269,0.002939,-0.036697,-0.106764,0.025820,0.018690,-0.006993,-0.049852,-0.057973,-0.012109,0.040828,0.057141,0.056935,0.073826,0.025062,0.052454,0.037424,-0.008159,0.040974,-0.011120,-0.043730,0.048361,-0.028405,0.017031,0.033378,0.019484,-0.232621,-0.006897,-0.074322,-0.040283,0.001856,-0.002960,0.002858,0.006749,-0.021350,0.051503,0.051248,0.023968,-0.009455,-0.059859,0.036797,0.027165,0.046748,-0.016291,0.052394,-0.012177,0.005100,0.021680,0.133830,-0.004251,0.031440,-0.050820,0.018774,0.001850,0.021784,-0.021602,0.135543,0.044466,0.087664,-0.060084,0.079305,0.079239,0.020664,0.071937,0.001920,-0.025895,0.019535,0.024175,0.033404,-0.046994,0.061635,-0.004358,-0.069078,-0.015758,0.014714,0.041265,-0.005876,-0.016333,0.003722,-0.017046,-0.012343,-0.082054,-0.010050,0.001156,0.009941,0.061136,-0.047044,-0.012749,-0.050558,0.061885,0.021338]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_54', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 54, 'The Public Responsibility Committee oversees and reviews the Firm''s positions and practices on public responsibility matters such as community investment, fair lending, sustainability, consumer practices and other public policy issues that reflect the Firm''s values and character and could impact the Firm''s reputation among its stakeholders. The Committee also provides guidance on these matters to management and the Board, as appropriate.
+
+The Corporate Governance & Nominating Committee exercises general oversight with respect to the governance of the Board of Directors. It reviews the qualifications of and recommends to the Board proposed nominees for election to the Board. The Committee evaluates and recommends to the Board corporate governance practices applicable to the Firm. It also reviews the framework for assessing the Board’s performance and self-evaluation.
+
+Management oversight
+
+The Firm’s senior management-level committees that are primarily responsible for key risk-related functions include:
+
+The Firmwide Risk Committee (“FRC”) is the Firm’s highest management-level risk committee. It oversees the risks inherent in the Firm’s business and provides a forum for discussion of risk-related and other topics and issues that are raised or escalated by its members and other committees.
+
+The Firmwide Control Committee (“FCC”) is an escalation committee for senior management to review and discuss the Firmwide compliance and operational risk environment, including identified issues, compliance and operational risk metrics and significant events that have been escalated.
+
+Line of Business and Regional Risk Committees are responsible for overseeing the governance, limits and controls that have been established within the scope of their respective activities. These committees review the ways in which the particular LOB or the businesses operating in a particular region could be exposed to adverse outcomes, with a focus on identifying, accepting, escalating and/or requiring remediation of matters brought to these committees.
+
+The Control Committees for the LOBs and certain of the Corporate functions over see the risk and control environment of their respective business or function, inclusive of Operational Risk, Compliance and Conduct Risks. As part of that mandate, they are responsible for reviewing indicators of elevated or emerging risks and other data that may impact the level of compliance and operational risk in a business or function, addressing key compliance and operational risk issues , with an emphasis on processes with control concerns, and overseeing control remediation.
+
+The Asset and Liability Committee (“ALCO”) is responsible for overseeing the Firm’s asset and liability management (“ALM”), including the activities and frameworks supporting management of the balance sheet, liquidity risk, interest rate risk and capital risk.
+
+The Firmwide Valuation Governance Forum (“VGF”) is composed of senior finance and risk executives and is responsible for overseeing the management of risks arising from valuation activities conducted across the Firm.
+
+| 86 | JPMorgan Chase & Co./2025 Form 10-K |
+
+86
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Risk governance and oversight functions
+
+The Firm monitors and measures its risk through risk governance and oversight functions. The scope of a particular function or business activity may include one or more drivers, types and/or impacts of risk. For example, Country Risk Management oversees country risk which may be a driver of risk or an aggregation of exposures that could give rise to multiple risk types such as credit or market risk.
+
+The following sections discuss the risk governance and oversight functions that have been established to oversee the risks inherent in the Firm’s business activities.', '[0.019900,-0.034564,-0.010816,-0.061413,0.035499,-0.024226,0.087971,0.010601,0.017223,0.021716,0.011209,-0.028334,0.020886,-0.000808,-0.034521,0.019589,0.014867,0.006618,0.083690,0.073274,-0.022297,-0.036755,-0.003052,0.035717,0.012277,0.006188,-0.054672,-0.081528,-0.079861,-0.166284,-0.033385,0.008950,0.026351,-0.014006,0.005538,-0.024407,-0.002737,-0.045616,-0.026222,-0.038961,0.007122,0.028822,0.018155,-0.032773,0.004585,-0.012201,0.084843,-0.056802,-0.098026,-0.016261,0.037795,-0.023816,-0.004658,0.013276,-0.013765,0.020157,0.065110,-0.004366,0.011085,0.095470,0.069064,0.001892,-0.219856,0.053097,0.057562,0.096256,0.012066,0.025933,0.001628,0.038002,-0.050762,-0.023659,-0.009382,0.025045,0.035044,-0.030788,0.029353,0.043629,-0.035043,-0.013471,0.027950,0.032512,-0.037299,-0.071812,0.010478,-0.050120,-0.009008,-0.000886,0.052143,0.046487,0.032098,-0.038530,-0.011270,0.020754,-0.038845,-0.035769,0.033789,-0.003903,-0.035701,0.350500,-0.012033,0.064544,-0.001379,0.041351,-0.023943,-0.072522,0.068522,0.027301,0.038447,0.000018,0.016479,-0.033502,0.028565,-0.041511,0.043474,0.065037,-0.075008,0.031867,-0.030969,-0.016109,0.012239,-0.038528,0.026923,0.004985,0.024808,0.033579,-0.025015,0.043684,0.088758,0.028972,-0.035120,-0.045025,0.011725,0.000753,0.008784,-0.036329,-0.046105,0.010505,0.033194,-0.003525,-0.057308,-0.012473,0.001236,-0.087956,-0.059158,0.085689,-0.013959,0.004533,-0.035464,-0.024596,-0.006555,0.092134,-0.000794,-0.017501,0.016867,0.030930,-0.058969,0.005083,0.036906,-0.007023,-0.018881,0.054692,-0.048941,0.114083,-0.008817,-0.054710,-0.020842,-0.013564,-0.064127,0.002335,-0.018149,-0.011043,0.008073,0.028084,-0.000982,0.052421,-0.006316,0.001459,-0.000632,-0.026379,0.105098,-0.023195,-0.040122,-0.008393,0.069285,0.036751,-0.066014,-0.057107,0.002576,0.014753,-0.118335,0.066701,-0.064070,0.050230,-0.050575,0.008797,0.029824,-0.019789,0.007986,-0.031752,-0.027280,0.070700,-0.024599,0.080970,0.021516,0.025507,-0.020281,0.016344,0.017114,-0.006185,-0.065127,0.023501,-0.001232,0.019883,0.056776,0.006111,0.012544,0.049247,-0.046586,-0.019446,0.141330,0.054725,0.046962,-0.291345,-0.025681,-0.062225,0.011220,-0.055371,-0.014399,-0.071823,-0.017966,-0.087451,0.035754,0.063043,0.014028,-0.005734,-0.019159,-0.023549,0.015087,-0.021622,-0.086691,-0.065691,-0.037220,-0.052962,0.002852,0.006970,0.046195,0.060409,0.046255,0.031626,-0.071653,0.018426,0.035049,0.017891,-0.001332,-0.028890,-0.002718,0.038831,-0.054440,-0.003485,-0.007774,-0.086955,-0.033332,-0.001406,-0.032447,-0.022808,-0.014193,-0.018825,0.009776,-0.031983,0.062948,-0.016467,-0.037291,0.032169,-0.072982,0.032565,0.043785,0.013493,-0.039710,-0.036049,-0.049488,-0.046585,-0.032354,0.002531,0.019353,0.011246,0.002693,0.030995,-0.023153,0.010798,0.069728,0.034956,0.042521,-0.043754,0.056104,-0.008319,-0.087850,0.008254,0.040481,-0.028595,-0.013404,-0.039105,-0.026074,0.053531,0.113696,0.021292,0.045257,0.042640,-0.017880,-0.018018,-0.003907,0.033185,0.012908,-0.033314,-0.017456,-0.041589,0.003676,0.016399,0.038365,-0.213884,0.009867,-0.040860,-0.015582,0.009000,-0.018114,0.014219,-0.013790,-0.005456,0.041518,0.073741,0.072825,0.012825,-0.023328,0.004922,-0.001302,-0.003076,-0.040527,0.039757,-0.046352,0.009328,-0.007057,0.121025,-0.008774,0.047654,-0.048301,0.021213,0.009353,0.001362,-0.004288,0.137411,-0.020438,0.059901,-0.075730,0.054896,0.075527,0.003041,0.053198,0.006913,-0.017040,-0.019503,-0.002664,-0.001878,-0.047838,0.030479,-0.006798,-0.075148,-0.059235,0.031209,0.042267,-0.014648,-0.008870,-0.022585,-0.001527,-0.027970,-0.064086,0.029284,0.029918,0.030970,0.017896,-0.053636,0.042877,0.004116,0.080415,0.040005]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_55', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 55, 'The Firm monitors and measures its risk through risk governance and oversight functions. The scope of a particular function or business activity may include one or more drivers, types and/or impacts of risk. For example, Country Risk Management oversees country risk which may be a driver of risk or an aggregation of exposures that could give rise to multiple risk types such as credit or market risk.
+
+The following sections discuss the risk governance and oversight functions that have been established to oversee the risks inherent in the Firm’s business activities.
+
+| Risk governance and oversight functions | Page |
+| Strategic Risk | 88 |
+| Capital Risk | 89-99 |
+| Liquidity Risk | 100-107 |
+| Reputation Risk | 108 |
+| Consumer Credit Risk | 112–117 |
+| Wholesale Credit Risk | 118-128 |
+| Investment Portfolio Risk | 132 |
+| Market Risk | 133-142 |
+| Country Risk | 143-144 |
+| Climate Risk | 145 |
+| Operational Risk | 146-149 |
+| Compliance Risk | 150 |
+| Conduct Risk | 151 |
+| Legal Risk | 152 |
+| Estimations and Model Risk | 153 |
+
+| JPMorgan Chase & Co./2025 Form 10-K | 87 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+87
+
+| STRATEGIC RISK MANAGEMENT |
+
+Strategic risk is the risk to earnings, capital, liquidity or reputation associated with poorly-designed or failed business plans or an inadequate response to changes in the operating environment.
+
+Management and oversight
+
+The Operating Committee, together with the senior leadership of each LOB and Corporate, are responsible for managing strategic risk. IRM engages regularly in strategic business discussions and decision-making, including participation in relevant business reviews and senior management meetings, risk and control committees and other relevant governance forums, and review of acquisitions and new business initiatives. The Board of Directors oversees management’s strategic decisions, and the Board Risk Committee oversees IRM and the Firm’s risk governance framework.
+
+In addition, IRM conducts a qualitative assessment of the LOB and Corporate strategic initiatives to assess their impact on the risk profile of the Firm.
+
+The Firm’s strategic planning process, which includes the development of the Firm’s strategic plan and other strategic initiatives, is one component of managing the Firm’s strategic risk. The strategic plan outlines the Firm’s strategic framework and initiatives, and includes components such as budget, risk appetite, capital, earnings and asset-liability management objectives. Guided by the Firm’s Business Principles, the Operating Committee and senior management teams in each LOB and Corporate review and update the strategic plan periodically, including evaluating the strategic framework and performance of strategic initiatives, assessing the operating environment, refining existing strategies and developing new strategies.
+
+The Firm’s strategic plan, together with IRM’s assessment, are provided to the Board as part of its review and approval of the Firm’s strategic plan, and the plan is also reflected in the Firm''s budget.
+
+The Firm’s balance sheet strategy, which focuses on risk-adjusted returns, strong capital and robust liquidity, is also a component in the management of strategic risk. Refer to Capital Risk Management on pages 89–99 for further information on capital risk. Refer to Liquidity Risk Management on pages 100–107 for further information on liquidity risk. Refer to Reputation Risk Management on page 108 for further information on reputation risk.
+
+| 88 | JPMorgan Chase & Co./2025 Form 10-K |
+
+88
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+| CAPITAL RISK MANAGEMENT |
+
+CAPITAL RISK MANAGEMENT', '[0.050918,-0.049771,0.009913,-0.020334,-0.004032,-0.031810,0.120571,0.013801,0.031203,-0.049613,0.024044,-0.030393,0.025596,-0.012304,-0.018671,0.022062,-0.011215,-0.050494,0.052560,0.052477,0.007937,-0.010096,0.032812,0.004479,-0.014234,0.026534,-0.024268,0.010405,-0.056364,-0.145368,0.001925,-0.009347,-0.003275,-0.024049,-0.044762,-0.035705,-0.067505,0.015442,0.015002,-0.007489,0.033965,-0.002963,-0.044849,-0.008308,-0.053339,-0.044792,0.026237,-0.027562,-0.059882,-0.000552,0.023344,-0.047404,0.000761,0.005484,-0.013847,-0.018309,0.059133,0.045377,0.012062,0.098586,0.044751,-0.033778,-0.167793,0.005432,0.009677,0.098166,-0.047550,-0.000696,-0.004188,0.046261,-0.049547,0.039850,-0.051324,0.040524,-0.019538,0.012582,0.011969,-0.007510,-0.021786,0.033440,0.028975,0.031821,-0.082193,-0.022415,0.017727,-0.014355,0.009005,-0.009025,0.078920,0.033560,0.033170,-0.024497,-0.022924,0.021012,-0.002875,-0.012193,0.038018,0.026562,-0.025544,0.343079,-0.008102,0.018035,0.031535,0.049644,-0.063111,-0.044005,-0.011421,0.023639,0.027448,-0.005365,0.021450,-0.048614,0.047696,-0.042643,0.002100,0.048892,-0.048617,0.045567,0.025937,-0.033879,0.007818,-0.008143,0.063655,0.018999,0.019241,0.042587,0.008988,0.053682,0.102601,-0.004891,0.030907,-0.022784,0.002638,-0.013191,0.037364,-0.027252,-0.078374,0.011862,0.012003,0.005272,-0.058237,0.020254,0.022442,-0.093459,-0.058870,0.134703,0.008791,-0.002294,-0.025010,-0.040953,0.019956,0.103851,0.002307,-0.013598,-0.007936,0.028702,-0.045514,0.047890,-0.009607,-0.010480,-0.108745,0.018397,-0.043632,0.126231,0.011413,-0.041745,-0.034777,0.017562,-0.084866,-0.038374,-0.036050,-0.016471,-0.000579,-0.026513,0.030115,0.031597,-0.018480,-0.021884,-0.043587,-0.054073,0.056011,-0.016700,-0.052172,-0.009781,-0.011978,0.050970,-0.042005,-0.050642,-0.052840,0.013202,-0.081379,0.107450,-0.054214,0.032199,-0.035703,0.012820,-0.035132,0.013787,-0.002714,-0.011286,-0.027564,0.033973,0.003340,0.017173,-0.022267,-0.004662,-0.003087,0.044328,-0.053448,0.024167,-0.008643,0.047511,-0.067374,0.035042,0.009190,-0.007229,0.029228,0.036529,-0.046808,-0.019605,0.081418,0.022170,0.037838,-0.322887,-0.037213,-0.056766,-0.004199,-0.038358,0.009611,-0.060073,-0.051281,-0.048757,0.024188,0.041386,-0.018959,-0.060087,-0.017664,0.022566,-0.016828,-0.063178,-0.069524,-0.084110,-0.017377,-0.023148,0.000974,-0.023547,0.030369,0.062230,0.037365,0.054198,-0.095506,0.022520,0.001407,0.053026,-0.011646,0.032968,0.021848,0.090597,-0.045095,0.009364,0.017138,-0.104570,-0.022620,-0.005116,-0.001138,-0.023849,0.013546,0.025669,0.010290,-0.054369,0.028268,-0.024227,-0.023591,0.030464,-0.049569,0.049583,0.050937,-0.001377,-0.050771,-0.026263,-0.022208,-0.068129,0.001084,0.009658,0.031771,0.038130,0.008587,0.030720,-0.012177,0.008375,0.055810,0.020182,-0.013680,-0.039644,0.080617,-0.035355,-0.079861,0.032214,0.033112,0.010554,-0.000817,-0.051071,0.029784,0.092083,0.034157,0.084807,0.048816,-0.005210,-0.028610,-0.015999,-0.016663,0.032601,0.029693,-0.050547,-0.019678,-0.025601,-0.009231,0.033177,0.000469,-0.226803,0.025153,-0.046112,-0.013405,-0.012806,-0.066259,0.001958,-0.027474,0.021852,-0.016863,0.075106,-0.013424,0.034200,-0.059283,0.050750,0.012755,0.053800,-0.006196,0.066836,-0.041406,0.020542,0.058453,0.167821,-0.013925,0.041809,-0.017267,0.049820,-0.008104,0.019827,0.025484,0.150346,0.008058,0.078398,-0.034709,0.015408,0.038496,0.032219,0.054760,-0.003353,-0.012787,0.026001,0.027647,0.003478,-0.052089,0.043089,-0.050931,-0.051849,-0.044540,0.037943,0.042087,-0.040446,0.009447,-0.030752,-0.010614,0.076773,-0.043026,0.057035,-0.013803,0.038512,0.035660,-0.016601,0.045471,-0.040798,0.050422,-0.003518]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_56', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 56, 'CAPITAL RISK MANAGEMENT
+
+Capital risk is the risk that the Firm has an insufficient level or composition of capital to support the Firm’s business activities and associated risks during normal economic environments and under stressed conditions.
+
+A strong capital position is essential to the Firm’s business strategy and competitive position. Maintaining a strong balance sheet to manage through economic volatility is a strategic imperative of the Firm’s Board of Directors, CEO and Operating Committee. The Firm’s “fortress balance sheet” philosophy focuses on risk-adjusted returns, strong capital and robust liquidity. The Firm’s capital risk management strategy focuses on maintaining long-term stability to enable the Firm to build and invest in market-leading businesses, including in highly stressed environments. Senior management considers the implications on the Firm’s capital prior to making significant decisions that could impact future business activities. In addition to considering the Firm’s earnings outlook, senior management evaluates all sources and uses of capital with a view to ensuring the Firm’s capital strength.
+
+Capital risk management
+
+The Firm has a Capital Risk Management function whose primary objective is to provide independent oversight of capital risk across the Firm.
+
+Capital Risk Management’s responsibilities include:
+
+• Defining, monitoring and reporting capital risk metrics;
+
+• Establishing, calibrating and monitoring capital risk limits and indicators, including capital risk appetite;
+
+• Developing processes to classify, monitor and report capital limit breaches;
+
+• Performing assessments of the Firm’s capital management activities, including changes made to the Contingency Capital Plan described below; and
+
+• Conducting independent review of the Firm''s interpretation of and compliance with the applicable regulatory capital rules and guidance relating to the calculation of regulatory capital.
+
+Capital management
+
+Treasury and CIO is responsible for capital management.
+
+The primary objectives of the Firm’s capital management are to:
+
+• Maintain sufficient capital in order to continue to build and invest in the Firm’s businesses through normal economic cycles and in stressed environments;
+
+• Retain flexibility to take advantage of future investment opportunities;
+
+• Promote the Parent Company’s ability to serve as a source of strength to its subsidiaries;
+
+• Ensure the Firm operates above the minimum regulatory capital ratios as well as maintain “well-capitalized” status for the Firm and its principal insured depository institution (“IDI”) subsidiary, JPMorgan Chase Bank, N.A., at all times under applicable regulatory capital requirements;
+
+• Meet capital distribution objectives; and
+
+• Maintain sufficient capital resources to operate throughout a resolution period in accordance with the Firm’s preferred resolution strategy.
+
+The Firm addresses these objectives through:
+
+• Establishing internal minimum capital requirements and maintaining a strong capital governance framework. The internal minimum capital levels consider the Firm’s regulatory capital requirements as well as an internal assessment of capital adequacy, in normal economic cycles and in stress events;
+
+• Retaining flexibility in order to react to a range of potential events; and
+
+• Regularly monitoring the Firm’s capital position and following prescribed escalation protocols, both at the Firm and material legal entity levels.
+
+Governance
+
+Committees responsible for overseeing the Firm’s capital management include the Capital Governance Committee, the Firmwide ALCO as well as regional ALCOs, and the CIO, Treasury and Corporate (“CTC”) Risk Committee. In addition, the Board Risk Committee periodically reviews the Firm’s capital risk tolerance. Refer to Firmwide Risk Management on pages 83–87 for additional discussion of the Firmwide ALCO and other risk-related committees.
+
+Capital planning and stress testing
+
+Comprehensive Capital Analysis and Review', '[0.031374,-0.036723,-0.052773,-0.021501,0.000874,0.002719,0.114478,-0.001095,0.019702,-0.002724,0.018714,-0.056027,0.020992,-0.003486,-0.031423,-0.005003,-0.015451,-0.017944,0.039601,0.064732,-0.011524,-0.006927,-0.015926,-0.014264,0.036497,-0.034466,-0.059876,0.004543,-0.082981,-0.126483,-0.010987,0.023973,0.006102,-0.023643,0.011529,0.045359,-0.019603,0.026568,0.086743,-0.031546,0.002621,0.027707,0.025627,-0.028752,0.020805,-0.055638,0.038378,-0.075704,-0.024723,0.033299,0.063045,-0.066287,-0.037691,0.016477,-0.019143,0.030977,0.054357,0.024955,-0.018126,0.096238,0.012555,-0.014518,-0.163224,0.001493,-0.005377,0.095377,-0.018847,0.024136,-0.024201,0.029302,0.002881,0.026090,-0.010289,0.057410,0.004887,-0.007871,0.071015,-0.026371,-0.054593,0.046476,0.032240,0.054020,-0.007306,0.015407,-0.014419,0.001460,0.000420,-0.032741,0.102062,-0.007751,0.014405,0.016588,-0.044384,0.022110,-0.015941,0.036414,0.032280,0.057796,-0.037636,0.389382,0.008145,0.044241,0.004612,-0.023229,0.013195,-0.017814,0.023631,0.057131,0.086880,0.000190,0.019804,-0.030971,0.048303,-0.018129,-0.041966,-0.021530,-0.038473,0.029322,0.017848,-0.014777,0.052302,0.020413,0.043138,0.058001,0.004367,-0.011532,0.020646,0.039961,0.069857,-0.015236,-0.008996,0.003647,-0.041837,-0.007958,0.018759,0.007520,-0.077491,-0.010898,-0.011858,-0.029551,-0.052000,0.003348,0.000681,-0.051849,-0.093172,0.129679,0.032696,-0.029179,-0.051899,-0.084059,-0.036751,0.004201,0.028588,-0.007600,0.025265,-0.028592,-0.050678,-0.002323,-0.008034,-0.039622,-0.082347,-0.012399,-0.075560,0.109506,-0.000770,-0.025856,-0.087992,-0.007307,-0.065639,-0.042811,-0.017858,-0.000728,0.020385,-0.034722,0.033874,0.003280,-0.036806,-0.083167,0.018641,0.028166,0.042546,-0.017368,-0.026992,-0.015202,0.026368,0.014006,-0.064908,-0.022461,0.017794,-0.026283,-0.079804,0.093022,-0.030034,0.004425,-0.066546,0.022711,-0.000879,0.045883,0.030178,-0.025786,-0.039324,0.034754,0.041904,0.002552,-0.049120,0.057566,0.015514,-0.016880,-0.012074,0.033269,0.018591,0.019767,0.013209,0.019148,0.049735,0.021668,0.025210,0.132056,0.011125,-0.001306,0.074087,0.054386,0.001806,-0.305114,0.002740,-0.063550,-0.056580,-0.001025,0.070190,-0.021590,-0.042194,-0.046147,-0.066618,0.011548,-0.033863,-0.068126,-0.059416,0.033694,-0.050899,-0.044924,-0.046699,-0.077200,-0.003132,-0.003380,-0.022919,-0.076379,-0.032490,0.060789,0.036315,0.043144,-0.130954,0.033104,0.013772,0.080289,0.025689,0.030311,-0.041527,0.086458,-0.065351,0.006992,0.019225,-0.109078,-0.005107,-0.007122,-0.027563,-0.009824,0.005164,-0.039772,0.037771,0.012884,0.056356,-0.044899,0.026053,0.023538,0.013899,0.030370,0.057799,0.038954,-0.079081,-0.034078,-0.013517,-0.045497,-0.012527,-0.002513,-0.016572,0.058978,0.053776,-0.012107,-0.069486,0.042852,-0.014097,-0.010453,-0.011355,-0.002208,0.054815,-0.008381,-0.066011,0.019770,-0.007400,-0.018409,-0.001171,-0.000484,0.017019,0.073727,0.009315,0.042815,0.075600,-0.021961,0.010872,0.035584,0.008384,0.006511,0.011502,-0.058642,-0.054227,-0.028875,-0.016560,0.013647,-0.008548,-0.230674,0.012506,-0.026208,0.015477,-0.015184,-0.001650,-0.044118,-0.001397,-0.018712,0.066702,0.034830,-0.015498,0.025094,-0.030473,-0.015628,-0.039889,0.003172,-0.046311,0.047707,-0.001180,0.019531,0.023166,0.152469,0.002895,0.044440,0.000100,0.035450,0.045620,0.075901,-0.003222,0.101329,-0.001302,0.101904,-0.046026,-0.013909,0.026730,0.027200,0.029854,-0.009463,0.000598,0.013354,-0.003023,0.042733,-0.020033,0.029956,-0.026977,-0.020261,-0.028428,0.010566,-0.004211,-0.036199,-0.001669,-0.000181,-0.006176,0.086285,-0.021163,0.005801,-0.034304,0.009712,0.004149,0.005902,-0.015447,-0.057308,0.037786,-0.014545]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_57', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 57, '• Regularly monitoring the Firm’s capital position and following prescribed escalation protocols, both at the Firm and material legal entity levels.
+
+Governance
+
+Committees responsible for overseeing the Firm’s capital management include the Capital Governance Committee, the Firmwide ALCO as well as regional ALCOs, and the CIO, Treasury and Corporate (“CTC”) Risk Committee. In addition, the Board Risk Committee periodically reviews the Firm’s capital risk tolerance. Refer to Firmwide Risk Management on pages 83–87 for additional discussion of the Firmwide ALCO and other risk-related committees.
+
+Capital planning and stress testing
+
+Comprehensive Capital Analysis and Review
+
+The Federal Reserve requires the Firm, as a large Bank Holding Company (“BHC”), to submit at least annually a capital plan that has been reviewed and approved by the Board of Directors. The Federal Reserve uses Comprehensive Capital Analysis and Review (“CCAR”) and other stress testing processes to assess whether large BHCs, such as the Firm, have sufficient capital during periods of economic and financial stress, and have robust, forward-looking capital assessment and planning processes in place that address each BHC’s unique risks to enable it to absorb losses under certain stress scenarios. Through CCAR, the Federal Reserve evaluates each BHC’s capital adequacy and internal capital adequacy assessment processes (“ICAAP”), as well as its plans to make capital distributions, such as dividend payments or stock repurchases. The Federal
+
+| JPMorgan Chase & Co./2025 Form 10-K | 89 |
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+89
+
+Reserve uses results under the severely adverse scenario from its supervisory stress test to determine each firm’s Stress Capital Buffer (“SCB”) requirement for the coming year.
+
+The Firm''s current SCB requirement is 2.5% and will remain in effect through September 30, 2027, based on the current rules. The Firm’s Standardized CET1 capital ratio requirement, including regulatory buffers, was 11.5% as of December 31, 2025. Refer to Key Regulatory Developments on page 91 for information related to proposed changes to the SCB requirement and stress testing framework.
+
+Refer to Capital actions on page 97 for information on actions taken by the Firm’s Board of Directors.
+
+Internal Capital Adequacy Assessment Process
+
+Annually, the Firm prepares the ICAAP, which informs the Board of Directors of the ongoing assessment of the Firm’s processes for managing the sources and uses of capital as well as compliance with supervisory expectations for capital planning and capital adequacy. The Firm’s ICAAP integrates stress testing protocols with capital planning. The Firm’s Audit Committee is responsible for reviewing and approving the capital planning framework.
+
+Stress testing assesses the potential impact of alternative economic and business scenarios on the Firm’s earnings and capital. Economic scenarios, and the parameters underlying those scenarios, are defined centrally and applied uniformly across the businesses. These scenarios are articulated in terms of macroeconomic factors, which are key drivers of business results; global market shocks, which generate short-term but severe trading losses; and idiosyncratic operational risk events. The scenarios are intended to capture and stress key vulnerabilities and idiosyncratic risks facing the Firm. In addition to CCAR and other periodic stress testing, management also considers tailored stress scenarios and sensitivity analyses, as necessary.
+
+Contingency Capital Plan', '[-0.025505,-0.050684,-0.032154,0.002645,-0.027636,0.021894,0.031755,0.015602,-0.020760,-0.063930,0.004100,0.000117,0.003145,-0.020924,-0.010528,-0.004800,0.032984,-0.017757,0.074312,0.054912,0.000504,-0.012252,0.002864,-0.016425,0.038327,0.027238,-0.028804,-0.037564,-0.102692,-0.194317,-0.025642,-0.028394,0.025600,-0.014840,0.018115,0.005599,-0.015222,0.012514,0.020480,0.000731,-0.016623,0.061988,0.025895,-0.015780,-0.023133,-0.042940,0.075119,-0.021696,-0.021393,0.040545,0.058371,-0.115415,0.070048,0.009106,-0.067565,0.009225,0.058988,0.011550,0.019124,0.085226,0.053395,0.036427,-0.225721,0.012552,0.003745,0.081514,-0.005008,-0.008058,0.021130,0.046763,0.042522,-0.042100,0.011180,0.004878,0.026008,-0.022080,0.045042,0.011949,-0.023059,0.017791,-0.031249,0.047651,-0.029297,-0.022721,0.011488,-0.023471,-0.032616,0.019485,0.081581,-0.028925,0.015090,-0.037916,0.002173,0.030886,-0.092518,-0.037968,-0.025180,0.048710,-0.072815,0.349472,0.037287,0.056722,-0.035177,-0.000112,-0.026730,-0.012918,0.040734,0.011203,0.028676,-0.022336,-0.003948,0.020736,0.076079,-0.034685,-0.042831,-0.001018,-0.052825,0.007563,0.035466,-0.037478,0.057145,0.004613,0.029100,0.021998,0.015921,0.002658,-0.002229,0.047928,0.078580,0.029320,-0.019179,-0.015244,-0.043088,0.018291,-0.025854,-0.026035,-0.051210,0.014755,0.041324,-0.016963,-0.015022,0.000987,0.051498,-0.072948,-0.082833,0.122280,0.009923,0.012410,-0.055508,-0.042014,-0.011771,0.028515,0.036649,-0.004003,-0.002594,0.020372,-0.044350,0.042532,-0.002279,0.007596,-0.031037,0.007113,-0.045500,0.106171,0.027442,-0.063445,-0.090893,-0.018671,-0.014273,-0.011870,0.014334,0.000878,-0.014677,-0.003060,0.004740,0.001872,-0.034469,0.018241,-0.003787,-0.011980,0.013483,-0.021074,-0.048287,0.007102,0.016466,-0.004970,-0.044187,-0.040050,-0.036417,-0.060810,-0.072768,0.052086,-0.104046,0.082818,-0.047206,0.018070,0.016415,0.003887,0.012408,-0.013977,0.004941,0.075222,0.001090,0.080814,0.024021,-0.014602,-0.015920,0.018568,0.022719,0.044929,0.009505,0.051494,-0.024082,0.013989,0.039089,0.033880,0.026702,0.014894,-0.028125,0.031509,0.099929,0.035705,0.033146,-0.332988,-0.008396,-0.051505,-0.008970,0.007488,-0.005209,-0.004146,-0.057041,-0.067442,0.029302,0.012566,0.017873,-0.029597,-0.048035,0.013514,0.009644,-0.025803,-0.066155,-0.062301,0.014770,-0.048421,0.027393,-0.033550,0.028753,0.080218,0.024673,0.042043,-0.098551,-0.024654,0.014435,0.008976,0.029822,0.000856,-0.015191,0.022942,-0.071894,-0.021473,0.022397,-0.019723,0.022953,0.001040,0.021311,-0.049216,-0.027249,-0.041281,-0.008935,0.011960,0.091131,-0.061372,-0.024601,0.071666,-0.011025,-0.020496,0.004736,0.047154,-0.077439,-0.040598,-0.024002,-0.029350,-0.043147,0.020090,0.018271,0.001935,0.101618,0.034859,-0.026499,-0.012563,0.024674,0.004747,0.013571,0.028737,0.015953,-0.004591,-0.095280,0.059812,-0.016129,-0.002865,-0.001511,-0.019854,-0.015511,0.023504,0.001857,0.031369,0.044133,-0.021526,0.053190,0.073259,-0.004524,0.040495,0.016629,-0.041157,-0.006246,-0.056189,-0.000980,0.033161,0.044823,-0.248658,0.014143,-0.039278,-0.018653,0.005959,0.004334,0.031867,0.042913,-0.038993,0.050209,0.020457,0.034895,0.027068,-0.031962,-0.015314,-0.029845,0.035926,-0.049082,0.068913,-0.020683,0.023377,-0.036486,0.159747,0.018121,0.007727,0.002144,0.006234,0.043465,0.080855,-0.031507,0.139657,-0.037461,0.067845,-0.060874,0.020597,0.054316,-0.009409,0.041926,-0.037096,-0.004721,0.001720,-0.009464,0.048072,-0.034326,0.056460,0.000380,-0.068885,-0.042008,-0.021169,0.019573,-0.023207,-0.010760,0.005949,-0.017981,-0.027603,-0.007571,0.038768,-0.002615,-0.001917,-0.001886,-0.062401,0.015087,-0.044433,0.050776,0.022719]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_58', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 58, 'Stress testing assesses the potential impact of alternative economic and business scenarios on the Firm’s earnings and capital. Economic scenarios, and the parameters underlying those scenarios, are defined centrally and applied uniformly across the businesses. These scenarios are articulated in terms of macroeconomic factors, which are key drivers of business results; global market shocks, which generate short-term but severe trading losses; and idiosyncratic operational risk events. The scenarios are intended to capture and stress key vulnerabilities and idiosyncratic risks facing the Firm. In addition to CCAR and other periodic stress testing, management also considers tailored stress scenarios and sensitivity analyses, as necessary.
+
+Contingency Capital Plan
+
+The Firm’s Contingency Capital Plan establishes the capital management framework for the Firm and specifies the principles underlying the Firm’s approach towards capital management in normal economic conditions and in stressed environments. The Contingency Capital Plan defines how the Firm calibrates its targeted capital levels and meets minimum capital requirements, monitors the ongoing appropriateness of planned capital distributions, and sets out the capital contingency actions that are expected to be taken or considered at various levels of capital depletion during a period of stress.
+
+Regulatory capital
+
+The Federal Reserve establishes capital requirements, including well-capitalized standards, for the Firm as a consolidated financial holding company. The Office of the Comptroller of the Currency ("OCC") establishes similar minimum capital requirements and standards for the Firm’s principal IDI subsidiary, JPMorgan Chase Bank, N.A. The U.S. capital requirements generally follow the Capital Accord of the Basel Committee, as amended from time to time.
+
+Basel III Overview
+
+The capital rules under Basel III establish minimum capital ratios and overall capital adequacy standards for large and internationally active U.S. BHCs and banks, including the Firm and JPMorgan Chase Bank, N.A. The minimum amount of regulatory capital that must be held by BHCs and banks is determined by calculating RWA, which are on-balance sheet assets and off-balance sheet exposures, weighted according to risk. Under the rules currently in effect, two comprehensive approaches are prescribed for calculating Basel III RWA: a standardized approach (“Standardized”), and an advanced approach (“Advanced”).
+
+For each of these risk-based capital ratios, the capital adequacy of the Firm is evaluated against the lower of the Standardized or Advanced approaches compared to their respective regulatory capital ratio requirements.
+
+The current Basel III rules establish capital requirements for calculating credit risk RWA and market risk RWA, and in the case of Advanced, operational risk RWA. Key differences in the calculation of credit risk RWA between the Standardized and Advanced approaches are that for Advanced, credit risk RWA is based on risk-sensitive approaches which largely rely on the use of internal credit models and parameters, whereas for Standardized, credit risk RWA is generally based on supervisory risk-weightings which vary primarily by counterparty type and asset class. The models used in Advanced are subject to periodic review and calibration, which can impact RWA results. Market risk RWA is generally calculated consistently between Standardized and Advanced. In addition to the RWA calculated under these approaches, the Firm may supplement such amounts to incorporate management judgment and feedback from its regulators.
+
+As of December 31, 2025, the Advanced risk-based ratios became more binding on the Firm than the Standardized risk-based ratios, primarily reflecting the increase in Advanced RWA related to the Apple Card transaction and a reduction in the Firm’s SCB requirement which only applies to the Standardized risk-based ratios.
+
+| 90 | JPMorgan Chase & Co./2025 Form 10-K |
+
+90
+
+JPMorgan Chase & Co./2025 Form 10-K', '[0.017248,-0.009842,-0.020188,0.029266,-0.001160,0.040989,0.054738,0.008348,0.014518,-0.075795,0.016096,-0.019524,0.039691,-0.018657,-0.009451,0.004420,0.001581,-0.036727,0.031207,0.069279,0.044057,0.008887,-0.003435,0.009527,0.056523,0.018583,-0.016615,0.024679,-0.075713,-0.210620,-0.027452,-0.036557,-0.014051,-0.057490,-0.008029,0.041378,-0.042174,0.037964,0.054257,0.003995,-0.002152,0.022086,0.021463,-0.046629,-0.051819,-0.022016,0.030448,0.001166,-0.034846,-0.020139,0.070284,-0.075444,0.003532,-0.001062,-0.044131,0.017680,0.041158,0.020669,0.015855,0.043731,0.028854,-0.016915,-0.189487,-0.009476,0.044900,0.063360,-0.018503,0.009172,0.013784,0.070809,-0.035891,0.009995,0.017108,0.041297,0.043309,0.018765,0.006099,-0.011868,-0.008622,-0.001928,0.001432,0.045661,-0.010482,0.027534,0.035853,0.010608,-0.004672,-0.040507,0.065027,-0.041191,-0.027701,-0.016667,0.009898,-0.012108,-0.068755,0.015590,0.012102,0.046397,-0.012856,0.360764,0.046224,-0.003299,-0.024238,0.009690,0.006987,0.016029,-0.014319,-0.057635,0.055448,0.007988,-0.021887,0.019006,0.097663,-0.040155,-0.071900,-0.015796,-0.034151,0.012304,0.048734,-0.016314,0.047963,0.002916,0.029520,-0.008260,0.016433,0.006298,0.024850,0.047999,0.057513,-0.009071,-0.001608,-0.029949,-0.065347,0.037325,-0.025093,-0.008922,-0.031893,0.041973,-0.006855,0.022196,-0.010883,0.024721,0.026822,-0.082653,-0.076959,0.144708,0.022263,0.012044,-0.044204,-0.044632,0.034930,0.035752,0.015343,-0.013533,-0.046346,-0.011111,-0.010447,0.029412,-0.012786,-0.039165,-0.030181,0.005614,-0.047535,0.125262,0.001378,-0.063696,-0.072786,-0.019708,0.007125,-0.040248,0.015255,-0.006399,-0.002380,-0.006732,0.002412,0.019263,-0.034193,0.028952,-0.019141,0.044813,0.026205,-0.023685,-0.034025,-0.050920,-0.029732,0.008558,0.009846,-0.018942,-0.017149,-0.078229,-0.065298,0.030399,-0.083110,0.139877,-0.077884,0.003342,-0.007740,0.018876,-0.001630,-0.012712,-0.001784,0.066469,0.040373,0.023743,-0.005581,0.006083,0.030134,-0.036381,0.028335,0.043073,-0.006320,0.019438,-0.014917,0.010078,0.047820,0.006231,0.053483,0.004908,-0.026986,0.043137,0.065013,0.027209,0.034575,-0.330029,-0.018617,-0.050012,-0.009699,0.085407,-0.005722,0.019126,-0.017669,-0.075618,0.013317,0.033159,-0.004760,-0.042222,-0.046233,0.042101,-0.015568,-0.082513,-0.071690,-0.073554,0.046445,-0.012744,0.046526,-0.059835,0.011497,0.057481,0.005411,0.045733,-0.127373,-0.024127,0.011902,0.016866,0.022721,-0.006393,0.001878,0.025854,-0.042450,0.018930,0.031664,-0.029562,-0.013091,-0.002613,0.020470,-0.074153,-0.015130,-0.015412,-0.005141,0.007459,0.056189,-0.058081,0.007715,-0.003954,0.026166,-0.004958,0.006752,0.011748,-0.080160,-0.077430,0.000736,-0.036061,-0.047001,0.053020,0.014021,0.056830,0.072838,0.001056,-0.024459,0.026345,-0.013458,-0.008587,-0.005510,0.030180,0.048201,0.049232,-0.062280,0.054517,-0.026981,0.024755,0.018034,-0.016217,0.021163,0.010529,-0.026758,0.001307,0.018809,-0.007484,0.014583,0.047272,-0.048339,0.036691,0.007968,-0.097036,0.012200,-0.032386,-0.009603,0.010377,-0.001181,-0.265358,0.006091,-0.042074,-0.017328,0.019568,-0.008473,0.013419,0.005426,-0.036155,0.004849,0.019513,0.036140,0.052058,-0.056809,0.002283,-0.022607,0.044295,-0.020735,0.050931,-0.021856,0.005520,0.027567,0.180946,-0.015758,0.005116,0.007516,0.027911,-0.006220,0.120991,-0.000841,0.105744,-0.030001,0.073740,-0.040728,-0.035973,-0.005957,-0.017155,0.059748,-0.030819,0.016965,0.001622,-0.023652,0.069051,-0.050472,0.047616,-0.029593,-0.077939,-0.075629,-0.047153,0.011136,-0.001295,-0.000922,0.026236,-0.021396,0.029216,-0.000366,0.035481,-0.007217,0.056983,-0.029690,-0.017319,0.030117,-0.050736,0.041048,0.019440]'::vector);
+INSERT INTO chunks_local (id, doc_id, ticker, company, fiscal_year, item, section_title, page, chunk_index, text, embedding) VALUES ('JPM_2025_7_59', '0001628280-26-008131', 'JPM', 'JPMorgan Chase', 2025, '7', 'Management''s Discussion and Analysis of Financial Condition and Results of Operations', 48, 59, '90
+
+JPMorgan Chase & Co./2025 Form 10-K
+
+Additionally, Basel III requires that Advanced Approaches banking organizations, including the Firm, calculate their SLRs. Refer to page 96 for additional information on SLR.
+
+Key Regulatory Developments
+
+Enhanced SLR Final Rule
+
+In November 2025, the Federal Reserve, the OCC and the FDIC issued the final rule amending the enhanced Supplementary Leverage Ratio (“eSLR”) requirements for Global Systemically Important Banks (“GSIB”) BHCs and their IDI subsidiaries by revising the current static leverage buffers at the BHC and IDI levels to 50% of the BHC’s U.S. Method 1 GSIB Surcharge, which is referred to as the “eSLR buffer.” For IDI subsidiaries, the eSLR buffer is capped at 1%. In addition, the rule made corresponding adjustments to the leverage-based total loss-absorbing capacity (“TLAC”) and eligible long-term debt (“eligible LTD”) requirements by replacing the former TLAC leverage buffer with the eSLR buffer and replacing the former static leverage-based eligible LTD requirement with a requirement of 2.5% plus the eSLR buffer. Further, the rule removes the eSLR threshold for an IDI subsidiary of a U.S. GSIB to be considered “well capitalized” under the prompt corrective action framework and instead applies the eSLR as a capital buffer requirement. The final rule, with an effective date of April 1, 2026, allows for early adoption, which the Firm has elected, effective January 1, 2026.
+
+Refer to page 92 for information on the U.S. Method 1 GSIB Surcharge.
+
+Enhanced Transparency and Public Accountability of the Supervisory Stress Test
+
+In October 2025, the Federal Reserve issued proposals to enhance the transparency and public accountability of its annual stress test. The proposals would require the Federal Reserve to publish for public comment comprehensive documentation concerning the supervisory stress test models and annual stress test scenarios, including the scenarios for the upcoming 2026 stress test. The proposals also introduce an enhanced disclosure process under which material changes to stress test models and scenarios would be subject to public comment prior to implementation. Based on the Federal Reserve’s analysis, the proposed changes to the stress test models and scenarios are not expected to change materially the SCB for firms, such as JPMorganChase, that are subject to the supervisory stress test. In February 2026, the Federal Reserve released the final 2026 supervisory stress test scenarios, while announcing that SCB requirements for large banks, including the Firm, will remain at current levels through September 30, 2027 with new requirements to be calculated in 2027 based on revised models that incorporate public feedback.
+
+SCB Volatility Reduction
+
+In April 2025, the Federal Reserve proposed changes to the calculation of the SCB for large BHCs, including the Firm. The proposal aims to reduce SCB volatility by using the average of supervisory stress results from the previous two annual stress tests to calculate the SCB. The proposal would also modify the annual effective date of the SCB from October 1 to January 1 and make targeted changes to reporting requirements in order to streamline data collection.
+
+U.S. Basel III Finalization
+
+In July 2023, the Federal Reserve, the OCC and the FDIC released a proposal to amend the risk-based capital framework, entitled "Regulatory capital rule: Amendments applicable to large banking organizations and to banking organizations with significant trading activity", which is referred to in this Form 10-K as the "U.S. Basel III proposal." Under this proposal, changes to the framework would include replacement of the Advanced approach with an expanded risk-based approach for the calculation of RWA. In addition, the stress capital buffer requirement would be applicable to both the expanded risk-based approach and the Standardized approach.', '[-0.061773,-0.018364,-0.002506,-0.014067,0.002957,0.010002,-0.044259,0.018058,0.019246,-0.038042,0.000622,-0.017318,0.004347,0.009288,-0.026124,-0.024060,0.013612,-0.034105,-0.011483,0.019050,0.069744,-0.002886,0.008042,0.016685,0.076695,0.041059,-0.028108,-0.062757,-0.055521,-0.228656,-0.005895,-0.065818,-0.004907,-0.050147,-0.065653,0.012477,-0.022188,0.021506,-0.010141,0.019673,-0.034943,0.034388,0.048241,-0.017420,-0.042642,-0.003238,-0.007071,0.007651,-0.038871,-0.019525,0.009141,-0.078497,0.078470,0.043594,-0.071367,0.017229,0.011610,0.037919,0.022029,0.035115,0.026387,0.007456,-0.222783,0.028945,0.014638,0.086450,0.021099,-0.023894,0.020676,0.065412,0.001227,0.002965,-0.026771,-0.012934,0.032791,0.048699,0.017385,0.007626,0.046282,0.012346,-0.008581,0.022877,-0.004599,-0.049105,-0.011093,-0.027701,-0.034255,-0.039133,0.086838,-0.006826,-0.025602,-0.071487,0.057252,0.026351,-0.106127,-0.025917,-0.010206,0.015586,0.006221,0.347816,0.028125,0.014013,-0.005036,-0.008038,0.019896,-0.047370,0.052491,-0.004986,-0.011489,-0.067226,-0.024320,0.045643,0.092752,-0.055948,-0.000094,0.033842,-0.014981,0.008358,0.012153,-0.001425,0.008386,0.017261,-0.009110,-0.005037,-0.038965,0.040328,-0.009310,0.042101,0.031891,-0.000594,0.004038,-0.068177,-0.096914,0.002186,-0.026470,0.017549,-0.058025,0.035020,0.015891,-0.039958,-0.022867,-0.012046,0.006119,-0.080828,-0.042942,0.150182,-0.019177,-0.044811,-0.042240,-0.051381,0.010153,0.040629,0.038004,-0.042670,-0.003418,0.062631,-0.021965,0.057885,0.003949,0.022642,0.015920,-0.010896,-0.046730,0.087164,0.003671,-0.084813,-0.064593,0.011638,0.024870,-0.010939,-0.013854,-0.018761,-0.010172,-0.029255,0.026218,0.019350,-0.019058,0.036887,-0.039311,-0.029880,-0.027866,-0.049638,-0.012484,-0.017147,-0.041886,-0.000277,-0.051484,-0.068654,0.026415,0.000358,-0.069455,0.050809,-0.098060,0.115821,0.025275,0.029542,-0.032325,0.024158,0.014506,-0.043026,0.001619,0.070598,0.037013,-0.007060,0.021774,-0.033464,0.033883,-0.038278,0.024177,0.039258,-0.000703,0.013943,0.049471,0.034533,0.016949,0.012677,0.024226,-0.039998,-0.070044,0.018965,0.064688,0.045554,0.015365,-0.324264,0.005446,-0.023614,0.007980,0.057659,-0.085667,0.043102,-0.003030,-0.033016,0.044919,0.008352,0.081134,-0.058491,-0.061820,0.089688,0.070142,0.022050,-0.057343,-0.025590,0.036535,-0.011124,0.048054,-0.023981,0.037614,0.102654,0.012645,0.031992,-0.086316,-0.050638,0.013838,-0.023928,0.012318,-0.007352,-0.013498,0.024589,0.011095,0.007681,0.048284,0.009876,0.009580,0.015388,0.016802,-0.054283,-0.068817,0.019778,0.021082,0.013441,0.022947,-0.031601,-0.024186,0.038423,0.004167,0.042503,0.007548,0.063204,-0.034466,-0.045689,0.029096,-0.016310,-0.019374,0.018986,0.014668,0.018927,0.043066,0.001949,-0.007242,0.000876,0.067977,-0.016141,-0.013721,0.002944,0.004803,-0.007799,-0.013539,0.048290,0.005576,-0.018226,-0.010834,-0.052537,-0.037777,0.022555,-0.022575,0.041031,0.028070,0.005019,0.045091,0.010035,-0.007852,-0.003078,0.033894,-0.049902,0.003572,-0.029950,-0.014297,0.034440,-0.005934,-0.254965,0.025600,-0.040354,-0.020420,0.055244,0.024844,0.053192,-0.059092,-0.051959,0.006427,-0.001086,0.049066,0.065618,0.034706,0.023996,-0.032440,0.002157,-0.008462,0.050716,-0.021517,-0.026938,-0.002420,0.178378,0.031680,-0.019746,0.005270,0.018984,-0.014855,0.106407,0.004884,0.083281,-0.018181,0.045748,-0.057026,0.032112,0.039268,-0.034056,0.028745,-0.003289,0.032556,0.014701,-0.019681,0.014422,-0.013716,0.085096,0.004417,-0.062224,-0.065511,-0.000801,0.017654,0.018865,-0.027753,0.003469,-0.030616,-0.017139,-0.005776,0.063143,0.012954,0.010362,-0.024474,-0.007254,0.036922,-0.080618,0.028490,0.019415]'::vector);
