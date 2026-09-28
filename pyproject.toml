@@ -17,6 +17,8 @@ dependencies = [
     "uvicorn>=0.54.0",
     "deepeval>=4.2.6",
     "langfuse>=3.0.0",
+    "streamlit>=1.38",
+    "requests>=2.32",
 ]
 
 [dependency-groups]

@@ -29,3 +29,4 @@ dist/
 
 # Claude Code session artifacts (not project content)
 .claude/
+.playwright-cli/
