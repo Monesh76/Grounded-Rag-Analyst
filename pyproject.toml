@@ -2,6 +2,7 @@
 name = "filings-rag"
 version = "0.1.0"
 description = "Question answering over SEC 10-K filings with grounded citations and an evaluation harness."
+license = "MIT"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "pydantic-settings>=2.4",

@@ -125,3 +125,7 @@ Section-aware chunking beats fixed-512 windows on refusal accuracy at equal reca
 Python 3.12 - uv - FastAPI - Pydantic v2 - Postgres 16 + pgvector + full-text search - sentence-transformers (reranker, local embeddings) - DeepEval - Langfuse - Streamlit - Docker Compose - GitHub Actions.
 
 Full build plan and per-phase design decisions in [PLAN.md](PLAN.md) and [docs/decisions/](docs/decisions/).
+
+## License
+
+[MIT](LICENSE)
