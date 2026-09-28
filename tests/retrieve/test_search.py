@@ -6,6 +6,7 @@ import psycopg
 import pytest
 
 from filings_rag.config import get_settings
+from filings_rag.retrieve.models import Filters
 from filings_rag.retrieve.rerank import Reranker
 from filings_rag.retrieve.search import search
 from tests.retrieve.conftest import insert_chunk, unit_vector
@@ -105,3 +106,22 @@ def test_respects_explicit_top_k_override(conn: psycopg.Connection, settings) ->
         conn, FixedEmbedder(unit_vector(0)), None, "widget", "dense", settings, top_k=1
     )
     assert len(results) == 1
+
+
+def test_explicit_filters_override_auto_extracted_ones(conn: psycopg.Connection, settings) -> None:
+    # The question text mentions no ticker at all -- extract_filters(question)
+    # would find nothing. An explicit Filters (e.g. from the UI's dropdowns)
+    # must still apply.
+    insert_chunk(conn, "match", "widget", unit_vector(0), ticker="TEST")
+    insert_chunk(conn, "other", "widget", unit_vector(0), ticker="OTHER")
+
+    results = search(
+        conn,
+        FixedEmbedder(unit_vector(0)),
+        None,
+        "widget",
+        "dense",
+        settings,
+        filters=Filters(ticker="TEST"),
+    )
+    assert [r.id for r in results] == ["match"]

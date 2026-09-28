@@ -21,6 +21,7 @@ GROUNDED_ANSWER = Answer(
             item="7",
             section_title="MD&A",
             page=23,
+            text="Net revenue was $391 billion, up 3% year over year.",
         )
     ],
     grounded=True,
@@ -46,7 +47,7 @@ def test_health() -> None:
 
 
 def test_ask_returns_grounded_answer_with_sources() -> None:
-    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s: GROUNDED_ANSWER
+    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s, f=None: GROUNDED_ANSWER
     try:
         response = client.post("/ask", json={"question": "What was Apple's revenue?"})
     finally:
@@ -61,7 +62,7 @@ def test_ask_returns_grounded_answer_with_sources() -> None:
 
 
 def test_ask_returns_refusal_for_unanswerable_question() -> None:
-    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s: REFUSAL_ANSWER
+    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s, f=None: REFUSAL_ANSWER
     try:
         response = client.post("/ask", json={"question": "irrelevant question"})
     finally:
@@ -75,8 +76,9 @@ def test_ask_returns_refusal_for_unanswerable_question() -> None:
 def test_ask_passes_the_question_through() -> None:
     captured = {}
 
-    def fake_ask(question: str, settings: Settings) -> Answer:
+    def fake_ask(question: str, settings: Settings, filters=None) -> Answer:
         captured["question"] = question
+        captured["filters"] = filters
         return REFUSAL_ANSWER
 
     app.dependency_overrides[get_ask_fn] = lambda: fake_ask
@@ -88,13 +90,48 @@ def test_ask_passes_the_question_through() -> None:
     assert captured["question"] == "What was Visa's net revenue?"
 
 
+def test_ask_passes_ticker_and_fiscal_year_as_filters() -> None:
+    captured = {}
+
+    def fake_ask(question: str, settings: Settings, filters=None) -> Answer:
+        captured["filters"] = filters
+        return REFUSAL_ANSWER
+
+    app.dependency_overrides[get_ask_fn] = lambda: fake_ask
+    try:
+        client.post(
+            "/ask", json={"question": "What was revenue?", "ticker": "AAPL", "fiscal_year": 2024}
+        )
+    finally:
+        app.dependency_overrides.pop(get_ask_fn, None)
+
+    assert captured["filters"].ticker == "AAPL"
+    assert captured["filters"].fiscal_year == 2024
+
+
+def test_ask_without_ticker_or_fiscal_year_passes_no_filters() -> None:
+    captured = {}
+
+    def fake_ask(question: str, settings: Settings, filters=None) -> Answer:
+        captured["filters"] = filters
+        return REFUSAL_ANSWER
+
+    app.dependency_overrides[get_ask_fn] = lambda: fake_ask
+    try:
+        client.post("/ask", json={"question": "What was revenue?"})
+    finally:
+        app.dependency_overrides.pop(get_ask_fn, None)
+
+    assert captured["filters"] is None
+
+
 def test_ask_missing_question_is_a_422() -> None:
     response = client.post("/ask", json={})
     assert response.status_code == 422
 
 
 def test_ask_streaming_sends_text_then_a_final_json_line() -> None:
-    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s: GROUNDED_ANSWER
+    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s, f=None: GROUNDED_ANSWER
     try:
         response = client.post(
             "/ask", json={"question": "What was Apple's revenue?", "stream": True}
@@ -112,7 +149,7 @@ def test_ask_streaming_sends_text_then_a_final_json_line() -> None:
 def test_ask_streaming_never_sends_more_than_the_validated_text() -> None:
     # The streamed text portion (before the final JSON line) must reconstruct
     # exactly answer.answer -- nothing extra, nothing missing.
-    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s: GROUNDED_ANSWER
+    app.dependency_overrides[get_ask_fn] = lambda: lambda q, s, f=None: GROUNDED_ANSWER
     try:
         response = client.post("/ask", json={"question": "q", "stream": True})
     finally:

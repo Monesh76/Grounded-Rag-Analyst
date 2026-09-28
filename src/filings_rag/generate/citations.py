@@ -59,6 +59,7 @@ def validate_citations(text: str, retrieved: list[RetrievalResult]) -> CitationR
                     item=chunk.item,
                     section_title=chunk.section_title,
                     page=chunk.page,
+                    text=chunk.text,
                 )
             )
         return match.group(0)  # keep valid citations as-is

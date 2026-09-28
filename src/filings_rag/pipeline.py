@@ -20,7 +20,7 @@ from filings_rag.generate.citations import validate_citations
 from filings_rag.generate.llm import LLMProvider, get_llm_provider
 from filings_rag.generate.models import Answer
 from filings_rag.generate.prompts import build_system_prompt, build_user_message
-from filings_rag.retrieve.models import RetrievalResult
+from filings_rag.retrieve.models import Filters, RetrievalResult
 from filings_rag.retrieve.rerank import Reranker
 from filings_rag.retrieve.search import search
 
@@ -38,8 +38,9 @@ def ask(
     settings: Settings,
     llm: LLMProvider | None = None,
     retrieve: Callable[[str], list[RetrievalResult]] | None = None,
+    filters: Filters | None = None,
 ) -> Answer:
-    return ask_detailed(question, settings, llm=llm, retrieve=retrieve).answer
+    return ask_detailed(question, settings, llm=llm, retrieve=retrieve, filters=filters).answer
 
 
 def ask_detailed(
@@ -47,10 +48,13 @@ def ask_detailed(
     settings: Settings,
     llm: LLMProvider | None = None,
     retrieve: Callable[[str], list[RetrievalResult]] | None = None,
+    filters: Filters | None = None,
 ) -> AskResult:
     """`llm` and `retrieve` are injectable for testing (a fake LLM, a fake
     retrieval function returning canned chunks) -- each defaults to the real
-    thing built from `settings` when not given."""
+    thing built from `settings` when not given. `filters` (e.g. the UI's
+    company/year dropdowns) is ignored when `retrieve` is injected -- the
+    caller's own retrieval function is responsible for filtering then."""
     start = time.monotonic()
     llm = llm or get_llm_provider(settings)
 
@@ -60,7 +64,9 @@ def ask_detailed(
         conn = get_connection(settings)
         embedder = get_embedder(settings)
         reranker = Reranker.from_settings(settings)
-        retrieve = lambda q: search(conn, embedder, reranker, q, "hybrid_rerank", settings)  # noqa: E731
+        retrieve = lambda q: search(  # noqa: E731
+            conn, embedder, reranker, q, "hybrid_rerank", settings, filters=filters
+        )
 
     with tracing.span(settings, "ask", as_type="span", input={"question": question}) as root:
         try:

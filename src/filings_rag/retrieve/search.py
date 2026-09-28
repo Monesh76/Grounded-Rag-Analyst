@@ -27,12 +27,15 @@ def search(
     settings: Settings,
     top_k: int | None = None,
     table: str = "chunks",
+    filters: Filters | None = None,
 ) -> list[RetrievalResult]:
     if mode not in MODES:
         raise ValueError(f"Unknown retrieval mode {mode!r}; choose one of {MODES}")
 
     top_k = top_k or settings.retrieval_rerank_top_k
-    filters = extract_filters(question)
+    # An explicit filter (e.g. the UI's company/year dropdowns) always wins
+    # over guessing one from the question text.
+    filters = filters if filters is not None else extract_filters(question)
 
     if mode == "dense":
         return _dense(conn, embedder, question, filters, settings, table)[:top_k]

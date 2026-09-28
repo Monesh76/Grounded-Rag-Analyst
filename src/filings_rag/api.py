@@ -22,6 +22,7 @@ from filings_rag import tracing
 from filings_rag.config import Settings, get_settings
 from filings_rag.generate.models import Answer
 from filings_rag.pipeline import ask as pipeline_ask
+from filings_rag.retrieve.models import Filters
 
 
 @asynccontextmanager
@@ -32,18 +33,22 @@ async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 app = FastAPI(title="FilingsRAG", lifespan=_lifespan)
 
-AskFn = Callable[[str, Settings], Answer]
+AskFn = Callable[[str, Settings, Filters | None], Answer]
 
 
 def get_ask_fn() -> AskFn:
     """A seam for tests: override via app.dependency_overrides to inject a fake
     without touching the real DB, embedder, reranker or LLM."""
-    return pipeline_ask
+    return lambda question, settings, filters=None: pipeline_ask(
+        question, settings, filters=filters
+    )
 
 
 class AskRequest(BaseModel):
     question: str
     stream: bool = False
+    ticker: str | None = None
+    fiscal_year: int | None = None
 
 
 @app.get("/health")
@@ -57,7 +62,10 @@ def ask(
     settings: Settings = Depends(get_settings),
     ask_fn: AskFn = Depends(get_ask_fn),
 ) -> Answer | StreamingResponse:
-    answer = ask_fn(request.question, settings)
+    filters = None
+    if request.ticker or request.fiscal_year:
+        filters = Filters(ticker=request.ticker, fiscal_year=request.fiscal_year)
+    answer = ask_fn(request.question, settings, filters)
 
     if not request.stream:
         return answer

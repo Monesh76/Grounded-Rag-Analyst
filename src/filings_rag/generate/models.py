@@ -10,8 +10,8 @@ class LLMResponse(BaseModel):
 
 
 class Source(BaseModel):
-    """One chunk the answer actually cited, with enough metadata to show a user
-    where the claim came from."""
+    """One chunk the answer actually cited, with enough metadata (and the
+    passage itself) to show a user exactly where the claim came from."""
 
     id: str
     ticker: str
@@ -20,6 +20,7 @@ class Source(BaseModel):
     item: str
     section_title: str
     page: int
+    text: str
 
 
 class Answer(BaseModel):
