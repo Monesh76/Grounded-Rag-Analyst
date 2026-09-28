@@ -41,6 +41,22 @@ flowchart LR
   end
 ```
 
+## Screenshots
+
+Real questions against the real running system (Streamlit UI, FastAPI backend, loaded Postgres), not mockups.
+
+**A grounded answer, citation expanded to the exact retrieved passage:**
+
+![A grounded answer with an expanded citation showing the source passage](docs/screenshots/q1-grounded-answer.png)
+
+**The company/year filters narrowing retrieval before the LLM ever sees the question:**
+
+![An answer using the JPMorgan Chase / fiscal year 2025 filters](docs/screenshots/q2-filtered-answer.png)
+
+**A refusal -- the right section was retrieved, but not the specific chunk with the actual figure, so the model correctly declined rather than guess (see "Known limitations" below):**
+
+![A refusal: Not found in the filings](docs/screenshots/q3-refusal.png)
+
 ## Quickstart (3 commands)
 
 Seeds a small real fixture (89 already-embedded chunks from Apple and JPMorgan filings -- the same one CI uses) instead of running the full paid ingest pipeline, so no re-embedding of a whole corpus is needed:
